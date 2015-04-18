@@ -20,7 +20,7 @@ I will collect and maintain my links, lessons learned, and resources in this rep
 - [ ] [Vagrant](https://www.vagrantup.com/) is installed
 - [ ] [vagrant-hostmanager](https://github.com/smdahlen/vagrant-hostmanager) plugin [is installed](https://docs.vagrantup.com/v2/plugins/usage.html)
 
-###:wrench: Set-up
+###Set-up
 
 - [ ] Clone geki repo locally (or just [download the zip file](https://github.com/jhwohlgemuth/geki/archive/master.zip)): 
 
@@ -49,7 +49,7 @@ I will collect and maintain my links, lessons learned, and resources in this rep
     
 - [ ] [PWN](https://en.wikipedia.org/wiki/Pwn) [DVWA](http://www.dvwa.co.uk/) [FTW](http://www.urbandictionary.com/define.php?term=FTW)!!! :trollface:
 
-###:question: Help
+###Help
 
 - [Vagrant](https://docs.vagrantup.com/v2/)
 - [DVWA](https://github.com/RandomStorm/DVWA)
@@ -64,7 +64,7 @@ I will collect and maintain my links, lessons learned, and resources in this rep
 - [Vulnerable by Design](https://www.vulnhub.com/)
 - [Mantra Hackery](http://www.getmantra.com/hackery/)
 
-##:clipboard: To-do
+##To-do
 
 - [ ] Inventory components for penetration lab
 - [ ] Collect necessary components for lab (Operating systems, routers, WiFi devices, SD cards, etc...)
