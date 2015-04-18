@@ -1,13 +1,10 @@
-![Geki](/assets/img/geki.jpg "Geki: Security, penetration testing, and OSCP")
-====
+Vagrant Penetration Testing Environment
+=======================================
 
 > Resources for security, penetration testing and the OSCP certification
 
 Background
 ----------
-
-> *geki* (撃) is *attack* in [Japanese](https://translate.google.com/#auto/ja/attack).
-
 As I work toward earning the
 [Offensive Security Certified Professional (OSCP) certification](https://www.offensive-security.com/information-security-certifications/oscp-offensive-security-certified-professional/),
 I will collect and maintain my links, lessons learned, and resources in this repo.
