@@ -1,9 +1,7 @@
-Penetration Testing Environment
-===============================
+VM Penetration Lab
+==================
 
 > Resources for security, penetration testing and the OSCP certification
-
-##VM Penetration Lab
 
 ###Requirements
 
