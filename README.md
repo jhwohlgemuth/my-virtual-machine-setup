@@ -11,7 +11,7 @@ I will collect and maintain my links, lessons learned, and resources in this rep
 
 ##VM Penetration Lab
 
-###:computer: Requirements
+###Requirements
 
 - [ ] You have adminstrator privileges
 - [ ] [Git for Windows](https://git-scm.herokuapp.com/download/win) is installed
