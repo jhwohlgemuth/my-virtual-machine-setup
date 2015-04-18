@@ -1,5 +1,5 @@
-Vagrant Penetration Testing Environment
-=======================================
+Penetration Testing Environment
+===============================
 
 > Resources for security, penetration testing and the OSCP certification
 
