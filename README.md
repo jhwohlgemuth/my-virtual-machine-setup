@@ -3,12 +3,6 @@ Vagrant Penetration Testing Environment
 
 > Resources for security, penetration testing and the OSCP certification
 
-Background
-----------
-As I work toward earning the
-[Offensive Security Certified Professional (OSCP) certification](https://www.offensive-security.com/information-security-certifications/oscp-offensive-security-certified-professional/),
-I will collect and maintain my links, lessons learned, and resources in this repo.
-
 ##VM Penetration Lab
 
 ###Requirements
