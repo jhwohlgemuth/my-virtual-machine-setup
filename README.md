@@ -16,11 +16,11 @@ VM Penetration Lab
 
 - [ ] Clone geki repo locally (or just [download the zip file](https://github.com/jhwohlgemuth/geki/archive/master.zip)): 
 
-    ```> git clone https://github.com/jhwohlgemuth/geki.git```
+    ```> git clone https://github.com/jhwohlgemuth/pentest-lab.git```
 
 - [ ] Change into geki directory:
 
-    ```> cd geki```
+    ```> cd pentest-lab```
     
 - [ ] Create Vagrant VM environment: 
 
