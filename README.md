@@ -15,7 +15,7 @@
 
 **&#x02713;** Execute ```vagrant up```
 
-**&#x02713;** [Install Mongo for windows](https://github.com/jhwohlgemuth/mvc-webapp/wiki#mongodb-setup-on-windows)
+**&#x02713;** [Install Mongo for windows](https://github.com/jhwohlgemuth/techtonic/wiki#mongodb-setup-on-windows)
 
 **&#x02713;** In a mongo console, execute ```mongo db.server```
 
@@ -51,4 +51,4 @@
 > **Tip:** The default port for CouchDB is 5984.  It can be changed by editing ```/etc/couchdb/local.ini```
 
 #References & Resources
-- See wiki page, [References & Resources](https://github.com/jhwohlgemuth/mvc-webapp/wiki/References-&-Resources)
+- See wiki page, [References & Resources](https://github.com/jhwohlgemuth/techtonic/wiki/References-&-Resources)
