@@ -1,8 +1,9 @@
 <div align="center">
     <a href="http://jhwohlgemuth.github.com/techtonic"><img src="http://images.jhwohlgemuth.com/original/logo/tech/techtonic.png" height="60" alt="techtonic"/></a>
 </div>
+##Data Store &nbsp; [![]()]() [![]()]() [![CouchDB](http://images.jhwohlgemuth.com/web/couchdb.png)](#using-couchdb)
 <div>
-    <h2>Data Services for Development</h2>
+    <h2>Data Store</h2>
     <a href="#using-mongodb"><img src="http://images.jhwohlgemuth.com/web/mongodb.png" height="60" alt="MongoDB"/></a>
     <a href="#using-redis"><img src="http://images.jhwohlgemuth.com/web/redis.png"     height="60" alt="redis"/></a>
     <a href="#using-couchdb"><img src="http://images.jhwohlgemuth.com/web/couchdb.png" height="60" alt="CouchDB"/></a>
