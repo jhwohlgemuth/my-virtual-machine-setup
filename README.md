@@ -3,7 +3,7 @@
 </div>
 ##Data Store &nbsp;[![MongoDB](https://img.shields.io/badge/use-mongo-green.svg)](#using-mongodb)&nbsp;[![redis](https://img.shields.io/badge/use-redis-red.svg)](#using-redis)&nbsp;[![CouchDB](https://img.shields.io/badge/use-couchdb-red.svg)](#using-couchdb)
 
-> Use Vagrant to develop with the latest and greatest data stores
+> Leverage Vagrant to start developing with the latest and greatest data stores
 
 ###Requirements
 <a href="https://nodejs.org/"><img src="http://images.jhwohlgemuth.com/web/node.png" height="60" alt="Node.js"/></a>
