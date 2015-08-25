@@ -1,7 +1,12 @@
-<a href="http://jhwohlgemuth.github.com/techtonic"><img src="http://images.jhwohlgemuth.com/logo/tech/techtonic.png" height="60" alt="techtonic"/></a>
-<a href="#using-mongodb"><img src="http://images.jhwohlgemuth.com/logo/tech/mongodb.png" height="60" alt="MongoDB"/></a>
-<a href="#using-redis"><img src="http://images.jhwohlgemuth.com/logo/tech/redis.png"     height="60" alt="redis"/></a>
-<a href="#using-couchdb"><img src="http://images.jhwohlgemuth.com/logo/tech/couchdb.png" height="60" alt="CouchDB"/></a>
+<div align="center">
+    <a href="http://jhwohlgemuth.github.com/techtonic"><img src="http://images.jhwohlgemuth.com/logo/tech/techtonic.png" height="60" alt="techtonic"/></a>
+</div>
+<div>
+    <h2>Data Services for Development</h2>
+    <a href="#using-mongodb"><img src="http://images.jhwohlgemuth.com/logo/tech/mongodb.png" height="60" alt="MongoDB"/></a>
+    <a href="#using-redis"><img src="http://images.jhwohlgemuth.com/logo/tech/redis.png"     height="60" alt="redis"/></a>
+    <a href="#using-couchdb"><img src="http://images.jhwohlgemuth.com/logo/tech/couchdb.png" height="60" alt="CouchDB"/></a>
+</div>
 
 ###Requirements
 <a href="https://nodejs.org/"><img src="http://images.jhwohlgemuth.com/logo/tech/node.png" height="60" alt="Node.js"/></a>
