@@ -1,17 +1,17 @@
 <div align="center">
-    <a href="http://jhwohlgemuth.github.com/techtonic"><img src="http://images.jhwohlgemuth.com/logo/tech/techtonic.png" height="60" alt="techtonic"/></a>
+    <a href="http://jhwohlgemuth.github.com/techtonic"><img src="http://images.jhwohlgemuth.com/web/techtonic.png" height="60" alt="techtonic"/></a>
 </div>
 <div>
     <h2>Data Services for Development</h2>
-    <a href="#using-mongodb"><img src="http://images.jhwohlgemuth.com/logo/tech/mongodb.png" height="60" alt="MongoDB"/></a>
-    <a href="#using-redis"><img src="http://images.jhwohlgemuth.com/logo/tech/redis.png"     height="60" alt="redis"/></a>
-    <a href="#using-couchdb"><img src="http://images.jhwohlgemuth.com/logo/tech/couchdb.png" height="60" alt="CouchDB"/></a>
+    <a href="#using-mongodb"><img src="http://images.jhwohlgemuth.com/web/mongodb.png" height="60" alt="MongoDB"/></a>
+    <a href="#using-redis"><img src="http://images.jhwohlgemuth.com/web/redis.png"     height="60" alt="redis"/></a>
+    <a href="#using-couchdb"><img src="http://images.jhwohlgemuth.com/web/couchdb.png" height="60" alt="CouchDB"/></a>
 </div>
 
 ###Requirements
-<a href="https://nodejs.org/"><img src="http://images.jhwohlgemuth.com/logo/tech/node.png" height="60" alt="Node.js"/></a>
-<a href="https://www.virtualbox.org/wiki/Downloads"><img src="http://images.jhwohlgemuth.com/logo/tech/virtualbox.png" height="60" alt="VirtualBox"/></a>
-<a href="https://www.vagrantup.com/"><img src="http://images.jhwohlgemuth.com/logo/tech/vagrant.png" height="60" alt="Vagrant"/></a>
+<a href="https://nodejs.org/"><img src="http://images.jhwohlgemuth.com/web/node.png" height="60" alt="Node.js"/></a>
+<a href="https://www.virtualbox.org/wiki/Downloads"><img src="http://images.jhwohlgemuth.com/web/virtualbox.png" height="60" alt="VirtualBox"/></a>
+<a href="https://www.vagrantup.com/"><img src="http://images.jhwohlgemuth.com/web/vagrant.png" height="60" alt="Vagrant"/></a>
 - [Node.js](https://nodejs.org/) is installed
 - [Virtualbox](https://www.virtualbox.org/wiki/Downloads) is installed
 - [Vagrant](https://www.vagrantup.com/) is installed
