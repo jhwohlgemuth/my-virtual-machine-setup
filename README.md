@@ -1,5 +1,5 @@
 <div align="center">
-    <a href="http://jhwohlgemuth.github.com/techtonic"><img src="http://images.jhwohlgemuth.com/web/techtonic.png" height="60" alt="techtonic"/></a>
+    <a href="http://jhwohlgemuth.github.com/techtonic"><img src="http://images.jhwohlgemuth.com/logo/tech/techtonic.png" height="60" alt="techtonic"/></a>
 </div>
 <div>
     <h2>Data Services for Development</h2>
