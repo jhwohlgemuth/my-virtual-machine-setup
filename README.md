@@ -50,5 +50,5 @@
 
 > **Tip:** The default port for CouchDB is 5984.  It can be changed by editing ```/etc/couchdb/local.ini```
 
-#References & Resources
-- See wiki page, [References & Resources](https://github.com/jhwohlgemuth/techtonic/wiki/References-&-Resources)
+#Tools, References & Resources
+- See wiki page, [Front-end Link Library](https://github.com/jhwohlgemuth/techtonic/wiki/Front-end-Link-Library)
