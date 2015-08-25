@@ -1,7 +1,7 @@
 <div align="center">
     <a href="http://jhwohlgemuth.github.com/techtonic"><img src="http://images.jhwohlgemuth.com/original/logo/tech/techtonic.png" height="60" alt="techtonic"/></a>
 </div>
-##Data Store &nbsp;[![MongoDB](https://img.shields.io/badge/use-mongo-green.svg)](#using-mongodb)&nbsp;[![redis](https://img.shields.io/badge/use-redis-red.svg)](#using-redis)&nbsp;[![CouchDB](https://img.shields.io/badge/use-couchdb-red.svg)](#using-couchdb)
+##Data Store &nbsp;[![MongoDB](https://img.shields.io/badge/use-mongo-brightgreen.svg)](#using-mongodb)&nbsp;[![redis](https://img.shields.io/badge/use-redis-brightgreen.svg)](#using-redis)&nbsp;[![CouchDB](https://img.shields.io/badge/use-couchdb-brightgreen.svg)](#using-couchdb)
 
 > Leverage Vagrant to start developing with the latest and greatest data stores
 
