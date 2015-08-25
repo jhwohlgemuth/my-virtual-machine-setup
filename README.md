@@ -1,7 +1,8 @@
 <div align="center">
     <a href="http://jhwohlgemuth.github.com/techtonic"><img src="http://images.jhwohlgemuth.com/original/logo/tech/techtonic.png" height="60" alt="techtonic"/></a>
 </div>
-##Data Store &nbsp;
+##Data Store &nbsp;[![MongoDB](https://img.shields.io/badge/use-mongo-green.svg)](#using-mongodb)[![redis](https://img.shields.io/badge/use-redis-red.svg)](#using-redis)[![CouchDB](https://img.shields.io/badge/use-couchdb-red.svg)](#using-couchdb)
+
 > Use Vagrant to develop with the latest and greatest data stores
 
 ###Requirements
@@ -12,10 +13,6 @@
 - [Virtualbox](https://www.virtualbox.org/wiki/Downloads) is installed
 - [Vagrant](https://www.vagrantup.com/) is installed
 - vagrant hostmanager plugin is installed ```vagrant plugin install vagrant-hostmanager```
-
-[![MongoDB](http://images.jhwohlgemuth.com/web/mongodb.png)](#using-mongodb)
-[![redis](http://images.jhwohlgemuth.com/web/redis.png)](#using-redis)
-[![CouchDB](http://images.jhwohlgemuth.com/web/couchdb.png)](#using-couchdb)
 
 ###Using [MongoDB](http://docs.mongodb.org/manual/)
 
