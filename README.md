@@ -1,3 +1,5 @@
+<a href="../techtonic"><img src="http://images.jhwohlgemuth.com/logo/tech/techtonic.png" height="60" alt="techtonic"/></a>
+
 #Data Services for Development
 <a href="#using-mongodb"><img src="http://images.jhwohlgemuth.com/logo/tech/mongodb.png" height="60" alt="MongoDB"/></a>
 <a href="#using-redis"><img src="http://images.jhwohlgemuth.com/logo/tech/redis.png"     height="60" alt="redis"/></a>
