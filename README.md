@@ -1,11 +1,7 @@
 #Data Services for Development
-<img src="http://images.jhwohlgemuth.com/logo/tech/mongodb.png" height="50" alt="MongoDB"/>
-<img src="http://images.jhwohlgemuth.com/logo/tech/redis.png" height="50" alt="redis"/>
-<img src="http://images.jhwohlgemuth.com/logo/tech/couchdb.png" height="50" alt="CouchDB"/>
-
-&nbsp;[![MongoDB](http://images.jhwohlgemuth.com/logo/tech/mongodb.png "MongoDB")](#using-mongodb)
-&nbsp;[![redis](http://images.jhwohlgemuth.com/logo/tech/redis.png "redis")](#using-redis)
-&nbsp;[![CouchDB](http://images.jhwohlgemuth.com/logo/tech/couchdb.png "CouchDB")](#using-couchdb)
+<a href="#using-mongodb"><img src="http://images.jhwohlgemuth.com/logo/tech/mongodb.png" height="60" alt="MongoDB"/></a>
+<a href="#using-redis"><img src="http://images.jhwohlgemuth.com/logo/tech/redis.png"     height="60" alt="redis"/></a>
+<a href="#using-couchdb"><img src="http://images.jhwohlgemuth.com/logo/tech/couchdb.png" height="60" alt="CouchDB"/></a>
 
 ###Requirements
 - [Node.js](https://nodejs.org/) is installed
