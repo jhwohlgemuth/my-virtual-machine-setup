@@ -1,4 +1,4 @@
-<a href="../techtonic"><img src="http://images.jhwohlgemuth.com/logo/tech/techtonic.png" height="60" alt="techtonic"/></a>
+<a href="jhwohlgemuth.github.com/techtonic"><img src="http://images.jhwohlgemuth.com/logo/tech/techtonic.png" height="60" alt="techtonic"/></a>
 <a href="#using-mongodb"><img src="http://images.jhwohlgemuth.com/logo/tech/mongodb.png" height="60" alt="MongoDB"/></a>
 <a href="#using-redis"><img src="http://images.jhwohlgemuth.com/logo/tech/redis.png"     height="60" alt="redis"/></a>
 <a href="#using-couchdb"><img src="http://images.jhwohlgemuth.com/logo/tech/couchdb.png" height="60" alt="CouchDB"/></a>
