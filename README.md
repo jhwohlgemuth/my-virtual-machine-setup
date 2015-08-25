@@ -1,5 +1,8 @@
 #Data Services for Development
-<img src="http://images.jhwohlgemuth.com/logo/tech/mongodb.png" height="50"/>
+<img src="http://images.jhwohlgemuth.com/logo/tech/mongodb.png" height="50" alt="MongoDB"/>
+<img src="http://images.jhwohlgemuth.com/logo/tech/redis.png" height="50" alt="redis"/>
+<img src="http://images.jhwohlgemuth.com/logo/tech/couchdb.png" height="50" alt="CouchDB"/>
+
 &nbsp;[![MongoDB](http://images.jhwohlgemuth.com/logo/tech/mongodb.png "MongoDB")](#using-mongodb)
 &nbsp;[![redis](http://images.jhwohlgemuth.com/logo/tech/redis.png "redis")](#using-redis)
 &nbsp;[![CouchDB](http://images.jhwohlgemuth.com/logo/tech/couchdb.png "CouchDB")](#using-couchdb)
