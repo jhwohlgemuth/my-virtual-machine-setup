@@ -4,9 +4,9 @@
 <a href="#using-couchdb"><img src="http://images.jhwohlgemuth.com/logo/tech/couchdb.png" height="60" alt="CouchDB"/></a>
 
 ###Requirements
-<a href="https://nodejs.org/"><img src="http://images.jhwohlgemuth.com/logo/tech/node.png" height="40" alt="Node.js"/></a>
-<a href="https://www.virtualbox.org/wiki/Downloads"><img src="http://images.jhwohlgemuth.com/logo/tech/virtualbox.png" height="40" alt="VirtualBox"/></a>
-<a href="https://www.vagrantup.com/"><img src="http://images.jhwohlgemuth.com/logo/tech/vagrant.png" height="40" alt="Vagrant"/></a>
+<a href="https://nodejs.org/"><img src="http://images.jhwohlgemuth.com/logo/tech/node.png" height="60" alt="Node.js"/></a>
+<a href="https://www.virtualbox.org/wiki/Downloads"><img src="http://images.jhwohlgemuth.com/logo/tech/virtualbox.png" height="60" alt="VirtualBox"/></a>
+<a href="https://www.vagrantup.com/"><img src="http://images.jhwohlgemuth.com/logo/tech/vagrant.png" height="60" alt="Vagrant"/></a>
 - [Node.js](https://nodejs.org/) is installed
 - [Virtualbox](https://www.virtualbox.org/wiki/Downloads) is installed
 - [Vagrant](https://www.vagrantup.com/) is installed
