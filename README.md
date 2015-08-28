@@ -1,4 +1,4 @@
-<div align="center">
+<div align="left">
     <a href="http://jhwohlgemuth.github.com/techtonic"><img src="http://images.jhwohlgemuth.com/original/logo/tech/techtonic-logo.png" height="150" alt="techtonic"/></a>
 </div>
 ##Data Store &nbsp;[![MongoDB](https://img.shields.io/badge/use-mongo-brightgreen.svg)](#using-mongodb)&nbsp;[![redis](https://img.shields.io/badge/use-redis-brightgreen.svg)](#using-redis)&nbsp;[![CouchDB](https://img.shields.io/badge/use-couchdb-brightgreen.svg)](#using-couchdb)
