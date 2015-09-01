@@ -5,7 +5,7 @@ VM Penetration Lab
 
 ###Requirements
 
-- [ ] You have adminstrator privileges
+- [ ] You have administrator privileges
 - [ ] [Git for Windows](https://git-scm.herokuapp.com/download/win) is installed
 - [ ] ```<path to Git software directory>/bin/ssh.exe``` is in ```%PATH%``` variable
 - [ ] [Virtualbox](https://www.virtualbox.org/wiki/Downloads) is installed
@@ -14,11 +14,11 @@ VM Penetration Lab
 
 ###Set-up
 
-- [ ] Clone geki repo locally (or just [download the zip file](https://github.com/jhwohlgemuth/geki/archive/master.zip)): 
+- [ ] Clone pentest-lab repo locally (or just [download the zip file](https://github.com/jhwohlgemuth/geki/archive/master.zip)): 
 
     ```> git clone https://github.com/jhwohlgemuth/pentest-lab.git```
 
-- [ ] Change into geki directory:
+- [ ] Change into pentest-lab directory:
 
     ```> cd pentest-lab```
     
