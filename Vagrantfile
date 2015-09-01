@@ -7,7 +7,6 @@ Vagrant.configure(2) do |config|
     config.hostmanager.manage_host = true
     config.hostmanager.ignore_private_ip = false
   end
-<<<<<<< HEAD
   config.vm.define 'kali-client' do |env|
     env.vm.box = "cmad/kali"
     env.vm.hostname = 'kali-client'
@@ -26,7 +25,6 @@ Vagrant.configure(2) do |config|
     end
     env.vm.network "private_network", ip: "10.10.10.11"
     env.vm.provision "shell", path: "assets/bin/provision.sh"
-=======
   config.vm.define 'web-server' do |server|
     server.vm.box = "hashicorp/precise32"
     server.vm.hostname = 'web.server'
@@ -45,7 +43,6 @@ Vagrant.configure(2) do |config|
     end
     db.vm.network "private_network", ip: "10.10.10.11"
     db.vm.provision "shell", inline: $install_mongo
->>>>>>> origin/master
   end
   config.vm.provider "virtualbox" do |vb|
     vb.gui = false
@@ -54,7 +51,6 @@ Vagrant.configure(2) do |config|
 end
 
 $message = <<MSG
-<<<<<<< HEAD
 ░█░█░█▀█░█░░░▀█▀
 ░█▀▄░█▀█░█░░░░█░
 ░▀░▀░▀░▀░▀▀▀░▀▀▀
@@ -174,4 +170,3 @@ $install_couch = <<COUCH
   sudo sed -i '/;port/c port = 5984' /etc/couchdb/local.ini
   sudo sed -i '/;bind_address/c bind_address = 0.0.0.0' /etc/couchdb/local.ini
 COUCH
->>>>>>> origin/master

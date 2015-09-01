@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 VM Penetration Lab
 ==================
 
@@ -126,4 +125,3 @@ Requirements
 Tools, References & Resources
 -----------------------------
 - See wiki page, [Front-end Link Library](https://github.com/jhwohlgemuth/techtonic/wiki/Front-end-Link-Library)
->>>>>>> origin/master
