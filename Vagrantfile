@@ -14,6 +14,7 @@ Vagrant.configure(2) do |config|
       server.hostmanager.aliases = %w(web.server.io)
     end
     server.vm.network "private_network", ip: "10.10.10.10"
+    server.vm.synced_folder "share/", "/home/vagrant/share", create: true
     server.vm.provision "shell", inline: $install_web_server
     server.vm.post_up_message = $message
   end
