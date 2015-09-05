@@ -1,0 +1,32 @@
+{
+  "name": "techtonic-datastore",
+  "version": "1.0.0",
+  "description": "<div align=\"center\">\r     <a href=\"http://jhwohlgemuth.github.com/techtonic\"><img src=\"http://images.jhwohlgemuth.com/original/logo/tech/techtonic.png?v=1\" alt=\"techtonic\"/></a>\r </div>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "preinstall": "npm install redis-commander grunt-cli --global",
+    "postinstall": "vagrant up"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/jhwohlgemuth/techtonic-datastore.git"
+  },
+  "keywords": [
+    "vagrant",
+    "mongo",
+    "redis",
+    "couchdb"
+  ],
+  "author": "Jason Wohlgemuth",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jhwohlgemuth/techtonic-datastore/issues"
+  },
+  "homepage": "https://github.com/jhwohlgemuth/techtonic-datastore",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-crypt": "^0.1.0"
+  }
+}
