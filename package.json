@@ -1,7 +1,7 @@
 {
   "name": "techtonic-datastore",
   "version": "1.0.0",
-  "description": "<div align=\"center\">\r     <a href=\"http://jhwohlgemuth.github.com/techtonic\"><img src=\"http://images.jhwohlgemuth.com/original/logo/tech/techtonic.png?v=1\" alt=\"techtonic\"/></a>\r </div>",
+  "description": "Leverage Vagrant to start developing with the latest and greatest data stores",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
