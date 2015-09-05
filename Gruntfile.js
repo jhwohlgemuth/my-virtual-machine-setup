@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
     'use strict';
     grunt.initConfig({
-        encryptedDirectory: 'share',
+        encryptedDirectory: 'vault',
         encryptedExtension: '.protected',
 
         /**
