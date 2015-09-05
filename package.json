@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "preinstall": "npm install redis-commander grunt-cli --global",
-    "postinstall": "vagrant up"
+    "start": "vagrant up"
   },
   "repository": {
     "type": "git",
