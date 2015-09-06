@@ -2,32 +2,33 @@
 # vi: set ft=ruby :
 
 Vagrant.configure(2) do |config|
-  if Vagrant.has_plugin?("vagrant-hostmanager")
+  if Vagrant.has_plugin?('vagrant-hostmanager')
     config.hostmanager.enabled = true
     config.hostmanager.manage_host = true
     config.hostmanager.ignore_private_ip = false
   end
   config.vm.define 'web-server' do |server|
-    server.vm.box = "hashicorp/precise32"
+    server.vm.box = 'hashicorp/precise32'
+    #server.vm.box_url = 'https://atlas.hashicorp.com/hashicorp/boxes/precise32'
     server.vm.hostname = 'web.server'
-    if Vagrant.has_plugin?("vagrant-hostmanager")
+    if Vagrant.has_plugin?('vagrant-hostmanager')
       server.hostmanager.aliases = %w(web.server.io)
     end
-    server.vm.network "private_network", ip: "10.10.10.10"
-    server.vm.synced_folder "vault/", "/home/vagrant/vault", create: true
-    server.vm.provision "shell", inline: $install_web_server
+    server.vm.network 'private_network', ip: '10.10.10.10'
+    server.vm.synced_folder 'vault/', '/home/vagrant/vault', create: true, nfs: true
+    server.vm.provision 'shell', inline: $install_web_server
     server.vm.post_up_message = $message
   end
   config.vm.define 'db-server' do |db|
-    db.vm.box = "hashicorp/precise32"
+    db.vm.box = 'hashicorp/precise32'
     db.vm.hostname = 'db.server'
-    if Vagrant.has_plugin?("vagrant-hostmanager")
+    if Vagrant.has_plugin?('vagrant-hostmanager')
       db.hostmanager.aliases = %w(db.server.io)
     end
-    db.vm.network "private_network", ip: "10.10.10.11"
-    db.vm.provision "shell", inline: $install_mongo
+    db.vm.network 'private_network', ip: '10.10.10.11'
+    db.vm.provision 'shell', inline: $install_mongo
   end
-  config.vm.provider "virtualbox" do |vb|
+  config.vm.provider 'virtualbox' do |vb|
     vb.gui = false
   end
   config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
