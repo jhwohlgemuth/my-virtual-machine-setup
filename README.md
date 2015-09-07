@@ -44,16 +44,13 @@ Requirements
 
 > **Tip** The default port for redis is 6379.  It can be changed by editing ```/etc/redis/redis.conf```.
 
-###Using [CouchDB](http://docs.couchdb.org/en/1.6.1/)
-**&#x02713;** Set  ```inline``` to ```$install_couch``` on [line 27](Vagrantfile#L27).
-
-**&#x02713;** Execute ```vagrant up```
-
-**&#x02713;** Create a ssh tunnel on your host machine (input ```yes```, then ```vagrant```):
-
-    ssh -f -L localhost:5984:127.0.0.1:5984 vagrant@db.server -N
-
-**&#x02713;** Open your favorite browser and navigate to [localhost:5984/_utils](http://localhost:5984/_utils)
+Using [CouchDB](http://docs.couchdb.org/en/1.6.1/)
+-----
+* `npm install`
+* `npm start`
+* Choose _redis_ and press **ENTER**
+* Once vagrant is done, execute `grunt exec:ssh` (password: `vagrant`)
+* Navigate to [localhost:5984/_utils](http://localhost:5984/_utils)
 
 > **Tip:** The default port for CouchDB is 5984.  It can be changed by editing ```/etc/couchdb/local.ini```
 

@@ -10,7 +10,6 @@ Vagrant.configure(2) do |config|
   config.vm.define 'web-server' do |server|
     server.vm.box = 'hashicorp/precise32'
     #server.vm.box_url = 'https://atlas.hashicorp.com/hashicorp/boxes/precise32'
-    server.vm.hostname = 'web.server'
     if Vagrant.has_plugin?('vagrant-hostmanager')
       server.hostmanager.aliases = %w(web.server.io)
     end
@@ -21,12 +20,11 @@ Vagrant.configure(2) do |config|
   end
   config.vm.define 'db-server' do |db|
     db.vm.box = 'hashicorp/precise32'
-    db.vm.hostname = 'db.server'
     if Vagrant.has_plugin?('vagrant-hostmanager')
       db.hostmanager.aliases = %w(db.server.io)
     end
     db.vm.network 'private_network', ip: '10.10.10.11'
-    db.vm.network 'forwarded_port', guest: 5984, host: 5984
+    db.vm.network 'forwarded_port', guest: 5984, host: 5984, auto_correct: true
     db.vm.provision 'shell', path: 'bin/install_couchdb.sh'
   end
   config.vm.provider 'virtualbox' do |vb|

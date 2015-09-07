@@ -59,11 +59,21 @@ module.exports = function(grunt) {
                 pattern: '<%= regex %>',
                 replacement: 'path: \'bin\/install_couchdb.sh'
             }
+        },
+
+        /**
+         * Plugin for executing shell commands.
+         * @see {@link https://github.com/jharding/grunt-exec}
+         **/
+        exec: {
+            ssh: 'ssh -f -L localhost:5984:127.0.0.1:5984 vagrant@10.10.10.11 -N',
+            npm: 'curl -X POST http://127.0.0.1:5984/_replicate -d \'{"source":"http://isaacs.iriscouch.com/registry/", "target":"registry", "continuous":true, "create_target":true, "cancel":true}\' -H "Content-Type: application/json" '
         }
     });
     grunt.task.loadNpmTasks('grunt-contrib-clean');
     grunt.task.loadNpmTasks('grunt-contrib-crypt');
     grunt.task.loadNpmTasks('grunt-sed');
+    grunt.task.loadNpmTasks('grunt-exec');
     grunt.registerTask('setup', function(){
         var done = this.async();
         inquirer.prompt([
