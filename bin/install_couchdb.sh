@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 printf "Installing CouchDB dependencies..."
 sudo apt-get update >/dev/null 2>&1
 sudo apt-get install -y curl >/dev/null 2>&1

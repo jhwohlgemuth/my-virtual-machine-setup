@@ -1,6 +1,9 @@
+var fs = require('fs');
+var inquirer = require('inquirer');
 module.exports = function(grunt) {
     'use strict';
     grunt.initConfig({
+        regex: 'path: \'bin\/install_.*[.]sh',
         encryptedDirectory: 'vault',
         encryptedExtension: '.protected',
 
@@ -41,26 +44,44 @@ module.exports = function(grunt) {
          * @see {@link https://github.com/jharding/grunt-sed}
          **/
         sed: {
-            mongo: {
+            mongodb: {
                 path: 'Vagrantfile',
-                pattern: 'inline: [$]install_mongo',
-                replacement: 'inline: $install_mongo'
+                pattern: '<%= regex %>',
+                replacement: 'path: \'bin\/install_mongodb.sh'
             },
             redis: {
                 path: 'Vagrantfile',
-                pattern: 'inline: [$]install_.*',
-                replacement: 'inline: $install_redis'
+                pattern: '<%= regex %>',
+                replacement: 'path: \'bin\/install_redis.sh'
             },
-            couch: {
+            couchdb: {
                 path: 'Vagrantfile',
-                pattern: 'inline: [$]install_mongo',
-                replacement: 'inline: $install_couch'
+                pattern: '<%= regex %>',
+                replacement: 'path: \'bin\/install_couchdb.sh'
             }
         }
     });
     grunt.task.loadNpmTasks('grunt-contrib-clean');
     grunt.task.loadNpmTasks('grunt-contrib-crypt');
     grunt.task.loadNpmTasks('grunt-sed');
+    grunt.registerTask('setup', function(){
+        var done = this.async();
+        inquirer.prompt([
+            {
+                type: "list",
+                name: "datastore",
+                message: "Which datastore do you want to use?",
+                choices: [
+                    "MongoDB",
+                    "redis",
+                    "CouchDB"
+                ]
+            }
+        ], function(answer) {
+            grunt.task.run(['sed:' + answer.datastore.toLowerCase()]);
+            done(true);
+        });
+    });
     grunt.registerTask('lock',    ['encrypt', 'clean:plain']);
     grunt.registerTask('unlock',  ['decrypt', 'clean:cipher']);
 };

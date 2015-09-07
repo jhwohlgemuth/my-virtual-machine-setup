@@ -26,7 +26,8 @@ Vagrant.configure(2) do |config|
       db.hostmanager.aliases = %w(db.server.io)
     end
     db.vm.network 'private_network', ip: '10.10.10.11'
-    db.vm.provision 'shell', inline: $install_mongo
+    db.vm.network 'forwarded_port', guest: 5984, host: 5984
+    db.vm.provision 'shell', path: 'bin/install_couchdb.sh'
   end
   config.vm.provider 'virtualbox' do |vb|
     vb.gui = false

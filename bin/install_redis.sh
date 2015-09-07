@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 printf "Installing build-essential package..."
 sudo apt-get install -y build-essential >/dev/null 2>&1
 printf "Installing redis server..."
