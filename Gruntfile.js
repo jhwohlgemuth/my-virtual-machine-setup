@@ -1,8 +1,11 @@
-var fs = require('fs');
 var inquirer = require('inquirer');
 module.exports = function(grunt) {
     'use strict';
     grunt.initConfig({
+        address: {
+            web: '10.10.10.10',
+            db:  '10.10.10.11'
+        },
         regex: 'path: \'bin\/install_.*[.]sh',
         encryptedDirectory: 'vault',
         encryptedExtension: '.protected',
@@ -66,8 +69,8 @@ module.exports = function(grunt) {
          * @see {@link https://github.com/jharding/grunt-exec}
          **/
         exec: {
-            ssh: 'ssh -f -L localhost:5984:127.0.0.1:5984 vagrant@10.10.10.11 -N',
-            npm: 'curl -X POST http://127.0.0.1:5984/_replicate -d \'{"source":"http://isaacs.iriscouch.com/registry/", "target":"registry", "continuous":true, "create_target":true, "cancel":true}\' -H "Content-Type: application/json" '
+            ssh: 'ssh -f -L localhost:5984:127.0.0.1:5984 vagrant@<%= address.db %> -N',
+            npm: ''
         }
     });
     grunt.task.loadNpmTasks('grunt-contrib-clean');
