@@ -49,7 +49,7 @@ Using [CouchDB](http://docs.couchdb.org/en/1.6.1/)
 * In command line:
   * `npm install`
   * `npm start`
-  * Choose _redis_ and press **ENTER**
+  * Choose **redis** and press **ENTER**
   * Once vagrant is done, execute `grunt exec:ssh` (password: `vagrant`)
 * Navigate to [localhost:5984/_utils](http://localhost:5984/_utils)
 
