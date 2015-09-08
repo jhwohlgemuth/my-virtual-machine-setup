@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "preinstall": "npm install redis-commander grunt-cli --global",
-    "postinstall": "vagrant plugin install vagrant-hostmanager",
+    "preinstall": "npm install -g redis-commander grunt-cli",
     "prestart": "grunt setup",
     "start": "vagrant up"
   },

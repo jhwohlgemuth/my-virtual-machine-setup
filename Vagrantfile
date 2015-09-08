@@ -2,33 +2,27 @@
 # vi: set ft=ruby :
 
 Vagrant.configure(2) do |config|
-  if Vagrant.has_plugin?('vagrant-hostmanager')
-    config.hostmanager.enabled = true
-    config.hostmanager.manage_host = true
-    config.hostmanager.ignore_private_ip = false
-  end
   config.vm.define 'web-server' do |server|
+    server.vm.provider 'virtualbox' do |vb|
+      vb.name = 'techtonic-web-server'
+      vb.gui = false
+    end
     server.vm.box = 'hashicorp/precise32'
     #server.vm.box_url = 'https://atlas.hashicorp.com/hashicorp/boxes/precise32'
-    if Vagrant.has_plugin?('vagrant-hostmanager')
-      server.hostmanager.aliases = %w(web.server.io)
-    end
     server.vm.network 'private_network', ip: '10.10.10.10'
     server.vm.synced_folder 'vault/', '/home/vagrant/vault', create: true, nfs: true
     server.vm.provision 'shell', inline: $install_web_server
     server.vm.post_up_message = $message
   end
   config.vm.define 'db-server' do |db|
-    db.vm.box = 'hashicorp/precise32'
-    if Vagrant.has_plugin?('vagrant-hostmanager')
-      db.hostmanager.aliases = %w(db.server.io)
+    config.vm.provider 'virtualbox' do |vb|
+      vb.name = 'techtonic-db-server'
+      vb.gui = false
     end
+    db.vm.box = 'hashicorp/precise32'
     db.vm.network 'private_network', ip: '10.10.10.11'
     db.vm.network 'forwarded_port', guest: 5984, host: 5984, auto_correct: true
     db.vm.provision 'shell', path: 'bin/install_couchdb.sh'
-  end
-  config.vm.provider 'virtualbox' do |vb|
-    vb.gui = false
   end
   config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
 end
@@ -39,7 +33,6 @@ $message = <<MSG
 ░▀░▀░▀▀▀░▀▀░
 VM Name ---> web-server
 IP --------> 10.10.10.10
-Hostname --> web.server.io
 MySQL Username: root
 MySQL Password: 123
 
@@ -48,7 +41,6 @@ MySQL Password: 123
 ░▀▀░░▀▀░
 VM Name ---> db-server
 IP --------> 10.10.10.11
-Hostname --> db.server.io
 MSG
 
 $install_web_server = <<WEB
@@ -125,13 +117,3 @@ $install_redis_make = <<REDIS
   #cd utils
   #sudo ./install_server.sh
 REDIS
-
-$install_couch = <<COUCH
-  printf "Installing CouchDB dependencies..."
-  sudo apt-get update >/dev/null 2>&1
-  sudo apt-get install -y curl >/dev/null 2>&1
-  printf "Installing CouchDB..."
-  sudo apt-get install -y couchdb >/dev/null 2>&1
-  sudo sed -i '/;port/c port = 5984' /etc/couchdb/local.ini
-  sudo sed -i '/;bind_address/c bind_address = 0.0.0.0' /etc/couchdb/local.ini
-COUCH
