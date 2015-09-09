@@ -14,19 +14,17 @@ Requirements
 - [Node.js](https://nodejs.org/) is installed
 - [Virtualbox](https://www.virtualbox.org/wiki/Downloads) is installed
 - [Vagrant](https://www.vagrantup.com/) is installed
-- vagrant hostmanager plugin is installed ```vagrant plugin install vagrant-hostmanager```
+- vagrant hostmanager plugin is installed `vagrant plugin install vagrant-hostmanager`
 
-###Using [MongoDB](http://docs.mongodb.org/manual/)
+Using [MongoDB](http://docs.mongodb.org/manual/)
+-----
+* In command line:
+  * `npm install`
+  * `npm start` > Choose `MongoDB` and press **ENTER**
+*  [Install Mongo for windows](https://github.com/jhwohlgemuth/techtonic/wiki#mongodb-setup-on-windows)
+*  In a mongo console on the host, execute `mongo 10.10.10.11`
 
-**&#x02713;** Set ```inline``` to ```$install_mongo``` on [line 27](Vagrantfile#L27).
-
-**&#x02713;** Execute ```vagrant up```
-
-**&#x02713;** [Install Mongo for windows](https://github.com/jhwohlgemuth/techtonic/wiki#mongodb-setup-on-windows)
-
-**&#x02713;** In a mongo console, execute ```mongo db.server```
-
-> **Tip:** The default port for MongoDB is 27017.  It can be changed by editing ```/etc/mongod.conf```.
+> **Tip:** The default port for MongoDB is 27017.  It can be changed by editing `/etc/mongod.conf`.
 
 Using [redis](http://redis.io/documentation/)
 -----
@@ -36,7 +34,7 @@ Using [redis](http://redis.io/documentation/)
 *  Start Redis Commander with ```redis-commander --redis-host 10.10.10.11```
 *  Navigate to [localhost:8081](http://localhost:8081)
 
-> **Tip** The default port for redis is 6379.  It can be changed by editing ```/etc/redis/redis.conf```.
+> **Tip** The default port for redis is 6379.  It can be changed by editing `/etc/redis/redis.conf`.
 
 Using [CouchDB](http://docs.couchdb.org/en/1.6.1/)
 -----
@@ -46,7 +44,7 @@ Using [CouchDB](http://docs.couchdb.org/en/1.6.1/)
   * Once vagrant is done, execute `grunt exec:couch` (password: `vagrant`)
 * Navigate to [localhost:5984/_utils](http://localhost:5984/_utils)
 
-> **Tip:** The default port for CouchDB is 5984.  It can be changed by editing ```/etc/couchdb/local.ini```
+> **Tip:** The default port for CouchDB is 5984.  It can be changed by editing `/etc/couchdb/local.ini`
 
 Tools, References & Resources
 -----------------------------
