@@ -4,28 +4,29 @@
 Vagrant.configure(2) do |config|
   config.vm.define 'web-server' do |server|
     server.vm.provider 'virtualbox' do |vb|
-      vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant", "1"]
       vb.name = 'techtonic-web-server-' + Time.now.to_i.to_s
       vb.gui = false
     end
     server.vm.box = 'hashicorp/precise32'
     #server.vm.box_url = 'https://atlas.hashicorp.com/hashicorp/boxes/precise32'
     server.vm.network 'private_network', ip: '10.10.10.10'
-    server.vm.synced_folder 'vault/', '/home/vagrant/vault', type: 'smb'
+    server.vm.synced_folder 'vault/', '/home/vagrant/vault'
     server.vm.provision 'shell', inline: $install_web_server
     server.vm.post_up_message = $message
   end
   config.vm.define 'db-server' do |db|
     config.vm.provider 'virtualbox' do |vb|
-      vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant", "1"]
       vb.name = 'techtonic-db-server-' + Time.now.to_i.to_s
       vb.gui = false
     end
     db.vm.box = 'hashicorp/precise32'
     db.vm.network 'private_network', ip: '10.10.10.11'
-    db.vm.synced_folder 'vault/', '/home/vagrant/vault', type: 'smb'
+    db.vm.synced_folder 'vault/', '/home/vagrant/vault'
     db.vm.network 'forwarded_port', guest: 5984, host: 5984, auto_correct: true
     db.vm.provision 'shell', path: 'bin/install_couchdb.sh'
+  end
+  config.vm.provider 'virtualbox' do |vb|
+    vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant", "1"]
   end
   config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
 end
