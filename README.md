@@ -28,19 +28,13 @@ Requirements
 
 > **Tip:** The default port for MongoDB is 27017.  It can be changed by editing ```/etc/mongod.conf```.
 
-###Using [redis](http://redis.io/documentation/)
-
-**&#x02713;** Set ```inline``` to ```$install_redis``` on [line 27](Vagrantfile#L27).
-
-**&#x02713;** Execute ```vagrant up```
-
-**&#x02713;** Install a redis client.  I like [Redis Commander](https://joeferner.github.io/redis-commander/).
-
-> Install Redis Commander with ```npm install redis-commander --global```
-
-**&#x02713;** Start Redis Commander with ```redis-commander --redis-host db.server```
-
-**&#x02713;** Open your favorite browser and navigate to [localhost:8081](http://localhost:8081)
+Using [redis](http://redis.io/documentation/)
+-----
+* In command line:
+  * `npm install`
+  * `npm start` > Choose `redis` and press **ENTER**
+*  Start Redis Commander with ```redis-commander --redis-host 10.10.10.11```
+*  Navigate to [localhost:8081](http://localhost:8081)
 
 > **Tip** The default port for redis is 6379.  It can be changed by editing ```/etc/redis/redis.conf```.
 
@@ -48,8 +42,7 @@ Using [CouchDB](http://docs.couchdb.org/en/1.6.1/)
 -----
 * In command line:
   * `npm install`
-  * `npm start`
-  * Choose `CouchDB` and press **ENTER**
+  * `npm start` > Choose `CouchDB` and press **ENTER**
   * Once vagrant is done, execute `grunt exec:couch` (password: `vagrant`)
 * Navigate to [localhost:5984/_utils](http://localhost:5984/_utils)
 
