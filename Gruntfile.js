@@ -69,8 +69,8 @@ module.exports = function(grunt) {
          * @see {@link https://github.com/jharding/grunt-exec}
          **/
         exec: {
-            ssh: 'ssh -f -L localhost:5984:127.0.0.1:5984 vagrant@<%= address.db %> -N',
-            npm: ''
+            couch: 'ssh -f -L localhost:5984:127.0.0.1:5984 vagrant@<%= address.db %> -N',
+            npmjs: ''
         }
     });
     grunt.task.loadNpmTasks('grunt-contrib-clean');

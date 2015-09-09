@@ -49,8 +49,8 @@ Using [CouchDB](http://docs.couchdb.org/en/1.6.1/)
 * In command line:
   * `npm install`
   * `npm start`
-  * Choose **redis** and press **ENTER**
-  * Once vagrant is done, execute `grunt exec:ssh` (password: `vagrant`)
+  * Choose `CouchDB` and press **ENTER**
+  * Once vagrant is done, execute `grunt exec:couch` (password: `vagrant`)
 * Navigate to [localhost:5984/_utils](http://localhost:5984/_utils)
 
 > **Tip:** The default port for CouchDB is 5984.  It can be changed by editing ```/etc/couchdb/local.ini```
