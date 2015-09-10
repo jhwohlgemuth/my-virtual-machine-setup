@@ -14,7 +14,6 @@ Requirements
 - [Node.js](https://nodejs.org/) is installed
 - [Virtualbox](https://www.virtualbox.org/wiki/Downloads) is installed
 - [Vagrant](https://www.vagrantup.com/) is installed
-- vagrant hostmanager plugin is installed `vagrant plugin install vagrant-hostmanager`
 
 Using [MongoDB](http://docs.mongodb.org/manual/)
 -----
@@ -31,7 +30,7 @@ Using [redis](http://redis.io/documentation/)
 * In command line:
   * `npm install`
   * `npm start` > Choose `redis` and press **ENTER**
-*  Start Redis Commander with ```redis-commander --redis-host 10.10.10.11```
+  *  Start Redis Commander with ```redis-commander --redis-host 10.10.10.11```
 *  Navigate to [localhost:8081](http://localhost:8081)
 
 > **Tip** The default port for redis is 6379.  It can be changed by editing `/etc/redis/redis.conf`.
