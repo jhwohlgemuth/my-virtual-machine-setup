@@ -1,10 +1,17 @@
 var inquirer = require('inquirer');
 module.exports = function(grunt) {
     'use strict';
+    require('load-grunt-tasks')(grunt); //Plugin for loading external task files
     grunt.initConfig({
         address: {
             web: '10.10.10.10',
             db:  '10.10.10.11'
+        },
+        ports: {
+            mongo: '27017',
+            redis: '6379',
+            commander: '8081',
+            couch: '5984'
         },
         regex: 'path: \'bin\/install_.*[.]sh',
         encryptedDirectory: 'vault',
@@ -43,6 +50,17 @@ module.exports = function(grunt) {
         },
 
         /**
+         * Open files in browsers for review
+         * @see {@link https://github.com/jsoverson/grunt-open}
+         **/
+        open: {
+            futon: {
+                path: 'http://localhost:<%= ports.couch %>/_utils/',
+                app: 'Chrome'
+            }
+        },
+
+        /**
          * Plugin built on top of replace, for performing search and replace on files.
          * @see {@link https://github.com/jharding/grunt-sed}
          **/
@@ -73,10 +91,6 @@ module.exports = function(grunt) {
             npmjs: ''
         }
     });
-    grunt.task.loadNpmTasks('grunt-contrib-clean');
-    grunt.task.loadNpmTasks('grunt-contrib-crypt');
-    grunt.task.loadNpmTasks('grunt-sed');
-    grunt.task.loadNpmTasks('grunt-exec');
     grunt.registerTask('setup', function(){
         var done = this.async();
         inquirer.prompt([

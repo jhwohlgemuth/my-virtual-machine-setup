@@ -30,7 +30,9 @@
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-crypt": "^0.1.0",
     "grunt-exec": "^0.4.6",
+    "grunt-open": "^0.2.3",
     "grunt-sed": "^0.1.1",
-    "inquirer": "^0.9.0"
+    "inquirer": "^0.9.0",
+    "load-grunt-tasks": "^3.2.0"
   }
 }
