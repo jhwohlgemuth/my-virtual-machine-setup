@@ -100,7 +100,7 @@ module.exports = function(grunt) {
                 message: "Which datastore do you want to use?",
                 choices: [
                     "MongoDB",
-                    "redis",
+                    "Redis",
                     "CouchDB"
                 ]
             }

@@ -2,7 +2,7 @@
     <a href="http://jhwohlgemuth.github.com/techtonic"><img src="http://images.jhwohlgemuth.com/original/logo/tech/techtonic.png?v=1" alt="techtonic"/></a>
 </div>
 
-Data Store &nbsp;[![MongoDB](https://img.shields.io/badge/use-mongo-brightgreen.svg)](#using-mongodb)&nbsp;[![redis](https://img.shields.io/badge/use-redis-brightgreen.svg)](#using-redis)&nbsp;[![CouchDB](https://img.shields.io/badge/use-couchdb-brightgreen.svg)](#using-couchdb)
+Data Store &nbsp;[![MongoDB](https://img.shields.io/badge/use-mongo-brightgreen.svg)](#using-mongodb)&nbsp;[![redis](https://img.shields.io/badge/use-redis-c6302b.svg)](#using-redis)&nbsp;[![CouchDB](https://img.shields.io/badge/use-couchdb-brightgreen.svg)](#using-couchdb)
 ==========
 > Leverage Vagrant to start developing with the latest and greatest data stores
 
@@ -25,15 +25,15 @@ Using [MongoDB](http://docs.mongodb.org/manual/)
 
 > **Tip:** The default port for MongoDB is 27017.  It can be changed by editing `/etc/mongod.conf`.
 
-Using [redis](http://redis.io/documentation/)
+Using [Redis](http://redis.io/documentation/)
 -----
 * In command line:
   * `npm install`
-  * `npm start` > Choose `redis` and press **ENTER**
+  * `npm start` > Choose `Redis` and press **ENTER**
   *  Start Redis Commander with ```redis-commander --redis-host 10.10.10.11```
 *  Navigate to [localhost:8081](http://localhost:8081)
 
-> **Tip** The default port for redis is 6379.  It can be changed by editing `/etc/redis/redis.conf`.
+> **Tip** The default port for Redis is 6379.  It can be changed by editing `/etc/redis/redis.conf`.
 
 Using [CouchDB](http://docs.couchdb.org/en/1.6.1/)
 -----
