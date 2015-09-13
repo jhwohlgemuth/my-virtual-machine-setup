@@ -25,7 +25,7 @@ Vagrant.configure(2) do |config|
     db.vm.synced_folder 'vault/', '/home/vagrant/vault'
     db.vm.synced_folder 'bin/', '/home/vagrant/bin'
     db.vm.network 'forwarded_port', guest: 5984, host: 5984, auto_correct: true
-    db.vm.provision 'shell', path: 'bin/install_couchdb.sh'
+    db.vm.provision 'shell', path: 'bin/install_redis.sh'
   end
   config.vm.provider 'virtualbox' do |vb|
     vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant", "1"]
@@ -56,6 +56,7 @@ $install_web_server = <<WEB
   sudo apt-get install -y figlet >/dev/null 2>&1
   sudo apt-get install -y toilet >/dev/null 2>&1
   sudo apt-get install -y curl >/dev/null 2>&1
+  sudo apt-get install -y gnome-session-flashback >/dev/null 2>&1
   printf "Installing JRE and JDK..."
   sudo apt-get update >/dev/null 2>&1
   sudo apt-get install -y default-jre >/dev/null 2>&1
@@ -82,44 +83,3 @@ $install_web_server = <<WEB
   # Restart apache
   sudo service apache2 reload >/dev/null 2>&1
 WEB
-
-$install_mongo = <<MONGO
-  printf "Installing MongoDB..."
-  sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10 >/dev/null 2>&1
-  printf 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list >/dev/null 2>&1
-  sudo apt-get update >/dev/null 2>&1
-  sudo apt-get install -y mongodb-org >/dev/null 2>&1
-  # Change config file to allow external connections
-  sudo sed -i '/bind_ip/c # bind_ip = 127.0.0.1' /etc/mongod.conf >/dev/null 2>&1
-  # Change default port to 8000
-  #sudo sed -i '/#port/c port = 8000' /etc/mongod.conf >/dev/null 2>&1
-  sudo service mongod restart >/dev/null 2>&1
-MONGO
-
-$install_redis = <<REDIS
-  printf "Installing build-essential package..."
-  sudo apt-get install -y build-essential >/dev/null 2>&1
-  printf "Installing redis server..."
-  sudo apt-get install -y redis-server >/dev/null 2>&1
-  # Configure redis-server to accept remote connections
-  sudo sed -i 's/bind 127.0.0.1/bind 0.0.0.0/' /etc/redis/redis.conf
-  sudo service redis-server restart >/dev/null 2>&1
-REDIS
-
-$install_redis_make = <<REDIS
-  sudo apt-get update >/dev/null 2>&1
-  printf "Installing make..."
-  sudo apt-get install -y make >/dev/null 2>&1
-  printf "Installing tcl..."
-  sudo apt-get install -y tcl8.5 >/dev/null 2>&1
-  printf "Downloading redis..."
-  sudo wget http://download.redis.io/releases/redis-2.8.19.tar.gz >/dev/null 2>&1
-  sudo tar xzf redis-2.8.19.tar.gz
-  cd redis-2.8.19
-  printf "Building redis..."
-  make >/dev/null 2>&1
-  sudo make install >/dev/null 2>&1
-  redis-server
-  #cd utils
-  #sudo ./install_server.sh
-REDIS
