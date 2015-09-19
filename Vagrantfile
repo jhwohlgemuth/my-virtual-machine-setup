@@ -53,39 +53,8 @@ $install_web_server = <<WEB
   printf "Installing various items..."
   sudo apt-get update >/dev/null 2>&1
   sudo apt-get install -y make >/dev/null 2>&1
-  sudo apt-get install -y figlet >/dev/null 2>&1
-  sudo apt-get install -y toilet >/dev/null 2>&1
   sudo apt-get install -y curl >/dev/null 2>&1
-
-  printf "Installing Google Chrome..."
-  sudo apt-get install -y libxss1 libappindicator1 libindicator7 >/dev/null 2>&1
-  wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-  sudo apt-get install -f
-  sudo dpkg -i google-chrome*.deb
-
-  sudo apt-get install -y gnome-session-flashback >/dev/null 2>&1
-  printf "Installing Oh-My-Zsh..."
-  sudo apt-get install -y zsh >/dev/null 2>&1
-  sudo chsh -s $(which zsh)
-  printf "Patching agnoster theme fonts..."
-  wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf >/dev/null 2>&1
-  wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf >/dev/null 2>&1
-  mv PowerlineSymbols.otf ~/.fonts/
-  fc-cache -vf ~/.fonts/
-  mv 10-powerline-symbols.conf ~/.config/fontconfig/conf.d/
-
-  printf "Installing JRE and JDK..."
-  sudo apt-get update >/dev/null 2>&1
-  sudo apt-get install -y default-jre >/dev/null 2>&1
-  sudo apt-get install -y default-jdk >/dev/null 2>&1
-
-  printf "Preparing to install node.js and npm..."
-  curl -sL https://deb.nodesource.com/setup | sudo bash - >/dev/null 2>&1
-  printf "Installing node.js and npm..."
-  sudo apt-get install -y nodejs >/dev/null 2>&1
-
-  printf "Installing Git..."
-  sudo apt-get install -y git >/dev/null 2>&1
+  sudo apt-get install -y build-essential >/dev/null 2>&1
 
   printf "Installing LAMP stack..."
   sudo apt-get update >/dev/null 2>&1
@@ -103,14 +72,4 @@ $install_web_server = <<WEB
   #printf "ServerName localhost" | sudo tee /etc/apache2/conf.d/fqdn >/dev/null 2>&1
   # Restart apache
   sudo service apache2 reload >/dev/null 2>&1
-
-  printf "Installing Atom editor..."
-  mkdir ~/git
-  cd ~/git
-  git clone https://github.com/atom/atom
-  cd ~/git/atom
-  git fetch -p
-  git checkout $(git describe --tags `git rev-list --tags --max-count=1`)
-  script/build
-  sudo script/grunt install
 WEB

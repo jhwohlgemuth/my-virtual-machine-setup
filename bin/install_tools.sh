@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
+sudo apt-get update >/dev/null 2>&1
 # Install Python 2.7
 printf "Installing Python 2.7 and Python dev dependencies..."
-sudo apt-get install -y build-essential >/dev/null 2>&1
-sudo apt-get update >/dev/null 2>&1
 sudo apt-get install -y python2.7 >/dev/null 2>&1
 sudo apt-get install -y python-dev >/dev/null 2>&1
 
@@ -34,3 +33,31 @@ sudo add-apt-repository -y ppa:staticfloat/julia-deps >/dev/null 2>&1
 sudo apt-get update >/dev/null 2>&1
 printf "Installing Julia language..."
 sudo apt-get install -y julia >/dev/null 2>&1
+
+# Install Node and npm
+printf "Preparing to install node.js and npm..."
+curl -sL https://deb.nodesource.com/setup | sudo bash - >/dev/null 2>&1
+printf "Installing node.js and npm..."
+sudo apt-get install -y nodejs >/dev/null 2>&1
+
+# Install Git
+printf "Installing Git..."
+sudo apt-get install -y git >/dev/null 2>&1
+
+# Install Google Chrome
+printf "Installing Google Chrome..."
+sudo apt-get install -y libxss1 libappindicator1 libindicator7 >/dev/null 2>&1
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt-get install -f
+sudo dpkg -i google-chrome*.deb
+
+# Install Atom Editor
+printf "Installing Atom editor..."
+mkdir ~/git
+cd ~/git
+git clone https://github.com/atom/atom
+cd ~/git/atom
+git fetch -p
+git checkout $(git describe --tags `git rev-list --tags --max-count=1`)
+script/build
+sudo script/grunt install
