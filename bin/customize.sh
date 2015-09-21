@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-printf "Turning off screen lock..."
+printf "Turning off screen lock...\n"
 sudo gsettings set org.gnome.desktop.session idle-delay 0
 sudo gsettings set org.gnome.desktop.screensaver lock-enabled false
 sudo gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'
 
 # Install Atom plugins
 # --------------------
-printf "Installing Atom plugins..."
+printf "Installing Atom plugins...\n"
 sudo apm install minimap file-icons
 
 # Personalize terminal
@@ -23,14 +23,14 @@ sudo mkdir -p ~/.config/fontconfig/conf.d/
 sudo mv PowerlineSymbols.otf ~/.fonts/
 fc-cache -vf ~/.fonts/
 sudo mv 10-powerline-symbols.conf ~/.config/fontconfig/conf.d/
-printf "Setting terminal theme..."
+printf "Setting terminal theme...\n"
 sudo sed -i '/ZSH_THEME/c ZSH_THEME="agnoster"' ~/.zshrc >/dev/null 2>&1
-sudo sed -i '/plugins=(/c plugins=(git git-extras npm atom chucknorris encode64 jsontools vagrant web-search wd)' ~/.zshrc >/dev/null 2>&1
+sudo sed -i '/plugins=(/c plugins=(git git-extras npm encode64 jsontools vagrant web-search wd)' ~/.zshrc >/dev/null 2>&1
 
 # Miscellaneous Items
 # -------------------
 printf "Installing miscellaneous items..."$(date '+%T')
 sudo apt-get install -y figlet toilet >/dev/null 2>&1
 
-printf "Rebooting in 3 seconds..."
-sleep 3 && sudo reboot
+toilet -f pagga -F border --gay All Done!
+toilet -f future Please log out
