@@ -4,14 +4,17 @@
 Vagrant.configure(2) do |config|
   config.vm.define 'techtonic' do |env|
     env.vm.box = 'ubuntu/trusty64'
+    env.vm.hostname = 'here'
     env.vm.network 'private_network', ip: '10.10.10.10'
     env.vm.synced_folder 'vault/', '/home/vagrant/vault'
     env.vm.synced_folder 'bin/', '/home/vagrant/bin'
+    env.vm.provision 'shell', path: 'bin/install_essential.sh'
+    env.vm.provision 'shell', path: 'bin/install_desktop.sh'
     env.vm.post_up_message = $message
   end
   config.vm.provider 'virtualbox' do |vb|
     vb.name = 'techtonic-vm-' + Time.now.to_i.to_s
-    vb.gui = false
+    vb.gui = true
     vb.cpus = 8
     vb.memory = 8192
     vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant", "1"]
