@@ -17,7 +17,7 @@ sudo apt-get install -y default-jre default-jdk >/dev/null 2>&1
 printf "Preparing to install node........"$(date '+%T')
 curl -sL https://deb.nodesource.com/setup | sudo bash - >/dev/null 2>&1
 printf "Installing node.js and npm......."$(date '+%T')
-sudo apt-get install -y nodejs
+sudo apt-get install -y nodejs >/dev/null 2>&1
 printf "Installing global node modules..."$(date '+%T')
 sudo npm install phantomjs casperjs yo bower grunt-cli -g >/dev/null 2>&1
 

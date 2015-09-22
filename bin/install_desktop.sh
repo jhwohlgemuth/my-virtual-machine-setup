@@ -24,8 +24,8 @@ git clone https://github.com/atom/atom
 cd ~/git/atom
 git fetch -p >/dev/null 2>&1
 git checkout $(git describe --tags `git rev-list --tags --max-count=1`) >/dev/null 2>&1
-sudo script/build >/dev/null 2>&1
-sudo script/grunt install >/dev/null 2>&1
+script/build >/dev/null 2>&1
+script/grunt install >/dev/null 2>&1
 
 printf "Start: "$START
 printf "End:   "$(date '+%T')
