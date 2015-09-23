@@ -13,19 +13,5 @@ wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb >
 sudo apt-get install -f >/dev/null 2>&1
 sudo dpkg -i google-chrome*.deb >/dev/null 2>&1
 
-# Install Atom Editor
-# -------------------
-printf "Installing Atom dependencies....."$(date '+%T')
-sudo apt-get install -y libgnome-keyring-dev >/dev/null 2>&1
-printf "Installing Atom editor..........."$(date '+%T')
-mkdir ~/git
-cd ~/git
-git clone https://github.com/atom/atom
-cd ~/git/atom
-git fetch -p >/dev/null 2>&1
-git checkout $(git describe --tags `git rev-list --tags --max-count=1`) >/dev/null 2>&1
-script/build >/dev/null 2>&1
-script/grunt install >/dev/null 2>&1
-
 printf "Start: "$START
 printf "End:   "$(date '+%T')

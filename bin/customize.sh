@@ -4,11 +4,6 @@ sudo gsettings set org.gnome.desktop.session idle-delay 0
 sudo gsettings set org.gnome.desktop.screensaver lock-enabled false
 sudo gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'
 
-# Install Atom plugins
-# --------------------
-echo "Installing Atom plugins..."
-sudo apm install minimap file-icons
-
 # Personalize terminal
 # --------------------
 echo "Installing Oh-My-Zsh..."$(date '+%T')

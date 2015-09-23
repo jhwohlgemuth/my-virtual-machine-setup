@@ -7,7 +7,8 @@ sudo apt-get install -f >/dev/null 2>&1
 printf "Installing essential software...."$(date '+%T')
 sudo apt-get install -y build-essential make curl git dkms fakeroot >/dev/null 2>&1
 sudo apt-get install -y linux-headers-$(uname -r) virtualbox-guest-x11 >/dev/null 2>&1
-#sudo apt-get install -y xorg gnome-core gnome-system-tools gnome-app-install >/dev/null 2>&1
+#Atom editor build dependencies
+sudo apt-get install -y libgnome-keyring-dev >/dev/null 2>&1
 
 # Install Java (JRE/JDK)
 printf "Installing JRE and JDK..........."$(date '+%T')
