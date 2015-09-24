@@ -2,9 +2,9 @@
     <a href="http://jhwohlgemuth.github.com/techtonic"><img src="http://images.jhwohlgemuth.com/original/logo/tech/techtonic.png?v=1" alt="techtonic"/></a>
 </div>
 
-Data Store &nbsp;[![MongoDB](https://img.shields.io/badge/use-mongo-58aa50.svg)](#using-mongodb)&nbsp;[![redis](https://img.shields.io/badge/use-redis-c6302b.svg)](#using-redis)&nbsp;[![CouchDB](https://img.shields.io/badge/use-couchdb-eb1019.svg)](#using-couchdb)
-==========
-> Leverage Vagrant to start developing with the latest and greatest data stores
+Environment
+===========
+> Create development **env**ironments quickly and easily with node and vagrant
 
 Requirements
 ------------
@@ -17,19 +17,15 @@ Requirements
 
 Using [MongoDB](http://docs.mongodb.org/manual/)
 -----
-* In command line:
-  * `npm install`
-  * `npm start` > Choose `MongoDB` and press **ENTER**
-*  [Install Mongo for windows](https://github.com/jhwohlgemuth/techtonic/wiki#mongodb-setup-on-windows)
+* [Install Mongo for windows](https://github.com/jhwohlgemuth/techtonic/wiki#mongodb-setup-on-windows)
+* Once vagrant is done:
 *  In a mongo console on the host, execute `mongo 10.10.10.11`
 
 > **Tip:** The default port for MongoDB is 27017.  It can be changed by editing `/etc/mongod.conf`.
 
 Using [Redis](http://redis.io/documentation/)
 -----
-* In command line:
-  * `npm install`
-  * `npm start` > Choose `Redis` and press **ENTER**
+* Once vagrant is done:
   *  Start Redis Commander with ```redis-commander --redis-host 10.10.10.11```
 *  Navigate to [localhost:8081](http://localhost:8081)
 
@@ -37,9 +33,7 @@ Using [Redis](http://redis.io/documentation/)
 
 Using [CouchDB](http://docs.couchdb.org/en/1.6.1/)
 -----
-* In command line:
-  * `npm install`
-  * `npm start` > Choose `CouchDB` and press **ENTER**
+* Once vagrant is done:
   * Once vagrant is done, execute `grunt exec:couch` (password: `vagrant`)
 * Navigate to [localhost:5984/_utils](http://localhost:5984/_utils)
 

@@ -1,17 +1,16 @@
 {
-  "name": "techtonic-datastore",
+  "name": "techtonic-env",
   "version": "1.0.0",
-  "description": "Leverage Vagrant to start developing with the latest and greatest data stores",
+  "description": "n.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "preinstall": "npm install -g redis-commander grunt-cli",
     "prestart": "grunt setup",
     "start": "vagrant up"
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/jhwohlgemuth/techtonic-datastore.git"
+    "url": "http://github.com/jhwohlgemuth/techtonic-env.git"
   },
   "keywords": [
     "vagrant",
@@ -22,9 +21,9 @@
   "author": "Jason Wohlgemuth",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jhwohlgemuth/techtonic-datastore/issues"
+    "url": "https://github.com/jhwohlgemuth/techtonic-env/issues"
   },
-  "homepage": "https://github.com/jhwohlgemuth/techtonic-datastore",
+  "homepage": "https://github.com/jhwohlgemuth/techtonic-env",
   "dependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-clean": "^0.6.0",
