@@ -1,7 +1,7 @@
 {
   "name": "techtonic-env",
   "version": "1.0.0",
-  "description": "n.",
+  "description": "Create development evironments quickly and easily with node and vagrant.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
