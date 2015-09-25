@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 START=$(date '+%T')
 printf "Updating before installing......."$START
-sudo apt-get update >/dev/null 2>&1
-sudo apt-get upgrade -y >/dev/null 2>&1
+sudo apt-get update -y -qq >/dev/null 2>&1
+sudo apt-get upgrade -y -qq >/dev/null 2>&1
 sudo apt-get install -f >/dev/null 2>&1
 printf "Installing essential software...."$(date '+%T')
-sudo apt-get install -y build-essential make curl git dkms fakeroot >/dev/null 2>&1
+sudo apt-get install -y build-essential make curl wget tmux git dkms fakeroot nfs-common >/dev/null 2>&1
 sudo apt-get install -y linux-headers-$(uname -r) virtualbox-guest-x11 >/dev/null 2>&1
 #Atom editor build dependencies
 sudo apt-get install -y libgnome-keyring-dev >/dev/null 2>&1
