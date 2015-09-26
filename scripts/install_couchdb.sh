@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-printf "Installing CouchDB dependencies..."
+echo "Installing CouchDB dependencies..."
 sudo apt-get update >/dev/null 2>&1
 sudo apt-get install -y curl >/dev/null 2>&1
-printf "Installing CouchDB..."
+echo "Installing CouchDB..."
 sudo apt-get install -y couchdb >/dev/null 2>&1
-printf "Configuring /etc/couchdb/local.ini ..."
+echo "Configuring /etc/couchdb/local.ini ..."
 sudo sed -i '/;port/c port = 5984' /etc/couchdb/local.ini
 sudo sed -i '/;bind_address/c bind_address = 0.0.0.0' /etc/couchdb/local.ini
 lineNumber=$(($(echo $(grep -n '\[couch_httpd_auth\]' /etc/couchdb/local.ini) | awk -F':' '{print $1}')+1))
