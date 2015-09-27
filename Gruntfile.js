@@ -14,7 +14,7 @@ module.exports = function(grunt) {
             couch: '5984'
         },
         regex: 'path: \'bin\/install_.*[.]sh',
-        encryptedDirectory: 'vault',
+        encryptedDirectory: 'share',
         encryptedExtension: '.protected',
 
         /**
@@ -33,7 +33,7 @@ module.exports = function(grunt) {
         },
 
         /**
-         * Encrypt and decrypt files located in the vault directory (performed in place)
+         * Encrypt and decrypt files located in the encrypted directory (performed in place)
          * @see {@link https://github.com/openhoat/grunt-contrib-crypt}
          **/
         crypt:{

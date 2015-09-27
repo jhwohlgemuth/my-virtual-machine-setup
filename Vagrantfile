@@ -6,8 +6,8 @@ Vagrant.configure(2) do |config|
     env.vm.box = "ubuntu/trusty64"
     env.vm.hostname = "home"
     env.vm.network "private_network", ip: "10.10.10.10"
-    env.vm.synced_folder "vault/", "/home/vagrant/vault"
     env.vm.synced_folder "scripts/", "/home/vagrant/scripts"
+    env.vm.synced_folder "share/", "/home/vagrant/share"
     env.vm.provision "shell", path: "scripts/install_essential.sh"
     env.vm.provision "shell", path: "scripts/install_desktop.sh"
     env.vm.post_up_message = $message
@@ -17,7 +17,7 @@ Vagrant.configure(2) do |config|
     vb.gui = true
     vb.cpus = 8
     vb.memory = 8192
-    vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant", "1"]
+    vb.customize ["modifyvm", :id, "--monitorcount", "1"]
     vb.customize ["modifyvm", :id, "--vram", "256"]
     vb.customize ["modifyvm", :id, "--ioapic", "on"]
     vb.customize ["modifyvm", :id, "--pae", "on"]
@@ -29,7 +29,7 @@ Vagrant.configure(2) do |config|
     vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
     vb.customize ["modifyvm", :id, "--nictype1", "virtio" ]
     vb.customize ["modifyvm", :id, "--nictype2", "virtio" ]
-    vb.customize ["modifyvm", :id, "--monitorcount", "1"]
+    vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant", "1"]
   end
   config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
 end

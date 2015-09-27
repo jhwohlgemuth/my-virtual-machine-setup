@@ -1,8 +1,15 @@
 {
   "variables": {
-      "ssh_name": "vagrant",
-      "ssh_pass": "vagrant",
-      "hostname": "home"
+    "org_name": "techtonic",
+    "iso_name": "ubuntu-14.04.3-server-amd64.iso",
+    "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04.3-server-amd64.iso",
+    "checksum": "9e5fecc94b3925bededed0fdca1bd417",
+    "ssh_name": "vagrant",
+    "ssh_pass": "vagrant",
+    "hostname": "home",
+    "monitors": "2",
+    "cpucount": "8",
+    "memory": "8192"
   },
   "builders": [
     {
@@ -11,57 +18,75 @@
       "boot_command": [
         "<esc><esc><enter><wait>",
         "/install/vmlinuz noapic ",
-        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
+        "file=/floppy/preseed.cfg ",
         "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
-        "hostname={{user `hostname`}} ",
+        "hostname={{ user `hostname` }} ",
         "fb=false debconf/frontend=noninteractive ",
         "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA ",
         "keyboard-configuration/variant=USA console-setup/ask_detect=false ",
+        "passwd/user-fullname={{ user `ssh_name` }} ",
+        "passwd/user-password={{ user `ssh_pass` }} ",
+        "passwd/user-password-again={{ user `ssh_pass` }} ",
+        "passwd/username={{ user `ssh_name` }} ",
         "initrd=/install/initrd.gz -- <enter>"
       ],
       "boot_wait": "4s",
+      "disk_size": 130048,
+      "floppy_files": ["http/preseed.cfg"],
       "guest_os_type": "Ubuntu_64",
-      "http_directory": "http",
-      "iso_checksum": "cab6dd5ee6d649ed1b24e807c877c0ae",
-      "iso_checksum_type": "md5",
-      "iso_url": "ubuntu-14.04.3-desktop-amd64.iso",
-      "ssh_username": "{{user `ssh_name`}}",
-      "ssh_password": "{{user `ssh_pass`}}",
-      "ssh_port": 22,
-      "ssh_wait_timeout": "20m",
-      "shutdown_command": "echo {{user `ssh_pass`}} | sudo -S shutdown -P now",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "hard_drive_interface": "sata",
       "headless": false,
+      "http_directory": "http",
+      "iso_checksum": "{{ user `checksum` }}",
+      "iso_checksum_type": "md5",
+      "iso_urls": [
+        "{{ user `iso_path` }}/{{ user `iso_name` }}",
+        "{{ user `iso_url` }}"
+      ],
+      "ssh_username": "{{ user `ssh_name` }}",
+      "ssh_password": "{{ user `ssh_pass` }}",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10m",
+      "shutdown_command": "echo '{{ user `ssh_pass` }}'|sudo -S shutdown -P now",
       "virtualbox_version_file": ".vbox_version",
       "vboxmanage": [
-        ["modifyvm", "{{.Name}}", "--memory", "8192"],
-        ["modifyvm", "{{.Name}}", "--cpus", "4"]
+        ["modifyvm", "{{ .Name }}", "--monitorcount", "{{ user `monitors` }}"],
+        ["modifyvm", "{{ .Name }}", "--cpus", "{{ user `cpucount` }}"],
+        ["modifyvm", "{{ .Name }}", "--memory", "{{ user `memory` }}"],
+        ["modifyvm", "{{ .Name }}", "--vram", "256"],
+        ["modifyvm", "{{ .Name }}", "--ioapic", "on"],
+        ["modifyvm", "{{ .Name }}", "--pae", "on"],
+        ["modifyvm", "{{ .Name }}", "--hwvirtex", "on"],
+        ["modifyvm", "{{ .Name }}", "--accelerate3d", "on"],
+        ["modifyvm", "{{ .Name }}", "--accelerate2dvideo", "on"],
+        ["modifyvm", "{{ .Name }}", "--natdnshostresolver1", "on"],
+        ["modifyvm", "{{ .Name }}", "--natdnsproxy1", "on"],
+        ["modifyvm", "{{ .Name }}", "--nictype1", "virtio"],
+        ["modifyvm", "{{ .Name }}", "--nictype2", "virtio"]
       ]
     }
   ],
   "provisioners": [
     {
       "type": "shell",
-      "scripts": [
-        "scripts/install_essential.sh"
+      "environment_vars": [
+        "SSH_USERNAME={{ user `ssh_name` }}",
+        "SSH_PASSWORD={{ user `ssh_pass` }}"
       ],
-      "override": {
-        "virtualbox-iso": {
-          "execute_command": "echo 'vagrant' | sudo -S sh '{{ .Path }}'"
-        }
-      }
-    },
-    {
-      "type": "shell",
+      "execute_command": "echo '{{ user `ssh_pass` }}' | {{ .Vars }} sudo -E -S bash '{{ .Path }}'",
       "scripts": [
-        "scripts/configure_ssh_keys.sh"
+        "scripts/install_essential.sh",
+        "scripts/install_desktop.sh",
+        "scripts/configure.sh"
       ]
     }
   ],
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "techtonic.box"
+      "output": "box/{{ user `org_name` }}.{{ .Provider }}.box",
+      "keep_input_artifact": false
     }
   ]
 }
