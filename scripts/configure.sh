@@ -17,6 +17,9 @@ chmod 0600 $SSH_USER_HOME/.ssh/authorized_keys
 chown -R $SSH_USER:$SSH_USER $SSH_USER_HOME/.ssh
 
 echo "Installing VirtualBox guest additions..."
+#sudo apt-get install -y virtualbox-guest-utils virtualbox-guest-x11 >/dev/null 2>&1
+#reboot
+
 # Assuming the following packages are installed
 # apt-get install -y linux-headers-$(uname -r) build-essential perl
 # apt-get install -y dkms
