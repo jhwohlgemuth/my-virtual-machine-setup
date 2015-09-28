@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+#Atom editor build dependencies
+sudo apt-get install -y libgnome-keyring-dev >/dev/null 2>&1
 # Install Atom Editor and plugins
 # -------------------------------
 echo "Installing Atom editor..........."$(date '+%T')

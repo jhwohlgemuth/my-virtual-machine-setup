@@ -1,5 +1,5 @@
 #!/bin/bash -eux
-# Inpsired by https://github.com/boxcutter/ubuntu
+
 SSH_USER=${SSH_USERNAME:-vagrant}
 
 CLEANUP_PAUSE=${CLEANUP_PAUSE:-0}

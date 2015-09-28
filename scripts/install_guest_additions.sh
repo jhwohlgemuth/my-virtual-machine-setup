@@ -1,8 +1,12 @@
-#!/usr/bin/env bash
-wget http://download.virtualbox.org/virtualbox/4.3.8/VBoxGuestAdditions_4.3.8.iso
-sudo mkdir /media/VBoxGuestAdditions
-sudo mount -o loop,ro VBoxGuestAdditions_4.3.8.iso /media/VBoxGuestAdditions
-sudo sh /media/VBoxGuestAdditions/VBoxLinuxAdditions.run
-rm VBoxGuestAdditions_4.3.8.iso
-sudo umount /media/VBoxGuestAdditions
-sudo rmdir /media/VBoxGuestAdditions
+#!/bin/bash -eux
+SSH_USER=${SSH_USERNAME:-vagrant}
+echo "Installing VirtualBox guest additions..."
+VBOX_VERSION=$(cat /home/${SSH_USER}/.vbox_version)
+mount -o loop /home/${SSH_USER}/VBoxGuestAdditions_$VBOX_VERSION.iso /mnt
+sh /mnt/VBoxLinuxAdditions.run
+umount /mnt
+rm /home/${SSH_USER}/VBoxGuestAdditions_$VBOX_VERSION.iso
+rm /home/${SSH_USER}/.vbox_version
+if [[ $VBOX_VERSION = "4.3.10" ]]; then
+    ln -s /opt/VBoxGuestAdditions-4.3.10/lib/VBoxGuestAdditions /usr/lib/VBoxGuestAdditions
+fi

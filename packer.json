@@ -1,19 +1,17 @@
 {
   "variables": {
+    "update": "false",
     "org_name": "techtonic",
+    "iso_path": "iso",
     "iso_name": "ubuntu-14.04.3-server-amd64.iso",
     "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04.3-server-amd64.iso",
     "checksum": "9e5fecc94b3925bededed0fdca1bd417",
     "ssh_name": "vagrant",
     "ssh_pass": "vagrant",
-    "hostname": "home",
-    "monitors": "2",
-    "cpucount": "8",
-    "memory": "8192"
+    "hostname": "home"
   },
   "builders": [
     {
-      "vm_name": "techtonic-box",
       "type": "virtualbox-iso",
       "boot_command": [
         "<esc><esc><enter><wait>",
@@ -46,25 +44,14 @@
       ],
       "ssh_username": "{{ user `ssh_name` }}",
       "ssh_password": "{{ user `ssh_pass` }}",
-      "ssh_port": 22,
       "ssh_wait_timeout": "10m",
       "shutdown_command": "echo '{{ user `ssh_pass` }}'|sudo -S shutdown -P now",
       "virtualbox_version_file": ".vbox_version",
       "vboxmanage": [
-        ["modifyvm", "{{ .Name }}", "--monitorcount", "{{ user `monitors` }}"],
-        ["modifyvm", "{{ .Name }}", "--cpus", "{{ user `cpucount` }}"],
-        ["modifyvm", "{{ .Name }}", "--memory", "{{ user `memory` }}"],
-        ["modifyvm", "{{ .Name }}", "--vram", "256"],
-        ["modifyvm", "{{ .Name }}", "--ioapic", "on"],
-        ["modifyvm", "{{ .Name }}", "--pae", "on"],
-        ["modifyvm", "{{ .Name }}", "--hwvirtex", "on"],
-        ["modifyvm", "{{ .Name }}", "--accelerate3d", "on"],
-        ["modifyvm", "{{ .Name }}", "--accelerate2dvideo", "on"],
-        ["modifyvm", "{{ .Name }}", "--natdnshostresolver1", "on"],
-        ["modifyvm", "{{ .Name }}", "--natdnsproxy1", "on"],
-        ["modifyvm", "{{ .Name }}", "--nictype1", "virtio"],
-        ["modifyvm", "{{ .Name }}", "--nictype2", "virtio"]
-      ]
+        ["modifyvm", "{{ .Name }}", "--cpus", "1"],
+        ["modifyvm", "{{ .Name }}", "--memory", "512"]
+      ],
+      "vm_name": "ubuntu-1404-desktop"
     }
   ],
   "provisioners": [
@@ -76,17 +63,21 @@
       ],
       "execute_command": "echo '{{ user `ssh_pass` }}' | {{ .Vars }} sudo -E -S bash '{{ .Path }}'",
       "scripts": [
-        "scripts/install_essential.sh",
+        "scripts/update.sh",
         "scripts/install_desktop.sh",
-        "scripts/configure.sh"
+        "scripts/install_software.sh",
+        "scripts/configure.sh",
+        "scripts/install_guest_additions.sh",
+        "scripts/cleanup.sh"
       ]
     }
   ],
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "box/{{ user `org_name` }}.{{ .Provider }}.box",
-      "keep_input_artifact": false
+      "output": "box/{{ user `org_name` }}.box",
+      "keep_input_artifact": false,
+      "vagrantfile_template": "Vagrantfile.template"
     }
   ]
 }

@@ -45,3 +45,5 @@ echo "Preparing to install node.js and npm..."
 curl -sL https://deb.nodesource.com/setup | sudo bash - >/dev/null 2>&1
 echo "Installing node.js and npm..."
 sudo apt-get install -y nodejs >/dev/null 2>&1
+echo "Installing global node modules..."
+sudo npm install phantomjs casperjs yo bower grunt-cli -g >/dev/null 2>&1
