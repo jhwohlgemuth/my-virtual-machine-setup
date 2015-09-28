@@ -1,6 +1,5 @@
 {
   "variables": {
-    "update": "false",
     "org_name": "techtonic",
     "iso_path": "iso",
     "iso_name": "ubuntu-14.04.3-server-amd64.iso",
@@ -8,7 +7,8 @@
     "checksum": "9e5fecc94b3925bededed0fdca1bd417",
     "ssh_name": "vagrant",
     "ssh_pass": "vagrant",
-    "hostname": "home"
+    "hostname": "home",
+    "update": "true"
   },
   "builders": [
     {
