@@ -5,11 +5,10 @@ Vagrant.configure("2") do |config|
     config.vm.define "techtonic"
     config.vm.box = "ubuntu-1404-desktop"
 
-    config.vm.synced_folder "share", "/share", create: true
-    config.vm.synced_folder "scripts", "/scripts", create: true
+    config.vm.synced_folder "share", "/home/vagrant/share"
 
     config.vm.network "forwarded_port", guest: 8000, host: 8080
-    config.vm.network "forwarded_port", guest: 8000, host: 5984  #couch
+    config.vm.network "forwarded_port", guest: 5984, host: 5984  #couch
     config.vm.network "forwarded_port", guest: 6379, host: 6379  #redis
     config.vm.network "forwarded_port", guest: 8000, host: 27017 #mongodb
 
@@ -26,6 +25,7 @@ Vagrant.configure("2") do |config|
         vb.customize ["modifyvm", :id, "--chipset", "ich9"]
         vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
         vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+        vb.customize ["modifyvm", :id, "--draganddrop", "bidirectional"]
         vb.customize ["setextradata", "global", "GUI/MaxGuestResolution", "any"]
     end
 end
