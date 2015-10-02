@@ -8,9 +8,9 @@ Vagrant.configure("2") do |config|
     config.vm.synced_folder "share", "/home/vagrant/share"
 
     config.vm.network "forwarded_port", guest: 8000, host: 8080
-    config.vm.network "forwarded_port", guest: 5984, host: 5984  #couch
-    config.vm.network "forwarded_port", guest: 6379, host: 6379  #redis
-    config.vm.network "forwarded_port", guest: 8000, host: 27017 #mongodb
+    config.vm.network "forwarded_port", guest: 5984, host: 5984   #couch
+    config.vm.network "forwarded_port", guest: 6379, host: 6379   #redis
+    config.vm.network "forwarded_port", guest: 27017, host: 27017 #mongodb
 
     config.vm.provider :virtualbox do |vb, override|
         vb.gui = true
