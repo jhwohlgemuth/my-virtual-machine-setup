@@ -22,5 +22,10 @@ cd $SSH_USER_HOME/.ssh
 echo "${VAGRANT_INSECURE_KEY}" > $SSH_USER_HOME/.ssh/authorized_keys
 chmod 600 $SSH_USER_HOME/.ssh/authorized_keys
 chown -R $SSH_USER:$SSH_USER $SSH_USER_HOME/.ssh
-#Security setting
+# Security setting
 echo "UseDNS no" >> /etc/ssh/sshd_config
+# Turn off screen lock
+echo "Turning off screen lock..."
+gsettings set org.gnome.desktop.session idle-delay 0
+gsettings set org.gnome.desktop.screensaver lock-enabled false
+gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'
