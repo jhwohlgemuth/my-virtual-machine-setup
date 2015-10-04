@@ -11,6 +11,9 @@ echo "Installing node.js and npm......."$(date '+%T')
 apt-get install -y nodejs >/dev/null 2>&1
 echo "Installing global node modules..."$(date '+%T')
 npm install phantomjs casperjs yo bower grunt-cli -g >/dev/null 2>&1
+# Install Pandoc
+# --------------
+apt-get install -y texlive texlive-latex-extra pandoc
 # Miscellaneous Items
 # -------------------
 echo "Installing miscellaneous items..."$(date '+%T')
