@@ -9,5 +9,6 @@ wget https://github.com/atom/atom/releases/download/v1.1.0-beta.0/atom-amd64.deb
 sudo dpkg -i atom-amd64.deb
 sudo rm atom-amd64.deb
 
-echo "Installing Atom plugins..."
-apm install minimap file-icons atom-beautify imdone-atom
+echo "Installing Atom plugins.........."$(date '+%T')
+apt-get install -y libzmq3-dev
+apm install minimap file-icons atom-beautify imdone-atom hydrogen
