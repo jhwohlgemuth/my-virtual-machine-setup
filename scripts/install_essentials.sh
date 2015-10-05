@@ -14,16 +14,17 @@ npm install phantomjs casperjs yo bower grunt-cli -g >/dev/null 2>&1
 # Install Atom Editor and plugins
 # -------------------------------
 echo "Installing Atom editor..........."$(date '+%T')
-apt-get install -y libzmq3-dev python-pip
-pip install ipython[notebook]
-wget https://github.com/atom/atom/releases/download/v1.1.0-beta.0/atom-amd64.deb
-dpkg -i atom-amd64.deb
+apt-get install -y libzmq3-dev python-pip >/dev/null 2>&1
+pip install ipython[notebook] >/dev/null 2>&1
+wget https://github.com/atom/atom/releases/download/v1.1.0-beta.0/atom-amd64.deb >/dev/null 2>&1
+dpkg -i atom-amd64.deb >/dev/null 2>&1
 rm atom-amd64.deb
 echo "Installing Atom plugins.........."$(date '+%T')
 apm install minimap file-icons atom-beautify imdone-atom hydrogen
 # Install Pandoc
 # --------------
-apt-get install -y texlive texlive-latex-extra pandoc
+echo "Installing Pandoc................"$(date '+%T')
+apt-get install -y texlive texlive-latex-extra pandoc >/dev/null 2>&1
 # Miscellaneous Items
 # -------------------
 echo "Installing miscellaneous items..."$(date '+%T')
