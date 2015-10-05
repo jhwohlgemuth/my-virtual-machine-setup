@@ -28,4 +28,4 @@ echo "Installing miscellaneous items..."$(date '+%T')
 sudo apt-get install -y figlet toilet >/dev/null 2>&1
 
 toilet -f pagga -F border --gay All Done!
-toilet -f future Please log out
+echo "Please log out"

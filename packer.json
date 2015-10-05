@@ -65,13 +65,12 @@
       "scripts": [
         "scripts/update.sh",
         "scripts/install_desktop.sh",
-        "scripts/install_software.sh",
-        "share/install_couchdb.sh",
-        "share/install_mongodb.sh",
-        "share/install_redis.sh",
         "scripts/configure.sh",
         "scripts/install_guest_additions.sh",
-        "scripts/cleanup.sh"
+        "scripts/install_essentials.sh",
+        "share/install_couchdb.sh",
+        "share/install_mongodb.sh",
+        "share/install_redis.sh"
       ]
     }
   ],

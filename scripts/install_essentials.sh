@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+apt-get update
 # Install Java (JRE/JDK)
 # ----------------------
 echo "Installing JRE and JDK..........."$(date '+%T')
