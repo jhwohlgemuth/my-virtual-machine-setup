@@ -22,6 +22,11 @@ echo "Setting terminal theme..."
 sudo sed -i '/ZSH_THEME/c ZSH_THEME="agnoster"' ~/.zshrc >/dev/null 2>&1
 sudo sed -i '/plugins=(/c plugins=(git git-extras npm encode64 jsontools vagrant web-search wd)' ~/.zshrc >/dev/null 2>&1
 
+# Atom Plugins
+# ------------
+echo "Installing Atom plugins.........."$(date '+%T')
+apm install minimap file-icons
+
 # Miscellaneous Items
 # -------------------
 echo "Installing miscellaneous items..."$(date '+%T')

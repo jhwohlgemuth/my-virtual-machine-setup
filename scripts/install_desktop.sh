@@ -1,7 +1,8 @@
 #!/bin/bash
 SSH_USER=${SSH_USERNAME:-vagrant}
 echo "Installing desktop"
-apt-get install -y ubuntu-desktop gnome-session-fallback indicator-multiload
+apt-get install --no-install-recommends -y ubuntu-desktop
+apt-get install -y gnome-session-fallback indicator-multiload
 USERNAME=${SSH_USER}
 LIGHTDM_CONFIG=/etc/lightdm/lightdm.conf
 GDM_CUSTOM_CONFIG=/etc/gdm/custom.conf
