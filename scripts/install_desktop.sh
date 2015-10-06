@@ -2,7 +2,8 @@
 SSH_USER=${SSH_USERNAME:-vagrant}
 echo "Installing desktop"
 apt-get install --no-install-recommends -y ubuntu-desktop
-apt-get install -y gnome-session-fallback indicator-multiload
+apt-get install -y gnome-terminal overlay-scrollbar gnome-session-fallback
+apt-get install -y firefox chromium-browser indicator-multiload
 USERNAME=${SSH_USER}
 LIGHTDM_CONFIG=/etc/lightdm/lightdm.conf
 GDM_CUSTOM_CONFIG=/etc/gdm/custom.conf

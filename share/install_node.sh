@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+sudo apt-get update
 # Install Node and npm
 # --------------------
 echo "Installing node.js and npm......."$(date '+%T')

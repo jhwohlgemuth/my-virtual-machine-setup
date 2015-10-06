@@ -25,7 +25,7 @@ sudo sed -i '/plugins=(/c plugins=(git git-extras npm encode64 jsontools vagrant
 # Atom Plugins
 # ------------
 echo "Installing Atom plugins.........."$(date '+%T')
-apm install minimap file-icons
+apm install minimap file-icons sublime-block-comment
 
 # Miscellaneous Items
 # -------------------
