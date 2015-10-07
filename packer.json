@@ -74,7 +74,6 @@
     {
       "type": "shell",
       "scripts": [
-        "share/install_node.sh",
         "share/install_mongodb.sh",
         "share/install_couchdb.sh",
         "share/install_redis.sh",
