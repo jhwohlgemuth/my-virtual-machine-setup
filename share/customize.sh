@@ -27,10 +27,5 @@ chsh -s $(which zsh) $(whoami)
 echo "Installing Atom plugins.........."$(date '+%T')
 apm install minimap file-icons sublime-block-comment
 
-# Miscellaneous Items
-# -------------------
-echo "Installing miscellaneous items..."$(date '+%T')
-apt-get install -y figlet toilet >/dev/null 2>&1
-
 toilet -f pagga -F border --gay All Done!
 echo "Please log out"

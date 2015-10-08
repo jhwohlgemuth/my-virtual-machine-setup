@@ -77,7 +77,7 @@
     {
       "type": "shell",
       "scripts": [
-        "share/install_atom.sh"
+        "share/install_node.sh"
       ]
     }
   ],
