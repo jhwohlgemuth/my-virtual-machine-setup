@@ -10,5 +10,6 @@ mkdir ~/node-latest-install
 cd ~/node-latest-install
 curl http://nodejs.org/dist/node-latest.tar.gz | tar xz --strip-components=1
 ./configure --prefix=~/local
-make install
-curl https://www.npmjs.org/install.sh | sh
+make install >/dev/null 2>&1
+wget https://www.npmjs.org/install.sh >/dev/null 2>&1
+sh install.sh
