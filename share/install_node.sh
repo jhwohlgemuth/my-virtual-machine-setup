@@ -8,8 +8,7 @@ echo 'export PATH=$HOME/local/bin:$PATH' >> ~/.bashrc
 mkdir ~/local
 mkdir ~/node-latest-install
 cd ~/node-latest-install
-curl http://nodejs.org/dist/node-latest.tar.gz | tar xz --strip-components=1
-./configure --prefix=~/local
+curl -sL http://nodejs.org/dist/node-latest.tar.gz | tar xz --strip-components=1
+./configure --prefix=~/local >/dev/null 2>&1
 make install >/dev/null 2>&1
-wget https://www.npmjs.org/install.sh >/dev/null 2>&1
-sh install.sh
+curl -sL https://www.npmjs.org/install.sh && sh install.sh >/dev/null 2>&1
