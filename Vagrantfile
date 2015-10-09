@@ -3,7 +3,7 @@
 
 Vagrant.configure(2) do |config|
   config.vm.define "techtonic" do |env|
-    #env.vm.box = "ubuntu/trusty64"
+    env.vm.box = "test"
     #env.vm.hostname = "home"
     env.vm.post_up_message = $message
   end

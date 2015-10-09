@@ -13,10 +13,14 @@ apt-get install -y oracle-java8-installer >/dev/null 2>&1
 # Install Pandoc
 # --------------
 echo "Installing Pandoc................"$(date '+%T')
-apt-get install -y texlive texlive-latex-extra pandoc >/dev/null 2>&1
+#apt-get install -y texlive texlive-latex-extra pandoc >/dev/null 2>&1
+
 # Miscellaneous Items
 # -------------------
 echo "Installing miscellaneous items..."$(date '+%T')
+#add-apt-repository -y ppa:avsm/ppa
+#apt-get update >/dev/null 2>&1
+#apt-get install -y ocaml ocaml-native-compilers camlp4-extra opam >/dev/null 2>&1
 apt-get install -y libzmq3-dev python-pip python-dev >/dev/null 2>&1
 pip install --upgrade pip
 pip install --upgrade virtualenv
