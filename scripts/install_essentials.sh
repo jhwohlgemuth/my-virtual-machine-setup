@@ -11,7 +11,7 @@ echo "Installing JRE and JDK..........."$(date '+%T')
 #apt-get install -y oracle-java8-installer >/dev/null 2>&1
 
 echo "Installing nvm..................."$(date '+%T')
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash
+#curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash
 
 echo "Installing Pandoc................"$(date '+%T')
 #apt-get install -y texlive texlive-latex-extra pandoc >/dev/null 2>&1
