@@ -4,13 +4,13 @@
 echo "Downloading TeamCity..."
 mkdir /downloads
 cd /downloads
-sudo wget http://download.jetbrains.com/teamcity/TeamCity-8.1.5.tar.gz >/dev/null 2>&1
+wget http://download.jetbrains.com/teamcity/TeamCity-8.1.5.tar.gz >/dev/null 2>&1
 echo "Extracting TeamCity..."
 cd ../var
-sudo tar zxvf ../downloads/TeamCity-8.1.5.tar.gz >/dev/null 2>&1
+tar zxvf ../downloads/TeamCity-8.1.5.tar.gz >/dev/null 2>&1
 echo "Starting TeamCity..."
 cd /var/TeamCity
-sudo ./bin/runAll.sh start >/dev/null 2>&1
+./bin/runAll.sh start >/dev/null 2>&1
 echo "Adding TeamCity as a service..."
 cat <<'EOF' > /etc/init.d/teamcity
 #! /bin/sh
@@ -34,6 +34,6 @@ esac
 exit 0
 EOF
 echo "Adding TeamCity to startup..."
-sudo chmod 755 /etc/init.d/teamcity >/dev/null 2>&1
-sudo update-rc.d teamcity defaults >/dev/null 2>&1
-sudo rm -rf /downloads
+chmod 755 /etc/init.d/teamcity >/dev/null 2>&1
+update-rc.d teamcity defaults >/dev/null 2>&1
+rm -rf /downloads

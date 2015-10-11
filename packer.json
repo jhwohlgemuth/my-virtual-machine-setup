@@ -75,6 +75,16 @@
       "type": "shell",
       "environment_vars": ["SSH_PASSWORD={{ user `ssh_pass` }}"],
       "script": "scripts/install_software_no_sudo.sh"
+    },
+    {
+      "type": "file",
+      "source": "share/snippets.cson",
+      "destination": "/home/{{ user `ssh_name` }}/.atom/snippets.cson"
+    },
+    {
+      "type": "file",
+      "source": "share/personalize.sh",
+      "destination": "/home/{{ user `ssh_name` }}/personalize.sh"
     }
   ],
   "post-processors": [
@@ -82,7 +92,7 @@
       "type": "vagrant",
       "output": "box/{{ user `org_name` }}.box",
       "vagrantfile_template": "Vagrantfile.template",
-      "keep_input_artifact": false
+      "compression_level": 9
     }
   ]
 }
