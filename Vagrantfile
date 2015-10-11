@@ -3,7 +3,7 @@
 
 Vagrant.configure(2) do |config|
   config.vm.define "techtonic" do |env|
-    env.vm.box = "test"
+    env.vm.box = "techtonic"
     #env.vm.hostname = "home"
     env.vm.post_up_message = $message
   end
@@ -14,7 +14,6 @@ Vagrant.configure(2) do |config|
     vb.memory = 8192
     vb.customize ["modifyvm", :id, "--monitorcount", "2"]
   end
-  config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
 end
 
 $message = <<MSG

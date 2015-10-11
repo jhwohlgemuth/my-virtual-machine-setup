@@ -64,21 +64,22 @@
       "execute_command": "echo '{{ user `ssh_pass` }}' | {{ .Vars }} sudo -E -S bash '{{ .Path }}'",
       "scripts": [
         "scripts/update.sh",
-        "scripts/install_desktop.sh",
         "scripts/configure.sh",
+        "scripts/install_desktop.sh",
         "scripts/install_guest_additions.sh",
-        "scripts/install_essentials.sh"
+        "scripts/install_software.sh",
+        "scripts/cleanup.sh"
       ]
     },
     {
       "type": "shell",
-      "inline": ["curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash"]
+      "environment_vars": ["SSH_PASSWORD={{ user `ssh_pass` }}"],
+      "script": "scripts/install_software_no_sudo.sh"
     }
   ],
   "post-processors": [
     {
       "type": "vagrant",
-      "include": ["share/snippets.cson"],
       "output": "box/{{ user `org_name` }}.box",
       "vagrantfile_template": "Vagrantfile.template",
       "keep_input_artifact": false
