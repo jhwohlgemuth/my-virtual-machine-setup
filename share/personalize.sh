@@ -17,4 +17,6 @@ curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh
 echo "Setting terminal theme...................."$(date '+%T')
 sed -i '/ZSH_THEME/c ZSH_THEME="agnoster"' ~/.zshrc
 sed -i '/plugins=(/c plugins=(git git-extras npm encode64 jsontools web-search wd)' ~/.zshrc
+echo "export NVM_DIR=/home/vagrant/.nvm" >> ~/.zshrc
+echo "[ -s '$NVM_DIR/nvm.sh' ] && . '$NVM_DIR/nvm.sh'" >> ~/.zshrc
 echo $SSH_PASSWORD | sudo -S chsh -s $(which zsh) $(whoami)
