@@ -8,7 +8,7 @@
     "ssh_name": "vagrant",
     "ssh_pass": "vagrant",
     "hostname": "home",
-    "update": "true"
+    "update": "yes"
   },
   "builders": [
     {
@@ -59,7 +59,8 @@
       "type": "shell",
       "environment_vars": [
         "SSH_USERNAME={{ user `ssh_name` }}",
-        "SSH_PASSWORD={{ user `ssh_pass` }}"
+        "SSH_PASSWORD={{ user `ssh_pass` }}",
+        "UPDATE={{ user `update` }}"
       ],
       "execute_command": "echo '{{ user `ssh_pass` }}' | {{ .Vars }} sudo -E -S bash '{{ .Path }}'",
       "scripts": [

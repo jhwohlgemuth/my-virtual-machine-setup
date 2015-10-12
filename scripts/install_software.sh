@@ -12,7 +12,7 @@ echo "Installing Pandoc................"$(date '+%T')
 apt-get install -y texlive texlive-latex-extra pandoc >/dev/null 2>&1
 
 echo "Installing Atom editor..........."$(date '+%T')
-add-apt-repository -y ppa:webupd8team/atom
+add-apt-repository -y ppa:webupd8team/atom >/dev/null 2>&1
 apt-get update >/dev/null 2>&1
 apt-get install -y atom >/dev/null 2>&1
 
