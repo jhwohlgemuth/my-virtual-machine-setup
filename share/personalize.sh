@@ -22,6 +22,4 @@ nvm alias default stable
 npm install -g npm
 npm install -g grunt-cli phantomjs casperjs yo flow-bin ijavascript
 
-echo "All Done!"
-sleep 5
-exit
+toilet -f pagga -F border --gay All Done!

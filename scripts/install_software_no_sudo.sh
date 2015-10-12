@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 echo "Installing nvm..................."$(date '+%T')
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash >/dev/null 2>&1
 
 echo "Installing Atom plugins.........."$(date '+%T')
 apm install file-icons sublime-block-comment atom-beautify

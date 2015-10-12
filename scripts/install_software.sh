@@ -18,9 +18,12 @@ apt-get install -y atom >/dev/null 2>&1
 
 echo "Installing miscellaneous items..."$(date '+%T')
 apt-get install -y libzmq3-dev python-pip python-dev >/dev/null 2>&1
-#apt-get install -y libblas-dev libatlas-base-dev liblapack-dev gfortran libfreetype6-dev libpng-dev >/dev/null 2>&1
+apt-get install -y libblas-dev libatlas-base-dev liblapack-dev gfortran libfreetype6-dev libpng-dev >/dev/null 2>&1
 pip install --upgrade pip
 pip install --upgrade virtualenv
 pip install ipython[notebook] >/dev/null 2>&1
-#pip install numpy sympy matplotlib scipy pandas reportlab >/dev/null 2>&1
 apt-get install -y figlet toilet >/dev/null 2>&1
+
+#if [[ $INSTALL_FOO  =~ yes ]]; then
+#    echo "boot"
+#fi

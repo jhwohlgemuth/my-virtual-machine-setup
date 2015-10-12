@@ -20,7 +20,7 @@ Vagrant.configure(2) do |config|
     config.vm.network "forwarded_port", guest: 27017, host: 27017 #mongodb
 
     config.vm.provider "virtualbox" do |vb|
-        #vb.name = "techtonic-env-" + Time.now.to_i.to_s
+        vb.name = "techtonic-env-" + Time.now.to_i.to_s
         vb.gui = true
         vb.cpus = 4
         vb.memory = 8192
