@@ -2,9 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-    config.vm.define "techtonic"
     config.vm.box = "ubuntu-1404-server-desktop"
-
     config.vm.provider :virtualbox do |vb, override|
         vb.gui = true
         vb.customize ["modifyvm", :id, "--pae", "on"]

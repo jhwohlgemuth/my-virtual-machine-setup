@@ -22,4 +22,8 @@ nvm alias default stable
 npm install -g npm
 npm install -g grunt-cli phantomjs casperjs yo flow-bin ijavascript
 
-toilet -f pagga -F border --gay All Done!
+if type toilet >/dev/null 2>&1; then
+    toilet -f pagga -F border --gay All Done!
+else
+    echo "All Done!"
+fi

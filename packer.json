@@ -8,7 +8,7 @@
     "ssh_name": "vagrant",
     "ssh_pass": "vagrant",
     "hostname": "home",
-    "update": "yes"
+    "update": "no"
   },
   "builders": [
     {

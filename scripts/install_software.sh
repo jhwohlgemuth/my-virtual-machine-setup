@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-apt-get update
+echo "Updating........................."$(date '+%T')
+apt-get update >/dev/null 2>&1
 
 echo "Installing JRE and JDK..........."$(date '+%T')
 #apt-get install -y default-jre default-jdk >/dev/null 2>&1
@@ -16,14 +17,21 @@ add-apt-repository -y ppa:webupd8team/atom >/dev/null 2>&1
 apt-get update >/dev/null 2>&1
 apt-get install -y atom >/dev/null 2>&1
 
-echo "Installing miscellaneous items..."$(date '+%T')
+echo "Installing Python dependencies..."$(date '+%T')
 apt-get install -y libzmq3-dev python-pip python-dev >/dev/null 2>&1
 apt-get install -y libblas-dev libatlas-base-dev liblapack-dev gfortran libfreetype6-dev libpng-dev >/dev/null 2>&1
 pip install --upgrade pip
 pip install --upgrade virtualenv
 pip install ipython[notebook] >/dev/null 2>&1
-apt-get install -y figlet toilet >/dev/null 2>&1
 
-#if [[ $INSTALL_FOO  =~ yes ]]; then
-#    echo "boot"
-#fi
+echo "Adding Julia language PPA........"$(date '+%T')
+apt-get install -y software-properties-common python-software-properties >/dev/null 2>&1
+add-apt-repository -y ppa:staticfloat/juliareleases >/dev/null 2>&1
+add-apt-repository -y ppa:staticfloat/julia-deps >/dev/null 2>&1
+apt-get update >/dev/null 2>&1
+echo "Installing Julia language........"$(date '+%T')
+apt-get install -y julia >/dev/null 2>&1
+julia -e 'Pkg.add("IJulia")' >/dev/null 2>&1
+
+echo "Installing miscellaneous........."$(date '+%T')
+apt-get install -y figlet toilet >/dev/null 2>&1
