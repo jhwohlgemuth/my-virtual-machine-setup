@@ -10,6 +10,9 @@ echo "export NVM_DIR=/home/vagrant/.nvm" >> ~/.zshrc
 echo "[ -s '$NVM_DIR/nvm.sh' ] && . '$NVM_DIR/nvm.sh'" >> ~/.zshrc
 echo $SSH_PASSWORD | sudo -S chsh -s $(which zsh) $(whoami)
 
+echo "Turning on workspaces............"$(date '+%T')
+gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ hsize 2
+
 echo "Turning off screen lock.........."$(date '+%T')
 gsettings set org.gnome.desktop.session idle-delay 0
 gsettings set org.gnome.desktop.screensaver lock-enabled false

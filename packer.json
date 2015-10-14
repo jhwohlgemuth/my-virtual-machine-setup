@@ -64,12 +64,10 @@
       ],
       "execute_command": "echo '{{ user `ssh_pass` }}' | {{ .Vars }} sudo -E -S bash '{{ .Path }}'",
       "scripts": [
-        "scripts/update.sh",
-        "scripts/configure.sh",
+        "scripts/configure_sudo.sh",
         "scripts/install_desktop.sh",
         "scripts/install_guest_additions.sh",
-        "scripts/install_software.sh",
-        "scripts/cleanup.sh"
+        "scripts/install_software.sh"
       ]
     },
     {
