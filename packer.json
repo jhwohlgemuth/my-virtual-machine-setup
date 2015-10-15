@@ -59,15 +59,31 @@
       "type": "shell",
       "environment_vars": [
         "SSH_USERNAME={{ user `ssh_name` }}",
-        "SSH_PASSWORD={{ user `ssh_pass` }}"
+        "SSH_PASSWORD={{ user `ssh_pass` }}",
+        "UPDATE={{ user `update` }}"
       ],
       "execute_command": "echo '{{ user `ssh_pass` }}' | {{ .Vars }} sudo -E -S bash '{{ .Path }}'",
       "scripts": [
         "scripts/update.sh",
         "scripts/install_desktop.sh",
-        "scripts/configure_sudo.sh",
-        "scripts/install_guest_additions.sh"
+        "scripts/install_software.sh",
+        "scripts/install_guest_additions.sh",
+        "scripts/configure_sudo.sh"
       ]
+    },
+    {
+      "type": "shell",
+      "script": "scripts/install_software_no_sudo.sh"
+    },
+    {
+      "type": "file",
+      "source": "share/snippets.cson",
+      "destination": "/home/{{ user `ssh_name` }}/personalize.sh"
+    },
+    {
+      "type": "file",
+      "source": "share/personalize.sh",
+      "destination": "/home/{{ user `ssh_name` }}/.atom/snippets.cson"
     }
   ],
   "post-processors": [
