@@ -73,11 +73,6 @@
     },
     {
       "type": "file",
-      "source": "share/snippets.cson",
-      "destination": "/home/{{ user `ssh_name` }}/personalize.sh"
-    },
-    {
-      "type": "file",
       "source": "share/personalize.sh",
       "destination": "/home/{{ user `ssh_name` }}/.atom/snippets.cson"
     }
