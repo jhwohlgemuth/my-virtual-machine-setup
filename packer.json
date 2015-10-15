@@ -8,7 +8,7 @@
     "ssh_name": "vagrant",
     "ssh_pass": "vagrant",
     "hostname": "home",
-    "update": "no"
+    "update": "yes"
   },
   "builders": [
     {
@@ -59,39 +59,22 @@
       "type": "shell",
       "environment_vars": [
         "SSH_USERNAME={{ user `ssh_name` }}",
-        "SSH_PASSWORD={{ user `ssh_pass` }}",
-        "UPDATE={{ user `update` }}"
+        "SSH_PASSWORD={{ user `ssh_pass` }}"
       ],
       "execute_command": "echo '{{ user `ssh_pass` }}' | {{ .Vars }} sudo -E -S bash '{{ .Path }}'",
       "scripts": [
-        "scripts/configure_sudo.sh",
+        "scripts/update.sh",
         "scripts/install_desktop.sh",
-        "scripts/install_guest_additions.sh",
-        "scripts/install_software.sh"
+        "scripts/configure_sudo.sh",
+        "scripts/install_guest_additions.sh"
       ]
-    },
-    {
-      "type": "shell",
-      "environment_vars": ["SSH_PASSWORD={{ user `ssh_pass` }}"],
-      "script": "scripts/install_software_no_sudo.sh"
-    },
-    {
-      "type": "file",
-      "source": "share/snippets.cson",
-      "destination": "/home/{{ user `ssh_name` }}/.atom/snippets.cson"
-    },
-    {
-      "type": "file",
-      "source": "share/personalize.sh",
-      "destination": "/home/{{ user `ssh_name` }}/personalize.sh"
     }
   ],
   "post-processors": [
     {
       "type": "vagrant",
       "output": "box/{{ user `org_name` }}.box",
-      "vagrantfile_template": "Vagrantfile.template",
-      "compression_level": 9
+      "vagrantfile_template": "Vagrantfile.template"
     }
   ]
 }
