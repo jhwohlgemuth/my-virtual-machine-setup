@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 main() {
     update
+    install_desktop
     install_java8
     install_pandoc
     install_atom
     install_python
     #install_julia #<--breaks gnome-session-fallback
     install_redis
-    #install_couchdb
-    #install_mongodb
+    install_couchdb
+    install_mongodb
     #install_jenkins
 }
 
@@ -32,6 +33,26 @@ install_couchdb() {
     sed -i "$lineNumber"'isecure_rewrites = false' /etc/couchdb/local.ini
     lineNumber=$(($(echo $(grep -n '\[couchdb\]' /etc/couchdb/local.ini) | awk -F':' '{print $1}')+1))
     sed -i "$lineNumber"'idelayed_commits = false' /etc/couchdb/local.ini
+}
+
+install_desktop() {
+    log "Installing desktop"
+    SSH_USER=${SSH_USERNAME:-vagrant}
+    USERNAME=${SSH_USER}
+    LIGHTDM_CONFIG=/etc/lightdm/lightdm.conf
+    GDM_CUSTOM_CONFIG=/etc/gdm/custom.conf
+    apt-get install -y --no-install-recommends ubuntu-desktop >/dev/null 2>&1
+    apt-get install -y gnome-terminal overlay-scrollbar gnome-session-fallback >/dev/null 2>&1
+    apt-get install -y firefox chromium-browser indicator-multiload >/dev/null 2>&1
+    apt-get install -y figlet toilet >/dev/null 2>&1
+    mkdir -p $(dirname ${GDM_CUSTOM_CONFIG})
+    echo "[daemon]" >> $GDM_CUSTOM_CONFIG
+    echo "# Enabling automatic login" >> $GDM_CUSTOM_CONFIG
+    echo "AutomaticLoginEnable=True" >> $GDM_CUSTOM_CONFIG
+    echo "AutomaticLoginEnable=${USERNAME}" >> $GDM_CUSTOM_CONFIG
+    echo "==> Configuring lightdm autologin"
+    echo "[SeatDefaults]" >> $LIGHTDM_CONFIG
+    echo "autologin-user=${USERNAME}" >> $LIGHTDM_CONFIG
 }
 
 install_java8() {

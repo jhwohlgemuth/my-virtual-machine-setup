@@ -1,10 +1,5 @@
 #!/bin/bash -eux
-
 SSH_USER=${SSH_USERNAME:-vagrant}
-
-CLEANUP_PAUSE=${CLEANUP_PAUSE:-0}
-echo "==> Pausing for ${CLEANUP_PAUSE} seconds..."
-sleep ${CLEANUP_PAUSE}
 
 # Make sure udev does not block our network - http://6.ptmc.org/?p=164
 echo "==> Cleaning up udev rules"
@@ -28,12 +23,12 @@ echo "==> Cleaning up tmp"
 rm -rf /tmp/*
 
 # Cleanup apt cache
-apt-get -y autoremove --purge
-apt-get -y clean
-apt-get -y autoclean
+apt-get -y autoremove --purge >/dev/null 2>&1
+apt-get -y clean >/dev/null 2>&1
+apt-get -y autoclean >/dev/null 2>&1
 
 echo "==> Installed packages"
-dpkg --get-selections | grep -v deinstall
+dpkg --get-selections | grep -v deinstall >/dev/null 2>&1
 
 # Remove Bash history
 unset HISTFILE
@@ -51,19 +46,19 @@ echo "==> Clearing last login information"
 # Whiteout root
 count=$(df --sync -kP / | tail -n1  | awk -F ' ' '{print $4}')
 let count--
-dd if=/dev/zero of=/tmp/whitespace bs=1024 count=$count
+dd if=/dev/zero of=/tmp/whitespace bs=1024 count=$count >/dev/null 2>&1
 rm /tmp/whitespace
 
 # Whiteout /boot
 count=$(df --sync -kP /boot | tail -n1 | awk -F ' ' '{print $4}')
 let count--
-dd if=/dev/zero of=/boot/whitespace bs=1024 count=$count
+dd if=/dev/zero of=/boot/whitespace bs=1024 count=$count >/dev/null 2>&1
 rm /boot/whitespace
 
 # Zero out the free space to save space in the final image
-dd if=/dev/zero of=/EMPTY bs=1M
+dd if=/dev/zero of=/EMPTY bs=1M >/dev/null 2>&1
 rm -f /EMPTY
 
 # Make sure we wait until all the data is written to disk, otherwise
 # Packer might quite too early before the large files are deleted
-sync
+sync >/dev/null 2>&1

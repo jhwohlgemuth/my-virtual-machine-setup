@@ -5,7 +5,7 @@ USERNAME=${SSH_USER}
 LIGHTDM_CONFIG=/etc/lightdm/lightdm.conf
 GDM_CUSTOM_CONFIG=/etc/gdm/custom.conf
 echo "Installing desktop................"$(TZ=":US/$TIMEZONE" date +%T)
-apt-get install --no-install-recommends -y ubuntu-desktop >/dev/null 2>&1
+apt-get install -y --no-install-recommends ubuntu-desktop >/dev/null 2>&1
 apt-get install -y gnome-terminal overlay-scrollbar gnome-session-fallback >/dev/null 2>&1
 apt-get install -y firefox chromium-browser indicator-multiload >/dev/null 2>&1
 apt-get install -y figlet toilet >/dev/null 2>&1
