@@ -1,37 +1,157 @@
 #!/usr/bin/env bash
-echo "Updating........................."$(date '+%T')
-apt-get update >/dev/null 2>&1
+main() {
+    update
+    install_java8
+    install_pandoc
+    install_atom
+    install_python
+    #install_julia #<--breaks gnome-session-fallback
+    install_redis
+    #install_couchdb
+    #install_mongodb
+    #install_jenkins
+}
 
-echo "Installing JRE and JDK..........."$(date '+%T')
-#apt-get install -y default-jre default-jdk >/dev/null 2>&1
-echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
-add-apt-repository -y ppa:webupd8team/java >/dev/null 2>&1
-apt-get update >/dev/null 2>&1
-apt-get install -y oracle-java8-installer >/dev/null 2>&1
+install_atom() {
+    log "Installing Atom editor"
+    add-apt-repository -y ppa:webupd8team/atom >/dev/null 2>&1
+    apt-get update >/dev/null 2>&1
+    apt-get install -y atom >/dev/null 2>&1
+}
 
-echo "Installing Pandoc................"$(date '+%T')
-#apt-get install -y texlive texlive-latex-extra pandoc >/dev/null 2>&1
+install_couchdb() {
+    log "Installing CouchDB"
+    apt-get install -y curl >/dev/null 2>&1
+    apt-get install -y couchdb >/dev/null 2>&1
+    sed -i '/;port/c port = 5984' /etc/couchdb/local.ini
+    sed -i '/;bind_address/c bind_address = 0.0.0.0' /etc/couchdb/local.ini
+    lineNumber=$(($(echo $(grep -n '\[couch_httpd_auth\]' /etc/couchdb/local.ini) | awk -F':' '{print $1}')+1))
+    sed -i "$lineNumber"'ipublic_fields = appdotnet, avatar, avatarMedium, avatarLarge, date, email, fields, freenode, fullname, github, homepage, name, roles, twitter, type, _id, _rev' /etc/couchdb/local.ini
+    sed -i "$(($lineNumber+1))"'iusers_db_public = true' /etc/couchdb/local.ini
+    lineNumber=$(($(echo $(grep -n '\[httpd\]' /etc/couchdb/local.ini) | awk -F':' '{print $1}')+1))
+    sed -i "$lineNumber"'isecure_rewrites = false' /etc/couchdb/local.ini
+    lineNumber=$(($(echo $(grep -n '\[couchdb\]' /etc/couchdb/local.ini) | awk -F':' '{print $1}')+1))
+    sed -i "$lineNumber"'idelayed_commits = false' /etc/couchdb/local.ini
+}
 
-echo "Installing Atom editor..........."$(date '+%T')
-add-apt-repository -y ppa:webupd8team/atom >/dev/null 2>&1
-apt-get update >/dev/null 2>&1
-apt-get install -y atom >/dev/null 2>&1
+install_java8() {
+    log "Installing JRE and JDK"
+    echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
+    add-apt-repository -y ppa:webupd8team/java >/dev/null 2>&1
+    apt-get update >/dev/null 2>&1
+    apt-get install -y oracle-java8-installer >/dev/null 2>&1
+}
 
-echo "Installing Python dependencies..."$(date '+%T')
-apt-get install -y libzmq3-dev python-pip python-dev >/dev/null 2>&1
-apt-get install -y libblas-dev libatlas-base-dev liblapack-dev gfortran libfreetype6-dev libpng-dev >/dev/null 2>&1
-pip install --upgrade pip
-pip install --upgrade virtualenv
-pip install ipython[notebook] >/dev/null 2>&1
+install_jenkins() {
+    # Jenkins will be launched as a daemon up on start.
+    # See /etc/init.d/jenkins for more details.
+    # The 'jenkins' user is created to run this service.
+    # Log file will be placed in /var/log/jenkins/jenkins.log.
+    # Check this file if you are troubleshooting Jenkins.
+    # /etc/default/jenkins will capture configuration parameters for the launch like e.g JENKINS_HOME
+    log "Preparing to install Jenkins"
+    wget -q -O - https://jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add - >/dev/null 2>&1
+    sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list' >/dev/null 2>&1
+    apt-get update >/dev/null 2>&1
+    log "Installing Jenkins"
+    apt-get install -y jenkins >/dev/null 2>&1
+}
 
-echo "Adding Julia language PPA........"$(date '+%T')
-#apt-get install -y software-properties-common python-software-properties >/dev/null 2>&1
-#add-apt-repository -y ppa:staticfloat/juliareleases >/dev/null 2>&1
-#add-apt-repository -y ppa:staticfloat/julia-deps >/dev/null 2>&1
-#apt-get update >/dev/null 2>&1
-echo "Installing Julia language........"$(date '+%T')
-#apt-get install -y julia >/dev/null 2>&1
-#julia -e 'Pkg.add("IJulia")' >/dev/null 2>&1
+install_julia() {
+    log "Adding Julia language PPA"
+    apt-get install -y software-properties-common python-software-properties >/dev/null 2>&1
+    add-apt-repository -y ppa:staticfloat/juliareleases >/dev/null 2>&1
+    add-apt-repository -y ppa:staticfloat/julia-deps >/dev/null 2>&1
+    apt-get update >/dev/null 2>&1
+    log "Installing Julia language"
+    apt-get install -y julia >/dev/null 2>&1
+    julia -e 'Pkg.add("IJulia")' >/dev/null 2>&1
+}
 
-echo "Installing miscellaneous........."$(date '+%T')
-apt-get install -y figlet toilet >/dev/null 2>&1
+install_lamp() {
+    log "Installing LAMP stack"
+    apt-get update >/dev/null 2>&1
+    debconf-set-selections <<< 'mysql-server mysql-server/root_password password 123'
+    debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password 123'
+    apt-get -y install lamp-server^ >/dev/null 2>&1
+    log "Creating symlink to /var/www"
+    rm -rf /var/www
+    ln -fs /vagrant /var/www
+    a2enmod rewrite >/dev/null 2>&1
+    sed -i '/AllowOverride None/c AllowOverride All' /etc/apache2/sites-available/default >/dev/null 2>&1
+    service apache2 restart >/dev/null 2>&1
+    # Fix 'Servername error'
+    #echo "ServerName localhost" | sudo tee /etc/apache2/conf.d/fqdn >/dev/null 2>&1
+    # Restart apache
+    service apache2 reload >/dev/null 2>&1
+}
+
+install_mesa() {
+    log "Installing mesa"
+    apt-add-repository ppa:xorg-edgers >/dev/null 2>&1
+    apt-get update >/dev/null 2>&1
+    apt-get install libdrm-dev >/dev/null 2>&1
+    apt-get build-dep mesa >/dev/null 2>&1
+    wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key|sudo apt-key add -
+    apt-get install -y clang-3.6 clang-3.6-doc libclang-common-3.6-dev >/dev/null 2>&1
+    apt-get install -y libclang-3.6-dev libclang1-3.6 libclang1-3.6-dbg >/dev/null 2>&1
+    apt-get install -y libllvm-3.6-ocaml-dev libllvm3.6 libllvm3.6-dbg >/dev/null 2>&1
+    apt-get install -y lldb-3.6 llvm-3.6 llvm-3.6-dev llvm-3.6-doc >/dev/null 2>&1
+    apt-get install -y llvm-3.6-examples llvm-3.6-runtime clang-modernize-3.6 >/dev/null 2>&1
+    apt-get install -y clang-format-3.6 python-clang-3.6 lldb-3.6-dev >/dev/null 2>&1
+    apt-get install -y libx11-xcb-dev libx11-xcb1 libxcb-glx0-dev libxcb-dri2-0-dev >/dev/null 2>&1
+    apt-get install -y libxcb-dri3-dev libxshmfence-dev libxcb-sync-dev llvm >/dev/null 2>&1
+}
+
+install_mongodb() {
+    log "Installing MongoDB"
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10 >/dev/null 2>&1
+    echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list >/dev/null 2>&1
+    apt-get update >/dev/null 2>&1
+    apt-get install -y mongodb-org >/dev/null 2>&1
+    # Change config file to allow external connections
+    sed -i '/bind_ip/c # bind_ip = 127.0.0.1' /etc/mongod.conf >/dev/null 2>&1
+    # Change default port to 8000
+    #sudo sed -i '/#port/c port = 8000' /etc/mongod.conf >/dev/null 2>&1
+    service mongod restart >/dev/null 2>&1
+}
+
+install_pandoc() {
+    log "Installing Pandoc"
+    apt-get install -y texlive texlive-latex-extra pandoc >/dev/null 2>&1
+}
+
+install_python() {
+    log "Installing Python"
+    apt-get install -y libzmq3-dev python-pip python-dev >/dev/null 2>&1
+    apt-get install -y libblas-dev libatlas-base-dev liblapack-dev gfortran libfreetype6-dev libpng-dev >/dev/null 2>&1
+    pip install --upgrade pip
+    pip install --upgrade virtualenv
+    pip install ipython[notebook] >/dev/null 2>&1
+}
+
+install_redis() {
+    log "Installing redis"
+    apt-get install -y redis-server >/dev/null 2>&1
+    #Configure redis-server to accept remote connections
+    sed -i 's/bind 127.0.0.1/bind 0.0.0.0/' /etc/redis/redis.conf
+    service redis-server restart >/dev/null 2>&1
+}
+
+update() {
+    log "Updating"
+    apt-get update >/dev/null 2>&1
+}
+
+log() {
+    TIMEZONE=Central
+    MAXLEN=35
+    MSG=$1
+    for i in $(seq ${#MSG} $MAXLEN)
+    do
+        MSG=$MSG.
+    done
+    echo $MSG$(TZ=":US/$TIMEZONE" date +%T)
+}
+
+main
