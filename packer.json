@@ -90,7 +90,8 @@
     {
       "type": "vagrant",
       "output": "box/{{ user `org_name` }}.box",
-      "vagrantfile_template": "Vagrantfile.template"
+      "vagrantfile_template": "Vagrantfile.template",
+      "compression_level": 9
     }
   ]
 }

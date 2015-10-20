@@ -10,6 +10,7 @@ main() {
     install_redis
     install_couchdb
     install_mongodb
+    #install_lamp
     #install_jenkins
 }
 
@@ -101,9 +102,8 @@ install_lamp() {
     a2enmod rewrite >/dev/null 2>&1
     sed -i '/AllowOverride None/c AllowOverride All' /etc/apache2/sites-available/default >/dev/null 2>&1
     service apache2 restart >/dev/null 2>&1
-    # Fix 'Servername error'
+    #Fix 'Servername error'
     #echo "ServerName localhost" | sudo tee /etc/apache2/conf.d/fqdn >/dev/null 2>&1
-    # Restart apache
     service apache2 reload >/dev/null 2>&1
 }
 
