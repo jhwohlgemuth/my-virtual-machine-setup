@@ -82,6 +82,11 @@
     },
     {
       "type": "file",
+      "source": "share/ssh_config",
+      "destination": "/home/{{ user `ssh_name` }}/.ssh/config"
+    },
+    {
+      "type": "file",
       "source": "share/snippets.cson",
       "destination": "/home/{{ user `ssh_name` }}/.atom/snippets.cson"
     }

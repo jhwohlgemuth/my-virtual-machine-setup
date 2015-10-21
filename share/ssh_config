@@ -1,0 +1,10 @@
+Host me
+    Hostname github.com
+    User git
+    IdentityFile ~/.ssh/id_rsa
+
+#Default settings
+Host github.com
+    Hostname github.com
+    User git
+    IdentityFile ~/.ssh/id_rsa
