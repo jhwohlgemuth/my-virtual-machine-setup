@@ -3,7 +3,7 @@ module.exports = function(grunt) {
     'use strict';
     require('load-grunt-tasks')(grunt); //Plugin for loading external task files
     grunt.initConfig({
-        encryptedDirectory: 'share',
+        encryptedDirectory: 'vault',
         encryptedExtension: '.protected',
 
         /**

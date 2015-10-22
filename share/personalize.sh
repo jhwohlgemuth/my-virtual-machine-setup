@@ -23,6 +23,7 @@ echo "Installing node & node modules...."$(TZ=":US/$TIMEZONE" date +%T)
 nvm install stable && nvm alias default stable
 npm install -g npm
 npm install -g grunt-cli phantomjs casperjs yo flow-bin ijavascript
+npm install -g sinopia && npm set registry http://localhost:4873/
 
 if type toilet >/dev/null 2>&1; then
     toilet -f pagga -F border --gay All Done!
