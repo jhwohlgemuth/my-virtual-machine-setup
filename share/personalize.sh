@@ -24,11 +24,6 @@ nvm install stable && nvm alias default stable
 npm install -g npm
 npm install -g grunt-cli phantomjs casperjs yo flow-bin ijavascript
 
-if type julia >/dev/null 2>&1; then
-    echo "Installing IJulia................."$(TZ=":US/$TIMEZONE" date +%T)
-    julia -e 'Pkg.add("IJulia")' >/dev/null 2>&1
-fi
-
 if type toilet >/dev/null 2>&1; then
     toilet -f pagga -F border --gay All Done!
 else

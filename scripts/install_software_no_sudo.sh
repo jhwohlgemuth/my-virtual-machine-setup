@@ -5,8 +5,13 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | b
 
 echo "Installing Atom plugins..........."$(TZ=":US/$TIMEZONE" date +%T)
 apm install file-icons sublime-block-comment atom-beautify
-apm install minimap minimap-codeglance minimap-selection minimap-find-and-replace
+apm install minimap minimap-codeglance minimap-selection minimap-find-and-replace minimap-git-diff
 apm install hydrogen nuclide-installer
+
+if type julia >/dev/null 2>&1; then
+    echo "Installing IJulia................."$(TZ=":US/$TIMEZONE" date +%T)
+    julia -e 'Pkg.add("IJulia")' >/dev/null 2>&1
+fi
 
 echo "Patching agnoster theme fonts....."$(TZ=":US/$TIMEZONE" date +%T)
 wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf >/dev/null 2>&1

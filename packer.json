@@ -77,7 +77,7 @@
     },
     {
       "type": "file",
-      "source": "scripts/personalize.sh",
+      "source": "share/personalize.sh",
       "destination": "/home/{{ user `ssh_name` }}/personalize.sh"
     },
     {
