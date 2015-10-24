@@ -28,5 +28,6 @@ Vagrant.configure(2) do |config|
         vb.cpus = 4
         vb.memory = 8192
         vb.customize ["modifyvm", :id, "--monitorcount", "1"]
+        vb.customize ["setextradata", "global", "GUI/Customizations", "noMenuBar"]
     end
 end

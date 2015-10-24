@@ -1,7 +1,11 @@
 #!/bin/bash -eux
-TIMEZONE=Central
+#This line makes the script work on POSIX systems even if edited on Windows
+sed -i 's/\r//' fun.sh
+#Source install functions
+. ./fun.sh
+
 SSH_USER=${SSH_USERNAME:-vagrant}
-echo "Installing guest additions......."$(TZ=":US/$TIMEZONE" date +%T)
+log "Installing guest additions"
 VBOX_VERSION=$(cat /home/${SSH_USER}/.vbox_version)
 mount -o loop /home/${SSH_USER}/VBoxGuestAdditions_$VBOX_VERSION.iso /mnt >/dev/null 2>&1
 sh /mnt/VBoxLinuxAdditions.run >/dev/null 2>&1
