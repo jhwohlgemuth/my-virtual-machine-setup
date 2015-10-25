@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
-#This line makes the script work on POSIX systems even if edited on Windows
-sed -i 's/\r//' fun.sh
 #Source install functions
-. ./fun.sh
+. ./functions.sh
 
 log "Installing nvm"
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash >/dev/null 2>&1
@@ -25,3 +23,14 @@ mkdir -p ~/.config/fontconfig/conf.d/
 mv PowerlineSymbols.otf ~/.fonts/
 fc-cache -vf ~/.fonts/ >/dev/null 2>&1
 mv 10-powerline-symbols.conf ~/.config/fontconfig/conf.d/
+
+SCRIPT_FOLDER=.${ORG_NAME:-techtonic}
+mkdir -p ~/${SCRIPT_FOLDER}
+if [[ -e functions.sh ]] ; then ; mv functions.sh ~/${SCRIPT_FOLDER} ; fi
+if [[ -e setup.sh ]] ; then ; mv setup.sh ~/${SCRIPT_FOLDER} ; fi
+if [[ -e config ]] ; then ; mv config ~/.ssh ; fi
+if type atom >/dev/null 2>&1 ; then
+    mv snippets.cson ~/.atom
+else
+    mv snippets.cson ~/${SCRIPT_FOLDER}
+fi

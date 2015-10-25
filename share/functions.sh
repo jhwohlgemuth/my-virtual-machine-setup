@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
+check_sudo() {
+    if [[ $(whoami) != root ]]; then
+        echo "root privileges are required!"
+        echo "use sudo -s before sourcing functions.sh and try again as root"
+        exit 0
+    fi
+}
+
 install_atom() {
     log "Installing Atom editor"
     add-apt-repository -y ppa:webupd8team/atom >/dev/null 2>&1
@@ -140,4 +148,9 @@ log() {
         MSG=$MSG.
     done
     echo $MSG$(TZ=":US/$TIMEZONE" date +%T)
+}
+
+fix_ssh_key_permissions() {
+    chmod 600 ~/.ssh/id_rsa
+    chmod 600 ~/.ssh/id_rsa.pub
 }

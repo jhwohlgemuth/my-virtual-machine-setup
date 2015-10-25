@@ -57,18 +57,35 @@
   "provisioners": [
     {
       "type": "file",
-      "source": "share/fun.sh",
-      "destination": "fun.sh"
+      "source": "share/functions.sh",
+      "destination": "functions.sh"
+    },
+    {
+      "type": "file",
+      "source": "share/snippets.cson",
+      "destination": "snippets.cson"
+    },
+    {
+      "type": "file",
+      "source": "share/ssh_config",
+      "destination": "config"
+    },
+    {
+      "type": "file",
+      "source": "share/setup.sh",
+      "destination": "setup.sh"
     },
     {
       "type": "shell",
       "environment_vars": [
+        "UPDATE={{ user `update` }}",
+        "ORG_NAME={{ user `org_name` }}",
         "SSH_USERNAME={{ user `ssh_name` }}",
-        "SSH_PASSWORD={{ user `ssh_pass` }}",
-        "UPDATE={{ user `update` }}"
+        "SSH_PASSWORD={{ user `ssh_pass` }}"
       ],
       "execute_command": "echo '{{ user `ssh_pass` }}' | {{ .Vars }} sudo -E -S bash '{{ .Path }}'",
       "scripts": [
+        "scripts/update.sh",
         "scripts/install_software.sh",
         "scripts/install_guest_additions.sh",
         "scripts/configure_sudo.sh",
@@ -78,41 +95,6 @@
     {
       "type": "shell",
       "script": "scripts/install_software_no_sudo.sh"
-    },
-    {
-      "type": "file",
-      "source": "share/personalize.sh",
-      "destination": "/home/{{ user `ssh_name` }}/personalize.sh"
-    },
-    {
-      "type": "file",
-      "source": "share/personalize.sh",
-      "destination": "/home/{{ user `ssh_name` }}/{{ user `org_name` }}/personalize.sh"
-    },
-    {
-      "type": "file",
-      "source": "share/fun.sh",
-      "destination": "/home/{{ user `ssh_name` }}/fun.sh"
-    },
-    {
-      "type": "file",
-      "source": "share/fun.sh",
-      "destination": "/opt/bin/fun.sh"
-    },
-    {
-      "type": "file",
-      "source": "share/fun.sh",
-      "destination": "/opt/bin/{{ user `org_name` }}/fun.sh"
-    },
-    {
-      "type": "file",
-      "source": "share/ssh_config",
-      "destination": "/home/{{ user `ssh_name` }}/.ssh/config"
-    },
-    {
-      "type": "file",
-      "source": "share/snippets.cson",
-      "destination": "/home/{{ user `ssh_name` }}/.atom/snippets.cson"
     }
   ],
   "post-processors": [

@@ -12,6 +12,7 @@ echo $SSH_PASSWORD | sudo -S chsh -s $(which zsh) $(whoami)
 
 echo "Turning on workspaces (unity)....."$(TZ=":US/$TIMEZONE" date +%T)
 gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ hsize 2
+gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ vsize 2
 
 echo "Turning off screen lock..........."$(TZ=":US/$TIMEZONE" date +%T)
 gsettings set org.gnome.desktop.session idle-delay 0
@@ -22,7 +23,7 @@ echo "Installing node & node modules...."$(TZ=":US/$TIMEZONE" date +%T)
 . ~/.zshrc
 nvm install stable && nvm alias default stable
 npm install -g npm
-npm install -g grunt-cli phantomjs casperjs yo flow-bin ijavascript
+npm install -g grunt-cli phantomjs casperjs yo flow-bin ijavascript vmd
 npm install -g sinopia && npm set registry http://localhost:4873/
 
 if type toilet >/dev/null 2>&1; then

@@ -1,8 +1,9 @@
 #!/bin/bash -eux
-#This line makes the script work on POSIX systems even if edited on Windows
-sed -i 's/\r//' fun.sh
+#Ensure the scripts work on POSIX systems even if edited on Windows
+sed -i 's/\r//' functions.sh
+sed -i 's/\r//' setup.sh
 #Source install functions
-. ./fun.sh
+. ./functions.sh
 
 # Disable the release upgrader
 log "Disabling the release upgrader"

@@ -1,8 +1,6 @@
 #!/bin/bash -eux
-#This line makes the script work on POSIX systems even if edited on Windows
-sed -i 's/\r//' fun.sh
 #Source install functions
-. ./fun.sh
+. ./functions.sh
 
 SSH_USER=${SSH_USERNAME:-vagrant}
 log "Installing guest additions"
