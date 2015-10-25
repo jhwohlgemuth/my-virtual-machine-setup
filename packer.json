@@ -34,7 +34,7 @@
       "guest_os_type": "Ubuntu_64",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "hard_drive_interface": "sata",
-      "headless": true,
+      "headless": false,
       "http_directory": "http",
       "iso_checksum": "{{ user `checksum` }}",
       "iso_checksum_type": "md5",

@@ -22,7 +22,7 @@ gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'
 echo "Installing node & node modules...."$(TZ=":US/$TIMEZONE" date +%T)
 . ~/.zshrc
 nvm install stable && nvm alias default stable
-npm install -g npm
+#npm install -g npm
 npm install -g grunt-cli phantomjs casperjs yo flow-bin ijavascript vmd
 npm install -g sinopia && npm set registry http://localhost:4873/
 
