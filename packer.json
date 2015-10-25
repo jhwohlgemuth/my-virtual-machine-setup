@@ -1,5 +1,6 @@
 {
   "variables": {
+    "update": "yes",
     "org_name": "techtonic",
     "iso_path": "iso",
     "iso_name": "ubuntu-14.04.3-server-amd64.iso",
@@ -7,8 +8,7 @@
     "checksum": "9e5fecc94b3925bededed0fdca1bd417",
     "ssh_name": "vagrant",
     "ssh_pass": "vagrant",
-    "hostname": "home",
-    "update": "yes"
+    "hostname": "home"
   },
   "builders": [
     {
@@ -98,11 +98,23 @@
     }
   ],
   "post-processors": [
-    {
-      "type": "vagrant",
-      "output": "box/{{ user `org_name` }}.box",
-      "vagrantfile_template": "Vagrantfile.template",
-      "compression_level": 9
-    }
+    [
+      {
+        "type": "vagrant",
+        "output": "box/{{ user `org_name` }}.box",
+        "vagrantfile_template": "Vagrantfile.template",
+        "compression_level": 9
+      },
+      {
+        "type": "atlas",
+        "only": ["virtualbox-iso"],
+        "artifact": "jhwohlgemuth/techtonic",
+        "artifact_type": "vagrant.box",
+        "metadata": {
+          "provider": "virtualbox",
+          "version": "0.0.2"
+        }
+      }
+    ]
   ]
 }
