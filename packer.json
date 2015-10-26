@@ -108,11 +108,11 @@
       {
         "type": "atlas",
         "only": ["virtualbox-iso"],
-        "artifact": "jhwohlgemuth/techtonic",
+        "artifact": "techtonic/env",
         "artifact_type": "vagrant.box",
         "metadata": {
           "provider": "virtualbox",
-          "version": "0.0.3"
+          "version": "1.0.0"
         }
       }
     ]

@@ -1,11 +1,11 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-$name = "techtonic"
+$org_name = "techtonic"
 
 Vagrant.configure(2) do |config|
     config.vm.define "techtonic" do |env|
-        env.vm.box = "jhwohlgemuth/techtonic"
+        env.vm.box = "techtonic/env"
         env.vm.hostname = "home"
         env.vm.post_up_message = "All Done!"
     end
@@ -23,7 +23,7 @@ Vagrant.configure(2) do |config|
     config.vm.network "forwarded_port", guest: 27017, host: 27017 #mongodb
     config.vm.network "forwarded_port", guest: 46692, host: 46692, auto_correct: true #custom
     config.vm.provider "virtualbox" do |vb|
-        vb.name = $name + "-env-" + Time.now.to_i.to_s
+        vb.name = $org_name + "-env-" + Time.now.to_i.to_s
         vb.gui = true
         vb.cpus = 4
         vb.memory = 8192
