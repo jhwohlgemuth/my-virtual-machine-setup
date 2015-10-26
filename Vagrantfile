@@ -5,7 +5,7 @@ $name = "techtonic"
 
 Vagrant.configure(2) do |config|
     config.vm.define "techtonic" do |env|
-        env.vm.box = $name
+        env.vm.box = "techtonic/env"
         env.vm.hostname = "home"
         env.vm.post_up_message = "All Done!"
     end
