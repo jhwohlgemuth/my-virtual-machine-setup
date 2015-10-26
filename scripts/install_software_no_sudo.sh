@@ -35,10 +35,6 @@ if [[ -e setup.sh ]]; then
     mv setup.sh ~/${SCRIPT_FOLDER}
 fi
 
-if [[ -e config ]]; then
-    mv config ~/.ssh
-fi
-
 if type atom >/dev/null 2>&1; then
     mv snippets.cson ~/.atom
 else

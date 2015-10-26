@@ -136,10 +136,12 @@ log() {
     echo $MSG$(TZ=":US/$TIMEZONE" date +%T)
 }
 
-create_ssh_keys() {
+setup_github_ssh() {
     PASSPHRASE=${1:-123456}
     KEY_NAME=${2:-id_rsa}
+    echo -n "Generating key pair......"
     ssh-keygen -q -b 4096 -t rsa -N ${PASSPHRASE} -f ~/.ssh/${KEY_NAME}
+    echo "DONE"
     if [[ -e ~/.ssh/${KEY_NAME}.pub ]]; then
         if type xclip >/dev/null 2>&1; then
             cat ~/.ssh/${KEY_NAME}.pub | xclip -sel clip
@@ -147,12 +149,17 @@ create_ssh_keys() {
         else
             cat ~/.ssh/${KEY_NAME}.pub
         fi
+        if [[ -s ~/.ssh/${KEY_NAME} ]]; then
+            echo $'\n#GitHub alias\nHost me\n\tHostname github.com\n\tUser git\n\tIdentityFile ~/.ssh/'${KEY_NAME}$'\n' >> ~/.ssh/config
+            echo "✔ git@me alias added to ~/.ssh/config for ${KEY_NAME}"
+        fi
     else
         echo "Something went wrong, please try again."
     fi
 }
 
 fix_ssh_key_permissions() {
-    chmod 600 ~/.ssh/id_rsa
-    chmod 600 ~/.ssh/id_rsa.pub
+    KEY_NAME=${1:-id_rsa}
+    chmod 600 ~/.ssh/${KEY_NAME}
+    chmod 600 ~/.ssh/${KEY_NAME}.pub
 }

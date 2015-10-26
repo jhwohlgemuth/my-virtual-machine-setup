@@ -67,11 +67,6 @@
     },
     {
       "type": "file",
-      "source": "share/ssh_config",
-      "destination": "config"
-    },
-    {
-      "type": "file",
       "source": "share/setup.sh",
       "destination": "setup.sh"
     },
