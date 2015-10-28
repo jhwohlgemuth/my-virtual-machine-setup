@@ -27,6 +27,7 @@ mkdir path/to/dev/dir && cd path/to/dev/dir
 vagrant init techtonic/env && vagrant up`
 ```
 - After the VM is started, you can find useful files in the `~/.techtonic` directory
+
 > For my personal setup, I run `bash ~/.techtonic/setup.sh`)
 
 `~/.techtonic/setup.sh`:
