@@ -2,8 +2,6 @@
     <a href="http://jhwohlgemuth.github.com/techtonic"><img src="http://images.jhwohlgemuth.com/original/logo/tech/techtonic.png?v=1" alt="techtonic"/></a>
 </div>
 
-Techtonic Environment
-=====================
 > Create development **env**ironments like a pro with Vagrant, VirtualBox, Packer, and Node
 
 Requirements
