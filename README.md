@@ -35,3 +35,7 @@ Create Your Own Vagrant Box with Packer
 Tools, References & Resources
 -----------------------------
 - See wiki page, [Front-end Link Library](https://github.com/jhwohlgemuth/techtonic/wiki/Front-end-Link-Library)
+
+Future
+------
+- See [techtonic Trello board](https://trello.com/b/WEMB9CEL/techtonic)
