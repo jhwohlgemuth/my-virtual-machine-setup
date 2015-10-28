@@ -19,6 +19,7 @@ install_couchdb() {
     sed -i "$lineNumber"'isecure_rewrites = false' /etc/couchdb/local.ini
     lineNumber=$(($(echo $(grep -n '\[couchdb\]' /etc/couchdb/local.ini) | awk -F':' '{print $1}')+1))
     sed -i "$lineNumber"'idelayed_commits = false' /etc/couchdb/local.ini
+    #The default port can be changed by editing /etc/couchdb/local.ini
 }
 
 install_desktop() {
@@ -96,6 +97,7 @@ install_mongodb() {
     # Change default port to 8000
     #sudo sed -i '/#port/c port = 8000' /etc/mongod.conf >/dev/null 2>&1
     service mongod restart >/dev/null 2>&1
+    #The default port can be changed by editing /etc/mongod.conf
 }
 
 install_pandoc() {
@@ -118,6 +120,7 @@ install_redis() {
     #Configure redis-server to accept remote connections
     sed -i 's/bind 127.0.0.1/bind 0.0.0.0/' /etc/redis/redis.conf
     service redis-server restart >/dev/null 2>&1
+    #The default port can be changed by editing /etc/redis/redis.conf
 }
 
 update() {

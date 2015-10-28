@@ -8,18 +8,33 @@ Environment
 
 Requirements
 ------------
-<a href="https://nodejs.org/"><img src="http://images.jhwohlgemuth.com/web/node.png" height="60" alt="Node.js"/></a>
-<a href="https://www.virtualbox.org/wiki/Downloads"><img src="http://images.jhwohlgemuth.com/web/virtualbox.png" height="60" alt="VirtualBox"/></a>
-<a href="https://www.vagrantup.com/"><img src="http://images.jhwohlgemuth.com/web/vagrant.png" height="60" alt="Vagrant"/></a>
 - [Node.js](https://nodejs.org/) is installed
 - [Virtualbox](https://www.virtualbox.org/wiki/Downloads) is installed
 - [Vagrant](https://www.vagrantup.com/) is installed
+- [Packer](https://packer.io/) is installed
 
-> **Tip:** The default port for MongoDB is 27017.  It can be changed by editing `/etc/mongod.conf`.
+Quick Start
+-----------
+- Open up a command prompt (or [Git bash](https://git-scm.com/downloads))
+- Create a new directory with `mkdir dev`
+- Enter the new directory with `cd dev`
+- Initialize a Vagrantfile with `vagrant init techtonic/env`
+- Start the VM with `vagrant up`
+- After the VM is started, you can find useful files in the `~/.techtonic` directory (for my personal setup, I run `bash ~/.techtonic/setup.sh`)
 
-> **Tip** The default port for Redis is 6379.  It can be changed by editing `/etc/redis/redis.conf`.
+`~/.techtonic/setup.sh`:
+- customize your terminal with [oh my zsh](http://ohmyz.sh/) and the [agnoster](https://gist.github.com/agnoster/3712874) theme
+- install node using nvm
+- install useful global node modules
+- install and configure the npm proxy, [sinopia](https://github.com/rlidwka/sinopia)
 
-> **Tip:** The default port for CouchDB is 5984.  It can be changed by editing `/etc/couchdb/local.ini`
+`~/.techtonic/functions.sh`:
+- Source with `sudo -s && . ~/.techtonic/functions.sh`
+- See the [read me](./share/README.md) and [functions.sh](./share/functions.sh) for more details on the available functions.
+
+Create Your Own Vagrant Box with Packer
+---------------------------------------
+> under construction
 
 Tools, References & Resources
 -----------------------------
