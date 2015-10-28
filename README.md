@@ -30,8 +30,6 @@ vagrant init techtonic/env && vagrant up`
 
 > For my personal setup, I run `bash ~/.techtonic/setup.sh`
 
-- See the [read me](./share/README.md) and [functions.sh](./share/functions.sh) for more details on the available functions.
-
 Create Your Own Vagrant Box with Packer
 ---------------------------------------
 > under construction
