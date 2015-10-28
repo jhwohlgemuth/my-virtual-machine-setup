@@ -4,7 +4,7 @@
 
 Environment
 ===========
-> Create development **env**ironments quickly and easily with Vagrant VirtualBox, Packer and Node
+> Create development **env**ironments like a pro with Vagrant, VirtualBox, Packer, and Node
 
 Requirements
 ------------
@@ -15,12 +15,19 @@ Requirements
 
 Quick Start
 -----------
+> **Note**: Internet connection is required
+
 - Open up a command prompt (or [Git bash](https://git-scm.com/downloads))
-- Create a new directory with `mkdir dev`
-- Enter the new directory with `cd dev`
-- Initialize a Vagrantfile with `vagrant init techtonic/env`
-- Start the VM with `vagrant up`
-- After the VM is started, you can find useful files in the `~/.techtonic` directory (for my personal setup, I run `bash ~/.techtonic/setup.sh`)
+- Create and enter a new directory:
+```
+mkdir path/to/dev/dir && cd path/to/dev/dir
+```
+- Initialize a Vagrantfile and start your VM:
+```
+vagrant init techtonic/env && vagrant up`
+```
+- After the VM is started, you can find useful files in the `~/.techtonic` directory
+> For my personal setup, I run `bash ~/.techtonic/setup.sh`)
 
 `~/.techtonic/setup.sh`:
 - customize your terminal with [oh my zsh](http://ohmyz.sh/) and the [agnoster](https://gist.github.com/agnoster/3712874) theme
