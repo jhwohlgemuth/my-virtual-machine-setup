@@ -2,11 +2,10 @@
     <a href="http://jhwohlgemuth.github.com/techtonic"><img src="http://images.jhwohlgemuth.com/original/logo/tech/techtonic.png?v=1" alt="techtonic"/></a>
 </div>
 
-> Create development **env**ironments like a pro with Vagrant, VirtualBox, Packer, and Node
+> Create development **env**ironments like a pro with Vagrant, VirtualBox, & Packer
 
 Requirements
 ------------
-- [Node.js](https://nodejs.org/) is installed
 - [Virtualbox](https://www.virtualbox.org/wiki/Downloads) is installed
 - [Vagrant](https://www.vagrantup.com/) is installed
 - [Packer](https://packer.io/) is installed
@@ -22,7 +21,7 @@ mkdir path/to/dev/dir && cd path/to/dev/dir
 ```
 - Initialize a Vagrantfile and start your VM:
 ```
-vagrant init techtonic/env && vagrant up`
+vagrant init techtonic/env && vagrant up
 ```
 - After the VM is started, you can find useful files in the `~/.techtonic` directory
 
