@@ -42,6 +42,21 @@ install_desktop() {
     echo "autologin-user=${USERNAME}" >> $LIGHTDM_CONFIG
 }
 
+install_docker() {
+    log "Preparing Docker dependencies"
+    apt-get install -y linux-image-generic-lts-trusty linux-headers-generic-lts-trusty xserver-xorg-lts-trusty
+    apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+    echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" >> /etc/apt/sources.list.d/docker.list
+    apt-get update
+    if [[ apt-cache policy docker-engine ]]; then
+        reboot
+        #after reboot
+        log "Installing Docker"
+        apt-get update
+        apt-get install docker-engine
+    fi
+}
+
 install_java8() {
     log "Installing JRE and JDK"
     echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
