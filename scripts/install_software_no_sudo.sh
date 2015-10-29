@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+#Make setup.sh executable
+chmod +x setup.sh
 #Source install functions
 . ./functions.sh
 

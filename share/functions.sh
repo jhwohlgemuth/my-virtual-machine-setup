@@ -30,7 +30,7 @@ install_desktop() {
     GDM_CUSTOM_CONFIG=/etc/gdm/custom.conf
     apt-get install -y --no-install-recommends ubuntu-desktop >/dev/null 2>&1
     apt-get install -y gnome-terminal overlay-scrollbar gnome-session-fallback >/dev/null 2>&1
-    apt-get install -y firefox chromium-browser indicator-multiload xclip >/dev/null 2>&1
+    apt-get install -y firefox chromium-browser ubuntu-restricted-addons indicator-multiload xclip >/dev/null 2>&1
     apt-get install -y figlet toilet >/dev/null 2>&1
     mkdir -p $(dirname ${GDM_CUSTOM_CONFIG})
     echo "[daemon]" >> $GDM_CUSTOM_CONFIG
