@@ -1,14 +1,14 @@
 {
   "variables": {
-    "update": "yes",
     "org_name": "techtonic",
-    "iso_path": "iso",
+    "version": "1.0.3",
     "iso_name": "ubuntu-14.04.3-server-amd64.iso",
     "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04.3-server-amd64.iso",
     "checksum": "9e5fecc94b3925bededed0fdca1bd417",
     "ssh_name": "vagrant",
     "ssh_pass": "vagrant",
-    "hostname": "home"
+    "hostname": "home",
+    "update": "yes"
   },
   "builders": [
     {
@@ -39,7 +39,7 @@
       "iso_checksum": "{{ user `checksum` }}",
       "iso_checksum_type": "md5",
       "iso_urls": [
-        "{{ user `iso_path` }}/{{ user `iso_name` }}",
+        "iso/{{ user `iso_name` }}",
         "{{ user `iso_url` }}"
       ],
       "ssh_username": "{{ user `ssh_name` }}",
@@ -96,7 +96,7 @@
     [
       {
         "type": "vagrant",
-        "output": "box/{{ user `org_name` }}.box",
+        "output": "box/{{ user `org_name` }}.{{ user `version` }}.box",
         "vagrantfile_template": "Vagrantfile.template",
         "compression_level": 9
       },
@@ -107,7 +107,7 @@
         "artifact_type": "vagrant.box",
         "metadata": {
           "provider": "virtualbox",
-          "version": "1.0.2"
+          "version": "{{ user `version` }}"
         }
       }
     ]

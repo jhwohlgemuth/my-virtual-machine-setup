@@ -12,4 +12,5 @@ install_julia
 #install_redis
 #install_couchdb
 #install_mongodb
+#install_docker
 #install_jenkins

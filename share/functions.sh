@@ -44,16 +44,13 @@ install_desktop() {
 
 install_docker() {
     log "Preparing Docker dependencies"
-    apt-get install -y linux-image-generic-lts-trusty linux-headers-generic-lts-trusty xserver-xorg-lts-trusty
-    apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-    echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" >> /etc/apt/sources.list.d/docker.list
-    apt-get update
+    apt-get install -y linux-image-generic-lts-trusty linux-headers-generic-lts-trusty xserver-xorg-lts-trusty >/dev/null 2>&1
+    apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D >/dev/null 2>&1
+    echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" | sudo tee -a /etc/apt/sources.list.d/docker.list >/dev/null 2>&1
+    apt-get update >/dev/null 2>&1
     if [[ apt-cache policy docker-engine ]]; then
-        reboot
-        #after reboot
         log "Installing Docker"
-        apt-get update
-        apt-get install docker-engine
+        apt-get install -y docker-engine
     fi
 }
 
@@ -152,6 +149,31 @@ log() {
         MSG=$MSG.
     done
     echo $MSG$(TZ=":US/$TIMEZONE" date +%T)
+}
+
+create_npmproxy_service() {
+cat << EOF > /etc/init/npmproxy.conf
+description "Sinopia npm Proxy Server"
+author      "Jason Wohlgemuth"
+
+start on filesystem or runlevel [2345]
+stop on shutdown
+
+script
+    export HOME="/srv"
+    echo \$\$ > /var/run/npmproxy.pid
+    ${NVM_BIN}/node ${NVM_BIN}/sinopia
+end script
+
+pre-start script
+    echo "[`date`] Sinopia server STARTED" >> /var/log/npmproxy.log
+end script
+
+pre-stop script
+    rm /var/run/npmproxy.pid
+    echo "[`date`] Sinopia server STOPPED" >> /var/log/npmproxy.log
+end script
+EOF
 }
 
 setup_github_ssh() {

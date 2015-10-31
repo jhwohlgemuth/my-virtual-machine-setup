@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+#Source install functions
+. ./functions.sh
 TIMEZONE=Central
 SSH_PASSWORD=${SSH_PASSWORD:-vagrant}
 echo "Installing Oh-My-Zsh.............."$(TZ=":US/$TIMEZONE" date +%T)
@@ -24,6 +26,7 @@ echo "Installing node & node modules...."$(TZ=":US/$TIMEZONE" date +%T)
 nvm install stable && nvm alias default stable
 npm install -g grunt-cli phantomjs casperjs yo flow-bin ijavascript vmd
 npm install -g sinopia && npm set registry http://localhost:4873/
+echo "[`date`] Sinopia server INSTALLED" > /var/log/npmproxy.log
 
 if type toilet >/dev/null 2>&1; then
     toilet -f pagga -F border --gay All Done!
