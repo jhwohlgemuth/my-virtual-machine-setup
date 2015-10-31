@@ -1,4 +1,35 @@
 #!/usr/bin/env bash
+create_npmproxy_service() {
+cat << EOF > /etc/init/npmproxy.conf
+description "Sinopia npm Proxy Server"
+author      "Jason Wohlgemuth"
+
+start on filesystem or runlevel [2345]
+stop on shutdown
+
+script
+    export HOME="/srv"
+    echo \$\$ > /var/run/npmproxy.pid
+    ${NVM_BIN}/node ${NVM_BIN}/sinopia
+end script
+
+pre-start script
+    echo "[`date`] Sinopia server STARTED" >> /var/log/npmproxy.log
+end script
+
+pre-stop script
+    rm /var/run/npmproxy.pid
+    echo "[`date`] Sinopia server STOPPED" >> /var/log/npmproxy.log
+end script
+EOF
+}
+
+fix_ssh_key_permissions() {
+    KEY_NAME=${1:-id_rsa}
+    chmod 600 ~/.ssh/${KEY_NAME}
+    chmod 600 ~/.ssh/${KEY_NAME}.pub
+}
+
 install_atom() {
     log "Installing Atom editor"
     add-apt-repository -y ppa:webupd8team/atom >/dev/null 2>&1
@@ -135,11 +166,6 @@ install_redis() {
     #The default port can be changed by editing /etc/redis/redis.conf
 }
 
-update() {
-    log "Updating"
-    apt-get update >/dev/null 2>&1
-}
-
 log() {
     TIMEZONE=Central
     MAXLEN=35
@@ -149,31 +175,6 @@ log() {
         MSG=$MSG.
     done
     echo $MSG$(TZ=":US/$TIMEZONE" date +%T)
-}
-
-create_npmproxy_service() {
-cat << EOF > /etc/init/npmproxy.conf
-description "Sinopia npm Proxy Server"
-author      "Jason Wohlgemuth"
-
-start on filesystem or runlevel [2345]
-stop on shutdown
-
-script
-    export HOME="/srv"
-    echo \$\$ > /var/run/npmproxy.pid
-    ${NVM_BIN}/node ${NVM_BIN}/sinopia
-end script
-
-pre-start script
-    echo "[`date`] Sinopia server STARTED" >> /var/log/npmproxy.log
-end script
-
-pre-stop script
-    rm /var/run/npmproxy.pid
-    echo "[`date`] Sinopia server STOPPED" >> /var/log/npmproxy.log
-end script
-EOF
 }
 
 setup_github_ssh() {
@@ -198,8 +199,7 @@ setup_github_ssh() {
     fi
 }
 
-fix_ssh_key_permissions() {
-    KEY_NAME=${1:-id_rsa}
-    chmod 600 ~/.ssh/${KEY_NAME}
-    chmod 600 ~/.ssh/${KEY_NAME}.pub
+update() {
+    log "Updating"
+    apt-get update >/dev/null 2>&1
 }
