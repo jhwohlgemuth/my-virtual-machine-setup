@@ -79,7 +79,7 @@ install_docker() {
     apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D >/dev/null 2>&1
     echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" | sudo tee -a /etc/apt/sources.list.d/docker.list >/dev/null 2>&1
     apt-get update >/dev/null 2>&1
-    if [[ apt-cache policy docker-engine ]]; then
+    if apt-cache policy docker-engine >/dev/null 2>&1; then
         log "Installing Docker"
         apt-get install -y docker-engine
     fi
