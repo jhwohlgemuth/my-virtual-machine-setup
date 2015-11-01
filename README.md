@@ -4,13 +4,28 @@
 
 > Create development **env**ironments like a pro with Vagrant, VirtualBox, & Packer
 
-Minimum Requirements
---------------------
+What?
+-----
+- [Vagrant](https://www.vagrantup.com/) is a [CLI](https://en.wikipedia.org/wiki/Command-line_interface)
+wrapper that provides programmatic access to [VirtualBox](https://www.virtualbox.org) (and other VM providers).
+Vagrant uses packaged environments called [boxes](https://docs.vagrantup.com/v2/boxes.html)
+and allows one to manage, configure, and control virtual environments with code and automation.
+
+- [Packer](https://packer.io/) enables one to _create Vagrant boxes_
+(and [other things](https://packer.io/docs/builders/docker.html))
+via an automated and repeatable process driven by a single [JSON-formatted template file](./packer.json).
+
+> Vagrant and Packer are tools that facilitate applying
+[SOLID](https://scotch.io/bar-talk/s-o-l-i-d-the-first-five-principles-of-object-oriented-design),
+[YAGNI](https://en.wikipedia.org/wiki/You_aren%27t_gonna_need_it),
+[DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)
+practices to the code that you write,
+_and the environments in which the code is written and used_ (spoken:  _" infrastructure and stuff "_).
+
+Requirements
+------------
 - [Virtualbox](https://www.virtualbox.org/wiki/Downloads) is installed
 - [Vagrant](https://www.vagrantup.com/downloads.html) is installed
-- [Git for Windows](https://git-scm.com/downloads) is not _required_, but is very useful
-
-> **Warning:** [Linux syntax](http://linuxcommand.org/lc3_lts0060.php) is used in these instructions
 
 Quick Start
 -----------
@@ -28,12 +43,13 @@ vagrant init techtonic/env && vagrant up
 
 > See the [Vagrant Getting Started guide](https://docs.vagrantup.com/v2/getting-started/index.html) for more information
 
-Customize the` techtonic/env` Box
----------------------------------
+Customize the` techtonic/env` VM
+--------------------------------
 The default `techtonic/env` Vagrant box hosted on [Atlas](https://atlas.hashicorp.com/techtonic/boxes/env),
 includes the `~/.techtonic` directory that has some useful files.
 
 - [`~/.techtonic/setup.sh`](./share/setup.sh) is a collection of tweaks and customizations.
+
 > **usage:**
 ```bash
 #setup.sh is executable and can be run with just:
@@ -41,6 +57,7 @@ includes the `~/.techtonic` directory that has some useful files.
 ```
 
 - [`~/.techtonic/functions.sh`](./share/functions.sh) is a collection of functions for installing and configuring software.
+
 > **usage:**
 ```bash
 #The functions require root privileges
