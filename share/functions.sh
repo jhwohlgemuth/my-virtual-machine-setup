@@ -1,29 +1,4 @@
 #!/usr/bin/env bash
-create_npmproxy_service() {
-cat << EOF > /etc/init/npmproxy.conf
-description "Sinopia npm Proxy Server"
-author      "Jason Wohlgemuth"
-
-start on filesystem or runlevel [2345]
-stop on shutdown
-
-script
-    export HOME="/srv"
-    echo \$\$ > /var/run/npmproxy.pid
-    ${NVM_BIN}/node ${NVM_BIN}/sinopia
-end script
-
-pre-start script
-    echo "[`date`] Sinopia server STARTED" >> /var/log/npmproxy.log
-end script
-
-pre-stop script
-    rm /var/run/npmproxy.pid
-    echo "[`date`] Sinopia server STOPPED" >> /var/log/npmproxy.log
-end script
-EOF
-}
-
 fix_ssh_key_permissions() {
     KEY_NAME=${1:-id_rsa}
     chmod 600 ~/.ssh/${KEY_NAME}
@@ -197,6 +172,35 @@ setup_github_ssh() {
     else
         echo "Something went wrong, please try again."
     fi
+}
+
+setup_npm_proxy() {
+PORT=${1:-4873}
+cat << EOF > /etc/init/npm-proxy.conf
+description "Sinopia NPM Proxy Server"
+author      "Jason Wohlgemuth"
+
+start on filesystem or runlevel [2345]
+stop on shutdown
+
+env HOME=${HOME}
+
+script
+    echo \$\$ > /var/run/npm-proxy.pid
+    ${NVM_BIN}/node ${NVM_BIN}/sinopia
+end script
+
+pre-start script
+    echo "registry = http://localhost:${PORT}/" >> ${HOME}/.npmrc
+    echo "[`date`] Sinopia server STARTED" >> /var/log/npm-proxy.log
+end script
+
+pre-stop script
+    sed -i '/registry =/d' ${HOME}/.npmrc
+    rm /var/run/npm-proxy.pid
+    echo "[`date`] Sinopia server STOPPED" >> /var/log/npm-proxy.log
+end script
+EOF
 }
 
 update() {

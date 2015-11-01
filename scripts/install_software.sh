@@ -5,10 +5,10 @@
 update
 install_desktop
 install_java8
-install_pandoc
-install_atom
 install_python
 install_julia
+install_atom
+#install_pandoc
 #install_redis
 #install_couchdb
 #install_mongodb

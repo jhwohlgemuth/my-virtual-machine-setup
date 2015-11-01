@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-#Source install functions
-. ./functions.sh
 TIMEZONE=Central
 SSH_PASSWORD=${SSH_PASSWORD:-vagrant}
+
 echo "Installing Oh-My-Zsh.............."$(TZ=":US/$TIMEZONE" date +%T)
 curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | bash -s >/dev/null 2>&1
 echo "Setting terminal theme............"$(TZ=":US/$TIMEZONE" date +%T)
@@ -25,8 +24,7 @@ echo "Installing node & node modules...."$(TZ=":US/$TIMEZONE" date +%T)
 . ~/.zshrc
 nvm install stable && nvm alias default stable
 npm install -g grunt-cli phantomjs casperjs yo flow-bin ijavascript vmd
-npm install -g sinopia && npm set registry http://localhost:4873/
-echo "[`date`] Sinopia server INSTALLED" > /var/log/npmproxy.log
+npm install -g sinopia && echo "[`date`] Sinopia server INSTALLED" > /var/log/npm-proxy.log
 
 if type toilet >/dev/null 2>&1; then
     toilet -f pagga -F border --gay All Done!
