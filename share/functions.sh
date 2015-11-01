@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+#Collection of functions for installing and configuring software on Ubuntu
+#Organized alphabetically
 fix_ssh_key_permissions() {
     KEY_NAME=${1:-id_rsa}
     chmod 600 ~/.ssh/${KEY_NAME}
