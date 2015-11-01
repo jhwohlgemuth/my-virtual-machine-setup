@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #Collection of functions for installing and configuring software on Ubuntu
 #Organized alphabetically
+#All functions except setup_github_ssh require root privileges
 fix_ssh_key_permissions() {
     KEY_NAME=${1:-id_rsa}
     chmod 600 ~/.ssh/${KEY_NAME}
@@ -155,6 +156,7 @@ log() {
 }
 
 setup_github_ssh() {
+    #Use WITHOUT root privileges
     PASSPHRASE=${1:-123456}
     KEY_NAME=${2:-id_rsa}
     echo -n "Generating key pair......"
@@ -203,6 +205,7 @@ pre-stop script
     echo "[`date`] Sinopia server STOPPED" >> /var/log/npm-proxy.log
 end script
 EOF
+echo "✔ npm-proxy service installed"
 }
 
 update() {
