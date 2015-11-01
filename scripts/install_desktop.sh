@@ -14,6 +14,5 @@ echo "[daemon]" >> $GDM_CUSTOM_CONFIG
 echo "# Enabling automatic login" >> $GDM_CUSTOM_CONFIG
 echo "AutomaticLoginEnable=True" >> $GDM_CUSTOM_CONFIG
 echo "AutomaticLoginEnable=${USERNAME}" >> $GDM_CUSTOM_CONFIG
-echo "==> Configuring lightdm autologin"
 echo "[SeatDefaults]" >> $LIGHTDM_CONFIG
 echo "autologin-user=${USERNAME}" >> $LIGHTDM_CONFIG

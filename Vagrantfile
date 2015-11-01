@@ -2,15 +2,16 @@
 # vi: set ft=ruby :
 
 $org_name = "techtonic"
+$box_name = "techtonic/env"
+$host_name = "home"
 
-Vagrant.configure(2) do |config|
-    config.vm.define "techtonic" do |env|
-        env.vm.box = "techtonic/env"
-        env.vm.hostname = "home"
+Vagrant.configure("2") do |config|
+    config.vm.define "dev" do |env|
+        env.vm.box = $box_name
+        env.vm.hostname = $host_name
         env.vm.post_up_message = "All Done!"
     end
     config.vm.synced_folder "share", "/home/vagrant/share", create: true
-    config.vm.synced_folder "vault", "/home/vagrant/Documents/vault", create: true
     config.vm.network "forwarded_port", guest: 8000, host: 8000, auto_correct: true
     config.vm.network "forwarded_port", guest: 1337, host: 1337, auto_correct: true   #custom
     config.vm.network "forwarded_port", guest: 4669, host: 4669, auto_correct: true   #custom

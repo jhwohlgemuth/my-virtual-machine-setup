@@ -5,7 +5,7 @@ chmod +x setup.sh
 . ./functions.sh
 
 log "Installing nvm"
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash >/dev/null 2>&1
+curl -so- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash >/dev/null 2>&1
 
 log "Installing Atom plugins"
 apm install file-icons sublime-block-comment atom-beautify >/dev/null 2>&1

@@ -46,7 +46,6 @@ install_desktop() {
     echo "# Enabling automatic login" >> $GDM_CUSTOM_CONFIG
     echo "AutomaticLoginEnable=True" >> $GDM_CUSTOM_CONFIG
     echo "AutomaticLoginEnable=${USERNAME}" >> $GDM_CUSTOM_CONFIG
-    echo "==> Configuring lightdm autologin"
     echo "[SeatDefaults]" >> $LIGHTDM_CONFIG
     echo "autologin-user=${USERNAME}" >> $LIGHTDM_CONFIG
 }
@@ -127,11 +126,11 @@ install_pandoc() {
 }
 
 install_python() {
-    log "Installing Python"
+    log "Installing advanced Python support"
     apt-get install -y libzmq3-dev python-pip python-dev >/dev/null 2>&1
     apt-get install -y libblas-dev libatlas-base-dev liblapack-dev gfortran libfreetype6-dev libpng-dev >/dev/null 2>&1
-    pip install --upgrade pip
-    pip install --upgrade virtualenv
+    pip install --upgrade pip >/dev/null 2>&1
+    pip install --upgrade virtualenv >/dev/null 2>&1
     pip install ipython[notebook] >/dev/null 2>&1
 }
 
