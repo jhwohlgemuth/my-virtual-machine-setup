@@ -10,7 +10,7 @@ Minimum Requirements
 - [Vagrant](https://www.vagrantup.com/downloads.html) is installed
 - [Git for Windows](https://git-scm.com/downloads) is not _required_, but is very useful
 
-> **Warning:** [Linux syntax](http://linuxcommand.org/lc3_lts0060.php) is used in these instructions, use Windows syntax where appropriate.
+> **Warning:** [Linux syntax](http://linuxcommand.org/lc3_lts0060.php) is used in these instructions
 
 Quick Start
 -----------
