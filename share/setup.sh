@@ -23,7 +23,7 @@ gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'
 echo "Installing node & node modules...."$(TZ=":US/$TIMEZONE" date +%T)
 . ~/.zshrc
 nvm install stable && nvm alias default stable
-npm install -g grunt-cli phantomjs casperjs yo flow-bin ijavascript vmd
+npm install -g grunt-cli phantomjs casperjs yo flow-bin nodemon ijavascript vmd
 npm install -g sinopia && echo "[`date`] Sinopia server INSTALLED" > /var/log/npm-proxy.log
 
 if type toilet >/dev/null 2>&1; then
