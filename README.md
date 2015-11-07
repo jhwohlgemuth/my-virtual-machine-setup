@@ -90,6 +90,7 @@ packer build packer.json
 
 Tools, References & Resources
 -----------------------------
+- Post a question on [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jhwohlgemuth/techtonic?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 - See the [techtonic wiki](https://github.com/jhwohlgemuth/techtonic/wiki)
 
 Future
