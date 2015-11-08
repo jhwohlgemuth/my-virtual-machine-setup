@@ -60,7 +60,7 @@ includes the `~/.techtonic` directory that has some useful files.
 
 > **usage:**
 ```bash
-#The functions require root privileges
+#Most functions require root privileges
 sudo -s
 #Source the functions
 . ~/.techtonic/functions.sh
