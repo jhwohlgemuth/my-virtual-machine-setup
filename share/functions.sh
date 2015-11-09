@@ -58,7 +58,7 @@ install_docker() {
     apt-get update >/dev/null 2>&1
     if apt-cache policy docker-engine >/dev/null 2>&1; then
         log "Installing Docker"
-        apt-get install -y docker-engine
+        apt-get install -y docker-engine >/dev/null 2>&1
     fi
 }
 
@@ -151,7 +151,8 @@ log() {
     do
         MSG=$MSG.
     done
-    echo $MSG$(TZ=":US/$TIMEZONE" date +%T)
+    MSG=$MSG$(TZ=":US/$TIMEZONE" date +%T)
+    echo $MSG
 }
 
 setup_github_ssh() {

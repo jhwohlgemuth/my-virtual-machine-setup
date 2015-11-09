@@ -7,6 +7,7 @@ Installed Software:
 - iPython, iJavascript and iJulia kernels
 - Atom IDE with the best plugins
 - Java 8 JRE & JDK
+- Docker
 
 Includes scripts to easily install more software, configure SSH and more.
 

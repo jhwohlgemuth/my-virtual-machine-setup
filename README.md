@@ -2,12 +2,11 @@
     <a href="http://jhwohlgemuth.github.com/techtonic"><img src="http://images.jhwohlgemuth.com/original/logo/tech/techtonic.png?v=1" alt="techtonic"/></a>
 </div>
 
-> Create development **env**ironments like a pro with Vagrant, VirtualBox, & Packer
+> Create development **env**ironments like a pro with Packer, Vagrant, & Docker
 
 What?
 -----
-- [Vagrant](https://www.vagrantup.com/) is a [CLI](https://en.wikipedia.org/wiki/Command-line_interface)
-wrapper that provides programmatic access to [VirtualBox](https://www.virtualbox.org) (and other VM providers).
+- [Vagrant](https://www.vagrantup.com/) is a high-level wrapper API for kernel-based virtual machines (KVM).
 Vagrant uses packaged environments called [boxes](https://docs.vagrantup.com/v2/boxes.html)
 and allows one to manage, configure, and control virtual environments with code and automation.
 
@@ -15,8 +14,13 @@ and allows one to manage, configure, and control virtual environments with code 
 (and [other things](https://packer.io/docs/builders/docker.html))
 via an automated and repeatable process driven by a single [JSON-formatted template file](./packer.json).
 
-> Vagrant and Packer are tools that facilitate applying
+- [Docker](https://www.docker.com/) is to [LXC](https://stackoverflow.com/questions/16047306/how-is-docker-different-from-a-normal-virtual-machine)
+ as Vagrant is to [KVM](https://en.wikipedia.org/wiki/Kernel-based_Virtual_Machine)
+
+> Vagrant, Packer, and Docker are tools that facilitate applying
 [SOLID](https://scotch.io/bar-talk/s-o-l-i-d-the-first-five-principles-of-object-oriented-design),
+[WORA](https://en.wikipedia.org/wiki/Write_once,_run_anywhere),
+[PoLA](https://en.wikipedia.org/wiki/Principle_of_least_astonishment),
 [YAGNI](https://en.wikipedia.org/wiki/You_aren%27t_gonna_need_it),
 [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)
 practices to the code that you write,
