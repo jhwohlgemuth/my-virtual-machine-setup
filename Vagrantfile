@@ -25,10 +25,6 @@ Vagrant.configure("2") do |config|
     config.vm.network "forwarded_port", guest: 46692, host: 46692, auto_correct: true #custom
     config.vm.provider "virtualbox" do |vb|
         vb.name = $org_name + "-env-" + Time.now.to_i.to_s
-        vb.gui = true
-        vb.cpus = 4
-        vb.memory = 8192
         vb.customize ["modifyvm", :id, "--monitorcount", "1"]
-        vb.customize ["setextradata", "global", "GUI/Customizations", "noMenuBar"]
     end
 end
