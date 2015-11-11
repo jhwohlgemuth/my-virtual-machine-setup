@@ -2,8 +2,16 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
+    config.vm.define "dev" do |env|
+        env.vm.hostname = "home"
+    end
     config.vm.box = "ubuntu-1404-server-desktop"
-    config.vm.provider :virtualbox do |vb, override|
+    config.vm.synced_folder "share", "/home/vagrant/share", create: true
+    config.vm.network "forwarded_port", guest: 1337, host: 1337, auto_correct: true   #custom
+    config.vm.network "forwarded_port", guest: 4669, host: 4669, auto_correct: true   #custom
+    config.vm.network "forwarded_port", guest: 4873, host: 4873, auto_correct: true   #sinopia
+    config.vm.network "forwarded_port", guest: 46692, host: 46692, auto_correct: true #custom
+    config.vm.provider "virtualbox" do |vb, override|
         vb.gui = true
         vb.cpus = 4
         vb.memory = 8192
