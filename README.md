@@ -66,9 +66,9 @@ includes the `~/.techtonic` directory that has some useful files.
 ```bash
 #Most functions require root privileges
 sudo -s
-#Source the functions
-. ~/.techtonic/functions.sh
-#Run a function like install_docker, install_jenkins, or install_redis
+#Functions are sourced when terminal is opened
+#Type 'install_' followed by tab to see the available install functions
+#Type 'setup_' followed by tab to see the available setup functions
 ```
 
 Create Your Own Vagrant Box with Packer
