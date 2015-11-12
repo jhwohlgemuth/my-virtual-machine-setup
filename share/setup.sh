@@ -2,15 +2,16 @@
 TIMEZONE=Central
 SSH_USER=${SSH_USER:-vagrant}
 SSH_PASSWORD=${SSH_PASSWORD:-vagrant}
+ORG_NAME=${ORG_NAME:-techtonic}
 
 echo "Installing Oh-My-Zsh.............."$(TZ=":US/$TIMEZONE" date +%T)
 curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | bash -s >/dev/null 2>&1
 echo "Setting terminal theme............"$(TZ=":US/$TIMEZONE" date +%T)
 sed -i '/ZSH_THEME/c ZSH_THEME="agnoster"' ~/.zshrc
 sed -i '/plugins=(/c plugins=(git git-extras npm docker encode64 jsontools web-search wd)' ~/.zshrc
-echo "export NVM_DIR=/home/vagrant/.nvm" >> ~/.zshrc
+echo "export NVM_DIR=/home/${SSH_USER}/.nvm" >> ~/.zshrc
 echo "dip() { docker inspect --format '{{ .NetworkSettings.IPAddress }}' \$1 ; }" >> ~/.zshrc
-echo "source /home/$SSH_USER/.techtonic/functions.sh" >> ~/.zshrc
+echo "source /home/${SSH_USER}/.${ORG_NAME}/functions.sh" >> ~/.zshrc
 echo "[ -s '$NVM_DIR/nvm.sh' ] && . '$NVM_DIR/nvm.sh'" >> ~/.zshrc
 echo $SSH_PASSWORD | sudo -S chsh -s $(which zsh) $(whoami)
 
