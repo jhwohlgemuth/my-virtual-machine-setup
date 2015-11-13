@@ -1,0 +1,12 @@
+FROM kalilinux/kali-linux-docker:latest
+MAINTAINER Jason Wohlgemuth
+RUN apt-get update && apt-get dist-upgrade && apt-get install -y \
+    kali-linux-top10 \
+    openvas
+RUN service postgresql start \
+ && sleep 30 \
+ && sudo -u postgres createuser msf_user \
+ && sudo -u postgres createdb --owner=msf_user msf_db \
+ && sudo -u postgres psql -c "ALTER USER msf_user WITH ENCRYPTED PASSWORD 'password';"
+EXPOSE 9392
+ENTRYPOINT ["/bin/bash"]
