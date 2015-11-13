@@ -1,8 +1,7 @@
 FROM kalilinux/kali-linux-docker:latest
 MAINTAINER Jason Wohlgemuth
 RUN apt-get update && apt-get dist-upgrade && apt-get install -y \
-    kali-linux-top10 \
-    openvas
+    kali-linux-all
 RUN service postgresql start \
  && sleep 30 \
  && sudo -u postgres createuser msf_user \
