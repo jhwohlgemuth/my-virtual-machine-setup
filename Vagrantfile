@@ -9,7 +9,6 @@ Vagrant.configure("2") do |config|
     config.vm.define "dev" do |env|
         env.vm.box = $box_name
         env.vm.hostname = $host_name
-        env.vm.post_up_message = "All Done!"
     end
     config.vm.network "forwarded_port", guest: 8000, host: 8000, auto_correct: true
     config.vm.network "forwarded_port", guest: 8080, host: 8080, auto_correct: true   #jenkins
