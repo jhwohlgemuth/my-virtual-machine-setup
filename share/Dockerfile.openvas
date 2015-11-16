@@ -1,0 +1,53 @@
+FROM ubuntu:latest
+MAINTAINER Jason Wohlgemuth
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get update && apt-get dist-upgrade && apt-get install -y \
+    build-essential \
+    bison \
+    flex \
+    cmake \
+    wget \
+    rsync \
+    pkg-config \
+    libglib2.0-dev \
+    libgnutls-dev \
+    libpcap0.8-dev \
+    libgpgme11 \
+    libgpgme11-dev \
+    doxygen \
+    libuuid1 \
+    uuid-dev \
+    sqlfairy \
+    xmltoman \
+    sqlite3 \
+    libsqlite3-dev \
+    libxml2-dev \
+    libxslt1.1 \
+    libxslt1-dev \
+    xsltproc \
+    libmicrohttpd-dev
+RUN mkdir openvas-src && cd openvas-src \
+ && wget http://wald.intevation.org/frs/download.php/1638/openvas-libraries-7.0.1.tar.gz \
+ && wget http://wald.intevation.org/frs/download.php/1640/openvas-scanner-4.0.1.tar.gz \
+ && wget http://wald.intevation.org/frs/download.php/1637/openvas-manager-5.0.0.tar.gz \
+ && wget http://wald.intevation.org/frs/download.php/1639/greenbone-security-assistant-5.0.0.tar.gz \
+ && wget http://wald.intevation.org/frs/download.php/1633/openvas-cli-1.3.0.tar.gz \
+ && tar zxvf openvas-libraries-7.0.1.tar.gz \
+ && tar zxvf openvas-scanner-4.0.1.tar.gz \
+ && tar zxvf openvas-manager-5.0.0.tar.gz \
+ && tar zxvf greenbone-security-assistant-5.0.0.tar.gz \
+ && tar zxvf openvas-cli-1.3.0.tar.gz \
+ && rm *.tar.gz \
+ && cd /openvas-src/openvas-libraries-7.0.1 \
+ && mkdir source && cd source && cmake .. && make && make install \
+ && cd /openvas-src/openvas-scanner-4.0.1 \
+ && mkdir source && cd source && cmake .. && make && make install \
+ && cd /openvas-src/openvas-manager-5.0.0 \
+ && mkdir source && cd source && cmake .. && make && make install \
+ && cd /openvas-src/greenbone-security-assistant-5.0.0 \
+ && mkdir source && cd source && cmake .. && make && make install \
+ && cd /openvas-src/openvas-cli-1.3.0 \
+ && mkdir source && cd source && cmake .. && make && make install
+EXPOSE 443
+EXPOSE 9392
+ENTRYPOINT ["/bin/bash"]
