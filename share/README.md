@@ -26,17 +26,22 @@
 -----
 > JavaScript source code visualization, static analysis, and complexity tool
 
-nodemon
+[nodemon](https://github.com/remy/nodemon) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/remy/nodemon.svg)](http://isitmaintained.com/project/remy/nodemon "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/remy/nodemon.svg)](http://isitmaintained.com/project/remy/nodemon "Percentage of issues still open")
 -------
+> Monitor for any changes in your node.js application and automatically restart the server - perfect for development
 
-ijavascript
+[ijavascript](https://github.com/n-riesco/ijavascript) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/n-riesco/ijavascript.svg)](http://isitmaintained.com/project/n-riesco/ijavascript "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/n-riesco/ijavascript.svg)](http://isitmaintained.com/project/n-riesco/ijavascript "Percentage of issues still open")
 -----------
+> JavaScript kernel for [IPython's graphical notebook](https://ipython.org/notebook.html)
 
-vmd
+[vmd](https://github.com/yoshuawuyts/vmd) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/yoshuawuyts/vmd.svg)](http://isitmaintained.com/project/yoshuawuyts/vmd "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/yoshuawuyts/vmd.svg)](http://isitmaintained.com/project/yoshuawuyts/vmd "Percentage of issues still open")
 ---
+> GitHub-flavored markdown viewer built on [electron](http://electron.atom.io/)
 
-snyk
+[snyk](https://github.com/Snyk/snyk) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/Snyk/snyk.svg)](http://isitmaintained.com/project/Snyk/snyk "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/Snyk/snyk.svg)](http://isitmaintained.com/project/Snyk/snyk "Percentage of issues still open")
 ----
+> CLI tool that helps you find and fix known vulnerabilities in your Node.js dependencies
 
-nsp
+[nsp](https://github.com/nodesecurity/nsp) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/nodesecurity/nsp.svg)](http://isitmaintained.com/project/nodesecurity/nsp "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/nodesecurity/nsp.svg)](http://isitmaintained.com/project/nodesecurity/nsp "Percentage of issues still open")
 ---
+> [Node Security Project](https://nodesecurity.io/) command-line tool
