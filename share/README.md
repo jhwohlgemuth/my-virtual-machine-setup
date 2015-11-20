@@ -8,7 +8,7 @@
 
 [grunt-cli](https://github.com/gruntjs/grunt-cli) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/gruntjs/grunt-cli.svg)](http://isitmaintained.com/project/gruntjs/grunt-cli "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/gruntjs/grunt-cli.svg)](http://isitmaintained.com/project/gruntjs/grunt-cli "Percentage of issues still open")
 ---------
-> Grunt's command line interface
+> [Grunt](http://gruntjs.com/)'s command line interface
 
 [ijavascript](https://github.com/n-riesco/ijavascript) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/n-riesco/ijavascript.svg)](http://isitmaintained.com/project/n-riesco/ijavascript "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/n-riesco/ijavascript.svg)](http://isitmaintained.com/project/n-riesco/ijavascript "Percentage of issues still open")
 -----------
