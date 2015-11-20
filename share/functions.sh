@@ -156,9 +156,9 @@ log() {
 }
 
 setup_github_ssh() {
-    if [ `whoami` == 'root' ]
+    if [ `whoami` == 'root' ]; then
       echo "✘ setup_github_ssh should be used without root privileges"
-      exit
+      return 0
     fi
     PASSPHRASE=${1:-123456}
     KEY_NAME=${2:-id_rsa}
@@ -182,9 +182,9 @@ setup_github_ssh() {
 }
 
 setup_npm_proxy() {
-if [ `whoami` != 'root' ]
+if [ `whoami` != 'root' ]; then
   echo "✘ setup_npm_proxy should be used with root privileges"
-  exit
+  return 0
 fi
 PORT=${1:-4873}
 cat << EOF > /etc/init/npm-proxy.conf
