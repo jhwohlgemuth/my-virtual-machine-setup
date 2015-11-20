@@ -13,8 +13,9 @@ Node Modules
 ---------
 > Grunt's command line interface
 
-yo
+[yo](https://github.com/yeoman/yo) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/yeoman/yo.svg)](http://isitmaintained.com/project/yeoman/yo "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/yeoman/yo.svg)](http://isitmaintained.com/project/yeoman/yo "Percentage of issues still open")
 --
+> CLI tool for running [Yeoman](http://yeoman.io/) generators
 
 phantomjs
 ---------
