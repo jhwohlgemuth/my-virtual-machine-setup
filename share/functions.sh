@@ -156,7 +156,10 @@ log() {
 }
 
 setup_github_ssh() {
-    #Use WITHOUT root privileges
+    if [ `whoami` == 'root' ]
+      echo "✘ setup_github_ssh should be used without root privileges"
+      exit
+    fi
     PASSPHRASE=${1:-123456}
     KEY_NAME=${2:-id_rsa}
     echo -n "Generating key pair......"
@@ -179,6 +182,10 @@ setup_github_ssh() {
 }
 
 setup_npm_proxy() {
+if [ `whoami` != 'root' ]
+  echo "✘ setup_npm_proxy should be used with root privileges"
+  exit
+fi
 PORT=${1:-4873}
 cat << EOF > /etc/init/npm-proxy.conf
 description "Sinopia NPM Proxy Server"
