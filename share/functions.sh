@@ -213,6 +213,8 @@ pre-stop script
 end script
 EOF
 echo "✔ npm-proxy service installed"
+service npm-proxy start
+echo "✔ npm-proxy service started"
 }
 
 update() {
