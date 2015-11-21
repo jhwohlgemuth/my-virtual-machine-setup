@@ -212,9 +212,9 @@ pre-stop script
     echo "[`date`] Sinopia server STOPPED" >> /var/log/npm-proxy.log
 end script
 EOF
-echo "✔ npm-proxy service installed"
+log "✔ npm-proxy service installed"
 service npm-proxy start
-echo "✔ npm-proxy service started"
+log "✔ npm-proxy service started"
 }
 
 update() {
