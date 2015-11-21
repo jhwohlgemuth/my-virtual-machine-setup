@@ -14,34 +14,34 @@
 -----------
 > JavaScript kernel for [IPython's graphical notebook](https://ipython.org/notebook.html)
 
-[nodemon](https://github.com/remy/nodemon) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/remy/nodemon.svg)](http://isitmaintained.com/project/remy/nodemon "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/remy/nodemon.svg)](http://isitmaintained.com/project/remy/nodemon "Percentage of issues still open")
+[nodemon](https://github.com/remy/nodemon) [![bitHound Score](https://www.bithound.io/github/remy/nodemon/badges/score.svg)](https://www.bithound.io/github/remy/nodemon) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/remy/nodemon.svg)](http://isitmaintained.com/project/remy/nodemon "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/remy/nodemon.svg)](http://isitmaintained.com/project/remy/nodemon "Percentage of issues still open")
 -------
 > Monitor for any changes in your node.js application and automatically restart the server - perfect for development
 
-[nsp](https://github.com/nodesecurity/nsp) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/nodesecurity/nsp.svg)](http://isitmaintained.com/project/nodesecurity/nsp "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/nodesecurity/nsp.svg)](http://isitmaintained.com/project/nodesecurity/nsp "Percentage of issues still open")
+[nsp](https://github.com/nodesecurity/nsp) [![bitHound Score](https://www.bithound.io/github/nodesecurity/nsp/badges/score.svg)](https://www.bithound.io/github/nodesecurity/nsp) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/nodesecurity/nsp.svg)](http://isitmaintained.com/project/nodesecurity/nsp "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/nodesecurity/nsp.svg)](http://isitmaintained.com/project/nodesecurity/nsp "Percentage of issues still open")
 ---
 > [Node Security Project](https://nodesecurity.io/) command-line tool
 
-[phantomjs](https://github.com/Medium/phantomjs) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/Medium/phantomjs.svg)](http://isitmaintained.com/project/Medium/phantomjs "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/Medium/phantomjs.svg)](http://isitmaintained.com/project/Medium/phantomjs "Percentage of issues still open")
+[phantomjs](https://github.com/Medium/phantomjs) [![bitHound Score](https://www.bithound.io/github/Medium/phantomjs/badges/score.svg)](https://www.bithound.io/github/Medium/phantomjs) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/Medium/phantomjs.svg)](http://isitmaintained.com/project/Medium/phantomjs "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/Medium/phantomjs.svg)](http://isitmaintained.com/project/Medium/phantomjs "Percentage of issues still open")
 ---------
 > NPM wrapper for installing [phantomjs](http://phantomjs.org/)
 
-[plato](https://github.com/es-analysis/plato) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/es-analysis/plato.svg)](http://isitmaintained.com/project/es-analysis/plato "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/es-analysis/plato.svg)](http://isitmaintained.com/project/es-analysis/plato "Percentage of issues still open")
+[plato](https://github.com/es-analysis/plato) [![bitHound Score](https://www.bithound.io/github/es-analysis/plato/badges/score.svg)](https://www.bithound.io/github/es-analysis/plato) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/es-analysis/plato.svg)](http://isitmaintained.com/project/es-analysis/plato "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/es-analysis/plato.svg)](http://isitmaintained.com/project/es-analysis/plato "Percentage of issues still open")
 -----
 > JavaScript source code visualization, static analysis, and complexity tool
 
-[sinopia](https://github.com/rlidwka/sinopia) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/rlidwka/sinopia.svg)](http://isitmaintained.com/project/rlidwka/sinopia "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/rlidwka/sinopia.svg)](http://isitmaintained.com/project/rlidwka/sinopia "Percentage of issues still open")
+[sinopia](https://github.com/rlidwka/sinopia) [![bitHound Score](https://www.bithound.io/github/rlidwka/sinopia/badges/score.svg)](https://www.bithound.io/github/rlidwka/sinopia) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/rlidwka/sinopia.svg)](http://isitmaintained.com/project/rlidwka/sinopia "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/rlidwka/sinopia.svg)](http://isitmaintained.com/project/rlidwka/sinopia "Percentage of issues still open")
 -------
 > Private npm repository server
 
-[snyk](https://github.com/Snyk/snyk) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/Snyk/snyk.svg)](http://isitmaintained.com/project/Snyk/snyk "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/Snyk/snyk.svg)](http://isitmaintained.com/project/Snyk/snyk "Percentage of issues still open")
+[snyk](https://github.com/Snyk/snyk) [![bitHound Score](https://www.bithound.io/github/Snyk/snyk/badges/score.svg)](https://www.bithound.io/github/Snyk/snyk) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/Snyk/snyk.svg)](http://isitmaintained.com/project/Snyk/snyk "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/Snyk/snyk.svg)](http://isitmaintained.com/project/Snyk/snyk "Percentage of issues still open")
 ----
 > CLI tool that helps you find and fix known vulnerabilities in your Node.js dependencies
 
-[vmd](https://github.com/yoshuawuyts/vmd) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/yoshuawuyts/vmd.svg)](http://isitmaintained.com/project/yoshuawuyts/vmd "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/yoshuawuyts/vmd.svg)](http://isitmaintained.com/project/yoshuawuyts/vmd "Percentage of issues still open")
+[vmd](https://github.com/yoshuawuyts/vmd) [![bitHound Score](https://www.bithound.io/github/yoshuawuyts/vmd/badges/score.svg)](https://www.bithound.io/github/yoshuawuyts/vmd) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/yoshuawuyts/vmd.svg)](http://isitmaintained.com/project/yoshuawuyts/vmd "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/yoshuawuyts/vmd.svg)](http://isitmaintained.com/project/yoshuawuyts/vmd "Percentage of issues still open")
 ---
 > GitHub-flavored markdown viewer built on [electron](http://electron.atom.io/)
 
-[yo](https://github.com/yeoman/yo) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/yeoman/yo.svg)](http://isitmaintained.com/project/yeoman/yo "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/yeoman/yo.svg)](http://isitmaintained.com/project/yeoman/yo "Percentage of issues still open")
+[yo](https://github.com/yeoman/yo) [![bitHound Score](https://www.bithound.io/github/yeoman/yo/badges/score.svg)](https://www.bithound.io/github/yeoman/yo) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/yeoman/yo.svg)](http://isitmaintained.com/project/yeoman/yo "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/yeoman/yo.svg)](http://isitmaintained.com/project/yeoman/yo "Percentage of issues still open")
 --
 > CLI tool for running [Yeoman](http://yeoman.io/) generators
