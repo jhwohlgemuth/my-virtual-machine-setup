@@ -21,4 +21,10 @@ Vagrant.configure("2") do |config|
         vb.name = $org_name + "-env-" + Time.now.to_i.to_s
         vb.customize ["modifyvm", :id, "--monitorcount", "1"]
     end
+    config.vm.provider "vmware_workstation" do |v|
+        v.name = $org_name + "-env-" + Time.now.to_i.to_s
+    end
+    config.vm.provider "vmware_fusion" do |v|
+        v.name = $org_name + "-env-" + Time.now.to_i.to_s
+    end
 end

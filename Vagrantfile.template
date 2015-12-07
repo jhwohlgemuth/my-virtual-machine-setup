@@ -11,20 +11,33 @@ Vagrant.configure("2") do |config|
     config.vm.network "forwarded_port", guest: 4669, host: 4669, auto_correct: true   #custom
     config.vm.network "forwarded_port", guest: 4873, host: 4873, auto_correct: true   #sinopia
     config.vm.network "forwarded_port", guest: 46692, host: 46692, auto_correct: true #custom
-    config.vm.provider "virtualbox" do |vb, override|
-        vb.gui = true
-        vb.cpus = 4
-        vb.memory = 8192
-        vb.customize ["modifyvm", :id, "--pae", "on"]
-        vb.customize ["modifyvm", :id, "--vram", "256"]
-        vb.customize ["modifyvm", :id, "--ioapic", "on"]
-        vb.customize ["modifyvm", :id, "--hwvirtex", "on"]
-        vb.customize ["modifyvm", :id, "--rtcuseutc", "on"]
-        vb.customize ["modifyvm", :id, "--chipset", "ich9"]
-        vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
-        vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
-        vb.customize ["modifyvm", :id, "--draganddrop", "bidirectional"]
-        vb.customize ["setextradata", "global", "GUI/MaxGuestResolution", "any"]
+    config.vm.provider "virtualbox" do |v, override|
+        v.gui = true
+        v.cpus = 4
+        v.memory = 8192
+        v.customize ["modifyvm", :id, "--pae", "on"]
+        v.customize ["modifyvm", :id, "--vram", "256"]
+        v.customize ["modifyvm", :id, "--ioapic", "on"]
+        v.customize ["modifyvm", :id, "--hwvirtex", "on"]
+        v.customize ["modifyvm", :id, "--rtcuseutc", "on"]
+        v.customize ["modifyvm", :id, "--chipset", "ich9"]
+        v.customize ["modifyvm", :id, "--accelerate3d", "on"]
+        v.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+        v.customize ["modifyvm", :id, "--draganddrop", "bidirectional"]
+        v.customize ["setextradata", "global", "GUI/MaxGuestResolution", "any"]
+    end
+    ["vmware_workstation", "vmware_fusion"].each do |provider|
+        config.vm.provider provider do |v, override|
+            v.gui = true
+            v.vmx["memsize"] = "8192"
+            v.vmx["numvcpus"] = "4"
+            v.vmx["cpuid.coresPerSocket"] = "1"
+            v.vmx["ethernet0.virtualDev"] = "vmxnet3"
+            v.vmx["RemoteDisplay.vnc.enabled"] = "false"
+            v.vmx["RemoteDisplay.vnc.port"] = "5900"
+            v.vmx["scsi0.virtualDev"] = "lsilogic"
+            v.vmx["mks.enable3d"] = "TRUE"
+        end
     end
     config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
 end
