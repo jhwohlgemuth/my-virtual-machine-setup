@@ -1,4 +1,4 @@
-`functions.sh` `bash functions:
+**`functions.sh` `bash functions:**
 - `install_atom`
 - `install_couch`
 - `install_desktop`
@@ -16,7 +16,7 @@
 - `setup_npm_proxy`
 - `update`
 
-`setup.sh`:
+**`setup.sh`:**
 - installs and configures [Oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh) (*with a couple custom docker aliases*)
 - turns on workspaces
 - turns off screen lock
