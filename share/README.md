@@ -1,3 +1,22 @@
+Node modules Stats
+==================
+- [casperjs](#casperjs---)
+- [flow-bin](#flow-bin---)
+- [grunt-cli](#grunt-cli---)
+- [ijavascript](#ijavascript---)
+- [local-npm](#local-npm---)
+- [nodemon](#nodemon---)
+- [npmrc](#npmrc---)
+- [nsp](#nsp---)
+- [phantomjs](#phantomjs---)
+- [plato](#plato---)
+- [sinopia](#sinopia---)
+- [snyk](#snyk---)
+- [vmd](#vmd---)
+- [yo](#yo---)
+
+---
+
 [casperjs](https://github.com/n1k0/casperjs) [![bitHound Score](https://www.bithound.io/github/n1k0/casperjs/badges/score.svg)](https://www.bithound.io/github/n1k0/casperjs) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/n1k0/casperjs.svg)](http://isitmaintained.com/project/n1k0/casperjs "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/n1k0/casperjs.svg)](http://isitmaintained.com/project/n1k0/casperjs "Percentage of issues still open")
 --------
 [![npm badge](https://nodei.co/npm/casperjs.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/casperjs)
@@ -22,7 +41,7 @@
 ![Download Histogram](https://nodei.co/npm-dl/ijavascript.png?&height=3&months=6)
 > JavaScript kernel for [IPython's graphical notebook](https://ipython.org/notebook.html)
 
-[local-npm]() [![bitHound Overall Score](https://www.bithound.io/github/nolanlawson/local-npm/badges/score.svg)](https://www.bithound.io/github/nolanlawson/local-npm) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/nolanlawson/local-npm.svg)](http://isitmaintained.com/project/nolanlawson/local-npm "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/nolanlawson/local-npm.svg)](http://isitmaintained.com/project/nolanlawson/local-npm "Percentage of issues still open")
+[local-npm](https://github.com/nolanlawson/local-npm) [![bitHound Overall Score](https://www.bithound.io/github/nolanlawson/local-npm/badges/score.svg)](https://www.bithound.io/github/nolanlawson/local-npm) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/nolanlawson/local-npm.svg)](http://isitmaintained.com/project/nolanlawson/local-npm "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/nolanlawson/local-npm.svg)](http://isitmaintained.com/project/nolanlawson/local-npm "Percentage of issues still open")
 -----------
 [![npm badge](https://nodei.co/npm/local-npm.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/local-npm)
 ![Download Histogram](https://nodei.co/npm-dl/local-npm.png?&height=3&months=6)
