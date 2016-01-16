@@ -28,6 +28,12 @@
 ![Download Histogram](https://nodei.co/npm-dl/nodemon.png?&height=3&months=6)
 > Monitor for any changes in your node.js application and automatically restart the server - perfect for development
 
+[npmrc](https://github.com/deoxxa/npmrc) [![bitHound Overall Score](https://www.bithound.io/github/deoxxa/npmrc/badges/score.svg)](https://www.bithound.io/github/deoxxa/npmrc) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/deoxxa/npmrc.svg)](http://isitmaintained.com/project/deoxxa/npmrc "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/deoxxa/npmrc.svg)](http://isitmaintained.com/project/deoxxa/npmrc "Percentage of issues still open")
+-------
+[![npm badge](https://nodei.co/npm/npmrc.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/npmrc)
+![Download Histogram](https://nodei.co/npm-dl/npmrc.png?&height=3&months=6)
+> Switch between different .npmrc files with ease and grace
+
 [nsp](https://github.com/nodesecurity/nsp) [![bitHound Score](https://www.bithound.io/github/nodesecurity/nsp/badges/score.svg)](https://www.bithound.io/github/nodesecurity/nsp) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/nodesecurity/nsp.svg)](http://isitmaintained.com/project/nodesecurity/nsp "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/nodesecurity/nsp.svg)](http://isitmaintained.com/project/nodesecurity/nsp "Percentage of issues still open")
 ---
 [![npm badge](https://nodei.co/npm/nsp.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/nsp)
