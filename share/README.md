@@ -20,4 +20,4 @@
 - installs and configures [Oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh) (*with a couple custom docker aliases*)
 - turns on workspaces
 - turns off screen lock
-- install the [latest and greatest node modules](https://github.com/jhwohlgemuth/techtonic/wiki/Node-Modules-You-Should-Be-Using)
+- installs the [latest and greatest node modules](https://github.com/jhwohlgemuth/techtonic/wiki/Node-Modules-You-Should-Be-Using)
