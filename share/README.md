@@ -22,6 +22,12 @@
 ![Download Histogram](https://nodei.co/npm-dl/ijavascript.png?&height=3&months=6)
 > JavaScript kernel for [IPython's graphical notebook](https://ipython.org/notebook.html)
 
+[local-npm]() [![bitHound Overall Score](https://www.bithound.io/github/nolanlawson/local-npm/badges/score.svg)](https://www.bithound.io/github/nolanlawson/local-npm) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/nolanlawson/local-npm.svg)](http://isitmaintained.com/project/nolanlawson/local-npm "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/nolanlawson/local-npm.svg)](http://isitmaintained.com/project/nolanlawson/local-npm "Percentage of issues still open")
+-----------
+[![npm badge](https://nodei.co/npm/local-npm.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/local-npm)
+![Download Histogram](https://nodei.co/npm-dl/local-npm.png?&height=3&months=6)
+> Local and offline-first npm mirror
+
 [nodemon](https://github.com/remy/nodemon) [![bitHound Score](https://www.bithound.io/github/remy/nodemon/badges/score.svg)](https://www.bithound.io/github/remy/nodemon) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/remy/nodemon.svg)](http://isitmaintained.com/project/remy/nodemon "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/remy/nodemon.svg)](http://isitmaintained.com/project/remy/nodemon "Percentage of issues still open")
 -------
 [![npm badge](https://nodei.co/npm/nodemon.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/nodemon)
