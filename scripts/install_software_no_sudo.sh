@@ -7,6 +7,10 @@ chmod +x setup.sh
 log "Installing nvm"
 curl -so- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash >/dev/null 2>&1
 
+log "Installing rvm"
+gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 >/dev/null 2>&1
+curl -sSL https://get.rvm.io | bash -s stable >/dev/null 2>&1
+
 log "Installing Atom plugins"
 apm install file-icons sublime-block-comment atom-beautify language-docker >/dev/null 2>&1
 apm install minimap minimap-selection minimap-find-and-replace minimap-git-diff >/dev/null 2>&1
