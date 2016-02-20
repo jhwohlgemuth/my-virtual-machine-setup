@@ -31,8 +31,8 @@ gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'
 log "Installing node & node modules"
 . ~/.zshrc
 nvm install node && nvm alias default node
-npm install -g grunt-cli phantomjs-prebuilt casperjs yo flow-bin plato nodemon ijavascript vmd
-npm install -g snyk nsp npm-check-updates npmrc local-npm grasp updtr
+npm install -g grunt-cli phantomjs-prebuilt yo flow-bin plato nodemon ijavascript vmd
+npm install -g snyk nsp npm-check-updates npmrc local-npm grasp
 npm install -g sinopia && echo "[`date`] Sinopia server INSTALLED" > /var/log/npm-proxy.log
 
 log "Installing Ruby and ruby gems"
