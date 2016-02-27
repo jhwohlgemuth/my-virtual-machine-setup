@@ -188,7 +188,7 @@ if [ `whoami` != 'root' ]; then
 fi
 PORT=${1:-4873}
 cat << EOF > /etc/init/npm-proxy.conf
-description "Sinopia NPM Proxy Server"
+description "Sinopia NPM Proxy Server Service"
 author      "Jason Wohlgemuth"
 
 start on filesystem or runlevel [2345]
