@@ -1,3 +1,7 @@
+**Terminal Aliases**
+- `dip <container name>` - Returns IP adress of container
+- `docker_rm_all` - Stop and remove all containers
+
 **Bash Functions** ([`functions.sh`](functions.sh)):
 - `install_atom`
 - `install_couch`
