@@ -79,6 +79,7 @@ Create Your Own Vagrant Box with Packer
 
 > **Warning**: An [Atlas token](https://atlas.hashicorp.com/tutorial/packer-vagrant/0) is not required for box creation, but not having one set will cause the `atlas` post-provisioner to fail.
 
+- Clone this repo with `git clone https://github.com/jhwohlgemuth/techtonic-env.git`
 - [Customize](https://packer.io/docs/templates/introduction.html) [`packer.json`](./packer.json) and the [provisioning scripts](./scripts) to your liking
 - Open up a [Git bash](https://git-scm.com/downloads) in the root directory:
 ```bash
