@@ -1,5 +1,5 @@
 <div align="center">
-    <a href="http://jhwohlgemuth.github.com/techtonic"><img src="http://images.jhwohlgemuth.com/techtonic/logo.png?v=1" alt="techtonic"/></a>
+    <a href="http://jhwohlgemuth.github.com/techtonic"><img src="https://jhwohlgemuth.github.io/images/logo.png?v=1.0" alt="techtonic"/></a>
 </div>
 
 > Create development **env**ironments like a pro with Packer, Vagrant, & Docker
