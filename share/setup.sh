@@ -16,7 +16,9 @@ echo "export NVM_DIR=/home/${SSH_USER}/.nvm" >> ~/.zshrc
 echo "[ -s '$NVM_DIR/nvm.sh' ] && . '$NVM_DIR/nvm.sh'" >> ~/.zshrc
 echo "dip() { docker inspect --format '{{ .NetworkSettings.IPAddress }}' \$1 ; }" >> ~/.zshrc
 echo "docker_rm_all() { docker stop \$(docker ps -a -q) && docker rm \$(docker ps -a -q) ; }" >> ~/.zshrc
+echo "clean() { rm -frd \$1 && mkdir \$1 && cd \$1 ; }" >> ~/.zshrc
 echo "source /home/${SSH_USER}/.${ORG_NAME}/functions.sh" >> ~/.zshrc
+echo 'alias rf="rm -frd"' >> ~/.zshrc
 echo $SSH_PASSWORD | sudo -S chsh -s $(which zsh) $(whoami)
 
 log "Turning on workspaces (unity)"
