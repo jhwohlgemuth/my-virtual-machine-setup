@@ -99,6 +99,16 @@
         "output": "box/{{ user `org_name` }}.{{ user `version` }}.box",
         "vagrantfile_template": "Vagrantfile.template",
         "compression_level": 9
+      },
+      {
+        "type": "atlas",
+        "only": ["virtualbox-iso"],
+        "artifact": "techtonic/env",
+        "artifact_type": "vagrant.box",
+        "metadata": {
+          "provider": "virtualbox",
+          "version": "{{ user `version` }}"
+        }
       }
     ]
   ]
