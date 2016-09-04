@@ -16,15 +16,55 @@
   'require':
     'prefix': 'req'
     'body': 'require(\'${1:module}\');$2'
-  'function':
-    'prefix': 'fun'
+  'Anonymous Function':
+    'prefix': 'f'
     'body': """
     function() {
         ${1:code}
     };
     """
-  'dragons':
-    'prefix': 'dragons'
+  'Named Function':
+    'prefix': 'fn'
+    'body': """
+    function ${1:foo}(${2:/*parameters*/}) {
+        ${3://code}
+    };
+    """
+  'BDD describe':
+    'prefix': 'describe'
+    'body': """
+    describe('${1:Some Component}', function() {
+        ${2://code}
+    });
+    """
+  'BDD test spec':
+    'prefix': 'it'
+    'body': """
+    it('${1:can do stuff}', function() {
+        ${2://code}
+    });$3
+    """
+  'Jasmine beforeEach':
+    'prefix': 'before'
+    'body': """
+    beforeEach(function() {
+        ${1://code}
+    });$2
+    """
+  'Jasmine afterEach':
+    'prefix': 'after'
+    'body': """
+    afterEach(function() {
+        ${1://code}
+    });$2
+    """
+  'BDD expect':
+    'prefix': 'expect'
+    'body': """
+    expect(${1:conditional}).$2
+    """
+  'Beware of Dragons':
+    'prefix': 'beware'
     'body': """
 /*
 ~~~ HERE BE DRAGONS ~~~
@@ -39,7 +79,23 @@ ________  ___ ________
 */
     """
 '.source.less':
-  'header':
+  'MDCSS Flavored Header':
+    'prefix': 'section'
+    'body': """
+/*---
+title: ${1:TITLE}
+sections: ${2:SECTION}
+---
+
+$3
+
+```example
+<div>hello world</div>
+```
+
+*/
+    """
+  'LESS Flavored Section Header':
     'prefix': 'header'
     'body': """
 /*------------------------------------*\\\\
