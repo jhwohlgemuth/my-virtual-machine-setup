@@ -1,4 +1,6 @@
 **Terminal Aliases**
+- `rf <dir>` - `rm -frd <dir>`
+- `clean <dir>` - Empty `<dir>` and enter it
 - `dip <container name>` - Returns IP adress of container
 - `docker_rm_all` - Stop and remove all containers
 
