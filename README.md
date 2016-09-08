@@ -93,6 +93,11 @@ packer build packer.json
 
 > See the official [Packer Introduction](https://www.packer.io/intro) for more information
 
+Why "techtonic"?
+----------------
+> **techtonic** comes from the Ancient Greek noun, [tektōn (τέκτων)](https://en.wikipedia.org/wiki/Tekt%C5%8Dn),
+> (term for a carpenter or **_builder_**)
+
 Tools, References & Resources
 -----------------------------
 - [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jhwohlgemuth/techtonic?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
