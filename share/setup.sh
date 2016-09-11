@@ -16,9 +16,12 @@ echo "export NVM_DIR=/home/${SSH_USER}/.nvm" >> ~/.zshrc
 echo "[ -s '$NVM_DIR/nvm.sh' ] && . '$NVM_DIR/nvm.sh'" >> ~/.zshrc
 echo "dip() { docker inspect --format '{{ .NetworkSettings.IPAddress }}' \$1 ; }" >> ~/.zshrc
 echo "docker_rm_all() { docker stop \$(docker ps -a -q) && docker rm \$(docker ps -a -q) ; }" >> ~/.zshrc
+echo "set_git_user() { git config --global user.name $1 ; }" >> ~/.zshrc
+echo "set_git_email() { git config --global user.email $1 ; }" >> ~/.zshrc
 echo "clean() { rm -frd \$1 && mkdir \$1 && cd \$1 ; }" >> ~/.zshrc
 echo "source /home/${SSH_USER}/.${ORG_NAME}/functions.sh" >> ~/.zshrc
 echo 'alias rf="rm -frd"' >> ~/.zshrc
+echo 'alias npmreg="npm get registry"' >> ~/.zshrc
 echo $SSH_PASSWORD | sudo -S chsh -s $(which zsh) $(whoami)
 
 log "Turning on workspaces (unity)"
@@ -34,7 +37,7 @@ log "Installing node & node modules"
 . ~/.zshrc
 nvm install node && nvm alias default node
 npm install -g grunt-cli yo flow-bin plato nodemon ijavascript
-npm install -g snyk nsp npm-check-updates npmrc local-npm grasp
+npm install -g snyk nsp npm-check-updates npmrc grasp
 npm install -g sinopia
 
 log "Installing Ruby and ruby gems"

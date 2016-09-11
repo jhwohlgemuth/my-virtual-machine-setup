@@ -1,6 +1,9 @@
-**Terminal Aliases**
+**Terminal Aliases & Functions**
 - `rf <dir>` - `rm -frd <dir>`
 - `clean <dir>` - Empty `<dir>` and enter it
+- `npmreg` - `npm get registry`
+- `set_git_user <User Name>` - `git config --global user.name <User Name>`
+- `set_git_email <email>` - `git config --global user.email <email>`
 - `dip <container name>` - Returns IP adress of container
 - `docker_rm_all` - Stop and remove all containers
 
