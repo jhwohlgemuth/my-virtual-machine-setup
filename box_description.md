@@ -1,4 +1,4 @@
-v1.0.4 ()
+v1.0.4 (1.37GB)
 - Removed Java 8 from default build (script still exists in `functions.sh`)
 - Removed `local-npm` from installed global node modules
 - Added some functions and aliases
