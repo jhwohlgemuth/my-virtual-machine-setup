@@ -12,3 +12,11 @@ Installed Software:
 Includes scripts to easily install more software, configure SSH and more.
 
 See the [techtonic-env GitHub repo](https://github.com/jhwohlgemuth/techtonic-env) for more details.
+
+
+v1.0.3
+- Bumped version of Ubuntu (next patch version)
+- Changed default setting for accelerate3d to "off"
+- Added "rf" alias and "clean" function
+- Added LESS and JS snippets to snippets.cson
+- Removed some node modules
