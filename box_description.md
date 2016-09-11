@@ -1,15 +1,15 @@
-v1.0.3
+v1.0.3 (1.73GB)
 - Bumped version of Ubuntu (next patch version)
 - Changed default setting for accelerate3d to "off"
 - Added "rf" alias and "clean" function
 - Added LESS and JS snippets to snippets.cson
 - Removed some node modules
 
-v1.0.2
+v1.0.2 (1.68GB)
 - Removed Julia language from default build (script still exists in `functions.sh`)
 - Added and removed various global node modules
 
-v1.0.1
+v1.0.1 (1.72GB)
 Added:
 - handy docker command aliases
 - Ruby version manager (rvm)
@@ -19,7 +19,7 @@ Added:
 
 Visit the [techtonic-env GitHub repo](https://github.com/jhwohlgemuth/techtonic-env)
 
-v1.0.0
+v1.0.0 (1.64GB)
 Minimal desktop development environment built on Ubuntu 14.04 (x64)
 
 Installed Software:
