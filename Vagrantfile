@@ -11,9 +11,9 @@ Vagrant.configure("2") do |config|
         env.vm.hostname = $host_name
     end
 
-    config.vm.network "forwarded_port", guest: 1337, host: 1337, auto_correct: true   #custom
-    config.vm.network "forwarded_port", guest: 4669, host: 4669, auto_correct: true   #custom
-    config.vm.network "forwarded_port", guest: 46692, host: 46692, auto_correct: true #custom
+    config.vm.network "forwarded_port", guest: 1337, host: 1337, auto_correct: false   #custom
+    config.vm.network "forwarded_port", guest: 4669, host: 4669, auto_correct: false   #custom
+    config.vm.network "forwarded_port", guest: 46692, host: 46692, auto_correct: false #custom
 
     config.vm.network "forwarded_port", guest: 8000, host: 8000, auto_correct: true
     config.vm.network "forwarded_port", guest: 8080, host: 8080, auto_correct: true   #jenkins
