@@ -15,6 +15,11 @@ install_atom() {
     apt-get install -y atom >/dev/null 2>&1
 }
 
+install_cairo() {
+    log "Installing Cairo"
+    apt-get install -y libcairo2-dev libjpeg8-dev libpango1.0-dev libgif-dev build-essential g++ >/dev/null 2>&1
+}
+
 install_couchdb() {
     log "Installing CouchDB"
     apt-get install -y curl >/dev/null 2>&1

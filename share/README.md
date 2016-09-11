@@ -6,6 +6,7 @@
 
 **Bash Functions** ([`functions.sh`](functions.sh)):
 - `install_atom`
+- `install_cairo`
 - `install_couch`
 - `install_desktop`
 - `install_docker`
