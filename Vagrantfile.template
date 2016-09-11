@@ -7,10 +7,6 @@ Vagrant.configure("2") do |config|
     end
     config.vm.box = "ubuntu-1404-server-desktop"
     config.vm.synced_folder "share", "/home/vagrant/share", create: true
-    config.vm.network "forwarded_port", guest: 1337, host: 1337, auto_correct: true   #custom
-    config.vm.network "forwarded_port", guest: 4669, host: 4669, auto_correct: true   #custom
-    config.vm.network "forwarded_port", guest: 4873, host: 4873, auto_correct: true   #sinopia
-    config.vm.network "forwarded_port", guest: 46692, host: 46692, auto_correct: true #custom
     config.vm.provider "virtualbox" do |v, override|
         v.gui = true
         v.cpus = 4
