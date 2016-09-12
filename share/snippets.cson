@@ -7,7 +7,7 @@
     'body': 'console.error(\'${1:Boot!}\');$2'
   'define':
     'prefix': 'def'
-    'body': 'define(function(require, exports, module) {$1})';
+    'body': 'define(function(require, exports, module) {$1});';
   'use strict':
     'prefix': 'use'
     'body': """
