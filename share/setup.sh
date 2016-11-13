@@ -19,9 +19,9 @@ echo "docker_rm_all() { docker stop \$(docker ps -a -q) && docker rm \$(docker p
 echo "set_git_user() { git config --global user.name \$1 ; }" >> ~/.zshrc
 echo "set_git_email() { git config --global user.email \$1 ; }" >> ~/.zshrc
 echo "clean() { rm -frd \$1 && mkdir \$1 && cd \$1 ; }" >> ~/.zshrc
+echo "npm completion >/dev/null 2>&1" >> ~/.zshrc
 echo "source /home/${SSH_USER}/.${ORG_NAME}/functions.sh" >> ~/.zshrc
 echo 'alias rf="rm -frd"' >> ~/.zshrc
-echo 'alias npmreg="npm get registry"' >> ~/.zshrc
 echo $SSH_PASSWORD | sudo -S chsh -s $(which zsh) $(whoami)
 
 log "Turning on workspaces (unity)"
