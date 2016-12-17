@@ -12,6 +12,7 @@
 - `install_couch`
 - `install_desktop`
 - `install_docker`
+- `install_heroku`
 - `install_java8`
 - `install_jenkins`
 - `install_julia`
