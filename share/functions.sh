@@ -71,8 +71,8 @@ install_heroku() {
     log "Installing Heroku CLI"
     add-apt-repository "deb https://cli-assets.heroku.com/branches/stable/apt ./" >/dev/null 2>&1
     curl -L https://cli-assets.heroku.com/apt/release.key | sudo apt-key add - >/dev/null 2>&1
-    sudo apt-get update >/dev/null 2>&1
-    sudo apt-get install heroku >/dev/null 2>&1
+    apt-get update >/dev/null 2>&1
+    apt-get install heroku >/dev/null 2>&1
 }
 
 install_java8() {
