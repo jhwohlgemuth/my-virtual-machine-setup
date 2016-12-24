@@ -8,6 +8,7 @@
     "ssh_name": "vagrant",
     "ssh_pass": "vagrant",
     "hostname": "home",
+    "disk_size": "190782",
     "update": "yes"
   },
   "builders": [
@@ -29,7 +30,7 @@
         "initrd=/install/initrd.gz -- <enter>"
       ],
       "boot_wait": "4s",
-      "disk_size": 130048,
+      "disk_size": "{{ user `disk_size` }}",
       "floppy_files": ["http/preseed.cfg"],
       "guest_os_type": "Ubuntu_64",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
