@@ -147,6 +147,13 @@ install_python() {
     pip install ipython[notebook] >/dev/null 2>&1
 }
 
+install_R() {
+    log "Installing R"
+    add-apt-repository ppa:marutter/rrutter -y
+    apt-get update -y
+    apt-get upgrade -y
+}
+
 install_redis() {
     log "Installing redis"
     apt-get install -y redis-server >/dev/null 2>&1
