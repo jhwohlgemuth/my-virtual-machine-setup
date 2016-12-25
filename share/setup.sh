@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-#Source log function
-. ~/.techtonic/functions.sh
-
 SSH_USER=${SSH_USER:-vagrant}
 SSH_PASSWORD=${SSH_PASSWORD:-vagrant}
-ORG_NAME=${ORG_NAME:-techtonic}
+ORG_NAME=${ORG_NAME:-jhwohlgemuth}
+
+#Source log function
+. ~/.${ORG_NAME}/functions.sh
 
 log "Installing Oh-My-Zsh"
 curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | bash -s >/dev/null 2>&1
