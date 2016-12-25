@@ -1,4 +1,4 @@
-v2.0.0 ()
+v2.0.0 (1.39GB)
 - First version with jhwohlgemuth default naming
 - Added a few bells and whistles
 
