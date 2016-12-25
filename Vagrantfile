@@ -1,8 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-$org_name = "techtonic"
-$box_name = "techtonic/env"
+$org_name = "jhwohlgemuth"
+$box_name = "jhwohlgemuth/env"
 $host_name = "home"
 
 Vagrant.configure("2") do |config|
