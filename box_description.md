@@ -1,4 +1,4 @@
-v2.0.0 (1.39GB)
+v2.0.0 (1.38GB)
 - First version with jhwohlgemuth default naming
 - Increases disk size --> 200GB
 - Added more functions, atom plugins and node modules
