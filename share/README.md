@@ -20,6 +20,7 @@
 - `install_mongodb`
 - `install_pandoc`
 - `install_python`
+- `install_R`
 - `install_redis`
 - `log`
 - `setup_github_ssh`

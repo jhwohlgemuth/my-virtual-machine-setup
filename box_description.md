@@ -1,3 +1,7 @@
+v2.0.0 ()
+- First version with jhwohlgemuth default naming
+- Added a few bells and whistles
+
 v1.0.4 (1.37GB)
 - Removed Java 8 from default build (script still exists in `functions.sh`)
 - Removed `local-npm` from installed global node modules
