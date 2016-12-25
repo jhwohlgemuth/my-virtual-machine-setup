@@ -149,9 +149,10 @@ install_python() {
 
 install_R() {
     log "Installing R"
-    add-apt-repository ppa:marutter/rrutter -y
-    apt-get update -y
-    apt-get upgrade -y
+    add-apt-repository ppa:marutter/rrutter -y >/dev/null 2>&1
+    apt-get update -y >/dev/null 2>&1
+    apt-get upgrade -y >/dev/null 2>&1
+    apt-get install -y r-base >/dev/null 2>&1
 }
 
 install_redis() {

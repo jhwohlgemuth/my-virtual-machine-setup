@@ -1,7 +1,7 @@
 v2.0.0 (1.39GB)
 - First version with jhwohlgemuth default naming
 - Increases disk size --> 200GB
-- Added some more functions, atom plugins and node modules
+- Added more functions, atom plugins and node modules
 
 v1.0.4 (1.37GB)
 - Removed Java 8 from default build (script still exists in `functions.sh`)
