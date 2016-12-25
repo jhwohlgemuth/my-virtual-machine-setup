@@ -1,6 +1,5 @@
-<div align="center">
-    <a href="http://jhwohlgemuth.github.com/techtonic"><img src="https://jhwohlgemuth.github.io/images/logo.png?v=1.0" alt="techtonic"/></a>
-</div>
+env
+===
 
 > Create development **env**ironments like a pro with Packer, Vagrant, & Docker
 
@@ -42,25 +41,25 @@ mkdir path/to/dev/dir && cd path/to/dev/dir
 ```
 - Initialize a Vagrantfile and start your VM:
 ```
-vagrant init techtonic/env && vagrant up
+vagrant init jhwohlgemuth/env && vagrant up
 ```
 
 > See the [Vagrant Getting Started guide](https://docs.vagrantup.com/v2/getting-started/index.html) for more information
 
-Customize the` techtonic/env` VM
+Customize the VM
 --------------------------------
-The default `techtonic/env` Vagrant box hosted on [Atlas](https://atlas.hashicorp.com/techtonic/boxes/env),
-includes the `~/.techtonic` directory that has some useful files.
+The default `jhwohlgemuth/env` Vagrant box hosted on [Atlas](https://atlas.hashicorp.com/jhwohlgemuth/boxes/env),
+includes the `~/.jhwohlgemuth` directory that has some useful files.
 
-- [`~/.techtonic/setup.sh`](./share/setup.sh) is a collection of tweaks and customizations.
+- [`~/.jhwohlgemuth/setup.sh`](./share/setup.sh) is a collection of tweaks and customizations.
 
 > **usage:**
 ```bash
 #setup.sh is executable and can be run with just:
-~/.techtonic/setup.sh
+~/.jhwohlgemuth/setup.sh
 ```
 
-- [`~/.techtonic/functions.sh`](./share/functions.sh) is a collection of functions for installing and configuring software.
+- [`~/.jhwohlgemuth/functions.sh`](./share/functions.sh) is a collection of functions for installing and configuring software.
 
 > **usage:**
 ```bash
@@ -92,11 +91,6 @@ packer build packer.json
 ```
 
 > See the official [Packer Introduction](https://www.packer.io/intro) for more information
-
-Why "techtonic"?
-----------------
-> **techtonic** comes from the Ancient Greek noun, [tektōn (τέκτων)](https://en.wikipedia.org/wiki/Tekt%C5%8Dn),
-> (term for a carpenter or **_builder_**)
 
 Tools, References & Resources
 -----------------------------

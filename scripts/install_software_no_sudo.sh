@@ -31,7 +31,7 @@ mv PowerlineSymbols.otf ~/.fonts/
 fc-cache -vf ~/.fonts/ >/dev/null 2>&1
 mv 10-powerline-symbols.conf ~/.config/fontconfig/conf.d/
 
-SCRIPT_FOLDER=.${ORG_NAME:-techtonic}
+SCRIPT_FOLDER=.${ORG_NAME:-jhwohlgemuth}
 mkdir -p ~/${SCRIPT_FOLDER}
 
 if [[ -e functions.sh ]]; then
