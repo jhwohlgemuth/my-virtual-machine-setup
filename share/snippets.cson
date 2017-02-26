@@ -2,6 +2,9 @@
   'console.log':
     'prefix': 'log'
     'body': 'console.log(\'${1:Boot!}\');$2'
+  'console.info':
+    'prefix': 'info'
+    'body': 'console.info(\'${1:Boot!}\');$2'
   'console.error':
     'prefix': 'err'
     'body': 'console.error(\'${1:Boot!}\');$2'
