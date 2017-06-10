@@ -1,4 +1,4 @@
-v3.0.0 ()
+v3.0.0 (1.44GB)
 - Removed `setup_npm_proxy` function
 - Replaced sinopia with verdaccio (a maintained fork)
 - **more** awesome node modules
