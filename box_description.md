@@ -1,3 +1,8 @@
+v3.0.0 ()
+- Removed setup_npm_proxy function
+- Replaced sinopia with verdaccio (a maintained fork)
+- **more** awesome node modules
+
 v2.0.0 (1.38GB)
 - First version with jhwohlgemuth default naming
 - Increases disk size --> 200GB
