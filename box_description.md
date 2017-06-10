@@ -1,5 +1,5 @@
 v3.0.0 ()
-- Removed setup_npm_proxy function
+- Removed `setup_npm_proxy` function
 - Replaced sinopia with verdaccio (a maintained fork)
 - **more** awesome node modules
 
