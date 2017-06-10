@@ -202,42 +202,6 @@ setup_github_ssh() {
     fi
 }
 
-setup_npm_proxy() {
-if [ `whoami` != 'root' ]; then
-  echo "✘ setup_npm_proxy should be used with root privileges"
-  return 0
-fi
-PORT=${1:-4873}
-cat << EOF > /etc/init/npm-proxy.conf
-description "Sinopia NPM Proxy Server Service"
-author      "Jason Wohlgemuth"
-
-start on filesystem or runlevel [2345]
-stop on shutdown
-
-env HOME=${HOME}
-
-script
-    echo \$\$ > /var/run/npm-proxy.pid
-    ${NVM_BIN}/node ${NVM_BIN}/sinopia
-end script
-
-pre-start script
-    echo "registry = http://localhost:${PORT}/" >> ${HOME}/.npmrc
-    echo "[`date`] Sinopia server STARTED" >> /var/log/npm-proxy.log
-end script
-
-pre-stop script
-    sed -i '/registry =/d' ${HOME}/.npmrc
-    rm /var/run/npm-proxy.pid
-    echo "[`date`] Sinopia server STOPPED" >> /var/log/npm-proxy.log
-end script
-EOF
-log "✔ npm-proxy service installed"
-service npm-proxy start
-log "✔ npm-proxy service started"
-}
-
 update() {
     log "Updating"
     apt-get update >/dev/null 2>&1
