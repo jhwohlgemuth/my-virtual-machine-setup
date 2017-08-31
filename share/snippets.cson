@@ -43,21 +43,21 @@
   'BDD test spec':
     'prefix': 'it'
     'body': """
-    it('${1:can do stuff}', function() {
+    it('${1:can do stuff}', () => {
         ${2://code}
     });$3
     """
   'Jasmine beforeEach':
     'prefix': 'before'
     'body': """
-    beforeEach(function() {
+    beforeEach(() => {
         ${1://code}
     });$2
     """
   'Jasmine afterEach':
     'prefix': 'after'
     'body': """
-    afterEach(function() {
+    afterEach(() => {
         ${1://code}
     });$2
     """
