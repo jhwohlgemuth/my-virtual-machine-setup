@@ -102,7 +102,7 @@
         "compression_level": 9
       },
       {
-        "type": "atlas",
+        "type": "vagrant-cloud",
         "only": ["virtualbox-iso"],
         "artifact": "jhwohlgemuth/env",
         "artifact_type": "vagrant.box",
