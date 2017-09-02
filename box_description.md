@@ -1,3 +1,9 @@
+v4.0.0 (1.5GB)
+- First version using vagrant-cloud post-processor
+- Refactored Atom BDD snippets to use ES6 arrow functions
+- Removed `npx` from installed node modules (included with current version of npm)
+- Added [`atom-quokka` plugin](https://medium.com/@artem.govorov/quokka-live-javascript-scratchpad-for-atom-editor-a4edd27b7d91)
+
 v3.0.0 (1.44GB)
 - Removed `setup_npm_proxy` function
 - Replaced sinopia with verdaccio (a maintained fork)
