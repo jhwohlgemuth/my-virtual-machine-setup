@@ -115,8 +115,10 @@ install_lein() {
     curl -L https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein -o ~/bin/lein >/dev/null 2>&1
     chmod a+x ~/bin/lein
     chown vagrant ~/bin/lein
-    LEIN_ROOT=true
+    export LEIN_ROOT=true
     lein >/dev/null 2>&1
+    touch ~/.lein/profiles.clj
+    echo '{:user {:plugins [[lein-try "0.4.3"]]}}' > ~/.lein/profiles.clj
     chown vagrant ~/.lein -R
 }
 
