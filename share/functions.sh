@@ -111,8 +111,10 @@ install_julia() {
 
 install_lein() {
     log "Installing lein"
-    curl -L https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein > /usr/bin/lein >/dev/null 2>&1
-    chmod a+x /usr/bin/lein
+    mkdir -p ~/bin
+    curl -L https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein -o ~/bin/lein >/dev/null 2>&1
+    chmod a+x ~/bin/lein
+    chown vagrant ~/bin/lein
     lein
 }
 

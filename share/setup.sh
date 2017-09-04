@@ -13,6 +13,7 @@ log "Setting terminal theme"
 sed -i '/ZSH_THEME/c ZSH_THEME="agnoster"' ~/.zshrc
 sed -i '/plugins=(/c plugins=(git git-extras npm docker encode64 jsontools web-search wd)' ~/.zshrc
 echo "export NVM_DIR=/home/${SSH_USER}/.nvm" >> ~/.zshrc
+echo 'export PATH="${HOME}/bin:${PATH}"' >> ~/.zshrc
 echo "[ -s '$NVM_DIR/nvm.sh' ] && . '$NVM_DIR/nvm.sh'" >> ~/.zshrc
 echo "dip() { docker inspect --format '{{ .NetworkSettings.IPAddress }}' \$1 ; }" >> ~/.zshrc
 echo "docker_rm_all() { docker stop \$(docker ps -a -q) && docker rm \$(docker ps -a -q) ; }" >> ~/.zshrc
