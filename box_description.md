@@ -1,4 +1,4 @@
-v4.1.0 (1.5GB)
+v4.1.0 (1.53GB)
 **Clojure Support**
 - Add `install_clojure` script, which includes:
   - `install_lein` script
