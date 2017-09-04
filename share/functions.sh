@@ -24,7 +24,7 @@ install_clojure() {
     log "Installing Clojure tools and dependencies"
     install_java8
     install_lein
-    install_planck
+    #install_planck
 }
 
 install_couchdb() {
