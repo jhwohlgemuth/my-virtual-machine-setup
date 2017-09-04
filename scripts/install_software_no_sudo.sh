@@ -15,6 +15,7 @@ log "Installing Atom plugins"
 apm install file-icons sublime-block-comment atom-beautify language-docker >/dev/null 2>&1
 apm install minimap minimap-selection minimap-find-and-replace minimap-git-diff >/dev/null 2>&1
 apm install emmet atom-alignment atom-ternjs atom-terminal color-picker pigments atom-quokka >/dev/null 2>&1
+apm install proto-repl proto-repl-charts ink tool-bar parinfer lisp-paredit highlight-selected set-syntax >/dev/null 2>&1
 apm install language-svg svg-preview >/dev/null 2>&1
 
 if type julia >/dev/null 2>&1; then

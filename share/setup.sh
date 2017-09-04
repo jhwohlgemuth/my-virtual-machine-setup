@@ -37,7 +37,8 @@ log "Installing node & node modules"
 . ~/.zshrc
 nvm install node && nvm alias default node
 npm install -g grunt-cli yo flow-bin plato nodemon ijavascript stmux
-npm install -g snyk ntl nsp npm-check-updates npmrc grasp phantomas
+npm install -g snyk ntl nsp npm-check-updates npmrc grasp
+npm install -g lumo-cljs
 npm install -g verdaccio
 
 log "Installing Ruby and ruby gems"

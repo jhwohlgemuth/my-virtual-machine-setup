@@ -1,7 +1,7 @@
 {
   "variables": {
     "org_name": "jhwohlgemuth",
-    "version": "4.0.0",
+    "version": "4.1.0",
     "cloud_token": "{{ env `ATLAS_TOKEN` }}",
     "iso_name": "ubuntu-14.04.5-server-amd64.iso",
     "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04.5-server-amd64.iso",

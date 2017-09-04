@@ -20,6 +20,13 @@ install_cairo() {
     apt-get install -y libcairo2-dev libjpeg8-dev libpango1.0-dev libgif-dev build-essential g++ >/dev/null 2>&1
 }
 
+install_clojure() {
+    log "Installing Clojure tools and dependencies"
+    install_java8
+    install_lein
+    install_planck
+}
+
 install_couchdb() {
     log "Installing CouchDB"
     apt-get install -y curl >/dev/null 2>&1
@@ -102,6 +109,13 @@ install_julia() {
     apt-get install -y julia >/dev/null 2>&1
 }
 
+install_lein() {
+    log "Installing lein"
+    curl -L https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein > /usr/bin/lein >/dev/null 2>&1
+    chmod a+x /usr/bin/lein
+    lein
+}
+
 install_mesa() {
     log "Installing mesa"
     apt-add-repository ppa:xorg-edgers >/dev/null 2>&1
@@ -136,6 +150,14 @@ install_mongodb() {
 install_pandoc() {
     log "Installing Pandoc"
     apt-get install -y texlive texlive-latex-extra pandoc >/dev/null 2>&1
+}
+
+install_planck() {
+    log "Adding Planck Clojure REPL PPA"
+    sudo add-apt-repository ppa:mfikes/planck -y >/dev/null 2>&1
+    sudo apt-get update >/dev/null 2>&1
+    log "Installing Planck"
+    sudo apt-get install -y planck >/dev/null 2>&1
 }
 
 install_python() {
