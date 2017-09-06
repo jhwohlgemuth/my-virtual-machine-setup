@@ -1,10 +1,9 @@
 v4.1.0 (1.53GB)
-**Clojure Support**
-- Add `install_clojure` script, which includes:
-  - `install_lein` script
-  - `install_planck` script ([planck](http://planck-repl.org/) is a clojure REPL)
+**Clojure(script) Support**
+- Add `install_clojure` script, which includes `install_lein` script
+- Add `install_planck` script ([planck](http://planck-repl.org/) is a clojure REPL)
 - Add [lumo](https://github.com/anmonteiro/lumo) npm global module (lumo is a clojure REPL)
-- [Install Clojure Atom packages](https://gist.github.com/jhwohlgemuth/45fcb219bce777777c809158d25f4d90#install-these-packages)
+- [Install *some* Clojure(script) Atom packages](https://gist.github.com/jhwohlgemuth/45fcb219bce777777c809158d25f4d90#install-these-packages)
 
 v4.0.0 (1.5GB)
 - First version using vagrant-cloud post-processor
