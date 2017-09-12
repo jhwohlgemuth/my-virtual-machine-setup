@@ -43,6 +43,10 @@ if [[ -e setup.sh ]]; then
     mv setup.sh ~/${SCRIPT_FOLDER}
 fi
 
+if [[ -e profiles.clj ]]; then
+    mv profiles.clj ~/${SCRIPT_FOLDER}
+fi
+
 if type atom >/dev/null 2>&1; then
     mv snippets.cson ~/.atom
 else
