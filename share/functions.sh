@@ -193,6 +193,16 @@ install_redis() {
     #The default port can be changed by editing /etc/redis/redis.conf
 }
 
+install_rlwrap() {
+    log "Installing rlwrap"
+    git clone https://github.com/hanslub42/rlwrap.git >/dev/null 2>&1
+    autoreconf --install  >/dev/null 2>&1
+    ./configure >/dev/null 2>&1
+    make >/dev/null 2>&1
+    make check
+    make install >/dev/null 2>&1
+}
+
 log() {
     TIMEZONE=Central
     MAXLEN=35
