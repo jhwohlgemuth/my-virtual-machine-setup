@@ -68,6 +68,11 @@
     },
     {
       "type": "file",
+      "source": "share/profiles.clj",
+      "destination": "profiles.clj"
+    },
+    {
+      "type": "file",
       "source": "share/setup.sh",
       "destination": "setup.sh"
     },

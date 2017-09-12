@@ -111,15 +111,16 @@ install_julia() {
 
 install_lein() {
     log "Installing lein"
-    mkdir -p ~/bin
-    curl -L https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein -o ~/bin/lein >/dev/null 2>&1
-    chmod a+x ~/bin/lein
-    chown vagrant ~/bin/lein
+    mkdir -p ${HOME}/bin
+    curl -L https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein -o ${HOME}/bin/lein >/dev/null 2>&1
+    chmod a+x ${HOME}/bin/lein
+    chown vagrant ${HOME}/bin/lein
     export LEIN_ROOT=true
     lein >/dev/null 2>&1
-    touch ~/.lein/profiles.clj
-    echo '{:user {:plugins [[lein-try "0.4.3"]]}}' > ~/.lein/profiles.clj
-    chown vagrant ~/.lein -R
+    if [ -f "${HOME}/.jhwohlgemuth/profiles.clj" ]; then
+        mv ${HOME}/.jhwohlgemuth/profiles.clj ${HOME}/.lein
+    fi
+    chown vagrant ${HOME}/.lein -R
 }
 
 install_mesa() {
