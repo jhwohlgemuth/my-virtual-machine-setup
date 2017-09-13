@@ -196,11 +196,14 @@ install_redis() {
 install_rlwrap() {
     log "Installing rlwrap"
     git clone https://github.com/hanslub42/rlwrap.git >/dev/null 2>&1
+    cd rlwrap
     autoreconf --install  >/dev/null 2>&1
     ./configure >/dev/null 2>&1
     make >/dev/null 2>&1
     make check
     make install >/dev/null 2>&1
+    cd ..
+    rm -frd rlwrap
 }
 
 log() {
