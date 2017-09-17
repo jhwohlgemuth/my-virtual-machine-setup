@@ -3,6 +3,7 @@
                   "lint" ["do" ["cljfmt" "check"] "kibit"]
                   "fix" ["do" ["cljfmt" "fix"] ["kibit" "--replace" "--interactive"]]}
         :plugins [
+                  [lein-drip "0.1.1-SNAPSHOT"];; faster JVM
                   [venantius/ultra "0.5.1"];; pretty print
                   [lein-auto "0.1.3"];; watch tasks
                   [lein-try "0.4.3"];; REPL experimenting
