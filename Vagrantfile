@@ -15,6 +15,7 @@ Vagrant.configure("2") do |config|
     config.vm.network "forwarded_port", guest: 4669, host: 4669, auto_correct: false   #custom
     config.vm.network "forwarded_port", guest: 46692, host: 46692, auto_correct: false #custom
 
+    config.vm.network "forwarded_port", guest: 3449, host: 3449, auto_correct: false   #lein figwheel
     config.vm.network "forwarded_port", guest: 8000, host: 8000, auto_correct: true
     config.vm.network "forwarded_port", guest: 8080, host: 8080, auto_correct: true   #jenkins
     config.vm.network "forwarded_port", guest: 8111, host: 8111, auto_correct: true   #teamcity
