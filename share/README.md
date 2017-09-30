@@ -9,6 +9,7 @@
 **Bash Functions** ([`functions.sh`](functions.sh)):
 - `install_atom`
 - `install_cairo`
+- `install_clojure`
 - `install_couch`
 - `install_desktop`
 - `install_docker`
@@ -16,12 +17,15 @@
 - `install_java8`
 - `install_jenkins`
 - `install_julia`
+- `install_lein`
 - `install_mesa`
 - `install_mongodb`
 - `install_pandoc`
+- `install_planck`
 - `install_python`
 - `install_R`
 - `install_redis`
+- `install_rlwrap`
 - `log`
 - `setup_github_ssh`
 - `setup_npm_proxy`
