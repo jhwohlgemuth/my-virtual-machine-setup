@@ -208,7 +208,7 @@ install_rlwrap() {
 
 log() {
     TIMEZONE=Central
-    MAXLEN=35
+    MAXLEN=40
     MSG=$1
     for i in $(seq ${#MSG} $MAXLEN)
     do
