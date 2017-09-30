@@ -12,6 +12,7 @@
                   ;; Dependency Management
                   [com.livingsocial/lein-dependency-check "0.2.2"]
                   [lein-ancient "0.6.10"]
+                  [lein-nvd "0.3.1"];; National Vulnerability Database dependency-checker
                   ;; Code Quality
                   [lein-cljfmt "0.5.7"]
                   [lein-kibit "0.1.5"]
