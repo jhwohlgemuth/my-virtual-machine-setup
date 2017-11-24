@@ -12,7 +12,7 @@ gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB8
 curl -sSL https://get.rvm.io | bash -s stable >/dev/null 2>&1
 
 log "Installing Atom plugins"
-apm install file-icons sublime-block-comment atom-beautify language-docker >/dev/null 2>&1
+apm install file-icons sublime-block-comment atom-beautify language-docker language-babel >/dev/null 2>&1
 apm install minimap minimap-selection minimap-find-and-replace minimap-git-diff >/dev/null 2>&1
 apm install emmet atom-alignment atom-ternjs atom-terminal color-picker pigments atom-quokka >/dev/null 2>&1
 apm install parinfer lisp-paredit >/dev/null 2>&1
