@@ -1,3 +1,10 @@
+v4.1.2 (1.5GB)
+- Fix oh-my-zsh issue
+
+v4.1.1 (1.5GB)
+- Added `install_rlwrap` function
+- Added `profiles.clj` file for clojure user configuration
+
 v4.1.0 (1.53GB)
 **Clojure(script) Support**
 - Add `install_clojure` script, which includes `install_lein` script
