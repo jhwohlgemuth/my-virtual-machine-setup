@@ -110,7 +110,6 @@
       {
         "type": "vagrant-cloud",
         "access_token": "{{user `cloud_token`}}",
-        "only": ["virtualbox-iso"],
         "box_tag": "jhwohlgemuth/env",
         "version": "{{ user `version` }}"
       }
