@@ -8,6 +8,10 @@ fix_ssh_key_permissions() {
     chmod 600 ~/.ssh/${KEY_NAME}.pub
 }
 
+fix_enospc_issue() {
+    echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+}
+
 install_atom() {
     log "Installing Atom editor"
     add-apt-repository -y ppa:webupd8team/atom >/dev/null 2>&1
