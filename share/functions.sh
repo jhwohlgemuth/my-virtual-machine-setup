@@ -221,6 +221,7 @@ install_rust() {
     . ${HOME}/.cargo/env
     rustup toolchain install nightly >/dev/null 2>&1
     rustup target add wasm32-unknown-unknown --toolchain nightly >/dev/null 2>&1
+    cargo install --git https://github.com/alexcrichton/wasm-gc >/dev/null 2>&1
 }
 
 log() {
