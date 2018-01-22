@@ -210,6 +210,19 @@ install_rlwrap() {
     rm -frd rlwrap
 }
 
+install_rust() {
+    if [ `whoami` == 'root' ]; then
+        echo "✘ install_rust should not be run as root"
+        return 0
+    fi
+    log "Installing Rust"
+    curl https://sh.rustup.rs -sSf | sh -s -- -y >/dev/null 2>&1
+    echo "source ${HOME}/.cargo/env" >> ~/.zshrc
+    . ${HOME}/.cargo/env
+    rustup toolchain install nightly >/dev/null 2>&1
+    rustup target add wasm32-unknown-unknown --toolchain nightly >/dev/null 2>&1
+}
+
 log() {
     TIMEZONE=Central
     MAXLEN=50
