@@ -222,6 +222,10 @@ install_rust() {
     rustup toolchain install nightly >/dev/null 2>&1
     rustup target add wasm32-unknown-unknown --toolchain nightly >/dev/null 2>&1
     cargo install --git https://github.com/alexcrichton/wasm-gc >/dev/null 2>&1
+    if type apm >/dev/null 2>&1; then
+        log "Installing Atom Rust IDE"
+        apm install ide-rust >/dev/null 2>&1
+    fi
 }
 
 log() {
