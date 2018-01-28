@@ -226,6 +226,10 @@ install_rust() {
         log "Installing Atom Rust IDE"
         apm install ide-rust >/dev/null 2>&1
     fi
+    log "Installing tokei (line counting CLI tool)"
+    cargo install tokei
+    log "Installing exa (ls replacement)"
+    cargo install --no-default-features exa
 }
 
 log() {
