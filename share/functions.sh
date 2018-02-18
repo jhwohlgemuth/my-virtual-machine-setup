@@ -29,6 +29,10 @@ install_clojure() {
     install_java8
     install_lein
     #install_planck
+    if type npm >/dev/null 2>&1; then
+        log "Installing lumo Clojure REPL"
+        npm install -g lumo-cljs >/dev/null 2>&1
+    fi
 }
 
 install_couchdb() {
@@ -169,6 +173,15 @@ install_planck() {
     sudo apt-get update >/dev/null 2>&1
     log "Installing Planck"
     sudo apt-get install -y planck >/dev/null 2>&1
+}
+
+install_popular_node_modules() {
+    if [ `whoami` == 'root' ]; then
+        echo "✘ Node modules should not be installed as root"
+        return 0
+    fi
+    npm install -g grunt-cli yo flow-bin glow plato nodemon stmux
+    npm install -g snyk ntl nsp npm-check-updates npmrc grasp tldr
 }
 
 install_python() {
