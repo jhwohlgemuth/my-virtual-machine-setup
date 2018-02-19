@@ -44,9 +44,11 @@ gsettings set org.gnome.desktop.session idle-delay 0
 gsettings set org.gnome.desktop.screensaver lock-enabled false
 gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'
 
-log "Installing node & node modules"
+log "Installing node"
 nvm install node && nvm alias default node
+
 install_popular_node_modules
+install_popular_atom_plugins
 
 log "Installing Ruby and ruby gems"
 . ${HOME}/.rvm/scripts/rvm

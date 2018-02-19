@@ -33,6 +33,10 @@ install_clojure() {
         log "Installing lumo Clojure REPL"
         npm install -g lumo-cljs >/dev/null 2>&1
     fi
+    if type apm >/dev/null 2>&1; then
+        log "Installing Clojure Atom plugins"
+        apm install parinfer lisp-paredit >/dev/null 2>&1
+    fi
 }
 
 install_couchdb() {
@@ -184,6 +188,32 @@ install_popular_node_modules() {
     fi
     npm install -g grunt-cli yo flow-bin glow plato nodemon stmux
     npm install -g snyk ntl nsp npm-check-updates npmrc grasp tldr
+}
+
+install_powerline_font() {
+    log "Installing powerline font"
+    wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf >/dev/null 2>&1
+    wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf >/dev/null 2>&1
+    mkdir ~/.fonts/
+    mkdir -p ~/.config/fontconfig/conf.d/
+    mv PowerlineSymbols.otf ~/.fonts/
+    fc-cache -vf ~/.fonts/ >/dev/null 2>&1
+    mv 10-powerline-symbols.conf ~/.config/fontconfig/conf.d/
+}
+
+install_popular_atom_plugins() {
+    if [ `whoami` == 'root' ]; then
+        echo "✘ Atom plugins should not be installed as root"
+        return 0
+    fi
+    log "Installing Atom plugins"
+    #editor and language plugins
+    apm install file-icons sublime-block-comment atom-beautify language-babel >/dev/null 2>&1
+    apm install emmet atom-alignment atom-ternjs atom-terminal color-picker pigments atom-quokka >/dev/null 2>&1
+    #minimap plugins
+    apm install minimap minimap-selection minimap-find-and-replace minimap-git-diff >/dev/null 2>&1
+    #svg plugins
+    apm install language-svg svg-preview >/dev/null 2>&1
 }
 
 install_python() {
