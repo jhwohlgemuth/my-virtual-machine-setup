@@ -115,6 +115,8 @@ install_julia() {
     apt-get update >/dev/null 2>&1
     log "Installing Julia language"
     apt-get install -y julia >/dev/null 2>&1
+    log "Installing IJulia"
+    julia -e 'Pkg.add("IJulia")' >/dev/null 2>&1
 }
 
 install_lein() {

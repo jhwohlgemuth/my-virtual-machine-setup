@@ -18,11 +18,6 @@ apm install emmet atom-alignment atom-ternjs atom-terminal color-picker pigments
 apm install parinfer lisp-paredit >/dev/null 2>&1
 apm install language-svg svg-preview >/dev/null 2>&1
 
-if type julia >/dev/null 2>&1; then
-    log "Installing IJulia"
-    julia -e 'Pkg.add("IJulia")' >/dev/null 2>&1
-fi
-
 log "Patching agnoster theme fonts"
 wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf >/dev/null 2>&1
 wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf >/dev/null 2>&1
