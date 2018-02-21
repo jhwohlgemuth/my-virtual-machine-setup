@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-SCRIPT_FOLDER=.${ORG_NAME:-jhwohlgemuth}
-mkdir -p ~/${SCRIPT_FOLDER}
+SCRIPT_FOLDER=${HOME}/.${SCRIPTS_HOME_DIRECTORY:-jhwohlgemuth}
 #Collection of functions for installing and configuring software on Ubuntu
 #Organized alphabetically
 #All functions except setup_github_ssh require root privileges
