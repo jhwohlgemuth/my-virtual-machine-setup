@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+SCRIPT_FOLDER=.${ORG_NAME:-jhwohlgemuth}
+mkdir -p ~/${SCRIPT_FOLDER}
 #Collection of functions for installing and configuring software on Ubuntu
 #Organized alphabetically
 #All functions except setup_github_ssh require root privileges
@@ -131,8 +133,8 @@ install_lein() {
     chown vagrant ${HOME}/bin/lein
     export LEIN_ROOT=true
     lein >/dev/null 2>&1
-    if [ -f "${HOME}/.jhwohlgemuth/profiles.clj" ]; then
-        mv ${HOME}/.jhwohlgemuth/profiles.clj ${HOME}/.lein
+    if [ -f "${SCRIPT_FOLDER}/profiles.clj" ]; then
+        mv ${SCRIPT_FOLDER}/profiles.clj ${HOME}/.lein
     fi
     chown vagrant ${HOME}/.lein -R
 }
