@@ -1,20 +1,17 @@
 #!/usr/bin/env bash
+SCRIPT_FOLDER=.${ORG_NAME:-jhwohlgemuth}
+mkdir -p ~/${SCRIPT_FOLDER}
+
 #Make setup.sh executable
 chmod +x setup.sh
+
 #Source install functions
 . ./functions.sh
 
-log "Installing nvm"
-curl -so- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash >/dev/null 2>&1
-
-log "Installing rvm"
-gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 >/dev/null 2>&1
-curl -sSL https://get.rvm.io | bash -s stable >/dev/null 2>&1
-
+#Install version managers and font
+install_nvm
+install_rvm
 install_powerline_font #needed for agnoster oh-my-zsh theme
-
-SCRIPT_FOLDER=.${ORG_NAME:-jhwohlgemuth}
-mkdir -p ~/${SCRIPT_FOLDER}
 
 if [[ -e functions.sh ]]; then
     mv functions.sh ~/${SCRIPT_FOLDER}
