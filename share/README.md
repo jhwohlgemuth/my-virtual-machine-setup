@@ -7,6 +7,7 @@
 - `docker_rm_all` - Stop and remove all containers
 
 **Bash Functions** ([`functions.sh`](functions.sh)):
+- `fix_enospc_issue`
 - `install_atom`
 - `install_cairo`
 - `install_clojure`
@@ -20,12 +21,18 @@
 - `install_lein`
 - `install_mesa`
 - `install_mongodb`
+- `install_popular_atom_plugins`
+- `install_popular_node_modules`
+- `install_powerline_font`
+- `install_nvm`
 - `install_pandoc`
 - `install_planck`
 - `install_python`
 - `install_R`
 - `install_redis`
 - `install_rlwrap`
+- `install_rust`
+- `install_rvm`
 - `log`
 - `setup_github_ssh`
 - `setup_npm_proxy`
