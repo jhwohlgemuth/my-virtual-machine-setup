@@ -283,9 +283,9 @@ install_rust() {
         apm install ide-rust >/dev/null 2>&1
     fi
     log "Installing tokei (line counting CLI tool)"
-    cargo install tokei
+    cargo install tokei >/dev/null 2>&1
     log "Installing exa (ls replacement)"
-    cargo install --no-default-features exa
+    cargo install --no-default-features exa >/dev/null 2>&1
 }
 
 install_rvm() {
