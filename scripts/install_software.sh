@@ -4,7 +4,6 @@
 
 update
 install_desktop
-install_python
 install_atom
 # install_docker
 # install_java8
@@ -14,3 +13,4 @@ install_atom
 # install_couchdb
 # install_mongodb
 # install_pandoc
+# install_python
