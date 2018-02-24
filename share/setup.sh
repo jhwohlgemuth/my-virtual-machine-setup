@@ -25,6 +25,7 @@ install_nvm
 install_rvm
 
 install_ohmyzsh
+customize_ohmyzsh
 
 log "Installing node"
 nvm install node && nvm alias default node
