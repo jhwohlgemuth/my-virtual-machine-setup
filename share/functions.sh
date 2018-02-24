@@ -1,8 +1,31 @@
 #!/usr/bin/env bash
+SSH_PASSWORD=${SSH_PASSWORD:-vagrant}
 SCRIPT_FOLDER=${HOME}/.${SCRIPTS_HOME_DIRECTORY:-jhwohlgemuth}
 #Collection of functions for installing and configuring software on Ubuntu
 #Organized alphabetically
-#All functions except setup_github_ssh require root privileges
+customize_ohmyzsh() {
+    if [ -f "${HOME}/.zshrc" ]; then
+      install_powerline_font
+      log "Setting zsh terminal theme"
+      sed -i '/ZSH_THEME/c ZSH_THEME="agnoster"' ~/.zshrc
+      sed -i '/  git/c \ \ git git-extras npm docker encode64 jsontools web-search wd' ~/.zshrc
+      echo 'export NVM_DIR="${HOME}/.nvm"' >> ~/.zshrc
+      echo 'export PATH="${HOME}/bin:${PATH}"' >> ~/.zshrc
+      echo "[ -s '$NVM_DIR/nvm.sh' ] && . '$NVM_DIR/nvm.sh'" >> ~/.zshrc
+      echo "dip() { docker inspect --format '{{ .NetworkSettings.IPAddress }}' \$1 ; }" >> ~/.zshrc
+      echo "docker_rm_all() { docker stop \$(docker ps -a -q) && docker rm \$(docker ps -a -q) ; }" >> ~/.zshrc
+      echo "set_git_user() { git config --global user.name \$1 ; }" >> ~/.zshrc
+      echo "set_git_email() { git config --global user.email \$1 ; }" >> ~/.zshrc
+      echo "clean() { rm -frd \$1 && mkdir \$1 && cd \$1 ; }" >> ~/.zshrc
+      echo "npm completion >/dev/null 2>&1" >> ~/.zshrc
+      echo "source ${SCRIPT_FOLDER}/functions.sh" >> ~/.zshrc
+      echo 'alias rf="rm -frd"' >> ~/.zshrc
+      . ${HOME}/.zshrc
+    else
+      log 'Failed to find .zshrc file'
+    fi
+}
+
 fix_ssh_key_permissions() {
     KEY_NAME=${1:-id_rsa}
     chmod 600 ~/.ssh/${KEY_NAME}
@@ -177,6 +200,17 @@ install_nvm() {
     log "Installing nvm"
     curl -so- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash >/dev/null 2>&1
 
+}
+
+install_ohmyzsh() {
+    if [ -f "${HOME}/.zshrc" ]; then
+      log "Installing Oh-My-Zsh"
+      curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | bash -s >/dev/null 2>&1
+      echo $SSH_PASSWORD | sudo -S chsh -s $(which zsh) $(whoami)
+      . ${HOME}/.zshrc
+    else
+      log 'Failed to find .zshrc file'
+    fi
 }
 
 install_pandoc() {

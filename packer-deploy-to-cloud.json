@@ -96,7 +96,7 @@
     },
     {
       "type": "shell",
-      "script": "scripts/install_software_no_sudo.sh"
+      "script": "scripts/copy_files.sh"
     }
   ],
   "post-processors": [

@@ -5,14 +5,6 @@ mkdir -p ~/${SCRIPT_FOLDER}
 #Make setup.sh executable
 chmod +x setup.sh
 
-#Source install functions
-. ./functions.sh
-
-#Install version managers and font
-install_nvm
-install_rvm
-install_powerline_font #needed for agnoster oh-my-zsh theme
-
 if [[ -e functions.sh ]]; then
     mv functions.sh ~/${SCRIPT_FOLDER}
 fi

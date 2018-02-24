@@ -7,6 +7,7 @@
 - `docker_rm_all` - Stop and remove all containers
 
 **Bash Functions** ([`functions.sh`](functions.sh)):
+- `customize_ohmyzsh`
 - `fix_enospc_issue`
 - `install_atom`
 - `install_cairo`
@@ -21,6 +22,7 @@
 - `install_lein`
 - `install_mesa`
 - `install_mongodb`
+- `install_ohmyzsh`
 - `install_popular_atom_plugins`
 - `install_popular_node_modules`
 - `install_powerline_font`
