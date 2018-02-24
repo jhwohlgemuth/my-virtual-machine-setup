@@ -4,8 +4,6 @@ if [ `whoami` == 'root' ]; then
     return 0
 fi
 
-#Set environment variables
-SSH_PASSWORD=${SSH_PASSWORD:-vagrant}
 ORG_NAME=${ORG_NAME:-jhwohlgemuth}
 
 #Source log function
