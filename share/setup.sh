@@ -25,7 +25,9 @@ install_rvm
 install_ohmyzsh
 customize_ohmyzsh
 
+
 log "Installing node"
+. ${HOME}/.zshrc
 nvm install node && nvm alias default node
 install_popular_node_modules
 install_popular_atom_plugins
