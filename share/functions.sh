@@ -201,14 +201,10 @@ install_nvm() {
 }
 
 install_ohmyzsh() {
-    if [ -f "${HOME}/.zshrc" ]; then
-      log "Installing Oh-My-Zsh"
-      curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | bash -s >/dev/null 2>&1
-      echo $SSH_PASSWORD | sudo -S chsh -s $(which zsh) $(whoami)
-      . ${HOME}/.zshrc
-    else
-      log 'Failed to find .zshrc file'
-    fi
+    log "Installing Oh-My-Zsh"
+    curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | bash -s >/dev/null 2>&1
+    echo $SSH_PASSWORD | sudo -S chsh -s $(which zsh) $(whoami)
+    . ${HOME}/.zshrc
 }
 
 install_pandoc() {
