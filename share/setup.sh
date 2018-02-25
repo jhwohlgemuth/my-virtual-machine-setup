@@ -15,14 +15,10 @@ turn_off_screen_lock
 install_ohmyzsh
 customize_ohmyzsh
 
-install_nvm
-install_rvm
-
 log "Installing node"
 . ${HOME}/.zshrc
 nvm install node && nvm alias default node
 install_popular_node_modules
-install_popular_atom_plugins
 
 log "Installing Ruby and ruby gems"
 . ${HOME}/.rvm/scripts/rvm
