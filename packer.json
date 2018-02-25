@@ -95,6 +95,10 @@
     },
     {
       "type": "shell",
+      "script": "scripts/install_software_no_root.sh"
+    },
+    {
+      "type": "shell",
       "script": "scripts/copy_files.sh"
     }
   ],
