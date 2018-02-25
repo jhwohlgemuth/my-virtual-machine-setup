@@ -12,10 +12,11 @@ ORG_NAME=${ORG_NAME:-jhwohlgemuth}
 turn_on_workspaces
 turn_off_screen_lock
 
-install_nvm
-install_rvm
 install_ohmyzsh
 customize_ohmyzsh
+
+install_nvm
+install_rvm
 
 log "Installing node"
 . ${HOME}/.zshrc
