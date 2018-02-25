@@ -18,13 +18,10 @@ gsettings set org.gnome.desktop.session idle-delay 0
 gsettings set org.gnome.desktop.screensaver lock-enabled false
 gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'
 
-#Install version managers and font
 install_nvm
 install_rvm
-
 install_ohmyzsh
 customize_ohmyzsh
-
 
 log "Installing node"
 . ${HOME}/.zshrc
