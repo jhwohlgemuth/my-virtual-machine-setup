@@ -23,7 +23,6 @@ install_popular_node_modules
 log "Installing Ruby and ruby gems"
 . ${HOME}/.rvm/scripts/rvm
 rvm use --default --install 2.1
-gem install jekyll
 
 if type toilet >/dev/null 2>&1; then
     toilet -f pagga -F border --gay All Done!
