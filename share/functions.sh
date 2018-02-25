@@ -344,7 +344,7 @@ log() {
 
 setup_github_ssh() {
     if [ `whoami` == 'root' ]; then
-      echo "✘ setup_github_ssh should be used without root privileges"
+      echo "✘ setup_github_ssh should NOT be used with root privileges"
       return 0
     fi
     PASSPHRASE=${1:-123456}
@@ -366,6 +366,27 @@ setup_github_ssh() {
     else
         echo "Something went wrong, please try again."
     fi
+}
+
+turn_off_screen_lock() {
+    if [ `whoami` == 'root' ]; then
+      echo "✘ turn_off_screen_lock should NOT be used with root privileges"
+      return 0
+    fi
+    log "Turning off screen lock"
+    gsettings set org.gnome.desktop.session idle-delay 0
+    gsettings set org.gnome.desktop.screensaver lock-enabled false
+    gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'
+}
+
+turn_on_workspaces() {
+    if [ `whoami` == 'root' ]; then
+      echo "✘ turn_on_workspaces should NOT be used with root privileges"
+      return 0
+    fi
+    log "Turning on workspaces (unity)"
+    gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ hsize 2
+    gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ vsize 2
 }
 
 update() {

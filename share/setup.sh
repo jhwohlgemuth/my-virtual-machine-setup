@@ -9,14 +9,8 @@ ORG_NAME=${ORG_NAME:-jhwohlgemuth}
 #Source log function
 . ${HOME}/.${ORG_NAME}/functions.sh
 
-log "Turning on workspaces (unity)"
-gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ hsize 2
-gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ vsize 2
-
-log "Turning off screen lock"
-gsettings set org.gnome.desktop.session idle-delay 0
-gsettings set org.gnome.desktop.screensaver lock-enabled false
-gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'
+turn_on_workspaces
+turn_off_screen_lock
 
 install_nvm
 install_rvm
