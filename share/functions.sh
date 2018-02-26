@@ -9,8 +9,8 @@ customize_ohmyzsh() {
       log "Setting zsh terminal theme"
       sed -i '/ZSH_THEME/c ZSH_THEME="agnoster"' ~/.zshrc
       sed -i '/  git/c \ \ git git-extras npm docker encode64 jsontools web-search wd' ~/.zshrc
-      echo 'export NVM_DIR="${HOME}/.nvm"' >> ~/.zshrc
       echo 'export PATH="${HOME}/bin:${PATH}"' >> ~/.zshrc
+      echo 'export NVM_DIR="${HOME}/.nvm"' >> ~/.zshrc
       echo "[ -s '$NVM_DIR/nvm.sh' ] && . '$NVM_DIR/nvm.sh'" >> ~/.zshrc
       echo "dip() { docker inspect --format '{{ .NetworkSettings.IPAddress }}' \$1 ; }" >> ~/.zshrc
       echo "docker_rm_all() { docker stop \$(docker ps -a -q) && docker rm \$(docker ps -a -q) ; }" >> ~/.zshrc
@@ -20,7 +20,6 @@ customize_ohmyzsh() {
       echo "npm completion >/dev/null 2>&1" >> ~/.zshrc
       echo "source ${SCRIPT_FOLDER}/functions.sh" >> ~/.zshrc
       echo 'alias rf="rm -frd"' >> ~/.zshrc
-      . ${HOME}/.zshrc
     else
       log 'Failed to find .zshrc file'
     fi
@@ -204,7 +203,6 @@ install_ohmyzsh() {
     log "Installing Oh-My-Zsh"
     curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | bash -s >/dev/null 2>&1
     echo $SSH_PASSWORD | sudo -S chsh -s $(which zsh) $(whoami)
-    . ${HOME}/.zshrc
 }
 
 install_pandoc() {

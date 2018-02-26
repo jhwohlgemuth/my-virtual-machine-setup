@@ -16,7 +16,7 @@ install_ohmyzsh
 customize_ohmyzsh
 
 log "Installing node"
-. ${HOME}/.zshrc
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 nvm install node && nvm alias default node
 install_popular_node_modules
 
