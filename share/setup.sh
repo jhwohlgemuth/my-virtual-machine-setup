@@ -22,7 +22,7 @@ install_popular_node_modules
 
 log "Installing Ruby and ruby gems"
 . ${HOME}/.rvm/scripts/rvm
-rvm use --default --install 2.1
+rvm use --default --install 2.4
 
 if type toilet >/dev/null 2>&1; then
     toilet -f pagga -F border --gay All Done!
