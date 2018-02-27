@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 SSH_PASSWORD=${SSH_PASSWORD:-vagrant}
 SCRIPT_FOLDER=${HOME}/.${SCRIPTS_HOME_DIRECTORY:-jhwohlgemuth}
+
 #Collection of functions for installing and configuring software on Ubuntu
 #Organized alphabetically
+
 customize_ohmyzsh() {
     if [ -f "${HOME}/.zshrc" ]; then
       install_powerline_font
@@ -191,7 +193,7 @@ install_mongodb() {
 
 install_nvm() {
     if [ `whoami` == 'root' ]; then
-        echo "✘ nvm should not be installed as root"
+        echo "✘ nvm should NOT be installed as root"
         return 0
     fi
     log "Installing nvm"
@@ -220,7 +222,7 @@ install_planck() {
 
 install_popular_node_modules() {
     if [ `whoami` == 'root' ]; then
-        echo "✘ Node modules should not be installed as root"
+        echo "✘ Node modules should NOT be installed as root"
         return 0
     fi
     npm install -g grunt-cli yo flow-bin glow plato nodemon stmux
@@ -240,7 +242,7 @@ install_powerline_font() {
 
 install_popular_atom_plugins() {
     if [ `whoami` == 'root' ]; then
-        echo "✘ Atom plugins should not be installed as root"
+        echo "✘ Atom plugins should NOT be installed as root"
         return 0
     fi
     log "Installing Atom plugins"
@@ -316,7 +318,7 @@ install_rust() {
 
 install_rvm() {
     if [ `whoami` == 'root' ]; then
-        echo "✘ rvm should not be run as root"
+        echo "✘ rvm should NOT be installed as root"
         return 0
     fi
     log "Installing rvm"
@@ -326,7 +328,7 @@ install_rvm() {
 
 install_sdkman() {
     if [ `whoami` == 'root' ]; then
-        echo "✘ SDKMAN! should not be installed as root"
+        echo "✘ SDKMAN! should NOT be installed as root"
         return 0
     fi
     log "Installing SDKMAN!"
