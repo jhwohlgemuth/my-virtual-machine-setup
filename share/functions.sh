@@ -59,6 +59,7 @@ install_clojure() {
     sdk install java
     sdk install leiningen
     if [ -f "${SCRIPT_FOLDER}/profiles.clj" ]; then
+        mkdir -p $HOME/.lein
         mv ${SCRIPT_FOLDER}/profiles.clj ${HOME}/.lein
     fi
     if type npm >/dev/null 2>&1; then
