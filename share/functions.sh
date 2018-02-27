@@ -155,17 +155,19 @@ install_julia() {
 }
 
 install_lein() {
+    if [ `whoami` == 'root' ]; then
+        echo "✘ lein should NOT be installed as root"
+        return 0
+    fi
     log "Installing lein"
     mkdir -p ${HOME}/bin
     curl -L https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein -o ${HOME}/bin/lein >/dev/null 2>&1
     chmod a+x ${HOME}/bin/lein
-    chown vagrant ${HOME}/bin/lein
-    export LEIN_ROOT=true
     lein >/dev/null 2>&1
     if [ -f "${SCRIPT_FOLDER}/profiles.clj" ]; then
+        mkdir -p $HOME/.lein
         mv ${SCRIPT_FOLDER}/profiles.clj ${HOME}/.lein
     fi
-    chown vagrant ${HOME}/.lein -R
 }
 
 install_mesa() {
