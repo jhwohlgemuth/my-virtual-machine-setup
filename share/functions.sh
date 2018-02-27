@@ -50,10 +50,17 @@ install_cairo() {
 }
 
 install_clojure() {
+    if [ `whoami` == 'root' ]; then
+        echo "✘ Clojure should NOT be installed as root"
+        return 0
+    fi
     log "Installing Clojure tools and dependencies"
-    install_java8
-    install_lein
-    #install_planck
+    install_sdkman
+    sdk install java
+    sdk install leiningen
+    if [ -f "${SCRIPT_FOLDER}/profiles.clj" ]; then
+        mv ${SCRIPT_FOLDER}/profiles.clj ${HOME}/.lein
+    fi
     if type npm >/dev/null 2>&1; then
         log "Installing lumo Clojure REPL"
         npm install -g lumo-cljs >/dev/null 2>&1
