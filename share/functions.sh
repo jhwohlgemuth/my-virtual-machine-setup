@@ -324,6 +324,16 @@ install_rvm() {
     curl -sSL https://get.rvm.io | bash -s stable >/dev/null 2>&1
 }
 
+install_sdkman() {
+    if [ `whoami` == 'root' ]; then
+        echo "✘ SDKMAN! should not be installed as root"
+        return 0
+    fi
+    log "Installing SDKMAN!"
+    curl -s "https://get.sdkman.io" | bash >/dev/null 2>&1
+    source "$HOME/.sdkman/bin/sdkman-init.sh"
+}
+
 log() {
     TIMEZONE=Central
     MAXLEN=50
