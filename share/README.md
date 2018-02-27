@@ -35,16 +35,17 @@
 - `install_rlwrap`
 - `install_rust`
 - `install_rvm`
+- `install_sdkman`
 - `log`
 - `setup_github_ssh`
 - `setup_npm_proxy`
+- `turn_off_screen_lock`
+- `turn_on_workspaces`
 - `update`
 
 **Set-up Script** ([`setup.sh`](setup.sh)):
-- Installs and configures [Oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh) (*with a couple custom docker aliases*)
 - Turns on workspaces
 - Turns off screen lock
-- Installs nvm and rvm
-- Installs and configures oh-my-zsh
+- Installs and configures [Oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh) (*with a couple custom docker aliases*)
+- Installs Node and Ruby
 - Installs the [latest and greatest node modules](https://github.com/omahajs/omahajs.github.io/wiki/Notable-Node-Modules)
-- Installs some Atom plugins
