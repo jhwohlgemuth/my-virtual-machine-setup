@@ -96,7 +96,13 @@
     },
     {
       "type": "shell",
-      "script": "scripts/install_software_no_sudo.sh"
+      "environment_vars": [
+        "ORG_NAME={{ user `org_name` }}"
+      ],
+      "scripts": [
+        "scripts/install_software_no_root.sh",
+        "scripts/copy_files.sh"
+       ]
     }
   ],
   "post-processors": [

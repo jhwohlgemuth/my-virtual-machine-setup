@@ -1,7 +1,32 @@
 #!/usr/bin/env bash
+SSH_PASSWORD=${SSH_PASSWORD:-vagrant}
+SCRIPT_FOLDER=${HOME}/.${SCRIPTS_HOME_DIRECTORY:-jhwohlgemuth}
+
 #Collection of functions for installing and configuring software on Ubuntu
 #Organized alphabetically
-#All functions except setup_github_ssh require root privileges
+
+customize_ohmyzsh() {
+    if [ -f "${HOME}/.zshrc" ]; then
+      install_powerline_font
+      log "Setting zsh terminal theme"
+      sed -i '/ZSH_THEME/c ZSH_THEME="agnoster"' ~/.zshrc
+      sed -i '/  git/c \ \ git git-extras npm docker encode64 jsontools web-search wd' ~/.zshrc
+      echo 'export PATH="${HOME}/bin:${PATH}"' >> ~/.zshrc
+      echo 'export NVM_DIR="${HOME}/.nvm"' >> ~/.zshrc
+      echo "[ -s '$NVM_DIR/nvm.sh' ] && . '$NVM_DIR/nvm.sh'" >> ~/.zshrc
+      echo "dip() { docker inspect --format '{{ .NetworkSettings.IPAddress }}' \$1 ; }" >> ~/.zshrc
+      echo "docker_rm_all() { docker stop \$(docker ps -a -q) && docker rm \$(docker ps -a -q) ; }" >> ~/.zshrc
+      echo "set_git_user() { git config --global user.name \$1 ; }" >> ~/.zshrc
+      echo "set_git_email() { git config --global user.email \$1 ; }" >> ~/.zshrc
+      echo "clean() { rm -frd \$1 && mkdir \$1 && cd \$1 ; }" >> ~/.zshrc
+      echo "npm completion >/dev/null 2>&1" >> ~/.zshrc
+      echo "source ${SCRIPT_FOLDER}/functions.sh" >> ~/.zshrc
+      echo 'alias rf="rm -frd"' >> ~/.zshrc
+    else
+      log 'Failed to find .zshrc file'
+    fi
+}
+
 fix_ssh_key_permissions() {
     KEY_NAME=${1:-id_rsa}
     chmod 600 ~/.ssh/${KEY_NAME}
@@ -25,10 +50,26 @@ install_cairo() {
 }
 
 install_clojure() {
+    if [ `whoami` == 'root' ]; then
+        echo "✘ Clojure should NOT be installed as root"
+        return 0
+    fi
     log "Installing Clojure tools and dependencies"
-    install_java8
-    install_lein
-    #install_planck
+    install_sdkman
+    sdk install java
+    sdk install leiningen
+    if [ -f "${SCRIPT_FOLDER}/profiles.clj" ]; then
+        mkdir -p $HOME/.lein
+        mv ${SCRIPT_FOLDER}/profiles.clj ${HOME}/.lein
+    fi
+    if type npm >/dev/null 2>&1; then
+        log "Installing lumo Clojure REPL"
+        npm install -g lumo-cljs >/dev/null 2>&1
+    fi
+    if type apm >/dev/null 2>&1; then
+        log "Installing Clojure Atom plugins"
+        apm install parinfer lisp-paredit >/dev/null 2>&1
+    fi
 }
 
 install_couchdb() {
@@ -114,17 +155,19 @@ install_julia() {
 }
 
 install_lein() {
+    if [ `whoami` == 'root' ]; then
+        echo "✘ lein should NOT be installed as root"
+        return 0
+    fi
     log "Installing lein"
     mkdir -p ${HOME}/bin
     curl -L https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein -o ${HOME}/bin/lein >/dev/null 2>&1
     chmod a+x ${HOME}/bin/lein
-    chown vagrant ${HOME}/bin/lein
-    export LEIN_ROOT=true
     lein >/dev/null 2>&1
-    if [ -f "${HOME}/.jhwohlgemuth/profiles.clj" ]; then
-        mv ${HOME}/.jhwohlgemuth/profiles.clj ${HOME}/.lein
+    if [ -f "${SCRIPT_FOLDER}/profiles.clj" ]; then
+        mkdir -p $HOME/.lein
+        mv ${SCRIPT_FOLDER}/profiles.clj ${HOME}/.lein
     fi
-    chown vagrant ${HOME}/.lein -R
 }
 
 install_mesa() {
@@ -158,6 +201,22 @@ install_mongodb() {
     #The default port can be changed by editing /etc/mongod.conf
 }
 
+install_nvm() {
+    if [ `whoami` == 'root' ]; then
+        echo "✘ nvm should NOT be installed as root"
+        return 0
+    fi
+    log "Installing nvm"
+    curl -so- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash >/dev/null 2>&1
+
+}
+
+install_ohmyzsh() {
+    log "Installing Oh-My-Zsh"
+    curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | bash -s >/dev/null 2>&1
+    echo $SSH_PASSWORD | sudo -S chsh -s $(which zsh) $(whoami)
+}
+
 install_pandoc() {
     log "Installing Pandoc"
     apt-get install -y texlive texlive-latex-extra pandoc >/dev/null 2>&1
@@ -169,6 +228,41 @@ install_planck() {
     sudo apt-get update >/dev/null 2>&1
     log "Installing Planck"
     sudo apt-get install -y planck >/dev/null 2>&1
+}
+
+install_popular_node_modules() {
+    if [ `whoami` == 'root' ]; then
+        echo "✘ Node modules should NOT be installed as root"
+        return 0
+    fi
+    npm install -g grunt-cli yo flow-bin glow plato nodemon stmux
+    npm install -g snyk ntl nsp npm-check-updates npmrc grasp tldr
+}
+
+install_powerline_font() {
+    log "Installing powerline font"
+    wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf >/dev/null 2>&1
+    wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf >/dev/null 2>&1
+    mkdir ~/.fonts/
+    mkdir -p ~/.config/fontconfig/conf.d/
+    mv PowerlineSymbols.otf ~/.fonts/
+    fc-cache -vf ~/.fonts/ >/dev/null 2>&1
+    mv 10-powerline-symbols.conf ~/.config/fontconfig/conf.d/
+}
+
+install_popular_atom_plugins() {
+    if [ `whoami` == 'root' ]; then
+        echo "✘ Atom plugins should NOT be installed as root"
+        return 0
+    fi
+    log "Installing Atom plugins"
+    #editor and language plugins
+    apm install file-icons sublime-block-comment atom-beautify language-babel >/dev/null 2>&1
+    apm install emmet atom-alignment atom-ternjs atom-terminal color-picker pigments atom-quokka >/dev/null 2>&1
+    #minimap plugins
+    apm install minimap minimap-selection minimap-find-and-replace minimap-git-diff >/dev/null 2>&1
+    #svg plugins
+    apm install language-svg svg-preview >/dev/null 2>&1
 }
 
 install_python() {
@@ -227,9 +321,29 @@ install_rust() {
         apm install ide-rust >/dev/null 2>&1
     fi
     log "Installing tokei (line counting CLI tool)"
-    cargo install tokei
+    cargo install tokei >/dev/null 2>&1
     log "Installing exa (ls replacement)"
-    cargo install --no-default-features exa
+    cargo install --no-default-features exa >/dev/null 2>&1
+}
+
+install_rvm() {
+    if [ `whoami` == 'root' ]; then
+        echo "✘ rvm should NOT be installed as root"
+        return 0
+    fi
+    log "Installing rvm"
+    gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 >/dev/null 2>&1
+    curl -sSL https://get.rvm.io | bash -s stable >/dev/null 2>&1
+}
+
+install_sdkman() {
+    if [ `whoami` == 'root' ]; then
+        echo "✘ SDKMAN! should NOT be installed as root"
+        return 0
+    fi
+    log "Installing SDKMAN!"
+    curl -s "https://get.sdkman.io" | bash >/dev/null 2>&1
+    source "$HOME/.sdkman/bin/sdkman-init.sh"
 }
 
 log() {
@@ -246,7 +360,7 @@ log() {
 
 setup_github_ssh() {
     if [ `whoami` == 'root' ]; then
-      echo "✘ setup_github_ssh should be used without root privileges"
+      echo "✘ setup_github_ssh should NOT be used with root privileges"
       return 0
     fi
     PASSPHRASE=${1:-123456}
@@ -268,6 +382,27 @@ setup_github_ssh() {
     else
         echo "Something went wrong, please try again."
     fi
+}
+
+turn_off_screen_lock() {
+    if [ `whoami` == 'root' ]; then
+      echo "✘ turn_off_screen_lock should NOT be used with root privileges"
+      return 0
+    fi
+    log "Turning off screen lock"
+    gsettings set org.gnome.desktop.session idle-delay 0
+    gsettings set org.gnome.desktop.screensaver lock-enabled false
+    gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'
+}
+
+turn_on_workspaces() {
+    if [ `whoami` == 'root' ]; then
+      echo "✘ turn_on_workspaces should NOT be used with root privileges"
+      return 0
+    fi
+    log "Turning on workspaces (unity)"
+    gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ hsize 2
+    gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ vsize 2
 }
 
 update() {
