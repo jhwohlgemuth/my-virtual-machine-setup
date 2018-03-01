@@ -1,4 +1,5 @@
 **Terminal Aliases & Functions**
+--------------------------------
 - `rf <dir>` - `rm -frd <dir>`
 - `clean <dir>` - Empty `<dir>` and enter it
 - `set_git_user <User Name>` - `git config --global user.name <User Name>`
@@ -6,7 +7,8 @@
 - `dip <container name>` - Returns IP adress of container
 - `docker_rm_all` - Stop and remove all containers
 
-**Bash Functions** ([`functions.sh`](functions.sh)):
+**Bash Functions** ([`functions.sh`](functions.sh))
+-----------------
 - `customize_ohmyzsh`
 - `fix_enospc_issue`
 - `install_atom`
@@ -43,9 +45,23 @@
 - `turn_on_workspaces`
 - `update`
 
-**Set-up Script** ([`setup.sh`](setup.sh)):
+**Vagrant box setup** ([`share/setup.sh`](setup.sh))
+-----------------
+> For use with [jhwohlgemuth/env Vagrant box](https://app.vagrantup.com/jhwohlgemuth/boxes/env)
+
 - Turns on workspaces
 - Turns off screen lock
 - Installs and configures [Oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh) (*with a couple custom docker aliases*)
 - Installs Node and Ruby
 - Installs the [latest and greatest node modules](https://github.com/omahajs/omahajs.github.io/wiki/Notable-Node-Modules)
+
+**Bare metal setup**
+--------------------
+> For use with clean Ubuntu (v14) install
+
+    export ORG_NAME=<optional folder name for files>
+    export SSH_PASSWORD=<your password>
+    git clone https://github.com/jhwohlgemuth/env.git
+    cd env/share
+    sudo sh install_bare_metal_root.sh
+    sh install_bare_metal.sh
