@@ -6,6 +6,7 @@ SCRIPT_FOLDER=${HOME}/.${SCRIPTS_HOME_DIRECTORY:-jhwohlgemuth}
 #Organized alphabetically
 
 customize_ohmyzsh() {
+    prevent_root $0
     if [ -f "${HOME}/.zshrc" ]; then
       install_powerline_font
       log "Setting zsh terminal theme"
@@ -28,12 +29,14 @@ customize_ohmyzsh() {
 }
 
 fix_ssh_key_permissions() {
+    prevent_root $0
     KEY_NAME=${1:-id_rsa}
     chmod 600 ~/.ssh/${KEY_NAME}
     chmod 600 ~/.ssh/${KEY_NAME}.pub
 }
 
 fix_enospc_issue() {
+    verify_root $0
     echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 }
 
@@ -50,10 +53,7 @@ install_cairo() {
 }
 
 install_clojure() {
-    if [ `whoami` == 'root' ]; then
-        echo "✘ Clojure should NOT be installed as root"
-        return 0
-    fi
+    prevent_root $0
     log "Installing Clojure tools and dependencies"
     install_sdkman
     sdk install java
@@ -155,10 +155,7 @@ install_julia() {
 }
 
 install_lein() {
-    if [ `whoami` == 'root' ]; then
-        echo "✘ lein should NOT be installed as root"
-        return 0
-    fi
+    prevent_root $0
     log "Installing lein"
     mkdir -p ${HOME}/bin
     curl -L https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein -o ${HOME}/bin/lein >/dev/null 2>&1
@@ -202,16 +199,14 @@ install_mongodb() {
 }
 
 install_nvm() {
-    if [ `whoami` == 'root' ]; then
-        echo "✘ nvm should NOT be installed as root"
-        return 0
-    fi
+    prevent_root $0
     log "Installing nvm"
     curl -so- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash >/dev/null 2>&1
 
 }
 
 install_ohmyzsh() {
+    prevent_root $0
     log "Installing Oh-My-Zsh"
     curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | bash -s >/dev/null 2>&1
     echo $SSH_PASSWORD | sudo -S chsh -s $(which zsh) $(whoami)
@@ -224,22 +219,20 @@ install_pandoc() {
 
 install_planck() {
     log "Adding Planck Clojure REPL PPA"
-    sudo add-apt-repository ppa:mfikes/planck -y >/dev/null 2>&1
-    sudo apt-get update >/dev/null 2>&1
+    add-apt-repository ppa:mfikes/planck -y >/dev/null 2>&1
+    apt-get update >/dev/null 2>&1
     log "Installing Planck"
-    sudo apt-get install -y planck >/dev/null 2>&1
+    apt-get install -y planck >/dev/null 2>&1
 }
 
 install_popular_node_modules() {
-    if [ `whoami` == 'root' ]; then
-        echo "✘ Node modules should NOT be installed as root"
-        return 0
-    fi
+    prevent_root $0
     npm install -g grunt-cli yo flow-bin glow plato nodemon stmux
     npm install -g snyk ntl nsp npm-check-updates npmrc grasp tldr
 }
 
 install_powerline_font() {
+    prevent_root $0
     log "Installing powerline font"
     wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf >/dev/null 2>&1
     wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf >/dev/null 2>&1
@@ -251,10 +244,7 @@ install_powerline_font() {
 }
 
 install_popular_atom_plugins() {
-    if [ `whoami` == 'root' ]; then
-        echo "✘ Atom plugins should NOT be installed as root"
-        return 0
-    fi
+    prevent_root $0
     log "Installing Atom plugins"
     #editor and language plugins
     apm install file-icons sublime-block-comment atom-beautify language-babel >/dev/null 2>&1
@@ -305,10 +295,7 @@ install_rlwrap() {
 }
 
 install_rust() {
-    if [ `whoami` == 'root' ]; then
-        echo "✘ install_rust should not be run as root"
-        return 0
-    fi
+    prevent_root $0
     log "Installing Rust"
     curl https://sh.rustup.rs -sSf | sh -s -- -y >/dev/null 2>&1
     echo "source ${HOME}/.cargo/env" >> ~/.zshrc
@@ -327,20 +314,14 @@ install_rust() {
 }
 
 install_rvm() {
-    if [ `whoami` == 'root' ]; then
-        echo "✘ rvm should NOT be installed as root"
-        return 0
-    fi
+    prevent_root $0
     log "Installing rvm"
     gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 >/dev/null 2>&1
     curl -sSL https://get.rvm.io | bash -s stable >/dev/null 2>&1
 }
 
 install_sdkman() {
-    if [ `whoami` == 'root' ]; then
-        echo "✘ SDKMAN! should NOT be installed as root"
-        return 0
-    fi
+    prevent_root $0
     log "Installing SDKMAN!"
     curl -s "https://get.sdkman.io" | bash >/dev/null 2>&1
     source "$HOME/.sdkman/bin/sdkman-init.sh"
@@ -358,11 +339,19 @@ log() {
     echo $MSG
 }
 
-setup_github_ssh() {
-    if [ `whoami` == 'root' ]; then
-      echo "✘ setup_github_ssh should NOT be used with root privileges"
-      return 0
+prevent_user() {
+    if [ `whoami` == $1 ]; then
+        echo "✘ ${2} should NOT be run as ${1}"
+        exit 0
     fi
+}
+
+prevent_root() {
+    prevent_user root $1
+}
+
+setup_github_ssh() {
+    prevent_root $0
     PASSPHRASE=${1:-123456}
     KEY_NAME=${2:-id_rsa}
     echo -n "Generating key pair......"
@@ -385,10 +374,7 @@ setup_github_ssh() {
 }
 
 turn_off_screen_lock() {
-    if [ `whoami` == 'root' ]; then
-      echo "✘ turn_off_screen_lock should NOT be used with root privileges"
-      return 0
-    fi
+    prevent_root $0
     log "Turning off screen lock"
     gsettings set org.gnome.desktop.session idle-delay 0
     gsettings set org.gnome.desktop.screensaver lock-enabled false
@@ -396,10 +382,7 @@ turn_off_screen_lock() {
 }
 
 turn_on_workspaces() {
-    if [ `whoami` == 'root' ]; then
-      echo "✘ turn_on_workspaces should NOT be used with root privileges"
-      return 0
-    fi
+    prevent_root $0
     log "Turning on workspaces (unity)"
     gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ hsize 2
     gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ vsize 2
