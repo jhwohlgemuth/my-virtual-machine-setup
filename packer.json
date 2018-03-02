@@ -1,7 +1,7 @@
 {
   "variables": {
     "org_name": "jhwohlgemuth",
-    "version": "4.1.2",
+    "version": "5.0.0",
     "iso_name": "ubuntu-14.04.5-server-amd64.iso",
     "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04.5-server-amd64.iso",
     "checksum": "dd54dc8cfc2a655053d19813c2f9aa9f",
