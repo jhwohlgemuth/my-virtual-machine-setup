@@ -244,14 +244,18 @@ install_powerline_font() {
 
 install_popular_atom_plugins() {
     prevent_root $0
-    log "Installing Atom plugins"
-    #editor and language plugins
-    apm install file-icons sublime-block-comment atom-beautify language-babel >/dev/null 2>&1
-    apm install emmet atom-alignment atom-ternjs atom-terminal color-picker pigments atom-quokka >/dev/null 2>&1
-    #minimap plugins
-    apm install minimap minimap-selection minimap-find-and-replace minimap-git-diff >/dev/null 2>&1
-    #svg plugins
-    apm install language-svg svg-preview >/dev/null 2>&1
+    if type apm >/dev/null 2>&1; then
+        log "Installing Atom plugins"
+        #editor and language plugins
+        apm install file-icons sublime-block-comment atom-beautify language-babel >/dev/null 2>&1
+        apm install emmet atom-alignment atom-ternjs atom-terminal color-picker pigments atom-quokka >/dev/null 2>&1
+        #minimap plugins
+        apm install minimap minimap-selection minimap-find-and-replace minimap-git-diff >/dev/null 2>&1
+        #svg plugins
+        apm install language-svg svg-preview >/dev/null 2>&1
+    else
+        log "Please install Atom before installing Atom plugins"
+    fi
 }
 
 install_python() {
