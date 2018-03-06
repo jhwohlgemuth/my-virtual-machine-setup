@@ -1,3 +1,8 @@
+v5.0.0 (?.?GB)
+- Massive update of functions and scripts
+- More modular, more better
+- Install less by default
+
 v4.1.2 (1.5GB)
 - Fix oh-my-zsh issue
 

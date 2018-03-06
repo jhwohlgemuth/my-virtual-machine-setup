@@ -19,6 +19,7 @@ log "Installing node"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 nvm install node && nvm alias default node
 install_popular_node_modules
+install_popular_atom_plugins
 
 log "Installing Ruby and ruby gems"
 . ${HOME}/.rvm/scripts/rvm
