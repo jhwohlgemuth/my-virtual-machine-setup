@@ -78,6 +78,7 @@
     },
     {
       "type": "shell",
+      "expect_disconnect": true,
       "environment_vars": [
         "UPDATE={{ user `update` }}",
         "ORG_NAME={{ user `org_name` }}",
