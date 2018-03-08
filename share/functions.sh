@@ -44,8 +44,6 @@ install_atom() {
     add-apt-repository -y ppa:webupd8team/atom >/dev/null 2>&1
     apt-get update >/dev/null 2>&1
     apt-get install -y atom >/dev/null 2>&1
-    rm -f $HOME/.atom
-    install_popular_atom_plugins
 }
 
 install_cairo() {
@@ -245,7 +243,7 @@ install_powerline_font() {
 }
 
 install_popular_atom_plugins() {
-    # prevent_root $0
+    prevent_root $0
     if type apm >/dev/null 2>&1; then
         log "Installing Atom plugins"
         #editor and language plugins
