@@ -245,7 +245,7 @@ install_powerline_font() {
 }
 
 install_popular_atom_plugins() {
-    prevent_root $0
+    # prevent_root $0
     if type apm >/dev/null 2>&1; then
         log "Installing Atom plugins"
         #editor and language plugins
