@@ -1,3 +1,6 @@
+v5.0.1 (?.?GB)
+- F# and OCaml/ReasonML support
+
 v5.0.0 (?.?GB)
 - Massive update of functions and scripts
 - More modular, more better
