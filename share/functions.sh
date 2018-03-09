@@ -118,6 +118,18 @@ install_docker() {
     fi
 }
 
+install_fsharp() {
+    install_mono
+    apt-get install fsharp -y >/dev/null 2>&1
+    if type code >/dev/null 2>&1; then
+        # do not install VS Code
+    else
+        install_vscode # needed for Ionide IDE
+    fi
+    log "Installing Ionide IDE"
+    code --install-extension Ionide.Ionide-fsharp
+}
+
 install_heroku() {
     log "Installing Heroku CLI"
     add-apt-repository "deb https://cli-assets.heroku.com/branches/stable/apt ./" >/dev/null 2>&1
@@ -195,6 +207,13 @@ install_mongodb() {
     #sudo sed -i '/#port/c port = 8000' /etc/mongod.conf >/dev/null 2>&1
     service mongod restart >/dev/null 2>&1
     #The default port can be changed by editing /etc/mongod.conf
+}
+
+install_mono() {
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF >/dev/null 2>&1
+    echo "deb http://download.mono-project.com/repo/ubuntu stable-trusty main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list >/dev/null 2>&1
+    update
+    apt-get install mono-devel -y >/dev/null 2>&1
 }
 
 install_nvm() {
