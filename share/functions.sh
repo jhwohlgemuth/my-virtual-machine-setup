@@ -254,6 +254,22 @@ install_planck() {
     apt-get install -y planck >/dev/null 2>&1
 }
 
+install_popular_atom_plugins() {
+    prevent_root $0
+    if type apm >/dev/null 2>&1; then
+        log "Installing Atom plugins"
+        #editor and language plugins
+        apm install file-icons sublime-block-comment atom-beautify language-babel >/dev/null 2>&1
+        apm install emmet atom-alignment atom-ternjs atom-terminal color-picker pigments atom-quokka >/dev/null 2>&1
+        #minimap plugins
+        apm install minimap minimap-selection minimap-find-and-replace minimap-git-diff >/dev/null 2>&1
+        #svg plugins
+        apm install language-svg svg-preview >/dev/null 2>&1
+    else
+        log "Please install Atom before installing Atom plugins"
+    fi
+}
+
 install_popular_node_modules() {
     prevent_root $0
     npm install -g grunt-cli yo flow-bin glow plato nodemon stmux
@@ -272,22 +288,6 @@ install_powerline_font() {
     mv 10-powerline-symbols.conf ~/.config/fontconfig/conf.d/
 }
 
-install_popular_atom_plugins() {
-    prevent_root $0
-    if type apm >/dev/null 2>&1; then
-        log "Installing Atom plugins"
-        #editor and language plugins
-        apm install file-icons sublime-block-comment atom-beautify language-babel >/dev/null 2>&1
-        apm install emmet atom-alignment atom-ternjs atom-terminal color-picker pigments atom-quokka >/dev/null 2>&1
-        #minimap plugins
-        apm install minimap minimap-selection minimap-find-and-replace minimap-git-diff >/dev/null 2>&1
-        #svg plugins
-        apm install language-svg svg-preview >/dev/null 2>&1
-    else
-        log "Please install Atom before installing Atom plugins"
-    fi
-}
-
 install_python() {
     log "Installing advanced Python support"
     apt-get install -y libzmq3-dev python-pip python-dev >/dev/null 2>&1
@@ -303,6 +303,20 @@ install_R() {
     apt-get update -y >/dev/null 2>&1
     apt-get upgrade -y >/dev/null 2>&1
     apt-get install -y r-base >/dev/null 2>&1
+}
+
+install_reason() {
+    prevent_root $0
+    log "Installing ReasonML support"
+    npm install -g reason-cli@3.1.0-linux bs-platform create-react-app >/dev/null 2>&1
+    if type apm >/dev/null 2>&1; then
+        log "Installing Atom ReasonML language support"
+        apm install language-reason language-ocaml >/dev/null 2>&1
+    fi
+    if type code >/dev/null 2>&1; then
+        log "Installing VS Code ReasonML IDE"
+        code --install-extension freebroccolo.reasonml >/dev/null 2>&1
+    fi
 }
 
 install_redis() {
