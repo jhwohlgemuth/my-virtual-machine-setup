@@ -126,8 +126,6 @@ install_fsharp() {
     else
         install_vscode # needed for Ionide IDE
     fi
-    log "Installing Ionide IDE"
-    code --install-extension Ionide.Ionide-fsharp
 }
 
 install_heroku() {
@@ -136,6 +134,12 @@ install_heroku() {
     curl -L https://cli-assets.heroku.com/apt/release.key | apt-key add - >/dev/null 2>&1
     apt-get update >/dev/null 2>&1
     apt-get install heroku >/dev/null 2>&1
+}
+
+install_ionide() {
+    prevent_root $0
+    log "Installing Ionide IDE"
+    code --install-extension Ionide.Ionide-fsharp >/dev/null 2>&1
 }
 
 install_java8() {
@@ -213,7 +217,7 @@ install_mono() {
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF >/dev/null 2>&1
     echo "deb http://download.mono-project.com/repo/ubuntu stable-trusty main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list >/dev/null 2>&1
     update
-    apt-get install mono-devel -y >/dev/null 2>&1
+    apt-get install mono-devel -y --force-yes >/dev/null 2>&1
 }
 
 install_nvm() {
@@ -354,7 +358,8 @@ install_vscode() {
     mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
     sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list' >/dev/null 2>&1
     update
-    apt-get install code -y >/dev/null 2>&1
+    log "Installing VSCode"
+    apt-get install code -y --force-yes >/dev/null 2>&1
 }
 
 log() {
@@ -420,5 +425,6 @@ turn_on_workspaces() {
 
 update() {
     log "Updating"
+    apt-key update >/dev/null 2>&1
     apt-get update >/dev/null 2>&1
 }
