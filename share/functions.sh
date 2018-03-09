@@ -350,11 +350,11 @@ install_sdkman() {
 }
 
 install_vscode() {
-    curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg >/dev/null 2>&1
-    mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg >/dev/null 2>&1
+    curl -s https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg >/dev/null 2>&1
+    mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
     sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list' >/dev/null 2>&1
     update
-    apt-get install code >/dev/null 2>&1
+    apt-get install code -y >/dev/null 2>&1
 }
 
 log() {
