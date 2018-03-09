@@ -17,13 +17,16 @@
 - `install_couch`
 - `install_desktop`
 - `install_docker`
+- `install_fsharp`
 - `install_heroku`
+- `install_ionide`
 - `install_java8`
 - `install_jenkins`
 - `install_julia`
 - `install_lein`
 - `install_mesa`
 - `install_mongodb`
+- `install_mono`
 - `install_ohmyzsh`
 - `install_popular_atom_plugins`
 - `install_popular_node_modules`
@@ -38,6 +41,7 @@
 - `install_rust`
 - `install_rvm`
 - `install_sdkman`
+- `install_vscode`
 - `log`
 - `prevent_root`
 - `prevent_user`
