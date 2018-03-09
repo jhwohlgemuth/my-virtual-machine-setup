@@ -28,6 +28,7 @@
 - `install_mongodb`
 - `install_mono`
 - `install_ohmyzsh`
+- `install_opam`
 - `install_popular_atom_plugins`
 - `install_popular_node_modules`
 - `install_powerline_font`
@@ -36,6 +37,7 @@
 - `install_planck`
 - `install_python`
 - `install_R`
+- `install_reason`
 - `install_redis`
 - `install_rlwrap`
 - `install_rust`
