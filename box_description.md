@@ -1,10 +1,11 @@
 v5.0.1 (?.?GB)
-- F# and OCaml/ReasonML support
+- OCaml/ReasonML support
 
 v5.0.0 (2.42GB)
 - Massive update of functions and scripts
 - More modular, more better
 - Install less by default
+- F# support
 
 v4.1.2 (1.5GB)
 - Fix oh-my-zsh issue
