@@ -122,11 +122,6 @@ install_fsharp() {
     install_mono
     log "Installing F#"
     apt-get install fsharp -y >/dev/null 2>&1
-    if type code >/dev/null 2>&1; then
-        # do not install VS Code
-    else
-        install_vscode # needed for Ionide IDE
-    fi
 }
 
 install_heroku() {
@@ -139,8 +134,14 @@ install_heroku() {
 
 install_ionide() {
     prevent_root $0
-    log "Installing Ionide IDE"
-    code --install-extension Ionide.Ionide-fsharp >/dev/null 2>&1
+    if type code >/dev/null 2>&1; then
+        log "Installing Ionide IDE"
+        code --install-extension Ionide.Ionide-fsharp >/dev/null 2>&1
+    else
+        install_vscode # needed for Ionide IDE
+        log "Installing Ionide IDE"
+        code --install-extension Ionide.Ionide-fsharp >/dev/null 2>&1
+    fi
 }
 
 install_java8() {
