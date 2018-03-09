@@ -138,9 +138,7 @@ install_ionide() {
         log "Installing Ionide IDE"
         code --install-extension Ionide.Ionide-fsharp >/dev/null 2>&1
     else
-        install_vscode # needed for Ionide IDE
-        log "Installing Ionide IDE"
-        code --install-extension Ionide.Ionide-fsharp >/dev/null 2>&1
+        log "Ionide requires VS Code be installed"
     fi
 }
 
