@@ -226,7 +226,6 @@ install_nvm() {
     prevent_root $0
     log "Installing nvm"
     curl -so- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash >/dev/null 2>&1
-
 }
 
 install_ohmyzsh() {
@@ -273,7 +272,7 @@ install_popular_atom_plugins() {
 install_popular_node_modules() {
     prevent_root $0
     npm install -g grunt-cli yo flow-bin glow plato nodemon stmux
-    npm install -g snyk ntl nsp npm-check-updates npmrc grasp tldr stacks-cli thanks
+    npm install -g snyk ntl nsp npm-check-updates npmrc grasp tldr stacks-cli thanks bit-bin
 }
 
 install_powerline_font() {

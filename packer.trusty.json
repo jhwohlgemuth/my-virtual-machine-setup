@@ -1,6 +1,7 @@
 {
   "variables": {
     "org_name": "jhwohlgemuth",
+    "ubuntu_version": "trusty",
     "version": "5.0.0",
     "iso_name": "ubuntu-14.04.5-server-amd64.iso",
     "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04.5-server-amd64.iso",
@@ -13,11 +14,10 @@
   },
   "builders": [
     {
-      "type": "virtualbox-iso",
       "boot_command": [
         "<esc><esc><enter><wait>",
         "/install/vmlinuz noapic ",
-        "file=/floppy/preseed.cfg ",
+        "file=/floppy/preseed-trusty.cfg ",
         "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
         "hostname={{ user `hostname` }} ",
         "fb=false debconf/frontend=noninteractive ",
@@ -29,13 +29,13 @@
         "passwd/username={{ user `ssh_name` }} ",
         "initrd=/install/initrd.gz -- <enter>"
       ],
-      "boot_wait": "4s",
+      "boot_wait": "10s",
       "disk_size": "{{ user `disk_size` }}",
-      "floppy_files": ["http/preseed.cfg"],
+      "floppy_files": ["http/preseed-trusty.cfg"],
       "guest_os_type": "Ubuntu_64",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "hard_drive_interface": "sata",
-      "headless": true,
+      "headless": false,
       "http_directory": "http",
       "iso_checksum": "{{ user `checksum` }}",
       "iso_checksum_type": "md5",
@@ -45,8 +45,9 @@
       ],
       "ssh_username": "{{ user `ssh_name` }}",
       "ssh_password": "{{ user `ssh_pass` }}",
-      "ssh_wait_timeout": "10m",
+      "ssh_wait_timeout": "20m",
       "shutdown_command": "echo '{{ user `ssh_pass` }}'|sudo -S shutdown -P now",
+      "type": "virtualbox-iso",
       "virtualbox_version_file": ".vbox_version",
       "vboxmanage": [
         ["modifyvm", "{{ .Name }}", "--cpus", "1"],
@@ -87,11 +88,11 @@
       ],
       "execute_command": "echo '{{ user `ssh_pass` }}' | {{ .Vars }} sudo -E -S bash '{{ .Path }}'",
       "scripts": [
-        "scripts/update.sh",
-        "scripts/install_software.sh",
-        "scripts/install_guest_additions.sh",
-        "scripts/configure_sudo.sh",
-        "scripts/cleanup.sh"
+        "scripts/{{ user `ubuntu_version` }}/update.sh",
+        "scripts/{{ user `ubuntu_version` }}/install_software.sh",
+        "scripts/{{ user `ubuntu_version` }}/install_guest_additions.sh",
+        "scripts/{{ user `ubuntu_version` }}/configure_sudo.sh",
+        "scripts/{{ user `ubuntu_version` }}/cleanup.sh"
       ]
     },
     {
@@ -100,8 +101,8 @@
         "ORG_NAME={{ user `org_name` }}"
       ],
       "scripts": [
-        "scripts/install_software_no_root.sh",
-        "scripts/copy_files.sh"
+        "scripts/{{ user `ubuntu_version` }}/install_software_no_root.sh",
+        "scripts/{{ user `ubuntu_version` }}/copy_files.sh"
        ]
     }
   ],
@@ -109,7 +110,7 @@
     [
       {
         "type": "vagrant",
-        "output": "box/{{ user `org_name` }}.{{ user `version` }}.box",
+        "output": "box/{{ user `org_name` }}.{{ user `version` }}.{{ user `ubuntu_version` }}.box",
         "vagrantfile_template": "Vagrantfile.template",
         "compression_level": 9
       }

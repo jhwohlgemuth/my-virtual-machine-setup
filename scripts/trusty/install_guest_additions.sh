@@ -1,5 +1,4 @@
-#!/bin/bash -eux
-#Source install functions
+#!/usr/bin/env bash
 . ./functions.sh
 
 SSH_USER=${SSH_USERNAME:-vagrant}
