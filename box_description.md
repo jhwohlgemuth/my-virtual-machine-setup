@@ -1,4 +1,4 @@
-v5.0.0 (2.42GB)
+v5.0.0 (1.36GB)
 - Massive update of functions and scripts
 - More modular, more better
 - Install less by default
