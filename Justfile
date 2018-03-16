@@ -7,3 +7,6 @@ validate VERSION:
 
 build VERSION: prepare
     packer build packer.{{ VERSION }}.json
+
+deploy: prepare
+    packer build packer-deploy-to-cloud.json
