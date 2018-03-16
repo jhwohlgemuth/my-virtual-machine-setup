@@ -87,25 +87,6 @@ install_couchdb() {
     #The default port can be changed by editing /etc/couchdb/local.ini
 }
 
-install_desktop() {
-    log "Installing desktop"
-    SSH_USER=${SSH_USERNAME:-vagrant}
-    USERNAME=${SSH_USER}
-    LIGHTDM_CONFIG=/etc/lightdm/lightdm.conf
-    GDM_CUSTOM_CONFIG=/etc/gdm/custom.conf
-    apt-get install -y --no-install-recommends ubuntu-desktop >/dev/null 2>&1
-    apt-get install -y gnome-terminal overlay-scrollbar gnome-session-fallback >/dev/null 2>&1
-    apt-get install -y firefox chromium-browser ubuntu-restricted-addons htop indicator-multiload xclip >/dev/null 2>&1
-    apt-get install -y figlet toilet >/dev/null 2>&1
-    mkdir -p $(dirname ${GDM_CUSTOM_CONFIG})
-    echo "[daemon]" >> $GDM_CUSTOM_CONFIG
-    echo "# Enabling automatic login" >> $GDM_CUSTOM_CONFIG
-    echo "AutomaticLoginEnable=True" >> $GDM_CUSTOM_CONFIG
-    echo "AutomaticLoginEnable=${USERNAME}" >> $GDM_CUSTOM_CONFIG
-    echo "[SeatDefaults]" >> $LIGHTDM_CONFIG
-    echo "autologin-user=${USERNAME}" >> $LIGHTDM_CONFIG
-}
-
 install_docker() {
     log "Preparing Docker dependencies"
     apt-get install -y linux-image-generic-lts-trusty linux-headers-generic-lts-trusty xserver-xorg-lts-trusty >/dev/null 2>&1

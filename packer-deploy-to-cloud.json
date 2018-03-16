@@ -90,6 +90,7 @@
       "execute_command": "echo '{{ user `ssh_pass` }}' | {{ .Vars }} sudo -E -S bash '{{ .Path }}'",
       "scripts": [
         "scripts/{{ user `ubuntu_version` }}/update.sh",
+        "scripts/{{ user `ubuntu_version` }}/install_desktop.sh",
         "scripts/{{ user `ubuntu_version` }}/install_software.sh",
         "scripts/{{ user `ubuntu_version` }}/install_guest_additions.sh",
         "scripts/{{ user `ubuntu_version` }}/configure_sudo.sh",
