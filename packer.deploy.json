@@ -1,0 +1,142 @@
+{
+    "variables": {
+      "org_name": "jhwohlgemuth",
+      "ubuntu_version": "xenial",
+      "common_scripts": "common",
+      "version": "6.0.0",
+      "iso_name": "ubuntu-16.04.4-server-amd64.iso",
+      "iso_url": "http://releases.ubuntu.com/16.04/ubuntu-16.04.4-server-amd64.iso",
+      "checksum": "6a7f31eb125a0b2908cf2333d7777c82",
+      "ssh_name": "vagrant",
+      "ssh_pass": "vagrant",
+      "home_dir": "/home/vagrant",
+      "hostname": "home",
+      "disk_size": "190782",
+      "update": "yes"
+    },
+    "builders": [
+      {
+        "boot_command": [
+          "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+          "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+          "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+          "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+          "/install/vmlinuz<wait>",
+          " auto<wait>",
+          " console-setup/ask_detect=false<wait>",
+          " console-setup/layoutcode=us<wait>",
+          " console-setup/modelcode=pc105<wait>",
+          " debconf/frontend=noninteractive<wait>",
+          " debian-installer=en_US.UTF-8<wait>",
+          " fb=false<wait>",
+          " initrd=/install/initrd.gz<wait>",
+          " kbd-chooser/method=us<wait>",
+          " keyboard-configuration/layout=USA<wait>",
+          " keyboard-configuration/variant=USA<wait>",
+          " locale=en_US.UTF-8<wait>",
+          " netcfg/get_domain=vm<wait>",
+          " netcfg/get_hostname=vagrant<wait>",
+          " grub-installer/bootdev=/dev/sda<wait>",
+          " noapic<wait>",
+          " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed-xenial.cfg<wait>",
+          " -- <wait>",
+          "<enter><wait>"
+        ],
+        "boot_wait": "10s",
+        "disk_size": "{{ user `disk_size` }}",
+        "floppy_files": ["http/preseed-xenial.cfg"],
+        "guest_os_type": "Ubuntu_64",
+        "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+        "hard_drive_interface": "sata",
+        "headless": false,
+        "http_directory": "http",
+        "iso_checksum": "{{ user `checksum` }}",
+        "iso_checksum_type": "md5",
+        "iso_urls": [
+          "iso/{{ user `iso_name` }}",
+          "{{ user `iso_url` }}"
+        ],
+        "ssh_username": "{{ user `ssh_name` }}",
+        "ssh_password": "{{ user `ssh_pass` }}",
+        "ssh_wait_timeout": "10000s",
+        "shutdown_command": "echo '{{ user `ssh_pass` }}'|sudo -S shutdown -P now",
+        "type": "virtualbox-iso",
+        "virtualbox_version_file": ".vbox_version",
+        "vboxmanage": [
+          ["modifyvm", "{{ .Name }}", "--cpus", "1"],
+          ["modifyvm", "{{ .Name }}", "--memory", "512"]
+        ],
+        "vm_name": "ubuntu-1606-desktop"
+      }
+    ],
+    "provisioners": [
+      {
+        "type": "file",
+        "source": "share/functions.sh",
+        "destination": "functions.sh"
+      },
+      {
+        "type": "file",
+        "source": "share/snippets.cson",
+        "destination": "snippets.cson"
+      },
+      {
+        "type": "file",
+        "source": "share/profiles.clj",
+        "destination": "profiles.clj"
+      },
+      {
+        "type": "file",
+        "source": "share/setup.sh",
+        "destination": "setup.sh"
+      },
+      {
+        "type": "shell",
+        "expect_disconnect": true,
+        "environment_vars": [
+          "UPDATE={{ user `update` }}",
+          "ORG_NAME={{ user `org_name` }}",
+          "HOME_DIR={{ user `home_dir` }}",
+          "SSH_USERNAME={{ user `ssh_name` }}",
+          "SSH_PASSWORD={{ user `ssh_pass` }}"
+        ],
+        "execute_command": "echo '{{ user `ssh_pass` }}' | {{ .Vars }} sudo -E -S bash '{{ .Path }}'",
+        "scripts": [
+          "scripts/{{ user `common_scripts` }}/update.sh",
+          "scripts/{{ user `common_scripts` }}/install_desktop.sh",
+          "scripts/{{ user `common_scripts` }}/configure_sudo.sh",
+          "scripts/{{ user `common_scripts` }}/install_guest_additions.sh",
+          "scripts/{{ user `ubuntu_version` }}/motd.sh",
+          "scripts/{{ user `common_scripts` }}/install_software.sh",
+          "scripts/{{ user `common_scripts` }}/cleanup.sh"
+        ]
+      },
+      {
+        "type": "shell",
+        "environment_vars": [
+          "ORG_NAME={{ user `org_name` }}"
+        ],
+        "scripts": [
+          "scripts/{{ user `common_scripts` }}/install_software_no_root.sh",
+          "scripts/{{ user `common_scripts` }}/copy_files.sh"
+         ]
+      }
+    ],
+    "post-processors": [
+      [
+        {
+          "type": "vagrant",
+          "output": "box/{{ user `org_name` }}.{{ user `version` }}.{{ user `ubuntu_version` }}.box",
+          "vagrantfile_template": "Vagrantfile.template",
+          "compression_level": 9
+        },
+        {
+          "type": "vagrant-cloud",
+          "access_token": "{{user `cloud_token`}}",
+          "box_tag": "jhwohlgemuth/env",
+          "version": "{{ user `version` }}"
+        }
+      ]
+    ]
+  }
+  
