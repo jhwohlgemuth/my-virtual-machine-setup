@@ -14,7 +14,6 @@ if [[ $DISTRIB_RELEASE == 16.04 || $DISTRIB_RELEASE == 16.10 ]]; then
 fi
 
 log "Updating list of repositories"
-# apt-get update does not actually perform updates, it just downloads and indexes the list of packages
 apt-get -y update >/dev/null 2>&1
 
 if [[ $UPDATE  =~ true || $UPDATE =~ 1 || $UPDATE =~ yes ]]; then
