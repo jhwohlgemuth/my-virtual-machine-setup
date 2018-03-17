@@ -1,3 +1,8 @@
+v6.0.0 (1.5GB)
+- Upgrade to Ubuntu Xenial (v16.04) 
+- Updated `install_rust`
+- Removed `install_desktop` from `functions.sh`
+
 v5.0.0 (1.36GB)
 - Massive update of functions and scripts
 - More modular, more better
