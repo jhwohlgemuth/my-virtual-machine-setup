@@ -329,15 +329,18 @@ install_rust() {
     . ${HOME}/.cargo/env
     rustup toolchain install nightly >/dev/null 2>&1
     rustup target add wasm32-unknown-unknown --toolchain nightly >/dev/null 2>&1
-    cargo install --git https://github.com/alexcrichton/wasm-gc >/dev/null 2>&1
     if type apm >/dev/null 2>&1; then
         log "Installing Atom Rust IDE"
         apm install ide-rust >/dev/null 2>&1
     fi
+    log "Installing wasm-gc"
+    cargo install --git https://github.com/alexcrichton/wasm-gc >/dev/null 2>&1
+    log "Installing wasm-bindgen"
+    cargo install wasm-bindgen-cli >/dev/null 2>&1
+    log "Installing just"
+    cargo install just >/dev/null 2>&1
     log "Installing tokei (line counting CLI tool)"
     cargo install tokei >/dev/null 2>&1
-    log "Installing exa (ls replacement)"
-    cargo install --no-default-features exa >/dev/null 2>&1
 }
 
 install_rvm() {
