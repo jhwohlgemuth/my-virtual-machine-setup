@@ -87,25 +87,6 @@ install_couchdb() {
     #The default port can be changed by editing /etc/couchdb/local.ini
 }
 
-install_desktop() {
-    log "Installing desktop"
-    SSH_USER=${SSH_USERNAME:-vagrant}
-    USERNAME=${SSH_USER}
-    LIGHTDM_CONFIG=/etc/lightdm/lightdm.conf
-    GDM_CUSTOM_CONFIG=/etc/gdm/custom.conf
-    apt-get install -y --no-install-recommends ubuntu-desktop >/dev/null 2>&1
-    apt-get install -y gnome-terminal overlay-scrollbar gnome-session-fallback >/dev/null 2>&1
-    apt-get install -y firefox chromium-browser ubuntu-restricted-addons htop indicator-multiload xclip >/dev/null 2>&1
-    apt-get install -y figlet toilet >/dev/null 2>&1
-    mkdir -p $(dirname ${GDM_CUSTOM_CONFIG})
-    echo "[daemon]" >> $GDM_CUSTOM_CONFIG
-    echo "# Enabling automatic login" >> $GDM_CUSTOM_CONFIG
-    echo "AutomaticLoginEnable=True" >> $GDM_CUSTOM_CONFIG
-    echo "AutomaticLoginEnable=${USERNAME}" >> $GDM_CUSTOM_CONFIG
-    echo "[SeatDefaults]" >> $LIGHTDM_CONFIG
-    echo "autologin-user=${USERNAME}" >> $LIGHTDM_CONFIG
-}
-
 install_docker() {
     log "Preparing Docker dependencies"
     apt-get install -y linux-image-generic-lts-trusty linux-headers-generic-lts-trusty xserver-xorg-lts-trusty >/dev/null 2>&1
@@ -226,7 +207,6 @@ install_nvm() {
     prevent_root $0
     log "Installing nvm"
     curl -so- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash >/dev/null 2>&1
-
 }
 
 install_ohmyzsh() {
@@ -259,12 +239,11 @@ install_popular_atom_plugins() {
     if type apm >/dev/null 2>&1; then
         log "Installing Atom plugins"
         #editor and language plugins
-        apm install file-icons sublime-block-comment atom-beautify language-babel >/dev/null 2>&1
-        apm install emmet atom-alignment atom-ternjs atom-terminal color-picker pigments atom-quokka >/dev/null 2>&1
+        apm install file-icons sublime-block-comment atom-beautify language-babel emmet atom-alignment atom-ternjs atom-terminal color-picker pigments atom-quokka
         #minimap plugins
-        apm install minimap minimap-selection minimap-find-and-replace minimap-git-diff >/dev/null 2>&1
+        apm install minimap minimap-selection minimap-find-and-replace minimap-git-diff
         #svg plugins
-        apm install language-svg svg-preview >/dev/null 2>&1
+        apm install language-svg svg-preview
     else
         log "Please install Atom before installing Atom plugins"
     fi
@@ -273,7 +252,7 @@ install_popular_atom_plugins() {
 install_popular_node_modules() {
     prevent_root $0
     npm install -g grunt-cli yo flow-bin glow plato nodemon stmux
-    npm install -g snyk ntl nsp npm-check-updates npmrc grasp tldr stacks-cli thanks
+    npm install -g snyk ntl nsp npm-check-updates npmrc grasp tldr stacks-cli thanks bit-bin
 }
 
 install_powerline_font() {
@@ -349,15 +328,18 @@ install_rust() {
     . ${HOME}/.cargo/env
     rustup toolchain install nightly >/dev/null 2>&1
     rustup target add wasm32-unknown-unknown --toolchain nightly >/dev/null 2>&1
-    cargo install --git https://github.com/alexcrichton/wasm-gc >/dev/null 2>&1
     if type apm >/dev/null 2>&1; then
         log "Installing Atom Rust IDE"
         apm install ide-rust >/dev/null 2>&1
     fi
+    log "Installing wasm-gc"
+    cargo install --git https://github.com/alexcrichton/wasm-gc >/dev/null 2>&1
+    log "Installing wasm-bindgen"
+    cargo install wasm-bindgen-cli >/dev/null 2>&1
+    log "Installing just"
+    cargo install just >/dev/null 2>&1
     log "Installing tokei (line counting CLI tool)"
     cargo install tokei >/dev/null 2>&1
-    log "Installing exa (ls replacement)"
-    cargo install --no-default-features exa >/dev/null 2>&1
 }
 
 install_rvm() {

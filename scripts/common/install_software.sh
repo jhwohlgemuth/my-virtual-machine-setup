@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
-#Source install functions
 . ./functions.sh
 
 update
-install_desktop
 install_atom
 # install_docker
 # install_java8
