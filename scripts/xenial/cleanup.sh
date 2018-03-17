@@ -6,7 +6,7 @@ SSH_USER=${SSH_USERNAME:-vagrant}
 # Make sure udev does not block our network - http://6.ptmc.org/?p=164
 log "Cleaning up udev rules"
 rm -rf /dev/.udev/
-rm /lib/udev/rules.d/75-persistent-net-generator.rules
+rm -f /lib/udev/rules.d/75-persistent-net-generator.rules
 
 log "Cleaning up leftover dhcp leases"
 # Ubuntu 10.04

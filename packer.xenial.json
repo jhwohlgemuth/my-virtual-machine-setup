@@ -107,7 +107,8 @@
         "scripts/{{ user `ubuntu_version` }}/sshd.sh",
         "scripts/{{ user `ubuntu_version` }}/install_guest_additions.sh",
         "scripts/{{ user `ubuntu_version` }}/motd.sh",
-        "scripts/{{ user `ubuntu_version` }}/install_software.sh"
+        "scripts/{{ user `ubuntu_version` }}/install_software.sh",
+        "scripts/{{ user `ubuntu_version` }}/cleanup.sh"
       ]
     },
     {
