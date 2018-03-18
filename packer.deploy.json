@@ -158,7 +158,7 @@
           "scripts/{{ user `common_scripts` }}/update.sh",
           "scripts/{{ user `common_scripts` }}/install_desktop.sh",
           "scripts/{{ user `common_scripts` }}/configure_sudo.sh",
-          "scripts/{{ user `common_scripts` }}/install_guest_additions.sh",
+          "scripts/{{ user `common_scripts` }}/install_provider_extras.sh",
           "scripts/{{ user `ubuntu_version` }}/motd.sh",
           "scripts/{{ user `common_scripts` }}/install_software.sh",
           "scripts/{{ user `common_scripts` }}/cleanup.sh"
