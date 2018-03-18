@@ -10,6 +10,7 @@ log "Checking version of Ubuntu"
 log "Installing desktop"
 apt-get install -y --no-install-recommends ubuntu-desktop >/dev/null 2>&1
 apt-get install -y gnome-terminal overlay-scrollbar gnome-session-flashback >/dev/null 2>&1
+log "Installing useful applications"
 apt-get install -y firefox chromium-browser ubuntu-restricted-addons htop indicator-multiload xclip tree >/dev/null 2>&1
 apt-get install -y figlet toilet >/dev/null 2>&1
 

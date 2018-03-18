@@ -1,3 +1,7 @@
+v7.0.0 (1.5GB)
+- First version with Virtualbox **and** VMWare providers!
+- Built on Xenial Xerus (Ubuntu 16.04)
+
 v6.0.0 (1.5GB)
 - Upgrade to Ubuntu Xenial (v16.04) 
 - Updated `install_rust`

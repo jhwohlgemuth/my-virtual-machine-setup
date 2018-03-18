@@ -92,7 +92,7 @@
         "scripts/{{ user `common_scripts` }}/update.sh",
         "scripts/{{ user `common_scripts` }}/install_desktop.sh",
         "scripts/{{ user `common_scripts` }}/install_software.sh",
-        "scripts/{{ user `common_scripts` }}/install_guest_additions.sh",
+        "scripts/{{ user `common_scripts` }}/install_provider_extras.sh",
         "scripts/{{ user `common_scripts` }}/configure_sudo.sh",
         "scripts/{{ user `common_scripts` }}/cleanup.sh"
       ]
@@ -112,7 +112,7 @@
     [
       {
         "type": "vagrant",
-        "output": "box/{{ user `org_name` }}.{{ user `version` }}.{{ user `ubuntu_version` }}.box",
+        "output": "box/{{ .Provider }}.{{ user `ubuntu_version` }}.{{ user `version` }}.box",
         "vagrantfile_template": "Vagrantfile.template",
         "compression_level": 9
       }
