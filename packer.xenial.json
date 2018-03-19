@@ -56,10 +56,10 @@
         "iso/{{ user `iso_name` }}",
         "{{ user `iso_url` }}"
       ],
+      "shutdown_command": "echo '{{ user `ssh_pass` }}'|sudo -S shutdown -P now",
       "ssh_username": "{{ user `ssh_name` }}",
       "ssh_password": "{{ user `ssh_pass` }}",
       "ssh_wait_timeout": "10000s",
-      "shutdown_command": "echo '{{ user `ssh_pass` }}'|sudo -S shutdown -P now",
       "type": "virtualbox-iso",
       "virtualbox_version_file": ".vbox_version",
       "vboxmanage": [
@@ -67,6 +67,59 @@
         ["modifyvm", "{{ .Name }}", "--memory", "512"]
       ],
       "vm_name": "ubuntu-1606-desktop"
+    },
+    {
+      "boot_command": [
+        "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "/install/vmlinuz<wait>",
+        " auto<wait>",
+        " console-setup/ask_detect=false<wait>",
+        " console-setup/layoutcode=us<wait>",
+        " console-setup/modelcode=pc105<wait>",
+        " debconf/frontend=noninteractive<wait>",
+        " debian-installer=en_US.UTF-8<wait>",
+        " fb=false<wait>",
+        " initrd=/install/initrd.gz<wait>",
+        " kbd-chooser/method=us<wait>",
+        " keyboard-configuration/layout=USA<wait>",
+        " keyboard-configuration/variant=USA<wait>",
+        " locale=en_US.UTF-8<wait>",
+        " netcfg/get_domain=vm<wait>",
+        " netcfg/get_hostname=vagrant<wait>",
+        " grub-installer/bootdev=/dev/sda<wait>",
+        " noapic<wait>",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed-xenial.cfg<wait>",
+        " -- <wait>",
+        "<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": "{{ user `disk_size` }}",
+      "floppy_files": ["http/preseed-xenial.cfg"],
+      "guest_os_type": "ubuntu-64",
+      "headless": false,
+      "http_directory": "http",
+      "iso_checksum": "{{ user `checksum` }}",
+      "iso_checksum_type": "md5",
+      "iso_urls": [
+        "iso/{{ user `iso_name` }}",
+        "{{ user `iso_url` }}"
+      ],
+      "shutdown_command": "echo '{{ user `ssh_pass` }}'|sudo -S shutdown -P now",
+      "ssh_username": "{{ user `ssh_name` }}",
+      "ssh_password": "{{ user `ssh_pass` }}",
+      "ssh_wait_timeout": "10000s",
+      "tools_upload_flavor": "linux",
+      "type": "vmware-iso",
+      "vm_name": "ubuntu-1606-desktop",
+      "vmx_data": {
+        "ethernet0.pciSlotNumber": "32",
+        "memsize": "512",
+        "numvcpus": "1"
+      },
+      "vmx_remove_ethernet_interfaces": true
     }
   ],
   "provisioners": [
@@ -105,7 +158,7 @@
         "scripts/{{ user `common_scripts` }}/update.sh",
         "scripts/{{ user `common_scripts` }}/install_desktop.sh",
         "scripts/{{ user `common_scripts` }}/configure_sudo.sh",
-        "scripts/{{ user `common_scripts` }}/install_guest_additions.sh",
+        "scripts/{{ user `common_scripts` }}/install_provider_extras.sh",
         "scripts/{{ user `ubuntu_version` }}/motd.sh",
         "scripts/{{ user `common_scripts` }}/install_software.sh",
         "scripts/{{ user `common_scripts` }}/cleanup.sh"
@@ -126,7 +179,7 @@
     [
       {
         "type": "vagrant",
-        "output": "box/{{ user `org_name` }}.{{ user `version` }}.{{ user `ubuntu_version` }}.box",
+        "output": "box/{{ .Provider }}.{{ user `ubuntu_version` }}.{{ user `version` }}.box",
         "vagrantfile_template": "Vagrantfile.template",
         "compression_level": 9
       }
