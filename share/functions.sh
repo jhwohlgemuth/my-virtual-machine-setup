@@ -5,6 +5,12 @@ SCRIPT_FOLDER=${HOME}/.${SCRIPTS_HOME_DIRECTORY:-jhwohlgemuth}
 #Collection of functions for installing and configuring software on Ubuntu
 #Organized alphabetically
 
+create_cached_repo() {
+    log "Creating nexus3 repository"
+    docker run -d -p 8081:8081 --name nexus sonatype/nexus3
+    firefox localhost:8081
+}
+
 customize_ohmyzsh() {
     prevent_root $0
     if [ -f "${HOME}/.zshrc" ]; then

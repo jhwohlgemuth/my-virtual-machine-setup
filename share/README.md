@@ -9,6 +9,7 @@
 
 **Bash Functions** ([`functions.sh`](functions.sh))
 -----------------
+- `create_cached_repo`
 - `customize_ohmyzsh`
 - `fix_enospc_issue`
 - `install_atom`
@@ -44,6 +45,7 @@
 - `install_rvm`
 - `install_sdkman`
 - `install_vscode`
+- `install_vscode_extensions`
 - `log`
 - `prevent_root`
 - `prevent_user`
