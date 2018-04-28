@@ -248,7 +248,7 @@ install_popular_atom_plugins() {
     if type apm >/dev/null 2>&1; then
         log "Installing Atom plugins"
         #editor and language plugins
-        apm install file-icons sublime-block-comment atom-beautify language-babel emmet atom-alignment atom-ternjs atom-terminal color-picker pigments atom-quokka
+        apm install file-icons sublime-block-comment atom-beautify language-babel emmet atom-alignment atom-ternjs atom-terminal color-picker pigments atom-quokka editorconfig
         #minimap plugins
         apm install minimap minimap-selection minimap-find-and-replace minimap-git-diff
         #svg plugins
@@ -373,6 +373,22 @@ install_vscode() {
     update
     log "Installing VSCode"
     apt-get install code -y --force-yes >/dev/null 2>&1
+}
+
+install_vscode_extensions() {
+    prevent_root $0
+    if type code >/dev/null 2>&1; then
+        code --install-extension akamud.vscode-theme-onedark
+        code --install-extension emmanuelbeziat.vscode-great-icons
+        code --install-extension pnp.polacode
+        code --install-extension bierner.color-info
+        code --install-extension wix.vscode-import-cost
+        code --install-extension techer.open-in-browser
+        code --install-extension Shan.code-settings-sync
+        code --install-extension kisstkondoros.vscode-gutter-preview
+    else
+        log "Please install VSCode before installing VSCode plugins"
+    fi
 }
 
 log() {
