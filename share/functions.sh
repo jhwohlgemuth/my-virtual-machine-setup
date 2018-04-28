@@ -102,6 +102,12 @@ install_docker() {
     apt-get install docker-ce -y >/dev/null 2>&1
 }
 
+install_docker_compose() {
+    log "Installing Docker Compose"
+    curl -L https://github.com/docker/compose/releases/download/1.21.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose >/dev/null 2>&1
+    chmod +x /usr/local/bin/docker-compose
+}
+
 install_fsharp() {
     install_mono
     log "Installing F#"
