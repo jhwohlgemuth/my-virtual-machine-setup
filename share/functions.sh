@@ -89,14 +89,17 @@ install_couchdb() {
 
 install_docker() {
     log "Preparing Docker dependencies"
-    apt-get install -y linux-image-generic-lts-trusty linux-headers-generic-lts-trusty xserver-xorg-lts-trusty >/dev/null 2>&1
-    apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D >/dev/null 2>&1
-    echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" | sudo tee -a /etc/apt/sources.list.d/docker.list >/dev/null 2>&1
-    apt-get update >/dev/null 2>&1
-    if apt-cache policy docker-engine >/dev/null 2>&1; then
-        log "Installing Docker"
-        apt-get install -y docker-engine >/dev/null 2>&1
-    fi
+    update
+    apt-get install apt-transport-https ca-certificates curl software-properties-common -y >/dev/null 2>&1
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - >/dev/null 2>&1
+    apt-key fingerprint 0EBFCD88 >/dev/null 2>&1
+    add-apt-repository \
+        "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+        $(lsb_release -cs) \
+        stable" >/dev/null 2>&1
+    update
+    log "Installing Docker CE"
+    apt-get install docker-ce -y >/dev/null 2>&1
 }
 
 install_fsharp() {
