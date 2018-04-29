@@ -8,7 +8,6 @@ SCRIPT_FOLDER=${HOME}/.${SCRIPTS_HOME_DIRECTORY:-jhwohlgemuth}
 create_cached_repo() {
     log "Creating nexus3 repository"
     docker run -d -p 8081:8081 --name nexus sonatype/nexus3
-    firefox localhost:8081
 }
 
 customize_ohmyzsh() {
