@@ -179,11 +179,12 @@ install_julia() {
 
 install_lein() {
     prevent_root $0
+    set_verbosity $1
     log "Installing lein"
     mkdir -p ${HOME}/bin
-    curl -L https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein -o ${HOME}/bin/lein >/dev/null 2>&1
+    run curl -L https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein -o ${HOME}/bin/lein
     chmod a+x ${HOME}/bin/lein
-    lein >/dev/null 2>&1
+    run lein
     if [ -f "${SCRIPT_FOLDER}/profiles.clj" ]; then
         mkdir -p $HOME/.lein
         mv ${SCRIPT_FOLDER}/profiles.clj ${HOME}/.lein
@@ -191,43 +192,46 @@ install_lein() {
 }
 
 install_mesa() {
+    set_verbosity $1
     log "Installing mesa"
-    apt-add-repository ppa:xorg-edgers >/dev/null 2>&1
-    apt-get update >/dev/null 2>&1
-    apt-get install libdrm-dev >/dev/null 2>&1
-    apt-get build-dep mesa >/dev/null 2>&1
+    run apt-add-repository ppa:xorg-edgers
+    run apt-get update
+    run apt-get install libdrm-dev
+    run apt-get build-dep mesa
     wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key|sudo apt-key add -
-    apt-get install -y clang-3.6 clang-3.6-doc libclang-common-3.6-dev >/dev/null 2>&1
-    apt-get install -y libclang-3.6-dev libclang1-3.6 libclang1-3.6-dbg >/dev/null 2>&1
-    apt-get install -y libllvm-3.6-ocaml-dev libllvm3.6 libllvm3.6-dbg >/dev/null 2>&1
-    apt-get install -y lldb-3.6 llvm-3.6 llvm-3.6-dev llvm-3.6-doc >/dev/null 2>&1
-    apt-get install -y llvm-3.6-examples llvm-3.6-runtime clang-modernize-3.6 >/dev/null 2>&1
-    apt-get install -y clang-format-3.6 python-clang-3.6 lldb-3.6-dev >/dev/null 2>&1
-    apt-get install -y libx11-xcb-dev libx11-xcb1 libxcb-glx0-dev libxcb-dri2-0-dev >/dev/null 2>&1
-    apt-get install -y libxcb-dri3-dev libxshmfence-dev libxcb-sync-dev llvm >/dev/null 2>&1
+    run apt-get install -y clang-3.6 clang-3.6-doc libclang-common-3.6-dev
+    run apt-get install -y libclang-3.6-dev libclang1-3.6 libclang1-3.6-dbg
+    run apt-get install -y libllvm-3.6-ocaml-dev libllvm3.6 libllvm3.6-dbg
+    run apt-get install -y lldb-3.6 llvm-3.6 llvm-3.6-dev llvm-3.6-doc
+    run apt-get install -y llvm-3.6-examples llvm-3.6-runtime clang-modernize-3.6
+    run apt-get install -y clang-format-3.6 python-clang-3.6 lldb-3.6-dev
+    run apt-get install -y libx11-xcb-dev libx11-xcb1 libxcb-glx0-dev libxcb-dri2-0-dev
+    run apt-get install -y libxcb-dri3-dev libxshmfence-dev libxcb-sync-dev llvm
 }
 
 install_mongodb() {
+    set_verbosity $1
     log "Installing MongoDB"
-    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10 >/dev/null 2>&1
+    run apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
     echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list >/dev/null 2>&1
-    apt-get update >/dev/null 2>&1
-    apt-get install -y mongodb-org >/dev/null 2>&1
+    run apt-get update
+    run apt-get install -y mongodb-org
     # Change config file to allow external connections
-    sed -i '/bind_ip/c # bind_ip = 127.0.0.1' /etc/mongod.conf >/dev/null 2>&1
+    run sed -i '/bind_ip/c # bind_ip = 127.0.0.1' /etc/mongod.conf
     # Change default port to 8000
     #sudo sed -i '/#port/c port = 8000' /etc/mongod.conf >/dev/null 2>&1
-    service mongod restart >/dev/null 2>&1
+    run service mongod restart
     #The default port can be changed by editing /etc/mongod.conf
 }
 
 install_mono() {
+    set_verbosity $1
     log "Adding mono repository"
-    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF >/dev/null 2>&1
+    run apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
     echo "deb http://download.mono-project.com/repo/ubuntu stable-trusty main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list >/dev/null 2>&1
     update
     log "Installing mono"
-    apt-get install mono-devel -y --force-yes >/dev/null 2>&1
+    run apt-get install mono-devel -y --force-yes
 }
 
 install_nvm() {
@@ -249,8 +253,9 @@ install_opam() {
 }
 
 install_pandoc() {
+    set_verbosity $1
     log "Installing Pandoc"
-    apt-get install -y texlive texlive-latex-extra pandoc >/dev/null 2>&1
+    run apt-get install -y texlive texlive-latex-extra pandoc
 }
 
 install_planck() {
@@ -285,23 +290,25 @@ install_popular_node_modules() {
 
 install_powerline_font() {
     prevent_root $0
+    set_verbosity $1
     log "Installing powerline font"
-    wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf >/dev/null 2>&1
-    wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf >/dev/null 2>&1
+    run wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
+    run wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
     mkdir ~/.fonts/
     mkdir -p ~/.config/fontconfig/conf.d/
     mv PowerlineSymbols.otf ~/.fonts/
-    fc-cache -vf ~/.fonts/ >/dev/null 2>&1
+    run fc-cache -vf ~/.fonts/
     mv 10-powerline-symbols.conf ~/.config/fontconfig/conf.d/
 }
 
 install_python() {
+    set_verbosity $1
     log "Installing advanced Python support"
-    apt-get install -y libzmq3-dev python-pip python-dev >/dev/null 2>&1
-    apt-get install -y libblas-dev libatlas-base-dev liblapack-dev gfortran libfreetype6-dev libpng-dev >/dev/null 2>&1
-    pip install --upgrade pip >/dev/null 2>&1
-    pip install --upgrade virtualenv >/dev/null 2>&1
-    pip install ipython[notebook] >/dev/null 2>&1
+    run apt-get install -y libzmq3-dev python-pip python-dev
+    run apt-get install -y libblas-dev libatlas-base-dev liblapack-dev gfortran libfreetype6-dev libpng-dev
+    run pip install --upgrade pip
+    run pip install --upgrade virtualenv
+    run pip install ipython[notebook]
 }
 
 install_R() {
