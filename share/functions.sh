@@ -46,15 +46,17 @@ fix_enospc_issue() {
 }
 
 install_atom() {
+    set_verbosity $1
     log "Installing Atom editor"
-    add-apt-repository -y ppa:webupd8team/atom >/dev/null 2>&1
-    apt-get update >/dev/null 2>&1
-    apt-get install -y atom >/dev/null 2>&1
+    run add-apt-repository -y ppa:webupd8team/atom
+    run apt-get update
+    run apt-get install -y atom
 }
 
 install_cairo() {
+    set_verbosity $1
     log "Installing Cairo"
-    apt-get install -y libcairo2-dev libjpeg8-dev libpango1.0-dev libgif-dev build-essential g++ >/dev/null 2>&1
+    run apt-get install -y libcairo2-dev libjpeg8-dev libpango1.0-dev libgif-dev build-essential g++
 }
 
 install_clojure() {
