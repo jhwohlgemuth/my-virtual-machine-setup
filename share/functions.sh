@@ -61,6 +61,7 @@ install_cairo() {
 
 install_clojure() {
     prevent_root $0
+    set_verbosity $1
     log "Installing Clojure tools and dependencies"
     install_sdkman
     sdk install java
@@ -71,18 +72,19 @@ install_clojure() {
     fi
     if type npm >/dev/null 2>&1; then
         log "Installing lumo Clojure REPL"
-        npm install -g lumo-cljs >/dev/null 2>&1
+        run npm install -g lumo-cljs
     fi
     if type apm >/dev/null 2>&1; then
         log "Installing Clojure Atom plugins"
-        apm install parinfer lisp-paredit >/dev/null 2>&1
+        run apm install parinfer lisp-paredit
     fi
 }
 
 install_couchdb() {
+    set_verbosity $1
     log "Installing CouchDB"
-    apt-get install -y curl >/dev/null 2>&1
-    apt-get install -y couchdb >/dev/null 2>&1
+    run apt-get install -y curl
+    run apt-get install -y couchdb
     sed -i '/;port/c port = 5984' /etc/couchdb/local.ini
     sed -i '/;bind_address/c bind_address = 0.0.0.0' /etc/couchdb/local.ini
     lineNumber=$(($(echo $(grep -n '\[couch_httpd_auth\]' /etc/couchdb/local.ini) | awk -F':' '{print $1}')+1))
@@ -96,75 +98,83 @@ install_couchdb() {
 }
 
 install_docker() {
+    set_verbosity $1
     log "Preparing Docker dependencies"
     update
-    apt-get install apt-transport-https ca-certificates curl software-properties-common -y >/dev/null 2>&1
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - >/dev/null 2>&1
-    apt-key fingerprint 0EBFCD88 >/dev/null 2>&1
-    add-apt-repository \
+    run apt-get install apt-transport-https ca-certificates curl software-properties-common -y
+    run curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    run apt-key fingerprint 0EBFCD88
+    run add-apt-repository \
         "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
         $(lsb_release -cs) \
-        stable" >/dev/null 2>&1
+        stable"
     update
     log "Installing Docker CE"
-    apt-get install docker-ce -y >/dev/null 2>&1
+    run apt-get install docker-ce -y
 }
 
 install_docker_compose() {
+    set_verbosity $1
     log "Installing Docker Compose"
-    curl -L https://github.com/docker/compose/releases/download/1.21.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose >/dev/null 2>&1
+    run curl -L https://github.com/docker/compose/releases/download/1.21.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
     chmod +x /usr/local/bin/docker-compose
 }
 
 install_fsharp() {
+    set_verbosity $1
     install_mono
     log "Installing F#"
-    apt-get install fsharp -y >/dev/null 2>&1
+    run apt-get install fsharp -y
 }
 
 install_heroku() {
+    set_verbosity $1
     log "Installing Heroku CLI"
-    add-apt-repository "deb https://cli-assets.heroku.com/branches/stable/apt ./" >/dev/null 2>&1
-    curl -L https://cli-assets.heroku.com/apt/release.key | apt-key add - >/dev/null 2>&1
-    apt-get update >/dev/null 2>&1
-    apt-get install heroku >/dev/null 2>&1
+    run add-apt-repository "deb https://cli-assets.heroku.com/branches/stable/apt ./"
+    run curl -L https://cli-assets.heroku.com/apt/release.key | apt-key add -
+    run apt-get update
+    run apt-get install heroku
 }
 
 install_ionide() {
     prevent_root $0
+    set_verbosity $1
     if type code >/dev/null 2>&1; then
         log "Installing Ionide IDE"
-        code --install-extension Ionide.Ionide-fsharp >/dev/null 2>&1
+        run code --install-extension Ionide.Ionide-fsharp
     else
         echo "✘ Ionide requires VS Code. Please install VS Code."
     fi
 }
 
 install_java8() {
+    set_verbosity $1
     log "Installing JRE and JDK"
     echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
-    add-apt-repository -y ppa:webupd8team/java >/dev/null 2>&1
-    apt-get update >/dev/null 2>&1
-    apt-get install -y oracle-java8-installer >/dev/null 2>&1
+    run add-apt-repository -y ppa:webupd8team/java
+    run apt-get update
+    run apt-get install -y oracle-java8-installer
 }
 
 install_jenkins() {
+    set_verbosity $1
     log "Preparing to install Jenkins"
-    wget -q -O - https://jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add - >/dev/null 2>&1
-    sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list' >/dev/null 2>&1
-    apt-get update >/dev/null 2>&1
+    run wget -q -O - https://jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -
+    run sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list'
+    run apt-get update
     log "Installing Jenkins"
-    apt-get install -y jenkins >/dev/null 2>&1
+    run apt-get install -y jenkins
 }
 
 install_julia() {
+    set_verbosity $1
     log "Adding Julia language PPA"
-    apt-get install -y software-properties-common python-software-properties >/dev/null 2>&1
-    add-apt-repository -y ppa:staticfloat/juliareleases >/dev/null 2>&1
-    add-apt-repository -y ppa:staticfloat/julia-deps >/dev/null 2>&1
-    apt-get update >/dev/null 2>&1
+    run apt-get install -y software-properties-common python-software-properties
+    run add-apt-repository -y ppa:staticfloat/juliareleases
+    run add-apt-repository -y ppa:staticfloat/julia-deps
+    run apt-get update
     log "Installing Julia language"
-    apt-get install -y julia >/dev/null 2>&1
+    run apt-get install -y julia
 }
 
 install_lein() {
