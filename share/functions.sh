@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 SSH_PASSWORD=${SSH_PASSWORD:-vagrant}
 SCRIPT_FOLDER=${HOME}/.${SCRIPTS_HOME_DIRECTORY:-jhwohlgemuth}
+VERBOSE=false
 
 #Collection of functions for installing and configuring software on Ubuntu
 #Organized alphabetically
@@ -419,6 +420,22 @@ prevent_root() {
     prevent_user root $1
 }
 
+run() {
+    if $VERBOSE; then
+        $@
+    else
+        $@ &>/dev/null
+    fi
+}
+
+set_verbosity() {
+    if [[ "$1" == "--verbose" ]]; then
+        VERBOSE=true
+    else
+        VERBOSE=false
+    fi
+}
+
 setup_github_ssh() {
     prevent_root $0
     PASSPHRASE=${1:-123456}
@@ -458,7 +475,8 @@ turn_on_workspaces() {
 }
 
 update() {
+    set_verbosity $1
     log "Updating"
-    apt-key update >/dev/null 2>&1
-    apt-get update >/dev/null 2>&1
+    run apt-key update
+    run apt-get update
 }
