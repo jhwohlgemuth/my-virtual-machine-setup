@@ -236,20 +236,23 @@ install_mono() {
 
 install_nvm() {
     prevent_root $0
+    set_verbosity $1
     log "Installing nvm"
-    curl -so- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash >/dev/null 2>&1
+    run curl -so- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash
 }
 
 install_ohmyzsh() {
     prevent_root $0
+    set_verbosity $1
     log "Installing Oh-My-Zsh"
-    curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | bash -s >/dev/null 2>&1
+    run curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | bash -s
     echo $SSH_PASSWORD | sudo -S chsh -s $(which zsh) $(whoami)
 }
 
 install_opam() {
+    set_verbosity $1
     log "Installing OPAM"
-    wget -q https://raw.github.com/ocaml/opam/master/shell/opam_installer.sh -O - | sh -s /usr/local/bin >/dev/null 2>&1
+    run wget -q https://raw.github.com/ocaml/opam/master/shell/opam_installer.sh -O - | sh -s /usr/local/bin
 }
 
 install_pandoc() {
@@ -259,11 +262,12 @@ install_pandoc() {
 }
 
 install_planck() {
+    set_verbosity $1
     log "Adding Planck Clojure REPL PPA"
-    add-apt-repository ppa:mfikes/planck -y >/dev/null 2>&1
-    apt-get update >/dev/null 2>&1
+    run add-apt-repository ppa:mfikes/planck -y
+    run apt-get update
     log "Installing Planck"
-    apt-get install -y planck >/dev/null 2>&1
+    run apt-get install -y planck
 }
 
 install_popular_atom_plugins() {
@@ -312,92 +316,100 @@ install_python() {
 }
 
 install_R() {
+    set_verbosity $1
     log "Installing R"
-    add-apt-repository ppa:marutter/rrutter -y >/dev/null 2>&1
-    apt-get update -y >/dev/null 2>&1
-    apt-get upgrade -y >/dev/null 2>&1
-    apt-get install -y r-base >/dev/null 2>&1
+    run add-apt-repository ppa:marutter/rrutter -y
+    run apt-get update -y
+    run apt-get upgrade -y
+    run apt-get install -y r-base
 }
 
 install_reason() {
     prevent_root $0
+    set_verbosity $1
     log "Installing ReasonML support"
-    npm install -g reason-cli@3.1.0-linux bs-platform create-react-app >/dev/null 2>&1
+    run npm install -g reason-cli@3.1.0-linux bs-platform create-react-app
     if type apm >/dev/null 2>&1; then
         log "Installing Atom ReasonML language support"
-        apm install language-reason language-ocaml >/dev/null 2>&1
+        run apm install language-reason language-ocaml
     fi
     if type code >/dev/null 2>&1; then
         log "Installing VS Code ReasonML IDE"
-        code --install-extension freebroccolo.reasonml >/dev/null 2>&1
+        run code --install-extension freebroccolo.reasonml
     fi
 }
 
 install_redis() {
+    set_verbosity $1
     log "Installing redis"
-    apt-get install -y redis-server >/dev/null 2>&1
+    run apt-get install -y redis-server
     #Configure redis-server to accept remote connections
     sed -i 's/bind 127.0.0.1/bind 0.0.0.0/' /etc/redis/redis.conf
-    service redis-server restart >/dev/null 2>&1
+    run service redis-server restart
     #The default port can be changed by editing /etc/redis/redis.conf
 }
 
 install_rlwrap() {
+    set_verbosity $1
     log "Installing rlwrap"
-    git clone https://github.com/hanslub42/rlwrap.git >/dev/null 2>&1
+    run git clone https://github.com/hanslub42/rlwrap.git
     cd rlwrap
-    autoreconf --install  >/dev/null 2>&1
-    ./configure >/dev/null 2>&1
-    make >/dev/null 2>&1
+    run autoreconf --install
+    run ./configure
+    run make
     make check
-    make install >/dev/null 2>&1
+    run make install
     cd ..
     rm -frd rlwrap
 }
 
 install_rust() {
     prevent_root $0
+    set_verbosity $1
     log "Installing Rust"
-    curl https://sh.rustup.rs -sSf | sh -s -- -y >/dev/null 2>&1
+    run curl https://sh.rustup.rs -sSf | sh -s -- -y
     echo "source ${HOME}/.cargo/env" >> ~/.zshrc
     . ${HOME}/.cargo/env
-    rustup toolchain install nightly >/dev/null 2>&1
-    rustup target add wasm32-unknown-unknown --toolchain nightly >/dev/null 2>&1
+    run rustup toolchain install nightly
+    run rustup target add wasm32-unknown-unknown --toolchain nightly
     if type apm >/dev/null 2>&1; then
         log "Installing Atom Rust IDE"
-        apm install ide-rust >/dev/null 2>&1
+        run apm install ide-rust
     fi
     log "Installing wasm-gc"
-    cargo install --git https://github.com/alexcrichton/wasm-gc >/dev/null 2>&1
+    run cargo install --git https://github.com/alexcrichton/wasm-gc
     log "Installing wasm-bindgen"
-    cargo install wasm-bindgen-cli >/dev/null 2>&1
+    run cargo install wasm-bindgen-cli
     log "Installing just"
-    cargo install just >/dev/null 2>&1
+    run cargo install just
     log "Installing tokei (line counting CLI tool)"
-    cargo install tokei >/dev/null 2>&1
+    run cargo install tokei
 }
 
 install_rvm() {
     prevent_root $0
+    set_verbosity $1
     log "Installing rvm"
-    gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 >/dev/null 2>&1
-    curl -sSL https://get.rvm.io | bash -s stable >/dev/null 2>&1
+    run gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+    run curl -sSL https://get.rvm.io | bash -s stable
 }
 
 install_sdkman() {
     prevent_root $0
+    set_verbosity $1
     log "Installing SDKMAN!"
-    curl -s "https://get.sdkman.io" | bash >/dev/null 2>&1
+    run curl -s "https://get.sdkman.io" | bash
     source "$HOME/.sdkman/bin/sdkman-init.sh"
 }
 
 install_vscode() {
-    curl -s https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg >/dev/null 2>&1
+    set_verbosity $1
+    run curl -s https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
     mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
     sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list' >/dev/null 2>&1
     update
     log "Installing VSCode"
-    apt-get install code -y --force-yes >/dev/null 2>&1
+    run apt-get install code -y --force-yes
 }
 
 install_vscode_extensions() {
