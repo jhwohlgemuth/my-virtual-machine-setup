@@ -415,14 +415,21 @@ install_vscode() {
 install_vscode_extensions() {
     prevent_root $0
     if type code >/dev/null 2>&1; then
+        code --install-extension 2gua.rainbow-brackets
         code --install-extension akamud.vscode-theme-onedark
-        code --install-extension emmanuelbeziat.vscode-great-icons
-        code --install-extension pnp.polacode
         code --install-extension bierner.color-info
-        code --install-extension wix.vscode-import-cost
-        code --install-extension techer.open-in-browser
-        code --install-extension Shan.code-settings-sync
+        code --install-extension bierner.lit-html
+        code --install-extension cssho.vscode-svgviewer
+        code --install-extension deerawan.vscode-faker
+        code --install-extension emmanuelbeziat.vscode-great-icons
         code --install-extension kisstkondoros.vscode-gutter-preview
+        code --install-extension pnp.polacode
+        code --install-extension Shan.code-settings-sync
+        code --install-extension sidthesloth.html5-boilerplate
+        code --install-extension SirTori.indenticator
+        code --install-extension techer.open-in-browser
+        code --install-extension wix.vscode-import-cost
+        code --install-extension wmaurer.change-case
     else
         log "Please install VSCode before installing VSCode plugins"
     fi
