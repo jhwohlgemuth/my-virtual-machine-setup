@@ -120,6 +120,18 @@ install_docker_compose() {
     chmod +x /usr/local/bin/docker-compose
 }
 
+install_dotnet() {
+    set_verbosity $1
+    log "Registering Microsoft key and feed"
+    run wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb
+    run dpkg -i packages-microsoft-prod.deb
+    log "Installing dependencies"
+    run apt-get install apt-transport-https -y
+    update
+    log "Installing .NET SDK"
+    run apt-get install dotnet-sdk-2.1 -y --allow-unauthenticated
+}
+
 install_fsharp() {
     set_verbosity $1
     install_mono
@@ -132,7 +144,7 @@ install_heroku() {
     log "Installing Heroku CLI"
     run add-apt-repository "deb https://cli-assets.heroku.com/branches/stable/apt ./"
     run curl -L https://cli-assets.heroku.com/apt/release.key | apt-key add -
-    run apt-get update
+    update
     run apt-get install heroku
 }
 
