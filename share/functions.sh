@@ -130,6 +130,7 @@ install_dotnet() {
     update
     log "Installing .NET SDK"
     run apt-get install dotnet-sdk-2.1 -y --allow-unauthenticated
+    rm -frd packages-microsoft-prod.deb
 }
 
 install_fsharp() {
