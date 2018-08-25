@@ -120,6 +120,19 @@ install_docker_compose() {
     chmod +x /usr/local/bin/docker-compose
 }
 
+install_dotnet() {
+    set_verbosity $1
+    log "Registering Microsoft key and feed"
+    run wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb
+    run dpkg -i packages-microsoft-prod.deb
+    log "Installing dependencies"
+    run apt-get install apt-transport-https -y
+    update
+    log "Installing .NET SDK"
+    run apt-get install dotnet-sdk-2.1 -y --allow-unauthenticated
+    rm -frd packages-microsoft-prod.deb
+}
+
 install_fsharp() {
     set_verbosity $1
     install_mono
@@ -132,7 +145,7 @@ install_heroku() {
     log "Installing Heroku CLI"
     run add-apt-repository "deb https://cli-assets.heroku.com/branches/stable/apt ./"
     run curl -L https://cli-assets.heroku.com/apt/release.key | apt-key add -
-    run apt-get update
+    update
     run apt-get install heroku
 }
 
@@ -228,7 +241,9 @@ install_mono() {
     set_verbosity $1
     log "Adding mono repository"
     run apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-    echo "deb http://download.mono-project.com/repo/ubuntu stable-trusty main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list >/dev/null 2>&1
+    # echo "deb http://download.mono-project.com/repo/ubuntu stable-trusty main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list >/dev/null 2>&1
+    echo "deb https://download.mono-project.com/repo/ubuntu stable-xenial main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list >/dev/null 2>&1
+    run apt-get install apt-transport-https --yes
     update
     log "Installing mono"
     run apt-get install mono-devel -y --force-yes
