@@ -51,6 +51,7 @@ install_atom() {
     run add-apt-repository -y ppa:webupd8team/atom
     run apt-get update
     run apt-get install -y atom
+    install_firacode
 }
 
 install_cairo() {
@@ -131,6 +132,31 @@ install_dotnet() {
     log "Installing .NET SDK"
     run apt-get install dotnet-sdk-2.1 -y --allow-unauthenticated
     rm -frd packages-microsoft-prod.deb
+}
+
+install_firacode() {
+    prevent_root $0
+    set_verbosity $1
+    log "Installing Fira Code font"
+    fonts_dir="${HOME}/.local/share/fonts"
+    if [ ! -d ${fonts_dir} ]; then
+        run echo "Creating fonts directory"
+        run mkdir -p ${fonts_dir}
+    else
+        run echo "Found fonts dir: $fonts_dir"
+    fi
+    for type in Bold Light Medium Regular Retina; do
+        file_path="${HOME}/.local/share/fonts/FiraCode-${type}.ttf"
+        file_url="https://github.com/tonsky/FiraCode/blob/master/distr/ttf/FiraCode-${type}.ttf?raw=true"
+        if [ ! -e ${file_path} ]; then
+            log "Downloading font - ${type}"
+            run wget -O ${file_path} ${file_url}
+        else
+            log "✔ Found existing file: ${type}"
+        fi;
+    done
+    run echo "Running fc-cache"
+    run fc-cache -f
 }
 
 install_fsharp() {
@@ -425,6 +451,7 @@ install_vscode() {
     update
     log "Installing VSCode"
     run apt-get install code -y --force-yes
+    install_firacode
 }
 
 install_vscode_extensions() {
