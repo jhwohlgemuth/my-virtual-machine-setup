@@ -409,6 +409,7 @@ install_rust() {
     set_verbosity $1
     log "Installing Rust"
     run curl https://sh.rustup.rs -sSf | sh -s -- -y
+    mkdir -p ${HOME}/.cargo/env
     echo "source ${HOME}/.cargo/env" >> ~/.zshrc
     . ${HOME}/.cargo/env
     run rustup toolchain install nightly
