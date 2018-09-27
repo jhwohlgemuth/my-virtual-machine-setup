@@ -51,7 +51,6 @@ install_atom() {
     run add-apt-repository -y ppa:webupd8team/atom
     run apt-get update
     run apt-get install -y atom
-    install_firacode
 }
 
 install_cairo() {
@@ -409,7 +408,6 @@ install_rust() {
     set_verbosity $1
     log "Installing Rust"
     run curl https://sh.rustup.rs -sSf | sh -s -- -y
-    mkdir -p ${HOME}/.cargo/env
     echo "source ${HOME}/.cargo/env" >> ~/.zshrc
     . ${HOME}/.cargo/env
     run rustup toolchain install nightly
@@ -452,7 +450,6 @@ install_vscode() {
     update
     log "Installing VSCode"
     run apt-get install code -y --force-yes
-    install_firacode
 }
 
 install_vscode_extensions() {
