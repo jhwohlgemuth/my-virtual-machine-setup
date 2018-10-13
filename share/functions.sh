@@ -21,14 +21,20 @@ customize_ohmyzsh() {
       echo 'export PATH="${HOME}/bin:${PATH}"' >> ~/.zshrc
       echo 'export NVM_DIR="${HOME}/.nvm"' >> ~/.zshrc
       echo "[ -s '$NVM_DIR/nvm.sh' ] && . '$NVM_DIR/nvm.sh'" >> ~/.zshrc
+      echo "npm completion >/dev/null 2>&1" >> ~/.zshrc
+      # General functions
+      echo "clean() { rm -frd \$1 && mkdir \$1 && cd \$1 ; }" >> ~/.zshrc
+      # Docker functions
       echo "dip() { docker inspect --format '{{ .NetworkSettings.IPAddress }}' \$1 ; }" >> ~/.zshrc
       echo "docker_rm_all() { docker stop \$(docker ps -a -q) && docker rm \$(docker ps -a -q) ; }" >> ~/.zshrc
+      # Git functions
       echo "set_git_user() { git config --global user.name \$1 ; }" >> ~/.zshrc
       echo "set_git_email() { git config --global user.email \$1 ; }" >> ~/.zshrc
-      echo "clean() { rm -frd \$1 && mkdir \$1 && cd \$1 ; }" >> ~/.zshrc
-      echo "npm completion >/dev/null 2>&1" >> ~/.zshrc
-      echo "source ${SCRIPT_FOLDER}/functions.sh" >> ~/.zshrc
+      # Aliases
+      echo "alias did=\"vim + 'normal Go' +'r!date' ~/did.txt\"" >> ~/.zshrc
       echo 'alias rf="rm -frd"' >> ~/.zshrc
+      # External functions
+      echo "source ${SCRIPT_FOLDER}/functions.sh" >> ~/.zshrc
     else
       log 'Failed to find .zshrc file'
     fi
