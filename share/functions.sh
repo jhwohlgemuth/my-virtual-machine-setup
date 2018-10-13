@@ -459,6 +459,7 @@ install_vscode_extensions() {
         code --install-extension akamud.vscode-theme-onedark
         code --install-extension bierner.color-info
         code --install-extension bierner.lit-html
+        code --install-extension christian-kohler.path-intellisense
         code --install-extension cssho.vscode-svgviewer
         code --install-extension deerawan.vscode-faker
         code --install-extension emmanuelbeziat.vscode-great-icons
