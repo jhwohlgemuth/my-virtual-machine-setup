@@ -3,7 +3,7 @@
       "org_name": "jhwohlgemuth",
       "ubuntu_version": "xenial",
       "common_scripts": "common",
-      "version": "7.0.0",
+      "version": "7.0.2",
       "iso_name": "ubuntu-16.04.4-server-amd64.iso",
       "iso_url": "http://releases.ubuntu.com/16.04/ubuntu-16.04.4-server-amd64.iso",
       "checksum": "6a7f31eb125a0b2908cf2333d7777c82",
@@ -192,4 +192,3 @@
       ]
     ]
   }
-  
