@@ -291,7 +291,7 @@ install_ohmyzsh() {
     prevent_root $0
     set_verbosity $1
     log "Installing Oh-My-Zsh"
-    run curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | bash -s
+    curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | bash -s
     echo $SSH_PASSWORD | sudo -S chsh -s $(which zsh) $(whoami)
 }
 
@@ -437,14 +437,14 @@ install_rvm() {
     set_verbosity $1
     log "Installing rvm"
     run gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
-    run curl -sSL https://get.rvm.io | bash -s stable
+    curl -sSL https://get.rvm.io | bash -s stable
 }
 
 install_sdkman() {
     prevent_root $0
     set_verbosity $1
     log "Installing SDKMAN!"
-    run curl -s "https://get.sdkman.io" | bash
+    curl -s "https://get.sdkman.io" | bash
     source "$HOME/.sdkman/bin/sdkman-init.sh"
 }
 
