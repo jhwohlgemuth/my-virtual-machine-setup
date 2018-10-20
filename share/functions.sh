@@ -493,7 +493,7 @@ log() {
 }
 
 prevent_user() {
-    if [ `whoami` == $1 ]; then
+    if [[ "$1" == $(whoami) ]]; then
         echo "✘ ${2} should NOT be run as ${1}"
         exit 0
     fi
