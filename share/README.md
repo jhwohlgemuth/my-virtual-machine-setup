@@ -4,7 +4,7 @@
 - `clean <dir>` - Empty `<dir>` and enter it
 - `set_git_user <User Name>` - `git config --global user.name <User Name>`
 - `set_git_email <email>` - `git config --global user.email <email>`
-- `dip <container name>` - Returns IP adress of container
+- `dip <container name>` - Returns IP address of container
 - `docker_rm_all` - Stop and remove all containers
 
 **Bash Functions** ([`functions.sh`](functions.sh))
