@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC1091
 . ./functions.sh
 
 SSH_USER=${SSH_USERNAME:-vagrant}
@@ -16,7 +17,7 @@ fi
 # Ubuntu 12.04 & 14.04
 if [ -d "/var/lib/dhcp" ]; then
     rm /var/lib/dhcp/*
-fi 
+fi
 
 # Add delay to prevent "vagrant reload" from failing
 echo "pre-up sleep 2" >> /etc/network/interfaces
@@ -35,26 +36,26 @@ dpkg --get-selections | grep -v deinstall >/dev/null 2>&1
 log "Removing bash history"
 unset HISTFILE
 rm -f /root/.bash_history
-rm -f /home/${SSH_USER}/.bash_history
+rm -f /home/"${SSH_USER}"/.bash_history
 
 log "Cleaning up log files"
-find /var/log -type f | while read f; do echo -ne '' > $f; done;
+find /var/log -type f | while read -r f; do echo -ne '' > "$f"; done;
 
 log "Clearing last login information"
->/var/log/lastlog
->/var/log/wtmp
->/var/log/btmp
+true >/var/log/lastlog
+true >/var/log/wtmp
+true >/var/log/btmp
 
 log "Whiteout root"
 count=$(df --sync -kP / | tail -n1  | awk -F ' ' '{print $4}')
-let count--
-dd if=/dev/zero of=/tmp/whitespace bs=1024 count=$count >/dev/null 2>&1
+(( count-- ))
+dd if=/dev/zero of=/tmp/whitespace bs=1024 count="$count" >/dev/null 2>&1
 rm /tmp/whitespace
 
 log "Whiteout /boot"
 count=$(df --sync -kP /boot | tail -n1 | awk -F ' ' '{print $4}')
-let count--
-dd if=/dev/zero of=/boot/whitespace bs=1024 count=$count >/dev/null 2>&1
+(( count-- ))
+dd if=/dev/zero of=/boot/whitespace bs=1024 count="$count" >/dev/null 2>&1
 rm /boot/whitespace
 
 log "Zeroing out free space"
