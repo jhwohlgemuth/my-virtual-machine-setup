@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2120
+
 SSH_PASSWORD=${SSH_PASSWORD:-vagrant}
 SCRIPT_FOLDER=${HOME}/.${SCRIPTS_HOME_DIRECTORY:-jhwohlgemuth}
 VERBOSE=false
@@ -12,7 +14,7 @@ create_cached_repo() {
 }
 
 customize_ohmyzsh() {
-    prevent_root $0
+    prevent_root "$0"
     if [ -f "${HOME}/.zshrc" ]; then
       install_powerline_font
       log "Setting zsh terminal theme"
@@ -41,10 +43,10 @@ customize_ohmyzsh() {
 }
 
 fix_ssh_key_permissions() {
-    prevent_root $0
+    prevent_root "$0"
     KEY_NAME=${1:-id_rsa}
-    chmod 600 ~/.ssh/${KEY_NAME}
-    chmod 600 ~/.ssh/${KEY_NAME}.pub
+    chmod 600 ~/.ssh/"${KEY_NAME}"
+    chmod 600 ~/.ssh/"${KEY_NAME}".pub
 }
 
 fix_enospc_issue() {
@@ -52,7 +54,7 @@ fix_enospc_issue() {
 }
 
 install_atom() {
-    set_verbosity $1
+    set_verbosity "$1"
     log "Installing Atom editor"
     run add-apt-repository -y ppa:webupd8team/atom
     run apt-get update
@@ -60,21 +62,21 @@ install_atom() {
 }
 
 install_cairo() {
-    set_verbosity $1
+    set_verbosity "$1"
     log "Installing Cairo"
     run apt-get install -y libcairo2-dev libjpeg8-dev libpango1.0-dev libgif-dev build-essential g++
 }
 
 install_clojure() {
-    prevent_root $0
-    set_verbosity $1
+    prevent_root "$0"
+    set_verbosity "$1"
     log "Installing Clojure tools and dependencies"
     install_sdkman
     sdk install java
     sdk install leiningen
     if [ -f "${SCRIPT_FOLDER}/profiles.clj" ]; then
-        mkdir -p $HOME/.lein
-        mv ${SCRIPT_FOLDER}/profiles.clj ${HOME}/.lein
+        mkdir -p "$HOME"/.lein
+        mv "${SCRIPT_FOLDER}"/profiles.clj "${HOME}"/.lein
     fi
     if type npm >/dev/null 2>&1; then
         log "Installing lumo Clojure REPL"
@@ -87,7 +89,7 @@ install_clojure() {
 }
 
 install_couchdb() {
-    set_verbosity $1
+    set_verbosity "$1"
     log "Installing CouchDB"
     run apt-get install -y curl
     run apt-get install -y couchdb
@@ -104,7 +106,7 @@ install_couchdb() {
 }
 
 install_docker() {
-    set_verbosity $1
+    set_verbosity "$1"
     log "Preparing Docker dependencies"
     update
     run apt-get install apt-transport-https ca-certificates curl software-properties-common -y
@@ -120,14 +122,14 @@ install_docker() {
 }
 
 install_docker_compose() {
-    set_verbosity $1
+    set_verbosity "$1"
     log "Installing Docker Compose"
-    run curl -L https://github.com/docker/compose/releases/download/1.21.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+    run curl -L https://github.com/docker/compose/releases/download/1.21.0/docker-compose-"$(uname -s)"-"$(uname -m)" -o /usr/local/bin/docker-compose
     chmod +x /usr/local/bin/docker-compose
 }
 
 install_dotnet() {
-    set_verbosity $1
+    set_verbosity "$1"
     log "Registering Microsoft key and feed"
     run wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb
     run dpkg -i packages-microsoft-prod.deb
@@ -140,22 +142,22 @@ install_dotnet() {
 }
 
 install_firacode() {
-    prevent_root $0
-    set_verbosity $1
+    prevent_root "$0"
+    set_verbosity "$1"
     log "Installing Fira Code font"
     fonts_dir="${HOME}/.local/share/fonts"
-    if [ ! -d ${fonts_dir} ]; then
+    if [ ! -d "${fonts_dir}" ]; then
         run echo "Creating fonts directory"
-        run mkdir -p ${fonts_dir}
+        run mkdir -p "${fonts_dir}"
     else
         run echo "Found fonts dir: $fonts_dir"
     fi
     for type in Bold Light Medium Regular Retina; do
         file_path="${HOME}/.local/share/fonts/FiraCode-${type}.ttf"
         file_url="https://github.com/tonsky/FiraCode/blob/master/distr/ttf/FiraCode-${type}.ttf?raw=true"
-        if [ ! -e ${file_path} ]; then
+        if [ ! -e "${file_path}" ]; then
             log "Downloading font - ${type}"
-            run wget -O ${file_path} ${file_url}
+            run wget -O "${file_path}" "${file_url}"
         else
             log "✔ Found existing file: ${type}"
         fi;
@@ -165,14 +167,14 @@ install_firacode() {
 }
 
 install_fsharp() {
-    set_verbosity $1
+    set_verbosity "$1"
     install_mono
     log "Installing F#"
     run apt-get install fsharp -y
 }
 
 install_heroku() {
-    set_verbosity $1
+    set_verbosity "$1"
     log "Installing Heroku CLI"
     run add-apt-repository "deb https://cli-assets.heroku.com/branches/stable/apt ./"
     run curl -L https://cli-assets.heroku.com/apt/release.key | apt-key add -
@@ -181,8 +183,8 @@ install_heroku() {
 }
 
 install_ionide() {
-    prevent_root $0
-    set_verbosity $1
+    prevent_root "$0"
+    set_verbosity "$1"
     if type code >/dev/null 2>&1; then
         log "Installing Ionide IDE"
         run code --install-extension Ionide.Ionide-fsharp
@@ -192,7 +194,7 @@ install_ionide() {
 }
 
 install_java8() {
-    set_verbosity $1
+    set_verbosity "$1"
     log "Installing JRE and JDK"
     echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
     run add-apt-repository -y ppa:webupd8team/java
@@ -201,7 +203,7 @@ install_java8() {
 }
 
 install_jenkins() {
-    set_verbosity $1
+    set_verbosity "$1"
     log "Preparing to install Jenkins"
     run wget -q -O - https://jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -
     run sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list'
@@ -211,7 +213,7 @@ install_jenkins() {
 }
 
 install_julia() {
-    set_verbosity $1
+    set_verbosity "$1"
     log "Adding Julia language PPA"
     run apt-get install -y software-properties-common python-software-properties
     run add-apt-repository -y ppa:staticfloat/juliareleases
@@ -222,21 +224,21 @@ install_julia() {
 }
 
 install_lein() {
-    prevent_root $0
-    set_verbosity $1
+    prevent_root "$0"
+    set_verbosity "$1"
     log "Installing lein"
-    mkdir -p ${HOME}/bin
-    run curl -L https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein -o ${HOME}/bin/lein
-    chmod a+x ${HOME}/bin/lein
+    mkdir -p "${HOME}"/bin
+    run curl -L https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein -o "${HOME}"/bin/lein
+    chmod a+x "${HOME}"/bin/lein
     run lein
     if [ -f "${SCRIPT_FOLDER}/profiles.clj" ]; then
-        mkdir -p $HOME/.lein
-        mv ${SCRIPT_FOLDER}/profiles.clj ${HOME}/.lein
+        mkdir -p "$HOME"/.lein
+        mv "${SCRIPT_FOLDER}"/profiles.clj "${HOME}"/.lein
     fi
 }
 
 install_mesa() {
-    set_verbosity $1
+    set_verbosity "$1"
     log "Installing mesa"
     run apt-add-repository ppa:xorg-edgers
     run apt-get update
@@ -254,7 +256,7 @@ install_mesa() {
 }
 
 install_mongodb() {
-    set_verbosity $1
+    set_verbosity "$1"
     log "Installing MongoDB"
     run apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
     echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list >/dev/null 2>&1
@@ -269,7 +271,7 @@ install_mongodb() {
 }
 
 install_mono() {
-    set_verbosity $1
+    set_verbosity "$1"
     log "Adding mono repository"
     run apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
     # echo "deb http://download.mono-project.com/repo/ubuntu stable-trusty main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list >/dev/null 2>&1
@@ -281,32 +283,32 @@ install_mono() {
 }
 
 install_nvm() {
-    prevent_root $0
+    prevent_root "$0"
     log "Installing nvm"
     curl -so- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash
 }
 
 install_ohmyzsh() {
-    prevent_root $0
+    prevent_root "$0"
     log "Installing Oh-My-Zsh"
     curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | bash -s
-    echo $SSH_PASSWORD | sudo -S chsh -s $(which zsh) $(whoami)
+    echo "$SSH_PASSWORD" | sudo -S chsh -s "$(command -v zsh)" "$(whoami)"
 }
 
 install_opam() {
-    set_verbosity $1
+    set_verbosity "$1"
     log "Installing OPAM"
     run wget -q https://raw.github.com/ocaml/opam/master/shell/opam_installer.sh -O - | sh -s /usr/local/bin
 }
 
 install_pandoc() {
-    set_verbosity $1
+    set_verbosity "$1"
     log "Installing Pandoc"
     run apt-get install -y texlive texlive-latex-extra pandoc
 }
 
 install_planck() {
-    set_verbosity $1
+    set_verbosity "$1"
     log "Adding Planck Clojure REPL PPA"
     run add-apt-repository ppa:mfikes/planck -y
     run apt-get update
@@ -315,7 +317,7 @@ install_planck() {
 }
 
 install_popular_atom_plugins() {
-    prevent_root $0
+    prevent_root "$0"
     if type apm >/dev/null 2>&1; then
         log "Installing Atom plugins"
         #editor and language plugins
@@ -330,15 +332,15 @@ install_popular_atom_plugins() {
 }
 
 install_popular_node_modules() {
-    prevent_root $0
+    prevent_root "$0"
     npm install -g grunt-cli yo plato nodemon stmux
     npm install -g flow-bin flow-typed
     npm install -g snyk ntl nsp npm-check-updates npmrc grasp tldr stacks-cli thanks release surge now
 }
 
 install_powerline_font() {
-    prevent_root $0
-    set_verbosity $1
+    prevent_root "$0"
+    set_verbosity "$1"
     log "Installing powerline font"
     run wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
     run wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
@@ -350,7 +352,7 @@ install_powerline_font() {
 }
 
 install_python() {
-    set_verbosity $1
+    set_verbosity "$1"
     log "Installing advanced Python support"
     run apt-get install -y libzmq3-dev python-pip python-dev
     run apt-get install -y libblas-dev libatlas-base-dev liblapack-dev gfortran libfreetype6-dev libpng-dev
@@ -360,7 +362,7 @@ install_python() {
 }
 
 install_R() {
-    set_verbosity $1
+    set_verbosity "$1"
     log "Installing R"
     run add-apt-repository ppa:marutter/rrutter -y
     run apt-get update -y
@@ -369,8 +371,8 @@ install_R() {
 }
 
 install_reason() {
-    prevent_root $0
-    set_verbosity $1
+    prevent_root "$0"
+    set_verbosity "$1"
     log "Installing ReasonML support"
     run npm install -g reason-cli@3.1.0-linux bs-platform create-react-app
     if type apm >/dev/null 2>&1; then
@@ -384,7 +386,7 @@ install_reason() {
 }
 
 install_redis() {
-    set_verbosity $1
+    set_verbosity "$1"
     log "Installing redis"
     run apt-get install -y redis-server
     #Configure redis-server to accept remote connections
@@ -394,10 +396,10 @@ install_redis() {
 }
 
 install_rlwrap() {
-    set_verbosity $1
+    set_verbosity "$1"
     log "Installing rlwrap"
     run git clone https://github.com/hanslub42/rlwrap.git
-    cd rlwrap
+    cd rlwrap || return
     run autoreconf --install
     run ./configure
     run make
@@ -408,12 +410,13 @@ install_rlwrap() {
 }
 
 install_rust() {
-    prevent_root $0
-    set_verbosity $1
+    prevent_root "$0"
+    set_verbosity "$1"
     log "Installing Rust"
     run curl https://sh.rustup.rs -sSf | sh -s -- -y
     echo "source ${HOME}/.cargo/env" >> ~/.zshrc
-    . ${HOME}/.cargo/env
+    # shellcheck disable=SC1090,SC1091
+    . "${HOME}"/.cargo/env
     run rustup toolchain install nightly
     run rustup target add wasm32-unknown-unknown --toolchain nightly
     if type apm >/dev/null 2>&1; then
@@ -431,21 +434,22 @@ install_rust() {
 }
 
 install_rvm() {
-    prevent_root $0
+    prevent_root "$0"
     log "Installing rvm"
     gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
     curl -sSL https://get.rvm.io | bash -s stable
 }
 
 install_sdkman() {
-    prevent_root $0
+    prevent_root "$0"
     log "Installing SDKMAN!"
     curl -s "https://get.sdkman.io" | bash
+    # shellcheck disable=SC1090,SC1091
     source "$HOME/.sdkman/bin/sdkman-init.sh"
 }
 
 install_vscode() {
-    set_verbosity $1
+    set_verbosity "$1"
     run curl -s https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
     mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
     sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list' >/dev/null 2>&1
@@ -455,7 +459,7 @@ install_vscode() {
 }
 
 install_vscode_extensions() {
-    prevent_root $0
+    prevent_root "$0"
     if type code >/dev/null 2>&1; then
         code --install-extension 2gua.rainbow-brackets
         code --install-extension akamud.vscode-theme-onedark
@@ -487,7 +491,7 @@ log() {
         MSG=$MSG.
     done
     MSG=$MSG$(TZ=":US/$TIMEZONE" date +%T)
-    echo $MSG
+    echo "$MSG"
 }
 
 prevent_user() {
@@ -498,14 +502,14 @@ prevent_user() {
 }
 
 prevent_root() {
-    prevent_user root $1
+    prevent_user root "$1"
 }
 
 run() {
     if $VERBOSE; then
-        $@
+        "$@"
     else
-        $@ &>/dev/null
+        "$@" &>/dev/null
     fi
 }
 
@@ -518,20 +522,20 @@ set_verbosity() {
 }
 
 setup_github_ssh() {
-    prevent_root $0
+    prevent_root "$0"
     PASSPHRASE=${1:-123456}
     KEY_NAME=${2:-id_rsa}
     echo -n "Generating key pair......"
-    ssh-keygen -q -b 4096 -t rsa -N ${PASSPHRASE} -f ~/.ssh/${KEY_NAME}
+    ssh-keygen -q -b 4096 -t rsa -N "${PASSPHRASE}" -f ~/.ssh/"${KEY_NAME}"
     echo "DONE"
-    if [[ -e ~/.ssh/${KEY_NAME}.pub ]]; then
+    if [[ -e ~/.ssh/"${KEY_NAME}".pub ]]; then
         if type xclip >/dev/null 2>&1; then
-            cat ~/.ssh/${KEY_NAME}.pub | xclip -sel clip
+            cat ~/.ssh/"${KEY_NAME}".pub | xclip -sel clip
             echo "✔ Public key has been saved to clipboard"
         else
-            cat ~/.ssh/${KEY_NAME}.pub
+            cat ~/.ssh/"${KEY_NAME}".pub
         fi
-        if [[ -s ~/.ssh/${KEY_NAME} ]]; then
+        if [[ -s ~/.ssh/"${KEY_NAME}" ]]; then
             echo $'\n#GitHub alias\nHost me\n\tHostname github.com\n\tUser git\n\tIdentityFile ~/.ssh/'${KEY_NAME}$'\n' >> ~/.ssh/config
             echo "✔ git@me alias added to ~/.ssh/config for ${KEY_NAME}"
         fi
@@ -541,7 +545,7 @@ setup_github_ssh() {
 }
 
 turn_off_screen_lock() {
-    prevent_root $0
+    prevent_root "$0"
     log "Turning off screen lock"
     gsettings set org.gnome.desktop.session idle-delay 0
     gsettings set org.gnome.desktop.screensaver lock-enabled false
@@ -549,14 +553,14 @@ turn_off_screen_lock() {
 }
 
 turn_on_workspaces() {
-    prevent_root $0
+    prevent_root "$0"
     log "Turning on workspaces (unity)"
     gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ hsize 2
     gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ vsize 2
 }
 
 update() {
-    set_verbosity $1
+    set_verbosity "$1"
     log "Updating"
     run apt-key update
     run apt-get update
