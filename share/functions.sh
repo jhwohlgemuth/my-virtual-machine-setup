@@ -475,6 +475,7 @@ install_vscode_extensions() {
         code --install-extension sidthesloth.html5-boilerplate
         code --install-extension SirTori.indenticator
         code --install-extension techer.open-in-browser
+        code --install-extension wix.glean
         code --install-extension wix.vscode-import-cost
         code --install-extension wmaurer.change-case
     else
