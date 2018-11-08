@@ -429,6 +429,10 @@ install_rust() {
     run cargo install wasm-bindgen-cli
     log "Installing just"
     run cargo install just
+    log "Installing cargo-edit"
+    run cargo install cargo-edit
+    log "Installing cargo-audit"
+    run cargo install cargo-audit
     log "Installing tokei (line counting CLI tool)"
     run cargo install tokei
 }
@@ -475,6 +479,7 @@ install_vscode_extensions() {
         code --install-extension sidthesloth.html5-boilerplate
         code --install-extension SirTori.indenticator
         code --install-extension techer.open-in-browser
+        code --install-extension wix.glean
         code --install-extension wix.vscode-import-cost
         code --install-extension wmaurer.change-case
     else
