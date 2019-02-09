@@ -107,18 +107,20 @@ install_couchdb() {
 
 install_docker() {
     set_verbosity "$1"
+    update "$1"
     log "Preparing Docker dependencies"
-    update
-    run apt-get install apt-transport-https ca-certificates curl software-properties-common -y
+    run apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common -y
+    log "Adding GPG key"
     run curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
     run apt-key fingerprint 0EBFCD88
+    log "Adding repository"
     run add-apt-repository \
         "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
         $(lsb_release -cs) \
         stable"
-    update
+    update "$1"
     log "Installing Docker CE"
-    run apt-get install docker-ce -y
+    run apt-get install docker-ce docker-ce-cli containerd.io -y
 }
 
 install_docker_compose() {
@@ -512,6 +514,7 @@ prevent_root() {
 
 run() {
     if $VERBOSE; then
+        log "Verbose mode ON"
         "$@"
     else
         "$@" &>/dev/null
