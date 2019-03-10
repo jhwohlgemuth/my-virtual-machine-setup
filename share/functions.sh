@@ -335,7 +335,7 @@ install_popular_atom_plugins() {
 
 install_popular_node_modules() {
     prevent_root "$0"
-    npm install -g grunt-cli yo plato nodemon stmux
+    npm install -g grunt-cli yo plato nodemon stmux deoptigate
     npm install -g flow-bin flow-typed
     npm install -g snyk ntl nsp npm-check-updates npmrc grasp tldr stacks-cli thanks release surge now
 }
