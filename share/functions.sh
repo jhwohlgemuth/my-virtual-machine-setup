@@ -476,6 +476,7 @@ install_vscode_extensions() {
         code --install-extension deerawan.vscode-faker
         code --install-extension emmanuelbeziat.vscode-great-icons
         code --install-extension kisstkondoros.vscode-gutter-preview
+        code --install-extension ms-vscode.atom-keybindings
         code --install-extension pnp.polacode
         code --install-extension Shan.code-settings-sync
         code --install-extension sidthesloth.html5-boilerplate
