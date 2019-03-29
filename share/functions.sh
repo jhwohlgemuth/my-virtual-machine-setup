@@ -3,7 +3,6 @@
 
 SSH_PASSWORD=${SSH_PASSWORD:-vagrant}
 SCRIPT_FOLDER=${HOME}/.${SCRIPTS_HOME_DIRECTORY:-jhwohlgemuth}
-VERBOSE=false
 
 #Collection of functions for installing and configuring software on Ubuntu
 #Organized alphabetically
@@ -54,22 +53,19 @@ fix_enospc_issue() {
 }
 
 install_atom() {
-    set_verbosity "$1"
     log "Installing Atom editor"
-    run add-apt-repository -y ppa:webupd8team/atom
-    run apt-get update
-    run apt-get install -y atom
+    add-apt-repository -y ppa:webupd8team/atom > $SCRIPT_FOLDER/log
+    apt-get update > $SCRIPT_FOLDER/log
+    apt-get install -y atom > $SCRIPT_FOLDER/log
 }
 
 install_cairo() {
-    set_verbosity "$1"
     log "Installing Cairo"
-    run apt-get install -y libcairo2-dev libjpeg8-dev libpango1.0-dev libgif-dev build-essential g++
+    apt-get install -y libcairo2-dev libjpeg8-dev libpango1.0-dev libgif-dev build-essential g++ > $SCRIPT_FOLDER/log
 }
 
 install_clojure() {
     prevent_root "$0"
-    set_verbosity "$1"
     log "Installing Clojure tools and dependencies"
     install_sdkman
     sdk install java
@@ -80,19 +76,18 @@ install_clojure() {
     fi
     if type npm >/dev/null 2>&1; then
         log "Installing lumo Clojure REPL"
-        run npm install -g lumo-cljs
+        npm install -g lumo-cljs > $SCRIPT_FOLDER/log
     fi
     if type apm >/dev/null 2>&1; then
         log "Installing Clojure Atom plugins"
-        run apm install parinfer lisp-paredit
+        apm install parinfer lisp-paredit > $SCRIPT_FOLDER/log
     fi
 }
 
 install_couchdb() {
-    set_verbosity "$1"
     log "Installing CouchDB"
-    run apt-get install -y curl
-    run apt-get install -y couchdb
+    apt-get install -y curl > $SCRIPT_FOLDER/log
+    apt-get install -y couchdb > $SCRIPT_FOLDER/log
     sed -i '/;port/c port = 5984' /etc/couchdb/local.ini
     sed -i '/;bind_address/c bind_address = 0.0.0.0' /etc/couchdb/local.ini
     lineNumber=$(($(echo $(grep -n '\[couch_httpd_auth\]' /etc/couchdb/local.ini) | awk -F':' '{print $1}')+1))
@@ -106,133 +101,122 @@ install_couchdb() {
 }
 
 install_docker() {
-    set_verbosity "$1"
     update "$1"
     log "Preparing Docker dependencies"
-    run apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common -y
+    apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common -y > $SCRIPT_FOLDER/log
     log "Adding GPG key"
-    run curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    run apt-key fingerprint 0EBFCD88
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - > $SCRIPT_FOLDER/log
+    apt-key fingerprint 0EBFCD88 > $SCRIPT_FOLDER/log
     log "Adding repository"
-    run add-apt-repository \
+    add-apt-repository \
         "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
         $(lsb_release -cs) \
-        stable"
+        stable" > $SCRIPT_FOLDER/log
     update "$1"
     log "Installing Docker CE"
-    run apt-get install docker-ce docker-ce-cli containerd.io -y
+    apt-get install docker-ce docker-ce-cli containerd.io -y > $SCRIPT_FOLDER/log
 }
 
 install_docker_compose() {
-    set_verbosity "$1"
     log "Installing Docker Compose"
-    run curl -L https://github.com/docker/compose/releases/download/1.21.0/docker-compose-"$(uname -s)"-"$(uname -m)" -o /usr/local/bin/docker-compose
+    curl -L https://github.com/docker/compose/releases/download/1.21.0/docker-compose-"$(uname -s)"-"$(uname -m)" -o /usr/local/bin/docker-compose > $SCRIPT_FOLDER/log
     chmod +x /usr/local/bin/docker-compose
 }
 
 install_dotnet() {
-    set_verbosity "$1"
     log "Registering Microsoft key and feed"
-    run wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb
-    run dpkg -i packages-microsoft-prod.deb
+    wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb > $SCRIPT_FOLDER/log
+    dpkg -i packages-microsoft-prod.deb > $SCRIPT_FOLDER/log
     log "Installing dependencies"
-    run apt-get install apt-transport-https -y
+    apt-get install apt-transport-https -y > $SCRIPT_FOLDER/log
     update
     log "Installing .NET SDK"
-    run apt-get install dotnet-sdk-2.1 -y --allow-unauthenticated
+    apt-get install dotnet-sdk-2.1 -y --allow-unauthenticated > $SCRIPT_FOLDER/log
     rm -frd packages-microsoft-prod.deb
 }
 
 install_firacode() {
     prevent_root "$0"
-    set_verbosity "$1"
     log "Installing Fira Code font"
     fonts_dir="${HOME}/.local/share/fonts"
     if [ ! -d "${fonts_dir}" ]; then
-        run echo "Creating fonts directory"
-        run mkdir -p "${fonts_dir}"
+        log "Creating fonts directory"
+        mkdir -p "${fonts_dir}" > $SCRIPT_FOLDER/log
     else
-        run echo "Found fonts dir: $fonts_dir"
+        log "Found fonts dir: $fonts_dir"
     fi
     for type in Bold Light Medium Regular Retina; do
         file_path="${HOME}/.local/share/fonts/FiraCode-${type}.ttf"
         file_url="https://github.com/tonsky/FiraCode/blob/master/distr/ttf/FiraCode-${type}.ttf?raw=true"
         if [ ! -e "${file_path}" ]; then
             log "Downloading font - ${type}"
-            run wget -O "${file_path}" "${file_url}"
+            wget -O "${file_path}" "${file_url}" > $SCRIPT_FOLDER/log
         else
             log "✔ Found existing file: ${type}"
         fi;
     done
-    run echo "Running fc-cache"
-    run fc-cache -f
+    log "Running fc-cache"
+    fc-cache -f > $SCRIPT_FOLDER/log
 }
 
 install_fsharp() {
-    set_verbosity "$1"
     install_mono
     log "Installing F#"
-    run apt-get install fsharp -y
+    apt-get install fsharp -y > $SCRIPT_FOLDER/log
 }
 
 install_heroku() {
-    set_verbosity "$1"
     log "Installing Heroku CLI"
-    run add-apt-repository "deb https://cli-assets.heroku.com/branches/stable/apt ./"
-    run curl -L https://cli-assets.heroku.com/apt/release.key | apt-key add -
+    add-apt-repository "deb https://cli-assets.heroku.com/branches/stable/apt ./" > $SCRIPT_FOLDER/log
+    curl -L https://cli-assets.heroku.com/apt/release.key | apt-key add - > $SCRIPT_FOLDER/log
     update
-    run apt-get install heroku
+    apt-get install heroku > $SCRIPT_FOLDER/log
 }
 
 install_ionide() {
     prevent_root "$0"
-    set_verbosity "$1"
     if type code >/dev/null 2>&1; then
         log "Installing Ionide IDE"
-        run code --install-extension Ionide.Ionide-fsharp
+        code --install-extension Ionide.Ionide-fsharp > $SCRIPT_FOLDER/log
     else
         echo "✘ Ionide requires VS Code. Please install VS Code."
     fi
 }
 
 install_java8() {
-    set_verbosity "$1"
     log "Installing JRE and JDK"
     echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
-    run add-apt-repository -y ppa:webupd8team/java
-    run apt-get update
-    run apt-get install -y oracle-java8-installer
+    add-apt-repository -y ppa:webupd8team/java > $SCRIPT_FOLDER/log
+    apt-get update > $SCRIPT_FOLDER/log
+    apt-get install -y oracle-java8-installer > $SCRIPT_FOLDER/log
 }
 
 install_jenkins() {
-    set_verbosity "$1"
     log "Preparing to install Jenkins"
-    run wget -q -O - https://jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -
-    run sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list'
-    run apt-get update
+    wget -q -O - https://jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add - > $SCRIPT_FOLDER/log
+    sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list' > $SCRIPT_FOLDER/log
+    apt-get update > $SCRIPT_FOLDER/log
     log "Installing Jenkins"
-    run apt-get install -y jenkins
+    apt-get install -y jenkins > $SCRIPT_FOLDER/log
 }
 
 install_julia() {
-    set_verbosity "$1"
     log "Adding Julia language PPA"
-    run apt-get install -y software-properties-common python-software-properties
-    run add-apt-repository -y ppa:staticfloat/juliareleases
-    run add-apt-repository -y ppa:staticfloat/julia-deps
-    run apt-get update
+    apt-get install -y software-properties-common python-software-properties > $SCRIPT_FOLDER/log
+    add-apt-repository -y ppa:staticfloat/juliareleases > $SCRIPT_FOLDER/log
+    add-apt-repository -y ppa:staticfloat/julia-deps > $SCRIPT_FOLDER/log
+    apt-get update > $SCRIPT_FOLDER/log
     log "Installing Julia language"
-    run apt-get install -y julia
+    apt-get install -y julia > $SCRIPT_FOLDER/log
 }
 
 install_lein() {
     prevent_root "$0"
-    set_verbosity "$1"
     log "Installing lein"
     mkdir -p "${HOME}"/bin
-    run curl -L https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein -o "${HOME}"/bin/lein
+    curl -L https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein -o "${HOME}"/bin/lein > $SCRIPT_FOLDER/log
     chmod a+x "${HOME}"/bin/lein
-    run lein
+    lein > $SCRIPT_FOLDER/log
     if [ -f "${SCRIPT_FOLDER}/profiles.clj" ]; then
         mkdir -p "$HOME"/.lein
         mv "${SCRIPT_FOLDER}"/profiles.clj "${HOME}"/.lein
@@ -240,48 +224,45 @@ install_lein() {
 }
 
 install_mesa() {
-    set_verbosity "$1"
     log "Installing mesa"
-    run apt-add-repository ppa:xorg-edgers
-    run apt-get update
-    run apt-get install libdrm-dev
-    run apt-get build-dep mesa
+    apt-add-repository ppa:xorg-edgers > $SCRIPT_FOLDER/log
+    apt-get update > $SCRIPT_FOLDER/log
+    apt-get install libdrm-dev > $SCRIPT_FOLDER/log
+    apt-get build-dep mesa > $SCRIPT_FOLDER/log
     wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key|sudo apt-key add -
-    run apt-get install -y clang-3.6 clang-3.6-doc libclang-common-3.6-dev
-    run apt-get install -y libclang-3.6-dev libclang1-3.6 libclang1-3.6-dbg
-    run apt-get install -y libllvm-3.6-ocaml-dev libllvm3.6 libllvm3.6-dbg
-    run apt-get install -y lldb-3.6 llvm-3.6 llvm-3.6-dev llvm-3.6-doc
-    run apt-get install -y llvm-3.6-examples llvm-3.6-runtime clang-modernize-3.6
-    run apt-get install -y clang-format-3.6 python-clang-3.6 lldb-3.6-dev
-    run apt-get install -y libx11-xcb-dev libx11-xcb1 libxcb-glx0-dev libxcb-dri2-0-dev
-    run apt-get install -y libxcb-dri3-dev libxshmfence-dev libxcb-sync-dev llvm
+    apt-get install -y clang-3.6 clang-3.6-doc libclang-common-3.6-dev > $SCRIPT_FOLDER/log
+    apt-get install -y libclang-3.6-dev libclang1-3.6 libclang1-3.6-dbg > $SCRIPT_FOLDER/log
+    apt-get install -y libllvm-3.6-ocaml-dev libllvm3.6 libllvm3.6-dbg > $SCRIPT_FOLDER/log
+    apt-get install -y lldb-3.6 llvm-3.6 llvm-3.6-dev llvm-3.6-doc > $SCRIPT_FOLDER/log
+    apt-get install -y llvm-3.6-examples llvm-3.6-runtime clang-modernize-3.6 > $SCRIPT_FOLDER/log
+    apt-get install -y clang-format-3.6 python-clang-3.6 lldb-3.6-dev > $SCRIPT_FOLDER/log
+    apt-get install -y libx11-xcb-dev libx11-xcb1 libxcb-glx0-dev libxcb-dri2-0-dev > $SCRIPT_FOLDER/log
+    apt-get install -y libxcb-dri3-dev libxshmfence-dev libxcb-sync-dev llvm > $SCRIPT_FOLDER/log
 }
 
 install_mongodb() {
-    set_verbosity "$1"
     log "Installing MongoDB"
-    run apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10 > $SCRIPT_FOLDER/log
     echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list >/dev/null 2>&1
-    run apt-get update
-    run apt-get install -y mongodb-org
+    apt-get update > $SCRIPT_FOLDER/log
+    apt-get install -y mongodb-org > $SCRIPT_FOLDER/log
     # Change config file to allow external connections
-    run sed -i '/bind_ip/c # bind_ip = 127.0.0.1' /etc/mongod.conf
+    sed -i '/bind_ip/c # bind_ip = 127.0.0.1' /etc/mongod.conf > $SCRIPT_FOLDER/log
     # Change default port to 8000
     #sudo sed -i '/#port/c port = 8000' /etc/mongod.conf >/dev/null 2>&1
-    run service mongod restart
+    service mongod restart > $SCRIPT_FOLDER/log
     #The default port can be changed by editing /etc/mongod.conf
 }
 
 install_mono() {
-    set_verbosity "$1"
     log "Adding mono repository"
-    run apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF > $SCRIPT_FOLDER/log
     # echo "deb http://download.mono-project.com/repo/ubuntu stable-trusty main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list >/dev/null 2>&1
     echo "deb https://download.mono-project.com/repo/ubuntu stable-xenial main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list >/dev/null 2>&1
-    run apt-get install apt-transport-https --yes
+    apt-get install apt-transport-https --yes > $SCRIPT_FOLDER/log
     update
     log "Installing mono"
-    run apt-get install mono-devel -y --force-yes
+    apt-get install mono-devel -y --force-yes > $SCRIPT_FOLDER/log
 }
 
 install_nvm() {
@@ -298,24 +279,21 @@ install_ohmyzsh() {
 }
 
 install_opam() {
-    set_verbosity "$1"
     log "Installing OPAM"
-    run wget -q https://raw.github.com/ocaml/opam/master/shell/opam_installer.sh -O - | sh -s /usr/local/bin
+    wget -q https://raw.github.com/ocaml/opam/master/shell/opam_installer.sh -O - | sh -s /usr/local/bin > $SCRIPT_FOLDER/log
 }
 
 install_pandoc() {
-    set_verbosity "$1"
     log "Installing Pandoc"
-    run apt-get install -y texlive texlive-latex-extra pandoc
+    apt-get install -y texlive texlive-latex-extra pandoc > $SCRIPT_FOLDER/log
 }
 
 install_planck() {
-    set_verbosity "$1"
     log "Adding Planck Clojure REPL PPA"
-    run add-apt-repository ppa:mfikes/planck -y
-    run apt-get update
+    add-apt-repository ppa:mfikes/planck -y > $SCRIPT_FOLDER/log
+    apt-get update > $SCRIPT_FOLDER/log
     log "Installing Planck"
-    run apt-get install -y planck
+    apt-get install -y planck > $SCRIPT_FOLDER/log
 }
 
 install_popular_atom_plugins() {
@@ -342,101 +320,94 @@ install_popular_node_modules() {
 
 install_powerline_font() {
     prevent_root "$0"
-    set_verbosity "$1"
     log "Installing powerline font"
-    run wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
-    run wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
+    wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf > $SCRIPT_FOLDER/log
+    wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf > $SCRIPT_FOLDER/log
     mkdir ~/.fonts/
     mkdir -p ~/.config/fontconfig/conf.d/
     mv PowerlineSymbols.otf ~/.fonts/
-    run fc-cache -vf ~/.fonts/
+    fc-cache -vf ~/.fonts/ > $SCRIPT_FOLDER/log
     mv 10-powerline-symbols.conf ~/.config/fontconfig/conf.d/
 }
 
 install_python() {
-    set_verbosity "$1"
     log "Installing advanced Python support"
-    run apt-get install -y libzmq3-dev python-pip python-dev
-    run apt-get install -y libblas-dev libatlas-base-dev liblapack-dev gfortran libfreetype6-dev libpng-dev
-    run pip install --upgrade pip
-    run pip install --upgrade virtualenv
-    run pip install ipython[notebook]
+    apt-get install -y libzmq3-dev python-pip python-dev > $SCRIPT_FOLDER/log
+    apt-get install -y libblas-dev libatlas-base-dev liblapack-dev gfortran libfreetype6-dev libpng-dev > $SCRIPT_FOLDER/log
+    pip install --upgrade pip > $SCRIPT_FOLDER/log
+    pip install --upgrade virtualenv > $SCRIPT_FOLDER/log
+    pip install ipython[notebook] > $SCRIPT_FOLDER/log
 }
 
 install_R() {
-    set_verbosity "$1"
     log "Installing R"
-    run add-apt-repository ppa:marutter/rrutter -y
-    run apt-get update -y
-    run apt-get upgrade -y
-    run apt-get install -y r-base
+    add-apt-repository ppa:marutter/rrutter -y > $SCRIPT_FOLDER/log
+    apt-get update -y > $SCRIPT_FOLDER/log
+    apt-get upgrade -y > $SCRIPT_FOLDER/log
+    apt-get install -y r-base > $SCRIPT_FOLDER/log
 }
 
 install_reason() {
     prevent_root "$0"
-    set_verbosity "$1"
     log "Installing ReasonML support"
-    run npm install -g reason-cli@3.1.0-linux bs-platform create-react-app
+    npm install -g reason-cli@3.1.0-linux bs-platform create-react-app > $SCRIPT_FOLDER/log
     if type apm >/dev/null 2>&1; then
         log "Installing Atom ReasonML language support"
-        run apm install language-reason language-ocaml
+        apm install language-reason language-ocaml > $SCRIPT_FOLDER/log
     fi
     if type code >/dev/null 2>&1; then
         log "Installing VS Code ReasonML IDE"
-        run code --install-extension freebroccolo.reasonml
+        code --install-extension freebroccolo.reasonml > $SCRIPT_FOLDER/log
     fi
 }
 
 install_redis() {
-    set_verbosity "$1"
     log "Installing redis"
-    run apt-get install -y redis-server
+    apt-get install -y redis-server > $SCRIPT_FOLDER/log
     #Configure redis-server to accept remote connections
     sed -i 's/bind 127.0.0.1/bind 0.0.0.0/' /etc/redis/redis.conf
-    run service redis-server restart
+    service redis-server restart > $SCRIPT_FOLDER/log
     #The default port can be changed by editing /etc/redis/redis.conf
 }
 
 install_rlwrap() {
-    set_verbosity "$1"
     log "Installing rlwrap"
-    run git clone https://github.com/hanslub42/rlwrap.git
+    git clone https://github.com/hanslub42/rlwrap.git > $SCRIPT_FOLDER/log
     cd rlwrap || return
-    run autoreconf --install
-    run ./configure
-    run make
+    autoreconf --install > $SCRIPT_FOLDER/log
+    ./configure > $SCRIPT_FOLDER/log
+    make > $SCRIPT_FOLDER/log
     make check
-    run make install
+    make install > $SCRIPT_FOLDER/log
     cd ..
     rm -frd rlwrap
 }
 
 install_rust() {
     prevent_root "$0"
-    set_verbosity "$1"
     log "Installing Rust"
-    run curl https://sh.rustup.rs -sSf | sh -s -- -y
+    curl https://sh.rustup.rs -sSf | sh -s -- -y > $SCRIPT_FOLDER/log
     echo "source ${HOME}/.cargo/env" >> ~/.zshrc
     # shellcheck disable=SC1090,SC1091
     . "${HOME}"/.cargo/env
-    run rustup toolchain install nightly
-    run rustup target add wasm32-unknown-unknown --toolchain nightly
+    rustup toolchain install nightly > $SCRIPT_FOLDER/log
+    rustup target add wasm32-unknown-unknown --toolchain nightly > $SCRIPT_FOLDER/log
     if type apm >/dev/null 2>&1; then
         log "Installing Atom Rust IDE"
-        run apm install ide-rust
+        apm install ide-rust > $SCRIPT_FOLDER/log
     fi
     log "Installing wasm-gc"
-    run cargo install --git https://github.com/alexcrichton/wasm-gc
+    cargo install --git https://github.com/alexcrichton/wasm-gc > $SCRIPT_FOLDER/log
     log "Installing wasm-bindgen"
-    run cargo install wasm-bindgen-cli
+    cargo install wasm-bindgen-cli > $SCRIPT_FOLDER/log
     log "Installing just"
-    run cargo install just
+    cargo install just > $SCRIPT_FOLDER/log
     log "Installing cargo-edit"
-    run cargo install cargo-edit
+    cargo install cargo-edit > $SCRIPT_FOLDER/log
     log "Installing cargo-audit"
-    run cargo install cargo-audit
+    cargo install cargo-audit > $SCRIPT_FOLDER/log
     log "Installing tokei (line counting CLI tool)"
-    run cargo install tokei
+    cargo install tokei > $SCRIPT_FOLDER/log
 }
 
 install_rvm() {
@@ -455,13 +426,12 @@ install_sdkman() {
 }
 
 install_vscode() {
-    set_verbosity "$1"
-    run curl -s https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+    curl -s https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg > $SCRIPT_FOLDER/log
     mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
     sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list' >/dev/null 2>&1
     update
     log "Installing VSCode"
-    run apt-get install code -y --force-yes
+    apt-get install code -y --force-yes > $SCRIPT_FOLDER/log
 }
 
 install_vscode_extensions() {
@@ -500,6 +470,7 @@ log() {
     done
     MSG=$MSG$(TZ=":US/$TIMEZONE" date +%T)
     echo "$MSG"
+    echo "$MSG" > $SCRIPT_FOLDER/log
 }
 
 prevent_user() {
@@ -511,23 +482,6 @@ prevent_user() {
 
 prevent_root() {
     prevent_user root "$1"
-}
-
-run() {
-    if $VERBOSE; then
-        log "Verbose mode ON"
-        "$@"
-    else
-        "$@" &>/dev/null
-    fi
-}
-
-set_verbosity() {
-    if [[ "$1" == "--verbose" ]]; then
-        VERBOSE=true
-    else
-        VERBOSE=false
-    fi
 }
 
 setup_github_ssh() {
@@ -569,8 +523,7 @@ turn_on_workspaces() {
 }
 
 update() {
-    set_verbosity "$1"
     log "Updating"
-    run apt-key update
-    run apt-get update
+    apt-key update > $SCRIPT_FOLDER/log
+    apt-get update > $SCRIPT_FOLDER/log
 }
