@@ -242,8 +242,8 @@ install_mesa() {
 
 install_mongodb() {
     log "Installing MongoDB"
-    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10 > $SCRIPT_FOLDER/log
-    echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list >/dev/null 2>&1
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4 > $SCRIPT_FOLDER/log
+    echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list > $SCRIPT_FOLDER/log
     apt-get update > $SCRIPT_FOLDER/log
     apt-get install -y mongodb-org > $SCRIPT_FOLDER/log
     # Change config file to allow external connections
