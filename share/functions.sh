@@ -438,6 +438,7 @@ install_vscode_extensions() {
     prevent_root "$0"
     if type code >/dev/null 2>&1; then
         code --install-extension 2gua.rainbow-brackets
+        code --install-extension akamud.vscode-javascript-snippet-pack
         code --install-extension akamud.vscode-theme-onedark
         code --install-extension bierner.color-info
         code --install-extension bierner.lit-html
