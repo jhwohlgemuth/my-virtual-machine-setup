@@ -4,6 +4,53 @@
 SSH_PASSWORD=${SSH_PASSWORD:-vagrant}
 SCRIPT_FOLDER=${HOME}/.${SCRIPTS_HOME_DIRECTORY:-jhwohlgemuth}
 
+log() {
+    TIMEZONE=Central
+    MAXLEN=60
+    MSG=$1
+    for i in $(seq ${#MSG} $MAXLEN)
+    do
+        MSG=$MSG.
+    done
+    MSG=$MSG$(TZ=":US/$TIMEZONE" date +%T)
+    echo "$MSG"
+}
+prevent_user() {
+    if [[ "$1" == $(whoami) ]]; then
+        echo "✘ ${2} should NOT be run as ${1}"
+        exit 0
+    fi
+}
+prevent_root() {
+    prevent_user root "$1"
+}
+iter() {
+    if [[ -f "$2" ]]
+    then
+        while read line; do
+            $1 $line
+        done < $2
+    fi
+}
+install_crate() {
+    prevent_root "$0"
+    if type cargo >/dev/null 2>&1; then
+        cargo install $1
+    fi
+}
+install_extension() {
+    prevent_root "$0"
+    if type code >/dev/null 2>&1; then
+        code --install-extension $1
+    fi
+}
+install_module() {
+    prevent_root "$0"
+    if type npm >/dev/null 2>&1; then
+        npm install --global $1
+    fi
+}
+
 #Collection of functions for installing and configuring software on Ubuntu
 #Organized alphabetically
 
@@ -460,31 +507,6 @@ install_vscode_extensions() {
         log "Please install VSCode before installing VSCode plugins"
     fi
 }
-
-log() {
-    TIMEZONE=Central
-    MAXLEN=50
-    MSG=$1
-    for i in $(seq ${#MSG} $MAXLEN)
-    do
-        MSG=$MSG.
-    done
-    MSG=$MSG$(TZ=":US/$TIMEZONE" date +%T)
-    echo "$MSG"
-    echo "$MSG" > $SCRIPT_FOLDER/log
-}
-
-prevent_user() {
-    if [[ "$1" == $(whoami) ]]; then
-        echo "✘ ${2} should NOT be run as ${1}"
-        exit 0
-    fi
-}
-
-prevent_root() {
-    prevent_user root "$1"
-}
-
 setup_github_ssh() {
     prevent_root "$0"
     PASSPHRASE=${1:-123456}
@@ -507,7 +529,6 @@ setup_github_ssh() {
         echo "Something went wrong, please try again."
     fi
 }
-
 turn_off_screen_lock() {
     prevent_root "$0"
     log "Turning off screen lock"
@@ -515,14 +536,12 @@ turn_off_screen_lock() {
     gsettings set org.gnome.desktop.screensaver lock-enabled false
     gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'
 }
-
 turn_on_workspaces() {
     prevent_root "$0"
     log "Turning on workspaces (unity)"
     gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ hsize 2
     gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ vsize 2
 }
-
 update() {
     log "Updating"
     apt-key update > $SCRIPT_FOLDER/log
