@@ -50,6 +50,20 @@ install_module() {
         npm install --global $1
     fi
 }
+install_nix() {
+    prevent_root "$0"
+    log "Installing Nix"
+    curl https://nixos.org/nix/install | sh
+    if [ -f "${HOME}/.zshrc" ]; then
+        echo ". ${HOME}/.nix-profile/etc/profile.d/nix.sh" >> ${HOME}/.zshrc
+    fi
+}
+install_nix_package() {
+    prevent_root "$0"
+    if type nix-env >/dev/null 2>&1; then
+        nix-env --install $1
+    fi
+}
 
 #Collection of functions for installing and configuring software on Ubuntu
 #Organized alphabetically
