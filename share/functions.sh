@@ -104,9 +104,7 @@ customize_ohmyzsh() {
 
 fix_ssh_key_permissions() {
     prevent_root "$0"
-    KEY_NAME=${1:-id_rsa}
-    chmod 600 ~/.ssh/"${KEY_NAME}"
-    chmod 600 ~/.ssh/"${KEY_NAME}".pub
+    chmod 600 ~/.ssh/config
 }
 
 fix_enospc_issue() {
