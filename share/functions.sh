@@ -82,7 +82,7 @@ customize_ohmyzsh() {
       sed -i '/  git/c \ \ git git-extras npm docker encode64 jsontools web-search wd' ~/.zshrc
       echo 'export PATH="${HOME}/bin:${PATH}"' >> ~/.zshrc
       echo 'export NVM_DIR="${HOME}/.nvm"' >> ~/.zshrc
-      echo "[ -s '$NVM_DIR/nvm.sh' ] && . '$NVM_DIR/nvm.sh'" >> ~/.zshrc
+      echo "[ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\"" >> ~/.zshrc
       echo "npm completion >/dev/null 2>&1" >> ~/.zshrc
       # General functions
       echo "clean() { rm -frd \$1 && mkdir \$1 && cd \$1 ; }" >> ~/.zshrc
