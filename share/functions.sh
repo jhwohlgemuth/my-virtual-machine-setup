@@ -51,11 +51,12 @@ install_module() {
     fi
 }
 install_nix() {
-    prevent_root "$0"
+    # prevent_root "$0"
     log "Installing Nix"
-    curl https://nixos.org/nix/install | sh
+    # curl https://nixos.org/nix/install | sh
+    mkdir /etc/nix; echo 'use-sqlite-wal = false' | sudo tee -a /etc/nix/nix.conf && sh <(curl https://nixos.org/releases/nix/nix-2.1.3/install) 
     if [ -f "${HOME}/.zshrc" ]; then
-        echo ". ${HOME}/.nix-profile/etc/profile.d/nix.sh" >> ${HOME}/.zshrc
+        echo "source ${HOME}/.nix-profile/etc/profile.d/nix.sh" >> ${HOME}/.zshrc
     fi
 }
 install_nix_package() {
