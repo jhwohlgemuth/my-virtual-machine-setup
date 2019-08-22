@@ -51,11 +51,12 @@ install_module() {
     fi
 }
 install_nix() {
-    prevent_root "$0"
+    # prevent_root "$0"
     log "Installing Nix"
-    curl https://nixos.org/nix/install | sh
+    # curl https://nixos.org/nix/install | sh
+    mkdir /etc/nix; echo 'use-sqlite-wal = false' | sudo tee -a /etc/nix/nix.conf && sh <(curl https://nixos.org/releases/nix/nix-2.1.3/install) 
     if [ -f "${HOME}/.zshrc" ]; then
-        echo ". ${HOME}/.nix-profile/etc/profile.d/nix.sh" >> ${HOME}/.zshrc
+        echo "source ${HOME}/.nix-profile/etc/profile.d/nix.sh" >> ${HOME}/.zshrc
     fi
 }
 install_nix_package() {
@@ -82,7 +83,7 @@ customize_ohmyzsh() {
       sed -i '/  git/c \ \ git git-extras npm docker encode64 jsontools web-search wd' ~/.zshrc
       echo 'export PATH="${HOME}/bin:${PATH}"' >> ~/.zshrc
       echo 'export NVM_DIR="${HOME}/.nvm"' >> ~/.zshrc
-      echo "[ -s '$NVM_DIR/nvm.sh' ] && . '$NVM_DIR/nvm.sh'" >> ~/.zshrc
+      echo "[ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\"" >> ~/.zshrc
       echo "npm completion >/dev/null 2>&1" >> ~/.zshrc
       # General functions
       echo "clean() { rm -frd \$1 && mkdir \$1 && cd \$1 ; }" >> ~/.zshrc
@@ -104,9 +105,7 @@ customize_ohmyzsh() {
 
 fix_ssh_key_permissions() {
     prevent_root "$0"
-    KEY_NAME=${1:-id_rsa}
-    chmod 600 ~/.ssh/"${KEY_NAME}"
-    chmod 600 ~/.ssh/"${KEY_NAME}".pub
+    chmod 600 ~/.ssh/config
 }
 
 fix_enospc_issue() {
