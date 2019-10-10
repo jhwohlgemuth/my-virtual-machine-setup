@@ -74,32 +74,52 @@ create_cached_repo() {
     docker run -d -p 8081:8081 --name nexus sonatype/nexus3
 }
 
+customize_run_commands() {
+    prevent_root "$0"
+    config=${1:-'.zshrc'}
+    if [ -f "${HOME}/${config}" ]; then
+      echo 'export PATH="${HOME}/bin:${PATH}"' >> ~/$config
+      echo 'export NVM_DIR="${HOME}/.nvm"' >> ~/$config
+      echo "[ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\"" >> ~/$config
+      echo "npm completion >/dev/null 2>&1" >> ~/$config
+      #
+      # General functions
+      #
+      echo "clean() { rm -frd \$1 && mkdir \$1 && cd \$1 ; }" >> ~/$config
+      #
+      # Docker functions
+      #
+      echo "dip() { docker inspect --format '{{ .NetworkSettings.IPAddress }}' \$1 ; }" >> ~/$config
+      echo "docker_rm_all() { docker stop \$(docker ps -a -q) && docker rm \$(docker ps -a -q) ; }" >> ~/$config
+      #
+      # Git functions
+      #
+      echo "set_git_user() { git config --global user.name \$1 ; }" >> ~/$config
+      echo "set_git_email() { git config --global user.email \$1 ; }" >> ~/$config
+      #
+      # Aliases
+      #
+      echo "alias did=\"vim + 'normal Go' +'r!date' ~/did.txt\"" >> ~/$config
+      echo 'alias rf="rm -frd"' >> ~/$config
+      #
+      # External functions
+      #
+      echo "source ${SCRIPT_FOLDER}/functions.sh" >> ~/$config
+    else
+      log "Failed to find ${config} file"
+    fi
+}
+
 customize_ohmyzsh() {
     prevent_root "$0"
-    if [ -f "${HOME}/.zshrc" ]; then
+    config='.zshrc'
+    if [ -f "${HOME}/${config}" ]; then
       install_powerline_font
       log "Setting zsh terminal theme"
-      sed -i '/ZSH_THEME/c ZSH_THEME="agnoster"' ~/.zshrc
-      sed -i '/  git/c \ \ git git-extras npm docker encode64 jsontools web-search wd' ~/.zshrc
-      echo 'export PATH="${HOME}/bin:${PATH}"' >> ~/.zshrc
-      echo 'export NVM_DIR="${HOME}/.nvm"' >> ~/.zshrc
-      echo "[ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\"" >> ~/.zshrc
-      echo "npm completion >/dev/null 2>&1" >> ~/.zshrc
-      # General functions
-      echo "clean() { rm -frd \$1 && mkdir \$1 && cd \$1 ; }" >> ~/.zshrc
-      # Docker functions
-      echo "dip() { docker inspect --format '{{ .NetworkSettings.IPAddress }}' \$1 ; }" >> ~/.zshrc
-      echo "docker_rm_all() { docker stop \$(docker ps -a -q) && docker rm \$(docker ps -a -q) ; }" >> ~/.zshrc
-      # Git functions
-      echo "set_git_user() { git config --global user.name \$1 ; }" >> ~/.zshrc
-      echo "set_git_email() { git config --global user.email \$1 ; }" >> ~/.zshrc
-      # Aliases
-      echo "alias did=\"vim + 'normal Go' +'r!date' ~/did.txt\"" >> ~/.zshrc
-      echo 'alias rf="rm -frd"' >> ~/.zshrc
-      # External functions
-      echo "source ${SCRIPT_FOLDER}/functions.sh" >> ~/.zshrc
+      sed -i '/ZSH_THEME/c ZSH_THEME="agnoster"' ~/$config
+      sed -i '/plugins=(git)/c plugins=(extract git git-extras npm docker encode64 jsontools web-search wd)' ~/$config
     else
-      log 'Failed to find .zshrc file'
+      log "Failed to find ${config} file"
     fi
 }
 
