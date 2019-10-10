@@ -123,6 +123,10 @@ customize_ohmyzsh() {
     fi
 }
 
+disable_auto_update() {
+    sed -i '/APT::Periodic::Update-Package-Lists "1";/c APT::Periodic::Update-Package-Lists "0";' /etc/apt/apt.conf.d/10periodic
+}
+
 fix_ssh_key_permissions() {
     prevent_root "$0"
     chmod 600 ~/.ssh/config
