@@ -11,6 +11,8 @@
 -----------------
 - `create_cached_repo`
 - `customize_ohmyzsh`
+- `customize_run_commands`
+- `disable_auto_update`
 - `fix_enospc_issue`
 - `install_atom`
 - `install_cairo`
