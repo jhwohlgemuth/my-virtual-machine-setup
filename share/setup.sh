@@ -15,6 +15,7 @@ turn_off_screen_lock
 
 install_ohmyzsh
 customize_ohmyzsh
+customize_run_commands
 
 log "Installing node"
 # shellcheck disable=SC1090
