@@ -99,6 +99,7 @@ customize_run_commands() {
       #
       # Aliases
       #
+      echo 'alias cp="rsync −ah −−inplace −−info=progress2 -h"' >> ~/$config
       echo "alias did=\"vim + 'normal Go' +'r!date' ~/did.txt\"" >> ~/$config
       echo 'alias rf="rm -frd"' >> ~/$config
       #
