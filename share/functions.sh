@@ -76,51 +76,46 @@ create_cached_repo() {
 
 customize_run_commands() {
     prevent_root "$0"
-    config=${1:-'.zshrc'}
-    if [ -f "${HOME}/${config}" ]; then
-      echo 'export PATH="${HOME}/bin:${PATH}"' >> ~/$config
-      echo 'export NVM_DIR="${HOME}/.nvm"' >> ~/$config
-      echo "[ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\"" >> ~/$config
-      echo "npm completion >/dev/null 2>&1" >> ~/$config
-      #
-      # General functions
-      #
-      echo "clean() { rm -frd \$1 && mkdir \$1 && cd \$1 ; }" >> ~/$config
-      #
-      # Docker functions
-      #
-      echo "dip() { docker inspect --format '{{ .NetworkSettings.IPAddress }}' \$1 ; }" >> ~/$config
-      echo "docker_rm_all() { docker stop \$(docker ps -a -q) && docker rm \$(docker ps -a -q) ; }" >> ~/$config
-      #
-      # Git functions
-      #
-      echo "set_git_user() { git config --global user.name \$1 ; }" >> ~/$config
-      echo "set_git_email() { git config --global user.email \$1 ; }" >> ~/$config
-      #
-      # Aliases
-      #
-      echo 'alias cp="rsync −ah −−inplace −−info=progress2 -h"' >> ~/$config
-      echo "alias did=\"vim + 'normal Go' +'r!date' ~/did.txt\"" >> ~/$config
-      echo 'alias rf="rm -frd"' >> ~/$config
-      #
-      # External functions
-      #
-      echo "source ${SCRIPT_FOLDER}/functions.sh" >> ~/$config
+    CONFIG=${1:-$HOME/.zshrc}
+    add_nvm() {
+        CONFIG=${1:-$HOME/.zshrc}
+        echo 'export PATH="${HOME}/bin:${PATH}"' >> $CONFIG
+        echo 'export NVM_DIR="${HOME}/.nvm"' >> $CONFIG
+        echo "[ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\"" >> $CONFIG
+        echo "npm completion >/dev/null 2>&1" >> $CONFIG
+    }
+    if [ -f "${CONFIG}" ]; then
+        [ -f $SCRIPT_FOLDER/functions.sh ] && echo "source ${SCRIPT_FOLDER}/functions.sh" >> $CONFIG
+        #
+        # General functions
+        #
+        echo "clean() { rm -frd \$1 && mkdir \$1 && cd \$1 ; }" >> $CONFIG
+        #
+        # Docker functions
+        #
+        echo "dip() { docker inspect --format '{{ .NetworkSettings.IPAddress }}' \$1 ; }" >> $CONFIG
+        echo "docker_rm_all() { docker stop \$(docker ps -a -q) && docker rm \$(docker ps -a -q) ; }" >> $CONFIG
+        #
+        # External functions
+        #
+        grep -q 'NVM_DIR' $CONFIG
+        [[ `grep 'NVM_DIR' $CONFIG` ]] || add_nvm $CONFIG
     else
-      log "Failed to find ${config} file"
+        log "Failed to find ${CONFIG} file"
     fi
 }
 
 customize_ohmyzsh() {
     prevent_root "$0"
-    config='.zshrc'
-    if [ -f "${HOME}/${config}" ]; then
-      install_powerline_font
-      log "Setting zsh terminal theme"
-      sed -i '/ZSH_THEME/c ZSH_THEME="agnoster"' ~/$config
-      sed -i '/plugins=(git)/c plugins=(extract git git-extras npm docker encode64 jsontools web-search wd)' ~/$config
+    CONFIG=$HOME/.zshrc
+    if [ -f "${CONFIG}" ]; then
+        install_powerline_font
+        install_zsh_plugins
+        log "Setting zsh terminal theme"
+        sed -i '/ZSH_THEME/c ZSH_THEME="agnoster"' $CONFIG
+        sed -i '/plugins=(git)/c plugins=(colored-man-pages extract git git-extras npm docker encode64 jsontools web-search wd zsh-syntax-highlighting zsh-autosuggestions)' $CONFIG
     else
-      log "Failed to find ${config} file"
+        log "Failed to find ${CONFIG} file"
     fi
 }
 
@@ -545,6 +540,14 @@ install_vscode_extensions() {
         log "Please install VSCode before installing VSCode plugins"
     fi
 }
+
+install_zsh_plugins() {
+    BASE=$ZSH_CUSTOM/plugins
+    [[ -d $BASE/pentest ]] || git clone https://github.com/jhwohlgemuth/oh-my-zsh-pentest-plugin.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/pentest
+    [[ -d $BASE/zsh-syntax-highlighting ]] || git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+    [[ -d $BASE/zsh-autosuggestions ]] || git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+}
+
 setup_github_ssh() {
     prevent_root "$0"
     PASSPHRASE=${1:-123456}
