@@ -108,15 +108,12 @@ customize_ohmyzsh() {
     prevent_root "$0"
     CONFIG=$HOME/.zshrc
     if [ -f "${CONFIG}" ]; then
-        install_powerline_font
         install_zsh_plugins
-        log "Setting zsh terminal theme"
-        sed -i '' '/ZSH_THEME/c\
-        ZSH_THEME="bira"
-        ' $CONFIG
-        sed -i .bak '/plugins=(.*)/c\
-        plugins=(colored-man-pages extract git git-extras npm docker encode64 jsontools web-search wd zsh-syntax-highlighting zsh-autosuggestions)
-        ' $CONFIG
+        THEME="bira"
+        PLUGINS="colored-man-pages extract git encode64 jsontools nmap web-search wd zsh-syntax-highlighting zsh-autosuggestions"
+        log "Setting zsh terminal theme ($THEME)"
+        sed -i.bak "s/ZSH_THEME=\"robbyrussell\"/ZSH_THEME=\"$THEME\"/" $CONFIG
+        sed -i.bak "s/plugins=(git)/plugins=($PLUGINS)/" $CONFIG
     else
         log "Failed to find ${CONFIG} file"
     fi
