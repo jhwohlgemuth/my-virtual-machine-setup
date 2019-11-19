@@ -89,16 +89,15 @@ customize_run_commands() {
         #
         # General functions
         #
-        echo "clean() { rm -frd \$1 && mkdir \$1 && cd \$1 ; }" >> $CONFIG
+        [[ `grep 'clean()' $CONFIG` ]] || echo "clean() { rm -frd \$1 && mkdir \$1 && cd \$1 ; }" >> $CONFIG
         #
         # Docker functions
         #
-        echo "dip() { docker inspect --format '{{ .NetworkSettings.IPAddress }}' \$1 ; }" >> $CONFIG
-        echo "docker_rm_all() { docker stop \$(docker ps -a -q) && docker rm \$(docker ps -a -q) ; }" >> $CONFIG
+        [[ `grep 'dip()' $CONFIG` ]] || echo "dip() { docker inspect --format '{{ .NetworkSettings.IPAddress }}' \$1 ; }" >> $CONFIG
+        [[ `grep 'docker_rm_all' $CONFIG` ]] ||  echo "docker_rm_all() { docker stop \$(docker ps -a -q) && docker rm \$(docker ps -a -q) ; }" >> $CONFIG
         #
         # External functions
         #
-        grep -q 'NVM_DIR' $CONFIG
         [[ `grep 'NVM_DIR' $CONFIG` ]] || add_nvm $CONFIG
     else
         log "Failed to find ${CONFIG} file"
