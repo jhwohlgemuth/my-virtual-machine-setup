@@ -108,9 +108,9 @@ customize_ohmyzsh() {
     prevent_root "$0"
     CONFIG=$HOME/.zshrc
     if [ -f "${CONFIG}" ]; then
-        install_zsh_plugins
+        install_ohmyzsh_plugins
         THEME="bira"
-        PLUGINS="colored-man-pages extract git encode64 jsontools nmap web-search wd zsh-syntax-highlighting zsh-autosuggestions"
+        PLUGINS="colored-man-pages extract git encode64 jsontools nmap pentest web-search wd zsh-syntax-highlighting zsh-autosuggestions"
         log "Setting zsh terminal theme ($THEME)"
         sed -i.bak "s/ZSH_THEME=\"robbyrussell\"/ZSH_THEME=\"$THEME\"/" $CONFIG
         sed -i.bak "s/plugins=(git)/plugins=($PLUGINS)/" $CONFIG
@@ -358,6 +358,13 @@ install_ohmyzsh() {
     echo "$SSH_PASSWORD" | sudo -S chsh -s "$(command -v zsh)" "$(whoami)"
 }
 
+install_ohmyzsh_plugins() {
+    BASE=$ZSH_CUSTOM/plugins
+    [[ -d $BASE/pentest ]] || git clone https://github.com/jhwohlgemuth/oh-my-zsh-pentest-plugin.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/pentest
+    [[ -d $BASE/zsh-syntax-highlighting ]] || git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+    [[ -d $BASE/zsh-autosuggestions ]] || git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+}
+
 install_opam() {
     log "Installing OPAM"
     wget -q https://raw.github.com/ocaml/opam/master/shell/opam_installer.sh -O - | sh -s /usr/local/bin > $SCRIPT_FOLDER/log
@@ -539,13 +546,6 @@ install_vscode_extensions() {
     else
         log "Please install VSCode before installing VSCode plugins"
     fi
-}
-
-install_zsh_plugins() {
-    BASE=$ZSH_CUSTOM/plugins
-    [[ -d $BASE/pentest ]] || git clone https://github.com/jhwohlgemuth/oh-my-zsh-pentest-plugin.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/pentest
-    [[ -d $BASE/zsh-syntax-highlighting ]] || git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-    [[ -d $BASE/zsh-autosuggestions ]] || git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 }
 
 setup_github_ssh() {
