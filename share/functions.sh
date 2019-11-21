@@ -25,11 +25,14 @@ prevent_root() {
     prevent_user root "$1"
 }
 iter() {
-    if [[ -f "$2" ]]
-    then
+    if [[ -f "$2" ]]; then
         while read line; do
-            $1 $line
-        done < $2
+            $1 "$line"
+        done < "$2"
+    else
+        while read ITEM; do
+            $1 "$ITEM"
+        done
     fi
 }
 install_crate() {
