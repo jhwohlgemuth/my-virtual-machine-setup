@@ -360,9 +360,10 @@ install_ohmyzsh() {
 
 install_ohmyzsh_plugins() {
     BASE=$ZSH_CUSTOM/plugins
-    [[ -d $BASE/pentest ]] || git clone https://github.com/jhwohlgemuth/oh-my-zsh-pentest-plugin.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/pentest
-    [[ -d $BASE/zsh-syntax-highlighting ]] || git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-    [[ -d $BASE/zsh-autosuggestions ]] || git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+    PLUGINS=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins
+    [[ -d $BASE/pentest ]] || git clone https://github.com/jhwohlgemuth/oh-my-zsh-pentest-plugin.git "$PLUGINS"/pentest
+    [[ -d $BASE/zsh-syntax-highlighting ]] || git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$PLUGINS"/zsh-syntax-highlighting
+    [[ -d $BASE/zsh-autosuggestions ]] || git clone https://github.com/zsh-users/zsh-autosuggestions "$PLUGINS"/zsh-autosuggestions
 }
 
 install_opam() {
