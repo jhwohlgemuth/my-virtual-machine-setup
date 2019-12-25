@@ -21,7 +21,7 @@ log "Installing node"
 # shellcheck disable=SC1090
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 nvm install node && nvm alias default node
-install_popular_node_modules
+install_node_modules
 
 log "Installing Ruby and ruby gems"
 # shellcheck disable=SC1090
