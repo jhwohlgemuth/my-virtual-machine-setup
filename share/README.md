@@ -15,6 +15,7 @@
 - `disable_auto_update`
 - `fix_enospc_issue`
 - `install_atom`
+- `install_atom_plugins`
 - `install_cairo`
 - `install_clojure`
 - `install_couch`
@@ -30,12 +31,11 @@
 - `install_mesa`
 - `install_mongodb`
 - `install_mono`
+- `install_node_modules`
+- `install_nvm`
 - `install_ohmyzsh`
 - `install_opam`
-- `install_popular_atom_plugins`
-- `install_popular_node_modules`
 - `install_powerline_font`
-- `install_nvm`
 - `install_pandoc`
 - `install_planck`
 - `install_python`
@@ -44,6 +44,7 @@
 - `install_redis`
 - `install_rlwrap`
 - `install_rust`
+- `install_rust_crates`
 - `install_rvm`
 - `install_sdkman`
 - `install_vscode`
