@@ -191,7 +191,7 @@ install_atom() {
 
 install_atom_plugins() {
     prevent_root "$0"
-    install() { apm install $1 }
+    install() { apm install $1; }
     if type apm >/dev/null 2>&1; then
         log "Installing Atom plugins"
         for ITEM in ${ATOM_PLUGINS[@]}; do
@@ -427,7 +427,7 @@ install_nix_package() {
 
 install_node_modules() {
     prevent_root "$0"
-    install() { npm install --global $1 }
+    install() { npm install --global $1; }
     if type npm >/dev/null 2>&1; then
         log "Installing Node modules"
         for ITEM in ${NODE_MODULES[@]}; do
@@ -560,7 +560,7 @@ install_rust() {
 
 install_rust_crates() {
     prevent_root "$0"
-    install() { cargo install $1 }
+    install() { cargo install $1; }
     if type cargo >/dev/null 2>&1; then
         log "Installing Rust crates"
         for ITEM in ${RUST_CRATES[@]}; do
@@ -603,7 +603,7 @@ install_vscode() {
 
 install_vscode_extensions() {
     prevent_root "$0"
-    install() { code --install-extension $1 }
+    install() { code --install-extension $1; }
     if type code >/dev/null 2>&1; then
         log "Installing VS Code extensions"
         for ITEM in ${VSCODE_EXTENSIONS[@]}; do
