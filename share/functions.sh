@@ -115,22 +115,53 @@ iter() {
         done
     fi
 }
-install_crate() {
+install_atom_plugins() {
     prevent_root "$0"
-    if type cargo >/dev/null 2>&1; then
-        cargo install $1
+    install() { apm install $1 }
+    if type apm >/dev/null 2>&1; then
+        log "Installing Atom plugins"
+        for ITEM in ${ATOM_PLUGINS[@]}; do
+            install "$ITEM"
+        done
+    else
+        log "Please install apm before installing Atom plugins"
     fi
 }
-install_extension() {
+install_node_modules() {
     prevent_root "$0"
-    if type code >/dev/null 2>&1; then
-        code --install-extension $1
-    fi
-}
-install_module() {
-    prevent_root "$0"
+    install() { npm install --global $1 }
     if type npm >/dev/null 2>&1; then
-        npm install --global $1
+        log "Installing Node modules"
+        for ITEM in ${NODE_MODULES[@]}; do
+            install "$ITEM"
+        done
+    else
+        log "Please install npm before installing node modules"
+    fi
+}
+install_rust_crates() {
+    prevent_root "$0"
+    install() { cargo install $1 }
+    if type cargo >/dev/null 2>&1; then
+        log "Installing Rust crates"
+        for ITEM in ${RUST_CRATES[@]}; do
+            install "$ITEM"
+        done
+        cargo install --git https://github.com/alexcrichton/wasm-gc
+    else
+        log "Please install Cargo before installing Rust crates"
+    fi
+}
+install_vscode_extensions() {
+    prevent_root "$0"
+    install() { code --install-extension $1 }
+    if type code >/dev/null 2>&1; then
+        log "Installing VS Code extensions"
+        for ITEM in ${VSCODE_EXTENSIONS[@]}; do
+            install "$ITEM"
+        done
+    else
+        log "Please install VS Code before installing extensions"
     fi
 }
 install_nix() {
@@ -467,28 +498,6 @@ install_planck() {
     apt-get install -y planck > $SCRIPT_FOLDER/log
 }
 
-install_popular_atom_plugins() {
-    prevent_root "$0"
-    if type apm >/dev/null 2>&1; then
-        log "Installing Atom plugins"
-        #editor and language plugins
-        apm install file-icons sublime-block-comment atom-beautify language-babel emmet atom-alignment atom-ternjs atom-terminal color-picker pigments atom-quokka editorconfig
-        #minimap plugins
-        apm install minimap minimap-selection minimap-find-and-replace minimap-git-diff
-        #svg plugins
-        apm install language-svg svg-preview
-    else
-        log "Please install Atom before installing Atom plugins"
-    fi
-}
-
-install_popular_node_modules() {
-    prevent_root "$0"
-    npm install -g plato nodemon stmux deoptigate
-    npm install -g ntl nsp nrm npmrc npm-run-all npm-check-updates
-    npm install -g jay snyk grasp tldr stacks-cli thanks release surge now
-}
-
 install_powerline_font() {
     prevent_root "$0"
     log "Installing powerline font"
@@ -603,33 +612,6 @@ install_vscode() {
     update
     log "Installing VSCode"
     apt-get install code -y --force-yes > $SCRIPT_FOLDER/log
-}
-
-install_vscode_extensions() {
-    prevent_root "$0"
-    if type code >/dev/null 2>&1; then
-        code --install-extension 2gua.rainbow-brackets
-        code --install-extension akamud.vscode-javascript-snippet-pack
-        code --install-extension akamud.vscode-theme-onedark
-        code --install-extension bierner.color-info
-        code --install-extension bierner.lit-html
-        code --install-extension christian-kohler.path-intellisense
-        code --install-extension cssho.vscode-svgviewer
-        code --install-extension deerawan.vscode-faker
-        code --install-extension emmanuelbeziat.vscode-great-icons
-        code --install-extension kisstkondoros.vscode-gutter-preview
-        code --install-extension ms-vscode.atom-keybindings
-        code --install-extension pnp.polacode
-        code --install-extension Shan.code-settings-sync
-        code --install-extension sidthesloth.html5-boilerplate
-        code --install-extension SirTori.indenticator
-        code --install-extension techer.open-in-browser
-        code --install-extension wix.glean
-        code --install-extension wix.vscode-import-cost
-        code --install-extension wmaurer.change-case
-    else
-        log "Please install VSCode before installing VSCode plugins"
-    fi
 }
 
 setup_github_ssh() {
