@@ -84,6 +84,17 @@ VSCODE_EXTENSIONS=(
     wmaurer.change-case
 )
 
+iter() {
+    if [[ -f "$2" ]]; then
+        while read line; do
+            $1 "$line"
+        done < "$2"
+    else
+        while read ITEM; do
+            $1 "$ITEM"
+        done
+    fi
+}
 log() {
     TIMEZONE=Central
     MAXLEN=60
@@ -103,81 +114,6 @@ prevent_user() {
 }
 prevent_root() {
     prevent_user root "$1"
-}
-iter() {
-    if [[ -f "$2" ]]; then
-        while read line; do
-            $1 "$line"
-        done < "$2"
-    else
-        while read ITEM; do
-            $1 "$ITEM"
-        done
-    fi
-}
-install_atom_plugins() {
-    prevent_root "$0"
-    install() { apm install $1 }
-    if type apm >/dev/null 2>&1; then
-        log "Installing Atom plugins"
-        for ITEM in ${ATOM_PLUGINS[@]}; do
-            install "$ITEM"
-        done
-    else
-        log "Please install apm before installing Atom plugins"
-    fi
-}
-install_node_modules() {
-    prevent_root "$0"
-    install() { npm install --global $1 }
-    if type npm >/dev/null 2>&1; then
-        log "Installing Node modules"
-        for ITEM in ${NODE_MODULES[@]}; do
-            install "$ITEM"
-        done
-    else
-        log "Please install npm before installing node modules"
-    fi
-}
-install_rust_crates() {
-    prevent_root "$0"
-    install() { cargo install $1 }
-    if type cargo >/dev/null 2>&1; then
-        log "Installing Rust crates"
-        for ITEM in ${RUST_CRATES[@]}; do
-            install "$ITEM"
-        done
-        cargo install --git https://github.com/alexcrichton/wasm-gc
-    else
-        log "Please install Cargo before installing Rust crates"
-    fi
-}
-install_vscode_extensions() {
-    prevent_root "$0"
-    install() { code --install-extension $1 }
-    if type code >/dev/null 2>&1; then
-        log "Installing VS Code extensions"
-        for ITEM in ${VSCODE_EXTENSIONS[@]}; do
-            install "$ITEM"
-        done
-    else
-        log "Please install VS Code before installing extensions"
-    fi
-}
-install_nix() {
-    # prevent_root "$0"
-    log "Installing Nix"
-    # curl https://nixos.org/nix/install | sh
-    mkdir /etc/nix; echo 'use-sqlite-wal = false' | sudo tee -a /etc/nix/nix.conf && sh <(curl https://nixos.org/releases/nix/nix-2.1.3/install) 
-    if [ -f "${HOME}/.zshrc" ]; then
-        echo "source ${HOME}/.nix-profile/etc/profile.d/nix.sh" >> ${HOME}/.zshrc
-    fi
-}
-install_nix_package() {
-    prevent_root "$0"
-    if type nix-env >/dev/null 2>&1; then
-        nix-env --install $1
-    fi
 }
 
 #Collection of functions for installing and configuring software on Ubuntu
@@ -251,6 +187,19 @@ install_atom() {
     add-apt-repository -y ppa:webupd8team/atom > $SCRIPT_FOLDER/log
     apt-get update > $SCRIPT_FOLDER/log
     apt-get install -y atom > $SCRIPT_FOLDER/log
+}
+
+install_atom_plugins() {
+    prevent_root "$0"
+    install() { apm install $1 }
+    if type apm >/dev/null 2>&1; then
+        log "Installing Atom plugins"
+        for ITEM in ${ATOM_PLUGINS[@]}; do
+            install "$ITEM"
+        done
+    else
+        log "Please install apm before installing Atom plugins"
+    fi
 }
 
 install_cairo() {
@@ -459,6 +408,36 @@ install_mono() {
     apt-get install mono-devel -y --force-yes > $SCRIPT_FOLDER/log
 }
 
+install_nix() {
+    # prevent_root "$0"
+    log "Installing Nix"
+    # curl https://nixos.org/nix/install | sh
+    mkdir /etc/nix; echo 'use-sqlite-wal = false' | sudo tee -a /etc/nix/nix.conf && sh <(curl https://nixos.org/releases/nix/nix-2.1.3/install) 
+    if [ -f "${HOME}/.zshrc" ]; then
+        echo "source ${HOME}/.nix-profile/etc/profile.d/nix.sh" >> ${HOME}/.zshrc
+    fi
+}
+
+install_nix_package() {
+    prevent_root "$0"
+    if type nix-env >/dev/null 2>&1; then
+        nix-env --install $1
+    fi
+}
+
+install_node_modules() {
+    prevent_root "$0"
+    install() { npm install --global $1 }
+    if type npm >/dev/null 2>&1; then
+        log "Installing Node modules"
+        for ITEM in ${NODE_MODULES[@]}; do
+            install "$ITEM"
+        done
+    else
+        log "Please install npm before installing node modules"
+    fi
+}
+
 install_nvm() {
     prevent_root "$0"
     log "Installing nvm"
@@ -576,18 +555,21 @@ install_rust() {
         log "Installing Atom Rust IDE"
         apm install ide-rust > $SCRIPT_FOLDER/log
     fi
-    log "Installing wasm-gc"
-    cargo install --git https://github.com/alexcrichton/wasm-gc > $SCRIPT_FOLDER/log
-    log "Installing wasm-bindgen"
-    cargo install wasm-bindgen-cli > $SCRIPT_FOLDER/log
-    log "Installing just"
-    cargo install just > $SCRIPT_FOLDER/log
-    log "Installing cargo-edit"
-    cargo install cargo-edit > $SCRIPT_FOLDER/log
-    log "Installing cargo-audit"
-    cargo install cargo-audit > $SCRIPT_FOLDER/log
-    log "Installing tokei (line counting CLI tool)"
-    cargo install tokei > $SCRIPT_FOLDER/log
+    install_rust_crates
+}
+
+install_rust_crates() {
+    prevent_root "$0"
+    install() { cargo install $1 }
+    if type cargo >/dev/null 2>&1; then
+        log "Installing Rust crates"
+        for ITEM in ${RUST_CRATES[@]}; do
+            install "$ITEM"
+        done
+        cargo install --git https://github.com/alexcrichton/wasm-gc
+    else
+        log "Please install Cargo before installing Rust crates"
+    fi
 }
 
 install_rvm() {
@@ -606,12 +588,30 @@ install_sdkman() {
 }
 
 install_vscode() {
-    curl -s https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg > $SCRIPT_FOLDER/log
-    mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
-    sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list' >/dev/null 2>&1
-    update
-    log "Installing VSCode"
-    apt-get install code -y --force-yes > $SCRIPT_FOLDER/log
+    if type snap >/dev/null 2>&1; then
+        log "Installing VS Code snap"
+        snap install code --classic
+    else
+        curl -s https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg > $SCRIPT_FOLDER/log
+        mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+        sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list' >/dev/null 2>&1
+        update
+        log "Installing VS Code"
+        apt-get install code -y --force-yes
+    fi
+}
+
+install_vscode_extensions() {
+    prevent_root "$0"
+    install() { code --install-extension $1 }
+    if type code >/dev/null 2>&1; then
+        log "Installing VS Code extensions"
+        for ITEM in ${VSCODE_EXTENSIONS[@]}; do
+            install "$ITEM"
+        done
+    else
+        log "Please install VS Code before installing extensions"
+    fi
 }
 
 setup_github_ssh() {
