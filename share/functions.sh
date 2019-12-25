@@ -26,8 +26,11 @@ ATOM_PLUGINS=(
 )
 NODE_MODULES=(
     deoptigate
+    fx
     grasp
+    ipt
     jay
+    jscpd
     nodemon
     now
     npmrc
@@ -63,16 +66,19 @@ VSCODE_EXTENSIONS=(
     cssho.vscode-svgviewer
     deerawan.vscode-faker
     emmanuelbeziat.vscode-great-icons
+    jetmartin.bats
     johnpapa.vscode-peacock
     kisstkondoros.vscode-gutter-preview
     ms-vscode.atom-keybindings
+    ms-vscode-remote.remote-wsl
     pnp.polacode
-    Shan.code-settings-sync
+    rafamel.subtle-brackets
+    shan.code-settings-sync
     sidthesloth.html5-boilerplate
-    SirTori.indenticator
+    sirtori.indenticator
     tabnine.tabnine-vscode
     techer.open-in-browser
-    VisualStudioExptTeam.vscodeintellicode
+    visualstudioexptteam.vscodeintellicode
     wix.glean
     wix.vscode-import-cost
     wmaurer.change-case
