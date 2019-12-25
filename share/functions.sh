@@ -4,6 +4,80 @@
 SSH_PASSWORD=${SSH_PASSWORD:-vagrant}
 SCRIPT_FOLDER=${HOME}/.${SCRIPTS_HOME_DIRECTORY:-jhwohlgemuth}
 
+ATOM_PLUGINS=(
+    atom-alignment
+    atom-beautify
+    atom-quokka
+    atom-terminal
+    atom-ternjs
+    color-picker
+    editorconfig
+    emmet
+    file-icons
+    language-babel
+    language-svg
+    minimap
+    minimap-find-and-replace
+    minimap-git-diff
+    minimap-selection
+    pigments
+    sublime-block-comment
+    svg-preview
+)
+NODE_MODULES=(
+    deoptigate
+    grasp
+    jay
+    nodemon
+    now
+    npmrc
+    npm-run-all
+    npm-check-updates
+    nrm
+    nsp
+    ntl
+    nve
+    plato
+    release
+    snyk
+    stacks-cli
+    stmux
+    surge
+    thanks
+    tldr
+)
+RUST_CRATES=(
+    cargo-audit
+    cargo-edit
+    just
+    tokei
+    wasm-bindgen-cli
+)
+VSCODE_EXTENSIONS=(
+    2gua.rainbow-brackets
+    akamud.vscode-javascript-snippet-pack
+    akamud.vscode-theme-onedark
+    bierner.color-info
+    bierner.lit-html
+    christian-kohler.path-intellisense
+    cssho.vscode-svgviewer
+    deerawan.vscode-faker
+    emmanuelbeziat.vscode-great-icons
+    johnpapa.vscode-peacock
+    kisstkondoros.vscode-gutter-preview
+    ms-vscode.atom-keybindings
+    pnp.polacode
+    Shan.code-settings-sync
+    sidthesloth.html5-boilerplate
+    SirTori.indenticator
+    tabnine.tabnine-vscode
+    techer.open-in-browser
+    VisualStudioExptTeam.vscodeintellicode
+    wix.glean
+    wix.vscode-import-cost
+    wmaurer.change-case
+)
+
 log() {
     TIMEZONE=Central
     MAXLEN=60
