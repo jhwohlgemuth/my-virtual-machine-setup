@@ -56,6 +56,19 @@ RUST_CRATES=(
     tokei
     wasm-bindgen-cli
 )
+SETUP_DEPENDENCIES=(
+    build-essential
+    curl
+    dkms
+    fakeroot
+    git
+    nfs-common
+    ntp
+    openssh-server
+    perl
+    tree
+    zsh
+)
 VSCODE_EXTENSIONS=(
     2gua.rainbow-brackets
     akamud.vscode-javascript-snippet-pack
@@ -114,6 +127,25 @@ prevent_user() {
 }
 prevent_root() {
     prevent_user root "$1"
+}
+setup() {
+    # sudo setup_dependencies
+    prevent_root "$0"
+    sh ../scripts/copy_files.sh
+    install_nvm
+    install_rvm
+    ./setup.sh
+}
+setup_dependencies() {
+    install() { apt-get install $1; }
+    if type apt-get >/dev/null 2>&1; then
+        log "Installing system dependencies"
+        for ITEM in ${SETUP_DEPENDENCIES[@]}; do
+            install "$ITEM"
+        done
+    else
+        log "Could not find apt-get"
+    fi
 }
 
 #Collection of functions for installing and configuring software on Ubuntu
