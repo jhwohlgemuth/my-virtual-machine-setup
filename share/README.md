@@ -52,6 +52,8 @@
 - `log`
 - `prevent_root`
 - `prevent_user`
+- `setup`
+- `setup_dependencies`
 - `setup_github_ssh`
 - `setup_npm_proxy`
 - `turn_off_screen_lock`
