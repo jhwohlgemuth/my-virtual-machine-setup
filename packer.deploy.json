@@ -3,10 +3,10 @@
       "org_name": "jhwohlgemuth",
       "ubuntu_version": "xenial",
       "common_scripts": "common",
-      "version": "7.0.2",
-      "iso_name": "ubuntu-16.04.4-server-amd64.iso",
-      "iso_url": "http://releases.ubuntu.com/16.04/ubuntu-16.04.4-server-amd64.iso",
-      "checksum": "6a7f31eb125a0b2908cf2333d7777c82",
+      "version": "8.0.0",
+      "iso_name": "ubuntu-16.04.6-server-amd64.iso",
+      "iso_url": "http://releases.ubuntu.com/16.04/ubuntu-16.04.6-server-amd64.iso",
+      "checksum": "ac8a79a86a905ebdc3ef3f5dd16b7360",
       "ssh_name": "vagrant",
       "ssh_pass": "vagrant",
       "home_dir": "/home/vagrant",
@@ -66,7 +66,7 @@
           ["modifyvm", "{{ .Name }}", "--cpus", "1"],
           ["modifyvm", "{{ .Name }}", "--memory", "512"]
         ],
-        "vm_name": "ubuntu-1606-desktop"
+        "vm_name": "ubuntu-desktop"
       },
       {
         "boot_command": [
@@ -113,11 +113,9 @@
         "ssh_wait_timeout": "10000s",
         "tools_upload_flavor": "linux",
         "type": "vmware-iso",
-        "vm_name": "ubuntu-1606-desktop",
+        "vm_name": "ubuntu-desktop",
         "vmx_data": {
-          "ethernet0.pciSlotNumber": "32",
-          "memsize": "512",
-          "numvcpus": "1"
+          "ethernet0.pciSlotNumber": "32"
         },
         "vmx_remove_ethernet_interfaces": true
       }

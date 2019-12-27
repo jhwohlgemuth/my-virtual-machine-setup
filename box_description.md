@@ -1,3 +1,6 @@
+v8.0.0 ()
+- Update ISO version
+
 v7.0.0 (1.5GB)
 - First version with VirtualBox **and** VMware providers!
 - Built on Xenial Xerus (Ubuntu 16.04)

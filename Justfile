@@ -2,11 +2,11 @@
     sed -i $'s/\r$//' ./share/functions.sh
     sed -i $'s/\r$//' ./share/setup.sh
 
-@validate VERSION:
-    packer validate packer.{{ VERSION }}.json
+@validate:
+    packer validate packer.xenial.json
 
-build VERSION: prepare
-    packer build packer.{{ VERSION }}.json
+build: prepare
+    packer build packer.xenial.json
 
 deploy: prepare
     packer build packer.deploy.json
