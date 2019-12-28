@@ -48,3 +48,7 @@ if [ -d /etc/xdg/autostart/ ]; then
         echo "Comment="
     } >> $NODPMS_CONFIG
 fi
+{
+    echo "[Desktop]"
+    echo "Session=gnome-flashback-metacity"
+} >> $HOME/.dmrc

@@ -1,4 +1,4 @@
-v8.0.0 ()
+v8.0.0 (1.8GB)
 - Update ISO version
 
 v7.0.0 (1.5GB)

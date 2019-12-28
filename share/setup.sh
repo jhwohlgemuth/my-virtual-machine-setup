@@ -16,11 +16,13 @@ turn_off_screen_lock
 install_ohmyzsh
 customize_ohmyzsh
 customize_run_commands
+fix_enospc_issue
 
 log "Installing node"
 # shellcheck disable=SC1090
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-nvm install node && nvm alias default node
+nvm install node
+nvm alias default node
 install_node_modules
 
 log "Installing Ruby and ruby gems"

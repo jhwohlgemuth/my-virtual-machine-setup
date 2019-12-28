@@ -191,11 +191,14 @@ customize_ohmyzsh() {
     CONFIG=$HOME/.zshrc
     if [ -f "${CONFIG}" ]; then
         install_ohmyzsh_plugins
-        THEME="bira"
+        install_powerline_font
+        THEME="agnoster"
         PLUGINS="colored-man-pages extract git encode64 jsontools nmap pentest web-search wd zsh-syntax-highlighting zsh-autosuggestions"
         log "Setting zsh terminal theme ($THEME)"
+        sed -i '1s;^;ZSH_DISABLE_COMPFIX="true"\n;' $CONFIG
         sed -i.bak "s/ZSH_THEME=\"robbyrussell\"/ZSH_THEME=\"$THEME\"/" $CONFIG
         sed -i.bak "s/plugins=(git)/plugins=($PLUGINS)/" $CONFIG
+
     else
         log "Failed to find ${CONFIG} file"
     fi
@@ -605,10 +608,11 @@ install_rust_crates() {
 }
 
 install_rvm() {
-    prevent_root "$0"
     log "Installing rvm"
-    gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
-    curl -sSL https://get.rvm.io | bash -s stable
+    apt-get install -y software-properties-common
+    apt-add-repository -y ppa:rael-gc/rvm
+    apt-get update
+    apt-get install -y rvm
 }
 
 install_sdkman() {
