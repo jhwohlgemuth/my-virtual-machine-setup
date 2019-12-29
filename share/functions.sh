@@ -218,10 +218,15 @@ fix_enospc_issue() {
 }
 
 install_atom() {
-    log "Installing Atom editor"
-    add-apt-repository -y ppa:webupd8team/atom
-    apt-get update
-    apt-get install -y atom
+    if type snap >/dev/null 2>&1; then
+        log "Installing Atom editor snap"
+        snap install code --classic
+    else
+        log "Installing Atom editor"
+        add-apt-repository -y ppa:webupd8team/atom
+        apt-get update
+        apt-get install -y atom
+    fi
 }
 
 install_atom_plugins() {
