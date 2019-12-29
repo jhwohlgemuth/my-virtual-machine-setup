@@ -13,11 +13,11 @@ test:
     mkdir -p test && cd test && vagrant init test-box && vagrant up
 
 clean:
-    rm -frd packer_cache
-    rm -frd test
-    rm -frd box
-    vagrant box remove test
     cd test && vagrant destroy -f
+    vagrant box remove test-box
+    rm -frd packer_cache
+    rm -frd box
+    rm -frd test
 
 deploy: prepare
     packer build packer.deploy.json
