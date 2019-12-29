@@ -12,11 +12,11 @@ ORG_NAME=${ORG_NAME:-jhwohlgemuth}
 
 turn_on_workspaces
 turn_off_screen_lock
+disable_auto_update
 
 install_ohmyzsh
 customize_ohmyzsh
 customize_run_commands
-fix_enospc_issue
 
 log "Installing node"
 # shellcheck disable=SC1090
@@ -24,6 +24,7 @@ log "Installing node"
 nvm install node
 nvm alias default node
 install_node_modules
+fix_enospc_issue
 
 log "Installing Ruby and ruby gems"
 # shellcheck disable=SC1090

@@ -8,13 +8,16 @@
 build: prepare
     packer build packer.xenial.json
 
-add:
-    vagrant box add --name test box/virtualbox.xenial.8.0.0.box
+test:
+    vagrant box add --name test-box box/virtualbox.xenial.8.0.0.box
+    mkdir -p test && cd test && vagrant init test-box && vagrant up
 
 clean:
     rm -frd packer_cache
-    rm box/virtualbox.xenial.8.0.0.box
+    rm -frd test
+    rm -frd box
     vagrant box remove test
+    cd test && vagrant destroy -f
 
 deploy: prepare
     packer build packer.deploy.json

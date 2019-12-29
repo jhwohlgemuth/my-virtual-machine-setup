@@ -3,6 +3,7 @@
 /iso
 /packer_cache
 /output-virtualbox-iso
+/test
 
 # VSCode directory
 .vscode/
