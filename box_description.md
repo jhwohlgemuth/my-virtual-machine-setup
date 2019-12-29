@@ -1,5 +1,10 @@
 v8.0.0 (1.8GB)
 - Update ISO version
+- Update `functions.sh`
+- Improve `setup.sh`
+- Re-add docker to base build
+- Add VS Code to base build
+- Remove Atom from base build
 
 v7.0.0 (1.5GB)
 - First version with VirtualBox **and** VMware providers!
