@@ -657,10 +657,9 @@ install_vscode_extensions() {
 
 setup_github_ssh() {
     prevent_root "$0"
-    PASSPHRASE=${1:-123456}
     KEY_NAME=${2:-id_rsa}
     echo -n "Generating key pair......"
-    ssh-keygen -q -b 4096 -t rsa -N "${PASSPHRASE}" -f ~/.ssh/"${KEY_NAME}"
+    ssh-keygen -q -b 4096 -t rsa -N "" -f ~/.ssh/"${KEY_NAME}"
     echo "DONE"
     if [[ -e ~/.ssh/"${KEY_NAME}".pub ]]; then
         if type xclip >/dev/null 2>&1; then
