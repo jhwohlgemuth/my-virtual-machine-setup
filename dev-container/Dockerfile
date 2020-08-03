@@ -11,6 +11,7 @@ RUN apt-get update && apt install -y \
     git \
     libssl-dev \
     openssh-server \
+    pkg-config \
     tree \
     tzdata \
     zsh
