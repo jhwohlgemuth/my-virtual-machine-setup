@@ -9,6 +9,7 @@ RUN apt-get update && apt install -y \
     build-essential \
     curl \
     git \
+    libssl-dev \
     openssh-server \
     tree \
     tzdata \
