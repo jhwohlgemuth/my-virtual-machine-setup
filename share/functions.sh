@@ -193,7 +193,7 @@ customize_ohmyzsh() {
         install_ohmyzsh_plugins
         install_powerline_font
         THEME="agnoster"
-        PLUGINS="colored-man-pages extract git encode64 jsontools nmap pentest web-search wd zsh-syntax-highlighting zsh-autosuggestions"
+        PLUGINS="colored-man-pages extract git encode64 jsontools nmap web-search wd zsh-pentest zsh-syntax-highlighting zsh-autosuggestions"
         log "Setting zsh terminal theme ($THEME)"
         sed -i '1s;^;ZSH_DISABLE_COMPFIX="true"\n;' $CONFIG
         sed -i.bak "s/ZSH_THEME=\"robbyrussell\"/ZSH_THEME=\"$THEME\"/" $CONFIG
@@ -210,7 +210,7 @@ disable_auto_update() {
 
 fix_ssh_key_permissions() {
     prevent_root "$0"
-    chmod 600 ~/.ssh/config
+    chmod 600 "${HOME}"/.ssh/config
 }
 
 fix_enospc_issue() {
@@ -254,8 +254,8 @@ install_clojure() {
     sdk install java
     sdk install leiningen
     if [ -f "${SCRIPT_FOLDER}/profiles.clj" ]; then
-        mkdir -p "$HOME"/.lein
-        mv "${SCRIPT_FOLDER}"/profiles.clj "${HOME}"/.lein
+        mkdir -p "${HOME}/.lein"
+        mv "${SCRIPT_FOLDER}"/profiles.clj "${HOME}/.lein"
     fi
     if type npm >/dev/null 2>&1; then
         log "Installing lumo Clojure REPL"
@@ -494,7 +494,7 @@ install_ohmyzsh() {
 install_ohmyzsh_plugins() {
     BASE=$ZSH_CUSTOM/plugins
     PLUGINS=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins
-    [[ -d $BASE/pentest ]] || git clone https://github.com/jhwohlgemuth/oh-my-zsh-pentest-plugin.git "$PLUGINS"/pentest
+    [[ -d $BASE/pentest ]] || git clone https://github.com/jhwohlgemuth/zsh-pentest.git "$PLUGINS"/zsh-pentest
     [[ -d $BASE/zsh-syntax-highlighting ]] || git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$PLUGINS"/zsh-syntax-highlighting
     [[ -d $BASE/zsh-autosuggestions ]] || git clone https://github.com/zsh-users/zsh-autosuggestions "$PLUGINS"/zsh-autosuggestions
 }
@@ -591,11 +591,11 @@ install_rust() {
     . "${HOME}"/.cargo/env
     rustup toolchain install nightly
     rustup target add wasm32-unknown-unknown --toolchain nightly
+    install_rust_crates
     if type apm >/dev/null 2>&1; then
         log "Installing Atom Rust IDE"
         apm install ide-rust
     fi
-    install_rust_crates
 }
 
 install_rust_crates() {
