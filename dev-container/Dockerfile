@@ -16,15 +16,6 @@ RUN apt-get update && apt install -y \
     tzdata \
     zsh
 
-# install rust
-RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
-ENV PATH="/root/.cargo/bin:${PATH}"
-RUN rustup toolchain install nightly \
-    && rustup target add wasm32-unknown-unknown --toolchain nightly
-RUN cargo install cargo-audit \
-    && cargo install cargo-edit \
-    && cargo install wasm-bindgen-cli
-
 # install and configure oh-my-zsh
 RUN sh -c "$(curl https://raw.githubusercontent.com/deluan/zsh-in-docker/master/zsh-in-docker.sh)" -- \
     -t agnoster \
@@ -36,5 +27,22 @@ RUN sh -c "$(curl https://raw.githubusercontent.com/deluan/zsh-in-docker/master/
     -p https://github.com/zsh-users/zsh-autosuggestions \
     -p https://github.com/zsh-users/zsh-syntax-highlighting \
     -p https://github.com/jhwohlgemuth/zsh-pentest
+
+# install nvm
+ENV ZSH_CONFIG="${HOME}/.zshrc"
+ENV NVM_DIR="${HOME}/.nvm"
+ENV PATH="${HOME}/bin:${PATH}"
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+RUN echo "[ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\"" >> $ZSH_CONFIG \
+    && echo "npm completion >/dev/null 2>&1" >> $ZSH_CONFIG
+
+# install rust
+ENV PATH="/root/.cargo/bin:${PATH}"
+RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
+RUN rustup toolchain install nightly \
+    && rustup target add wasm32-unknown-unknown --toolchain nightly
+RUN cargo install cargo-audit \
+    && cargo install cargo-edit \
+    && cargo install wasm-bindgen-cli
 
 ENTRYPOINT [ "/bin/zsh" ]
