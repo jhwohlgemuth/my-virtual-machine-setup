@@ -30,15 +30,15 @@ RUN sh -c "$(curl https://raw.githubusercontent.com/deluan/zsh-in-docker/master/
 
 # install nvm
 ENV ZSH_CONFIG="${HOME}/.zshrc"
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
 ENV NVM_DIR="${HOME}/.nvm"
 ENV PATH="${HOME}/bin:${PATH}"
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
 RUN echo "[ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\"" >> $ZSH_CONFIG \
     && echo "npm completion >/dev/null 2>&1" >> $ZSH_CONFIG
 
 # install rust
-ENV PATH="/root/.cargo/bin:${PATH}"
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
 RUN rustup toolchain install nightly \
     && rustup target add wasm32-unknown-unknown --toolchain nightly
 RUN cargo install cargo-audit \
