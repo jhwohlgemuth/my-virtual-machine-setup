@@ -16,6 +16,8 @@ via an automated and repeatable process driven by a single [JSON-formatted templ
 - [Docker](https://www.docker.com/) is to [LXC](https://stackoverflow.com/questions/16047306/how-is-docker-different-from-a-normal-virtual-machine)
  as Vagrant is to [KVM](https://en.wikipedia.org/wiki/Kernel-based_Virtual_Machine)
 
+ - [Windows Terminal](https://www.microsoft.com/en-us/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab) is an [open source](https://github.com/microsoft/terminal) terminal for the modern developer. Combined with Powershell, anyone can easily enjoy a comfortable and truly robust developer experience on Windows.
+
 > Vagrant, Packer, and Docker are tools that facilitate applying
 [SOLID](https://scotch.io/bar-talk/s-o-l-i-d-the-first-five-principles-of-object-oriented-design),
 [WORA](https://en.wikipedia.org/wiki/Write_once,_run_anywhere),
@@ -25,29 +27,16 @@ via an automated and repeatable process driven by a single [JSON-formatted templ
 practices to the code that you write,
 _and the environments in which the code is written and used_ (spoken:  _" infrastructure and stuff "_).
 
-Requirements
-------------
-- [Virtualbox](https://www.virtualbox.org/wiki/Downloads) is installed
-- [Vagrant](https://www.vagrantup.com/downloads.html) is installed
-- [Packer](https://packer.io/) is installed
-- [Docker](https://www.docker.com/products/docker-desktop) is installed
+Why?
+----
+> This project codifies how I manage my development environment across Windows, Linux, and OSX.
 
-Quick Start
------------
-> **Warning**: Internet connection is required
+Quickstart
+----------
 
-- Open up a command prompt (or [Git bash](https://git-scm.com/downloads))
-- Create and enter a new directory:
-```
-mkdir path/to/dev/dir && cd path/to/dev/dir
-```
-- Initialize a Vagrantfile and start your Vagrant box:
-```
-vagrant init jhwohlgemuth/env && vagrant up
-```
-
-> See the [Vagrant Getting Started guide](https://docs.vagrantup.com/v2/getting-started/index.html) for more information
-
+- [Easily manage a development virtual machine with Vagrant](dev-box/README.md)
+- [Quickly create a development container with Docker](dev-container/README.md)
+- [Customize your Windows Terminal and Powershell](dev-terminal/README.md)
 
 Future
 ------

@@ -1,5 +1,5 @@
-Docker Development Container
-============================
+Development with Docker Container
+=================================
 
 Requirements
 ------------

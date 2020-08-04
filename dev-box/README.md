@@ -1,5 +1,5 @@
-Vagrant Development Box
-=======================
+Development with Vagrant Box
+============================
 
 Requirements
 ------------
