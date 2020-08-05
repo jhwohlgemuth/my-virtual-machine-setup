@@ -70,31 +70,46 @@ SETUP_DEPENDENCIES=(
     zsh
 )
 VSCODE_EXTENSIONS=(
-    2gua.rainbow-brackets
-    akamud.vscode-javascript-snippet-pack
-    akamud.vscode-theme-onedark
+    ms-vscode.atom-keybindings
+    formulahendry.auto-rename-tag
+    jetmartin.bats
+    shan.code-settings-sync
+    wmaurer.change-case
     bierner.color-info
     bierner.lit-html
-    christian-kohler.path-intellisense
-    cssho.vscode-svgviewer
     deerawan.vscode-faker
-    emmanuelbeziat.vscode-great-icons
-    jetmartin.bats
-    johnpapa.vscode-peacock
-    kisstkondoros.vscode-gutter-preview
-    ms-vscode.atom-keybindings
-    ms-vscode-remote.remote-wsl
-    pnp.polacode
-    rafamel.subtle-brackets
-    shan.code-settings-sync
-    sidthesloth.html5-boilerplate
-    sirtori.indenticator
-    tabnine.tabnine-vscode
-    techer.open-in-browser
-    visualstudioexptteam.vscodeintellicode
+    ms-dotnettools.csharp
+    GrapeCity.gc-excelviewer
     wix.glean
+    icsharpcode.ilspy-vscode
+    sirtori.indenticator
+    Ionide.Ionide-FAKE
+    Ionide.Ionide-fsharp
+    Ionide.Ionide-Paket
+    silvenon.mdx
+    techer.open-in-browser
+    christian-kohler.path-intellisense
+    ms-vscode.powershell
+    2gua.rainbow-brackets
+    mechatroner.rainbow-csv
+    ms-vscode-remote.remote-containers
+    ms-vscode-remote.remote-ssh
+    ms-vscode-remote.remote-ssh-edit
+    ms-vscode-remote.remote-wsl
+    rafamel.subtle-brackets
+    softwaredotcom.swdc-vscode
+    tabnine.tabnine-vscode
+    marcostazi.VS-code-vagrantfile
+    visualstudioexptteam.vscodeintellicode
+    ms-azuretools.vscode-docker
+    emmanuelbeziat.vscode-great-icons
+    kisstkondoros.vscode-gutter-preview
     wix.vscode-import-cost
-    wmaurer.change-case
+    akamud.vscode-javascript-snippet-pack
+    johnpapa.vscode-peacock
+    cssho.vscode-svgviewer
+    akamud.vscode-javascript-snippet-pack
+    akamud.vscode-theme-onedark
 )
 
 iter() {
