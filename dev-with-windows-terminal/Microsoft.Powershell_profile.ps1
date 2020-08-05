@@ -30,6 +30,9 @@ for($i = 1; $i -le 5; $i++) {
 }
 # Set location to the User Profile directory
 function home { Set-Location ~ }
+function Invoke-DockerInspectAddress { docker inspect --format '{{ .NetworkSettings.IPAddress }}' $args[0] }
+function Invoke-DockerRemoveAll { docker stop $(docker ps -a -q); docker rm $(docker ps -a -q) }
+function Invoke-DockerRemoveAllImages { docker rmi $(docker images -a -q) }
 function Invoke-GitCommand { git $args }
 function Invoke-GitStatus { git status -sb }
 function Invoke-GitCommit { git commit -v $args }
@@ -173,6 +176,9 @@ Set-Alias -Name ~ -Value home -Option AllScope
 Set-Alias -Name la -Value Get-ChildItem -Option AllScope
 Set-Alias -Name ls -Value Get-ChildItemColorFormatWide -Option AllScope
 Set-Alias -Name rf -Value Remove-DirectoryForce -Option AllScope
+Set-Alias -Name dip -Value Invoke-DockerInspectAddress -Option AllScope
+Set-Alias -Name dra -Value Invoke-DockerRemoveAll -Option AllScope
+Set-Alias -Name drai -Value Invoke-DockerRemoveAllImages -Option AllScope
 Set-Alias -Name g -Value Invoke-GitCommand -Option AllScope
 Set-Alias -Name gsb -Value Invoke-GitStatus -Option AllScope
 Set-Alias -Name glo -Value Invoke-GitLog -Option AllScope
