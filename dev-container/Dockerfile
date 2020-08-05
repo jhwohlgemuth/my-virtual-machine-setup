@@ -6,6 +6,7 @@ ENV foo bar
 ENV TZ America/Chicago
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt install -y \
+    apt-utils \
     build-essential \
     curl \
     git \
