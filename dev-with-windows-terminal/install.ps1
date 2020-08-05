@@ -13,6 +13,7 @@ choco install googlechrome
 choco install googledrive
 choco install insomnia-rest-api-client
 choco install itunes
+choco install jq
 choco install lockhunter
 choco install malwarebytes
 choco install make

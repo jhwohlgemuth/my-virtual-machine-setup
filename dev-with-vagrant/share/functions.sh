@@ -4,26 +4,6 @@
 SSH_PASSWORD=${SSH_PASSWORD:-vagrant}
 SCRIPT_FOLDER=${HOME}/.${SCRIPTS_HOME_DIRECTORY:-jhwohlgemuth}
 
-ATOM_PLUGINS=(
-    atom-alignment
-    atom-beautify
-    atom-quokka
-    atom-terminal
-    atom-ternjs
-    color-picker
-    editorconfig
-    emmet
-    file-icons
-    language-babel
-    language-svg
-    minimap
-    minimap-find-and-replace
-    minimap-git-diff
-    minimap-selection
-    pigments
-    sublime-block-comment
-    svg-preview
-)
 NODE_MODULES=(
     deoptigate
     fx
@@ -232,31 +212,6 @@ fix_enospc_issue() {
     echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p >/dev/null 2>&1
 }
 
-install_atom() {
-    if type snap >/dev/null 2>&1; then
-        log "Installing Atom editor snap"
-        snap install code --classic
-    else
-        log "Installing Atom editor"
-        add-apt-repository -y ppa:webupd8team/atom
-        apt-get update
-        apt-get install -y atom
-    fi
-}
-
-install_atom_plugins() {
-    prevent_root "$0"
-    install() { apm install $1; }
-    if type apm >/dev/null 2>&1; then
-        log "Installing Atom plugins"
-        for ITEM in ${ATOM_PLUGINS[@]}; do
-            install "$ITEM"
-        done
-    else
-        log "Please install apm before installing Atom plugins"
-    fi
-}
-
 install_cairo() {
     log "Installing Cairo"
     apt-get install -y libcairo2-dev libjpeg8-dev libpango1.0-dev libgif-dev build-essential g++
@@ -275,10 +230,6 @@ install_clojure() {
     if type npm >/dev/null 2>&1; then
         log "Installing lumo Clojure REPL"
         npm install -g lumo-cljs
-    fi
-    if type apm >/dev/null 2>&1; then
-        log "Installing Clojure Atom plugins"
-        apm install parinfer lisp-paredit
     fi
 }
 
@@ -565,10 +516,6 @@ install_reason() {
     prevent_root "$0"
     log "Installing ReasonML support"
     npm install -g reason-cli@3.1.0-linux bs-platform create-react-app
-    if type apm >/dev/null 2>&1; then
-        log "Installing Atom ReasonML language support"
-        apm install language-reason language-ocaml
-    fi
     if type code >/dev/null 2>&1; then
         log "Installing VS Code ReasonML IDE"
         code --install-extension freebroccolo.reasonml
@@ -607,10 +554,6 @@ install_rust() {
     rustup toolchain install nightly
     rustup target add wasm32-unknown-unknown --toolchain nightly
     install_rust_crates
-    if type apm >/dev/null 2>&1; then
-        log "Installing Atom Rust IDE"
-        apm install ide-rust
-    fi
 }
 
 install_rust_crates() {
