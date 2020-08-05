@@ -28,7 +28,7 @@ for($i = 1; $i -le 5; $i++) {
   $d =  $u.Replace("u","../")
   Invoke-Expression "function $u { push-location $d }"
 }
-# Set location to the User Profile directory
+
 function home { Set-Location ~ }
 function Invoke-DockerInspectAddress { docker inspect --format '{{ .NetworkSettings.IPAddress }}' $args[0] }
 function Invoke-DockerRemoveAll { docker stop $(docker ps -a -q); docker rm $(docker ps -a -q) }
