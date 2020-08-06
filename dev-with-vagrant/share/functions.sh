@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2120
 
-SSH_PASSWORD=${SSH_PASSWORD:-vagrant}
-SCRIPT_FOLDER=${HOME}/.${SCRIPTS_HOME_DIRECTORY:-jhwohlgemuth}
-
 NODE_MODULES=(
     deoptigate
     fx
@@ -11,6 +8,7 @@ NODE_MODULES=(
     ipt
     jay
     jscpd
+    lumo-cljs
     nodemon
     now
     npmrc
@@ -29,6 +27,7 @@ NODE_MODULES=(
     thanks
     tldr
 )
+
 RUST_CRATES=(
     cargo-audit
     cargo-edit
@@ -36,6 +35,7 @@ RUST_CRATES=(
     tokei
     wasm-bindgen-cli
 )
+
 SETUP_DEPENDENCIES=(
     build-essential
     curl
@@ -49,6 +49,7 @@ SETUP_DEPENDENCIES=(
     tree
     zsh
 )
+
 VSCODE_EXTENSIONS=(
     ms-vscode.atom-keybindings
     formulahendry.auto-rename-tag
@@ -72,6 +73,7 @@ VSCODE_EXTENSIONS=(
     ms-vscode.powershell
     2gua.rainbow-brackets
     mechatroner.rainbow-csv
+    freebroccolo.reasonml
     ms-vscode-remote.remote-containers
     ms-vscode-remote.remote-ssh
     ms-vscode-remote.remote-ssh-edit
@@ -103,6 +105,7 @@ iter() {
         done
     fi
 }
+
 log() {
     TIMEZONE=Central
     MAXLEN=60
@@ -114,15 +117,18 @@ log() {
     MSG=$MSG$(TZ=":US/$TIMEZONE" date +%T)
     echo "$MSG"
 }
+
 prevent_user() {
     if [[ "$1" == $(whoami) ]]; then
         echo "✘ ${2} should NOT be run as ${1}"
         exit 0
     fi
 }
+
 prevent_root() {
     prevent_user root "$1"
 }
+
 setup() {
     # sudo setup_dependencies
     prevent_root "$0"
@@ -131,6 +137,7 @@ setup() {
     install_rvm
     ./setup.sh
 }
+
 setup_dependencies() {
     install() { apt-get install $1; }
     if type apt-get >/dev/null 2>&1; then
@@ -146,14 +153,10 @@ setup_dependencies() {
 #Collection of functions for installing and configuring software on Ubuntu
 #Organized alphabetically
 
-create_cached_repo() {
-    log "Creating nexus3 repository"
-    docker run -d -p 8081:8081 --name nexus sonatype/nexus3
-}
-
 customize_run_commands() {
     prevent_root "$0"
     CONFIG=${1:-$HOME/.zshrc}
+    SCRIPT_FOLDER=${HOME}/.${SCRIPTS_HOME_DIRECTORY:-jhwohlgemuth}
     add_nvm() {
         CONFIG=${1:-$HOME/.zshrc}
         echo 'export PATH="${HOME}/bin:${PATH}"' >> $CONFIG
@@ -210,27 +213,6 @@ fix_ssh_key_permissions() {
 
 fix_enospc_issue() {
     echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p >/dev/null 2>&1
-}
-
-install_cairo() {
-    log "Installing Cairo"
-    apt-get install -y libcairo2-dev libjpeg8-dev libpango1.0-dev libgif-dev build-essential g++
-}
-
-install_clojure() {
-    prevent_root "$0"
-    log "Installing Clojure tools and dependencies"
-    install_sdkman
-    sdk install java
-    sdk install leiningen
-    if [ -f "${SCRIPT_FOLDER}/profiles.clj" ]; then
-        mkdir -p "${HOME}/.lein"
-        mv "${SCRIPT_FOLDER}"/profiles.clj "${HOME}/.lein"
-    fi
-    if type npm >/dev/null 2>&1; then
-        log "Installing lumo Clojure REPL"
-        npm install -g lumo-cljs
-    fi
 }
 
 install_couchdb() {
@@ -308,38 +290,6 @@ install_firacode() {
     fc-cache -f
 }
 
-install_fsharp() {
-    install_mono
-    log "Installing F#"
-    apt-get install fsharp -y
-}
-
-install_heroku() {
-    log "Installing Heroku CLI"
-    add-apt-repository "deb https://cli-assets.heroku.com/branches/stable/apt ./"
-    curl -L https://cli-assets.heroku.com/apt/release.key | apt-key add -
-    update
-    apt-get install heroku
-}
-
-install_ionide() {
-    prevent_root "$0"
-    if type code >/dev/null 2>&1; then
-        log "Installing Ionide IDE"
-        code --install-extension Ionide.Ionide-fsharp
-    else
-        echo "✘ Ionide requires VS Code. Please install VS Code."
-    fi
-}
-
-install_java8() {
-    log "Installing JRE and JDK"
-    echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
-    add-apt-repository -y ppa:webupd8team/java
-    apt-get update
-    apt-get install -y oracle-java8-installer
-}
-
 install_jenkins() {
     log "Preparing to install Jenkins"
     wget -q -O - https://jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -
@@ -347,46 +297,6 @@ install_jenkins() {
     apt-get update
     log "Installing Jenkins"
     apt-get install -y jenkins
-}
-
-install_julia() {
-    log "Adding Julia language PPA"
-    apt-get install -y software-properties-common python-software-properties
-    add-apt-repository -y ppa:staticfloat/juliareleases
-    add-apt-repository -y ppa:staticfloat/julia-deps
-    apt-get update
-    log "Installing Julia language"
-    apt-get install -y julia
-}
-
-install_lein() {
-    prevent_root "$0"
-    log "Installing lein"
-    mkdir -p "${HOME}"/bin
-    curl -L https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein -o "${HOME}"/bin/lein
-    chmod a+x "${HOME}"/bin/lein
-    lein
-    if [ -f "${SCRIPT_FOLDER}/profiles.clj" ]; then
-        mkdir -p "$HOME"/.lein
-        mv "${SCRIPT_FOLDER}"/profiles.clj "${HOME}"/.lein
-    fi
-}
-
-install_mesa() {
-    log "Installing mesa"
-    apt-add-repository ppa:xorg-edgers
-    apt-get update
-    apt-get install libdrm-dev
-    apt-get build-dep mesa
-    wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key|sudo apt-key add -
-    apt-get install -y clang-3.6 clang-3.6-doc libclang-common-3.6-dev
-    apt-get install -y libclang-3.6-dev libclang1-3.6 libclang1-3.6-dbg
-    apt-get install -y libllvm-3.6-ocaml-dev libllvm3.6 libllvm3.6-dbg
-    apt-get install -y lldb-3.6 llvm-3.6 llvm-3.6-dev llvm-3.6-doc
-    apt-get install -y llvm-3.6-examples llvm-3.6-runtime clang-modernize-3.6
-    apt-get install -y clang-format-3.6 python-clang-3.6 lldb-3.6-dev
-    apt-get install -y libx11-xcb-dev libx11-xcb1 libxcb-glx0-dev libxcb-dri2-0-dev
-    apt-get install -y libxcb-dri3-dev libxshmfence-dev libxcb-sync-dev llvm
 }
 
 install_mongodb() {
@@ -401,17 +311,6 @@ install_mongodb() {
     #sudo sed -i '/#port/c port = 8000' /etc/mongod.conf >/dev/null 2>&1
     service mongod restart
     #The default port can be changed by editing /etc/mongod.conf
-}
-
-install_mono() {
-    log "Adding mono repository"
-    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-    # echo "deb http://download.mono-project.com/repo/ubuntu stable-trusty main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list >/dev/null 2>&1
-    echo "deb https://download.mono-project.com/repo/ubuntu stable-xenial main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list >/dev/null 2>&1
-    apt-get install apt-transport-https --yes
-    update
-    log "Installing mono"
-    apt-get install mono-devel -y --force-yes
 }
 
 install_nix() {
@@ -454,7 +353,7 @@ install_ohmyzsh() {
     prevent_root "$0"
     log "Installing Oh-My-Zsh"
     curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | bash -s
-    echo "$SSH_PASSWORD" | sudo -S chsh -s "$(command -v zsh)" "$(whoami)"
+    echo vagrant | sudo -S chsh -s "$(command -v zsh)" "$(whoami)"
 }
 
 install_ohmyzsh_plugins() {
@@ -463,24 +362,6 @@ install_ohmyzsh_plugins() {
     [[ -d $BASE/pentest ]] || git clone https://github.com/jhwohlgemuth/zsh-pentest.git "$PLUGINS"/zsh-pentest
     [[ -d $BASE/zsh-syntax-highlighting ]] || git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$PLUGINS"/zsh-syntax-highlighting
     [[ -d $BASE/zsh-autosuggestions ]] || git clone https://github.com/zsh-users/zsh-autosuggestions "$PLUGINS"/zsh-autosuggestions
-}
-
-install_opam() {
-    log "Installing OPAM"
-    wget -q https://raw.github.com/ocaml/opam/master/shell/opam_installer.sh -O - | sh -s /usr/local/bin
-}
-
-install_pandoc() {
-    log "Installing Pandoc"
-    apt-get install -y texlive texlive-latex-extra pandoc
-}
-
-install_planck() {
-    log "Adding Planck Clojure REPL PPA"
-    add-apt-repository ppa:mfikes/planck -y
-    apt-get update
-    log "Installing Planck"
-    apt-get install -y planck
 }
 
 install_powerline_font() {
@@ -512,16 +393,6 @@ install_R() {
     apt-get install -y r-base
 }
 
-install_reason() {
-    prevent_root "$0"
-    log "Installing ReasonML support"
-    npm install -g reason-cli@3.1.0-linux bs-platform create-react-app
-    if type code >/dev/null 2>&1; then
-        log "Installing VS Code ReasonML IDE"
-        code --install-extension freebroccolo.reasonml
-    fi
-}
-
 install_redis() {
     log "Installing redis"
     apt-get install -y redis-server
@@ -529,19 +400,6 @@ install_redis() {
     sed -i 's/bind 127.0.0.1/bind 0.0.0.0/' /etc/redis/redis.conf
     service redis-server restart
     #The default port can be changed by editing /etc/redis/redis.conf
-}
-
-install_rlwrap() {
-    log "Installing rlwrap"
-    git clone https://github.com/hanslub42/rlwrap.git
-    cd rlwrap || return
-    autoreconf --install
-    ./configure
-    make
-    make check
-    make install
-    cd ..
-    rm -frd rlwrap
 }
 
 install_rust() {
@@ -571,19 +429,12 @@ install_rust_crates() {
 }
 
 install_rvm() {
+    # Dedicated Ubuntu package
     log "Installing rvm"
     apt-get install -y software-properties-common
     apt-add-repository -y ppa:rael-gc/rvm
     apt-get update
     apt-get install -y rvm
-}
-
-install_sdkman() {
-    prevent_root "$0"
-    log "Installing SDKMAN!"
-    curl -s "https://get.sdkman.io" | bash
-    # shellcheck disable=SC1090,SC1091
-    source "$HOME/.sdkman/bin/sdkman-init.sh"
 }
 
 install_vscode() {
@@ -634,6 +485,7 @@ setup_github_ssh() {
         echo "Something went wrong, please try again."
     fi
 }
+
 turn_off_screen_lock() {
     prevent_root "$0"
     log "Turning off screen lock"
@@ -641,12 +493,14 @@ turn_off_screen_lock() {
     gsettings set org.gnome.desktop.screensaver lock-enabled false
     gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'
 }
+
 turn_on_workspaces() {
     prevent_root "$0"
     log "Turning on workspaces (unity)"
     gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ hsize 2
     gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ vsize 2
 }
+
 update() {
     log "Updating"
     apt-key update

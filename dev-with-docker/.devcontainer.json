@@ -31,6 +31,7 @@
         "ms-vscode.powershell",
         "2gua.rainbow-brackets",
         "mechatroner.rainbow-csv",
+        "freebroccolo.reasonml",
         "ms-vscode-remote.remote-containers",
         "ms-vscode-remote.remote-ssh",
         "ms-vscode-remote.remote-ssh-edit",

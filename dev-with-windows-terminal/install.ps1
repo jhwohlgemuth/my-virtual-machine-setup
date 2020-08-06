@@ -17,9 +17,11 @@ choco install jq
 choco install lockhunter
 choco install malwarebytes
 choco install make
+choco install miktex
 choco install nordvpn
 choco install nvm
 choco install packer
+choco install pandoc
 choco install speccy
 choco install steam
 choco install sysinternals
