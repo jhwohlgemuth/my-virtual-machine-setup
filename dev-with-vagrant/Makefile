@@ -1,8 +1,5 @@
-validate:
-	packer validate packer.focal.json
-	packer validate packer.deploy.json
 
-build: validate
+build: prepare validate
 	packer build packer.focal.json
 
 deploy: validate
@@ -10,3 +7,7 @@ deploy: validate
 
 prepare:
 	dos2unix share/functions.sh
+
+validate:
+	packer validate packer.focal.json
+	packer validate packer.deploy.json
