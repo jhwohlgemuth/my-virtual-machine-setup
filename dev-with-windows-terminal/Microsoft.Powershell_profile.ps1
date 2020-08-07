@@ -169,7 +169,17 @@ function New-File
 function New-SshKey
 {
   [CmdletBinding()]
-  param()
+  param(
+    [Parameter()]
+    [string] $Name="id_rsa")
+  Write-Verbose "==> Generating SSH key pair"
+  Write-Output "~/.ssh/$Name"
+  # ssh-keygen -q -b 4096 -t rsa -N "" -f "~/.ssh/$Name"
+  if (Test-Path "~/.ssh/$Name.pub") {
+    Write-Output "==> Public key saved to clipboard"
+  } else {
+    Write-Error "==> Failed to create SSH key"
+  }
 }
 
 function Install-SshServer
