@@ -3,28 +3,38 @@ if [[ $(whoami) == "root" ]]; then
     echo "✘ Setup should not be run as root"
     return 0
 fi
-
-ORG_NAME=${ORG_NAME:-jhwohlgemuth}
-
 # Source log function
 # shellcheck disable=SC1090
-. "${HOME}"/."${ORG_NAME}"/functions.sh
-
-turn_on_workspaces
-turn_off_screen_lock
+. "${HOME}"/.jhwohlgemuth/functions.sh
+# shellcheck disable=SC1090
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+disable_auto_update() {
+    sed -i '/APT::Periodic::Update-Package-Lists "1";/c APT::Periodic::Update-Package-Lists "0";' /etc/apt/apt.conf.d/10periodic
+}
+turn_off_screen_lock() {
+    prevent_root "$0"
+    log "Turning off screen lock"
+    gsettings set org.gnome.desktop.session idle-delay 0
+    gsettings set org.gnome.desktop.screensaver lock-enabled false
+    gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'
+}
+turn_on_workspaces() {
+    prevent_root "$0"
+    log "Turning on workspaces (unity)"
+    gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ hsize 2
+    gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ vsize 2
+}
 disable_auto_update
-
+turn_off_screen_lock
+turn_on_workspaces
 install_ohmyzsh
 customize_ohmyzsh
 customize_run_commands
 
 log "Installing node"
-# shellcheck disable=SC1090
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 nvm install node
 nvm alias default node
 install_node_modules
-fix_enospc_issue
 
 log "Installing Ruby and ruby gems"
 # shellcheck disable=SC1090

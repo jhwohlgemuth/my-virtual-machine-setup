@@ -8,45 +8,29 @@
 - `docker_rm_all` - Stop and remove all containers
 
 **Bash Functions** ([`functions.sh`](functions.sh))
------------------
-- `create_cached_repo`
+---------------------------------------------------
 - `customize_ohmyzsh`
 - `customize_run_commands`
-- `disable_auto_update`
-- `fix_enospc_issue`
-- `install_atom`
-- `install_atom_plugins`
-- `install_cairo`
-- `install_clojure`
 - `install_couch`
-- `install_desktop`
 - `install_docker`
-- `install_fsharp`
-- `install_heroku`
-- `install_ionide`
-- `install_java8`
+- `install_docker_compose`
+- `install_dotnet`
+- `install_firacode`
 - `install_jenkins`
-- `install_julia`
-- `install_lein`
-- `install_mesa`
 - `install_mongodb`
-- `install_mono`
+- `install_nix`
+- `install_nix_packages`
 - `install_node_modules`
 - `install_nvm`
 - `install_ohmyzsh`
-- `install_opam`
+- `install_ohmyzsh_plugins`
 - `install_powerline_font`
-- `install_pandoc`
-- `install_planck`
 - `install_python`
 - `install_R`
-- `install_reason`
 - `install_redis`
-- `install_rlwrap`
 - `install_rust`
 - `install_rust_crates`
 - `install_rvm`
-- `install_sdkman`
 - `install_vscode`
 - `install_vscode_extensions`
 - `log`
@@ -56,8 +40,6 @@
 - `setup_dependencies`
 - `setup_github_ssh`
 - `setup_npm_proxy`
-- `turn_off_screen_lock`
-- `turn_on_workspaces`
 - `update`
 
 **Vagrant box setup** ([`share/setup.sh`](setup.sh))

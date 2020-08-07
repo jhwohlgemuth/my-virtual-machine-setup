@@ -94,18 +94,6 @@ VSCODE_EXTENSIONS=(
     akamud.vscode-theme-onedark
 )
 
-iter() {
-    if [[ -f "$2" ]]; then
-        while read line; do
-            $1 "$line"
-        done < "$2"
-    else
-        while read ITEM; do
-            $1 "$ITEM"
-        done
-    fi
-}
-
 log() {
     TIMEZONE=Central
     MAXLEN=60
@@ -166,18 +154,6 @@ customize_run_commands() {
     }
     if [ -f "${CONFIG}" ]; then
         [ -f $SCRIPT_FOLDER/functions.sh ] && echo "source ${SCRIPT_FOLDER}/functions.sh" >> $CONFIG
-        #
-        # General functions
-        #
-        [[ `grep 'clean()' $CONFIG` ]] || echo "clean() { rm -frd \$1 && mkdir \$1 && cd \$1 ; }" >> $CONFIG
-        #
-        # Docker functions
-        #
-        [[ `grep 'dip()' $CONFIG` ]] || echo "dip() { docker inspect --format '{{ .NetworkSettings.IPAddress }}' \$1 ; }" >> $CONFIG
-        [[ `grep 'docker_rm_all' $CONFIG` ]] ||  echo "docker_rm_all() { docker stop \$(docker ps -a -q) && docker rm \$(docker ps -a -q) ; }" >> $CONFIG
-        #
-        # External functions
-        #
         [[ `grep 'NVM_DIR' $CONFIG` ]] || add_nvm $CONFIG
     else
         log "Failed to find ${CONFIG} file"
@@ -196,23 +172,9 @@ customize_ohmyzsh() {
         sed -i '1s;^;ZSH_DISABLE_COMPFIX="true"\n;' $CONFIG
         sed -i.bak "s/ZSH_THEME=\"robbyrussell\"/ZSH_THEME=\"$THEME\"/" $CONFIG
         sed -i.bak "s/plugins=(git)/plugins=($PLUGINS)/" $CONFIG
-
     else
         log "Failed to find ${CONFIG} file"
     fi
-}
-
-disable_auto_update() {
-    sed -i '/APT::Periodic::Update-Package-Lists "1";/c APT::Periodic::Update-Package-Lists "0";' /etc/apt/apt.conf.d/10periodic
-}
-
-fix_ssh_key_permissions() {
-    prevent_root "$0"
-    chmod 600 "${HOME}"/.ssh/config
-}
-
-fix_enospc_issue() {
-    echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p >/dev/null 2>&1
 }
 
 install_couchdb() {
@@ -359,7 +321,8 @@ install_ohmyzsh() {
 install_ohmyzsh_plugins() {
     BASE=$ZSH_CUSTOM/plugins
     PLUGINS=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins
-    [[ -d $BASE/pentest ]] || git clone https://github.com/jhwohlgemuth/zsh-pentest.git "$PLUGINS"/zsh-pentest
+    [[ -d $BASE/zsh-handy-helpers ]] || git clone https://github.com/jhwohlgemuth/zsh-handy-helpers.git "$PLUGINS"/zsh-handy-helpers
+    [[ -d $BASE/zsh-pentest ]] || git clone https://github.com/jhwohlgemuth/zsh-pentest.git "$PLUGINS"/zsh-pentest
     [[ -d $BASE/zsh-syntax-highlighting ]] || git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$PLUGINS"/zsh-syntax-highlighting
     [[ -d $BASE/zsh-autosuggestions ]] || git clone https://github.com/zsh-users/zsh-autosuggestions "$PLUGINS"/zsh-autosuggestions
 }
@@ -462,43 +425,6 @@ install_vscode_extensions() {
     else
         log "Please install VS Code before installing extensions"
     fi
-}
-
-setup_github_ssh() {
-    prevent_root "$0"
-    KEY_NAME=${2:-id_rsa}
-    echo -n "Generating key pair......"
-    ssh-keygen -q -b 4096 -t rsa -N "" -f ~/.ssh/"${KEY_NAME}"
-    echo "DONE"
-    if [[ -e ~/.ssh/"${KEY_NAME}".pub ]]; then
-        if type xclip >/dev/null 2>&1; then
-            cat ~/.ssh/"${KEY_NAME}".pub | xclip -sel clip
-            echo "✔ Public key has been saved to clipboard"
-        else
-            cat ~/.ssh/"${KEY_NAME}".pub
-        fi
-        if [[ -s ~/.ssh/"${KEY_NAME}" ]]; then
-            echo $'\n#GitHub alias\nHost me\n\tHostname github.com\n\tUser git\n\tIdentityFile ~/.ssh/'${KEY_NAME}$'\n' >> ~/.ssh/config
-            echo "✔ git@me alias added to ~/.ssh/config for ${KEY_NAME}"
-        fi
-    else
-        echo "Something went wrong, please try again."
-    fi
-}
-
-turn_off_screen_lock() {
-    prevent_root "$0"
-    log "Turning off screen lock"
-    gsettings set org.gnome.desktop.session idle-delay 0
-    gsettings set org.gnome.desktop.screensaver lock-enabled false
-    gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'
-}
-
-turn_on_workspaces() {
-    prevent_root "$0"
-    log "Turning on workspaces (unity)"
-    gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ hsize 2
-    gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ vsize 2
 }
 
 update() {
