@@ -26,13 +26,6 @@ NODE_MODULES=(
     thanks
     tldr
 )
-RUST_CRATES=(
-    cargo-audit
-    cargo-edit
-    just
-    tokei
-    wasm-bindgen-cli
-)
 VSCODE_EXTENSIONS=(
     ms-vscode.atom-keybindings
     formulahendry.auto-rename-tag

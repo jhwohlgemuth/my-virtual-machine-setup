@@ -42,6 +42,10 @@ install_rust() {
     . "${HOME}"/.cargo/env
     rustup toolchain install nightly
     rustup target add wasm32-unknown-unknown --toolchain nightly
+    cargo install cargo-audit
+    cargo install cargo-edit
+    cargo install tokei
+    cargo install wasm-bindgen-cli
 }
 log() {
     TIMEZONE=Central
