@@ -166,6 +166,12 @@ function New-File
   }
 }
 
+function New-SshKey
+{
+  [CmdletBinding()]
+  param()
+}
+
 function Install-SshServer
 {
   <#
