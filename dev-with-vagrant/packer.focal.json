@@ -1,26 +1,10 @@
 {
-  "variables": {
-    "org_name": "jhwohlgemuth",
-    "ubuntu_version": "xenial",
-    "common_scripts": "common",
-    "version": "8.0.0",
-    "iso_name": "ubuntu-16.04.6-server-amd64.iso",
-    "iso_url": "http://releases.ubuntu.com/16.04/ubuntu-16.04.6-server-amd64.iso",
-    "checksum": "ac8a79a86a905ebdc3ef3f5dd16b7360",
-    "ssh_name": "vagrant",
-    "ssh_pass": "vagrant",
-    "home_dir": "/home/vagrant",
-    "hostname": "home",
-    "disk_size": "190782",
-    "update": "yes"
-  },
   "builders": [
     {
       "boot_command": [
-        "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
-        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
-        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
-        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<esc><wait>",
+        "<esc><wait>",
+        "<enter><wait>",
         "/install/vmlinuz<wait>",
         " auto<wait>",
         " console-setup/ask_detect=false<wait>",
@@ -38,61 +22,60 @@
         " netcfg/get_hostname=vagrant<wait>",
         " grub-installer/bootdev=/dev/sda<wait>",
         " noapic<wait>",
-        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed-xenial.cfg<wait>",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed-{{ user `ubuntu_version` }}.cfg<wait>",
         " -- <wait>",
         "<enter><wait>"
       ],
       "boot_wait": "10s",
+      "cpus": 2,
       "disk_size": "{{ user `disk_size` }}",
-      "floppy_files": ["http/preseed-xenial.cfg"],
-      "guest_os_type": "Ubuntu_64",
+      "floppy_files": [
+        "http/preseed-{{ user `ubuntu_version` }}.cfg"
+      ],
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "guest_additions_url": "{{ user `guest_additions_url` }}",
+      "guest_os_type": "Ubuntu_64",
       "hard_drive_interface": "sata",
       "headless": false,
-      "http_directory": "http",
-      "iso_checksum": "{{ user `checksum` }}",
-      "iso_checksum_type": "md5",
+      "http_directory": "{{ template_dir }}/http",
+      "iso_checksum": "md5:{{ user `checksum` }}",
       "iso_urls": [
         "iso/{{ user `iso_name` }}",
-        "{{ user `iso_url` }}"
+        "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}"
       ],
+      "memory": 2048,
       "shutdown_command": "echo '{{ user `ssh_pass` }}'|sudo -S shutdown -P now",
-      "ssh_username": "{{ user `ssh_name` }}",
       "ssh_password": "{{ user `ssh_pass` }}",
-      "ssh_wait_timeout": "10000s",
+      "ssh_port": 22,
+      "ssh_timeout": "10000s",
+      "ssh_username": "{{ user `ssh_name` }}",
       "type": "virtualbox-iso",
       "virtualbox_version_file": ".vbox_version",
-      "vboxmanage": [
-        ["modifyvm", "{{ .Name }}", "--cpus", "1"],
-        ["modifyvm", "{{ .Name }}", "--memory", "512"]
-      ],
       "vm_name": "ubuntu-desktop"
     }
   ],
+  "post-processors": [
+    [
+      {
+        "compression_level": 9,
+        "output": "box/{{ .Provider }}.{{ user `ubuntu_version` }}.{{ user `version` }}.box",
+        "type": "vagrant",
+        "vagrantfile_template": "Vagrantfile.template"
+      }
+    ]
+  ],
   "provisioners": [
     {
-      "type": "file",
+      "destination": "functions.sh",
       "source": "share/functions.sh",
-      "destination": "functions.sh"
+      "type": "file"
     },
     {
-      "type": "file",
-      "source": "share/snippets.cson",
-      "destination": "snippets.cson"
+      "destination": "setup.sh",
+      "source": "scripts/setup.sh",
+      "type": "file"
     },
     {
-      "type": "file",
-      "source": "share/profiles.clj",
-      "destination": "profiles.clj"
-    },
-    {
-      "type": "file",
-      "source": "share/setup.sh",
-      "destination": "setup.sh"
-    },
-    {
-      "type": "shell",
-      "expect_disconnect": true,
       "environment_vars": [
         "UPDATE={{ user `update` }}",
         "ORG_NAME={{ user `org_name` }}",
@@ -101,6 +84,7 @@
         "SSH_PASSWORD={{ user `ssh_pass` }}"
       ],
       "execute_command": "echo '{{ user `ssh_pass` }}' | {{ .Vars }} sudo -E -S bash '{{ .Path }}'",
+      "expect_disconnect": true,
       "scripts": [
         "scripts/{{ user `common_scripts` }}/update.sh",
         "scripts/{{ user `common_scripts` }}/install_desktop.sh",
@@ -109,27 +93,36 @@
         "scripts/{{ user `ubuntu_version` }}/motd.sh",
         "scripts/{{ user `common_scripts` }}/install_software.sh",
         "scripts/{{ user `common_scripts` }}/cleanup.sh"
-      ]
+      ],
+      "type": "shell"
     },
     {
-      "type": "shell",
       "environment_vars": [
         "ORG_NAME={{ user `org_name` }}"
       ],
       "scripts": [
         "scripts/{{ user `common_scripts` }}/install_software_no_root.sh",
         "scripts/{{ user `common_scripts` }}/copy_files.sh"
-       ]
+      ],
+      "type": "shell"
     }
   ],
-  "post-processors": [
-    [
-      {
-        "type": "vagrant",
-        "output": "box/{{ .Provider }}.{{ user `ubuntu_version` }}.{{ user `version` }}.box",
-        "vagrantfile_template": "Vagrantfile.template",
-        "compression_level": 9
-      }
-    ]
-  ]
+  "variables": {
+    "checksum": "9d2b54506f8f9fdad6b72e45aff0f0de",
+    "common_scripts": "common",
+    "disk_size": "65536",
+    "guest_additions_url": "",
+    "home_dir": "/home/vagrant",
+    "hostname": "home",
+    "iso_name": "ubuntu-20.04-legacy-server-amd64.iso",
+    "iso_url": "http://releases.ubuntu.com/16.04/ubuntu-16.04.6-server-amd64.iso",
+    "mirror": "http://cdimage.ubuntu.com",
+    "mirror_directory": "ubuntu-legacy-server/releases/20.04/release",
+    "org_name": "jhwohlgemuth",
+    "ssh_name": "vagrant",
+    "ssh_pass": "vagrant",
+    "ubuntu_version": "focal",
+    "update": "yes",
+    "version": "8.0.0"
+  }
 }

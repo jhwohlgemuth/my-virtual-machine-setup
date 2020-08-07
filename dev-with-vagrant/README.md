@@ -28,7 +28,7 @@ Customize the Vagrant Box
 The default `jhwohlgemuth/env` Vagrant box hosted on [Atlas](https://atlas.hashicorp.com/jhwohlgemuth/boxes/env),
 includes the `~/.jhwohlgemuth` directory that has some useful files.
 
-- [`~/.jhwohlgemuth/setup.sh`](./share/setup.sh) is a collection of tweaks and customizations.
+- [`~/.jhwohlgemuth/setup.sh`](./scripts/setup.sh) is a collection of tweaks and customizations.
 
 > **usage:**
 ```bash

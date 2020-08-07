@@ -9,40 +9,20 @@
 
 **Bash Functions** ([`functions.sh`](functions.sh))
 ---------------------------------------------------
-- `customize_ohmyzsh`
-- `customize_run_commands`
 - `install_couch`
-- `install_docker`
 - `install_docker_compose`
 - `install_dotnet`
-- `install_firacode`
 - `install_jenkins`
 - `install_mongodb`
 - `install_nix`
-- `install_nix_packages`
-- `install_node_modules`
 - `install_nvm`
-- `install_ohmyzsh`
-- `install_ohmyzsh_plugins`
-- `install_powerline_font`
 - `install_python`
 - `install_R`
 - `install_redis`
 - `install_rust`
-- `install_rust_crates`
-- `install_rvm`
-- `install_vscode`
-- `install_vscode_extensions`
 - `log`
-- `prevent_root`
-- `prevent_user`
-- `setup`
-- `setup_dependencies`
-- `setup_github_ssh`
-- `setup_npm_proxy`
-- `update`
 
-**Vagrant box setup** ([`share/setup.sh`](setup.sh))
+**Vagrant box setup** ([`scripts/setup.sh`](setup.sh))
 -----------------
 > For use with [jhwohlgemuth/env Vagrant box](https://app.vagrantup.com/jhwohlgemuth/boxes/env)
 

@@ -2,8 +2,6 @@
 # shellcheck disable=SC1091
 . ./functions.sh
 
-SSH_USER=${SSH_USERNAME:-vagrant}
-
 # Make sure udev does not block our network - http://6.ptmc.org/?p=164
 log "Cleaning up udev rules"
 rm -rf /dev/.udev/
@@ -36,7 +34,7 @@ dpkg --get-selections | grep -v deinstall >/dev/null 2>&1
 log "Removing bash history"
 unset HISTFILE
 rm -f /root/.bash_history
-rm -f /home/"${SSH_USER}"/.bash_history
+rm -f /home/vagrant/.bash_history
 
 log "Cleaning up log files"
 find /var/log -type f | while read -r f; do echo -ne '' > "$f"; done;

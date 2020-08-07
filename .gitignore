@@ -1,12 +1,9 @@
 # Packer directories
-/box
-/iso
-/packer_cache
-/output-virtualbox-iso
+/dev-with-vagrant/box
+/dev-with-vagrant/iso
+/dev-with-vagrant/packer_cache
+/dev-with-vagrant/output-virtualbox-iso
 /test
-
-# VSCode directory
-.vscode/
 
 # Vagrant template
 .vagrant/
