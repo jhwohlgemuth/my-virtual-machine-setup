@@ -57,6 +57,20 @@ function Find-Duplicates
   Get-Item $Name | Get-ChildItem -Recurse | Get-FileHash | Group-Object -Property Hash | Where-Object Count -GT 1 | ForEach-Object {$_.Group | Select-Object Path, Hash} | Write-Output
 }
 
+function Test-Admin
+{
+  <#
+  .SYNOPSIS
+  Helper function that returns true if user is in the "built-in" "admin" group, false otherwise
+  .EXAMPLE
+  Test-Admin
+  #>
+  [CmdletBinding()]
+  [OutputType([bool])]
+  param ()
+  ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) | Write-Output
+}
+
 function Test-Empty
 {
   <#
