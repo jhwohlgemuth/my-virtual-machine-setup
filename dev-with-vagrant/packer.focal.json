@@ -27,7 +27,7 @@
         "<enter><wait>"
       ],
       "boot_wait": "10s",
-      "cpus": 2,
+      "cpus": 1,
       "disk_size": "{{ user `disk_size` }}",
       "floppy_files": [
         "http/preseed-{{ user `ubuntu_version` }}.cfg"
@@ -38,10 +38,10 @@
       "hard_drive_interface": "sata",
       "headless": false,
       "http_directory": "{{ template_dir }}/http",
-      "iso_checksum": "md5:{{ user `checksum` }}",
+      "iso_checksum": "sha256:{{ user `checksum` }}",
       "iso_urls": [
         "iso/{{ user `iso_name` }}",
-        "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}"
+        "{{ user `iso_url` }}"
       ],
       "memory": 2048,
       "shutdown_command": "echo '{{ user `ssh_pass` }}'|sudo -S shutdown -P now",
@@ -108,16 +108,14 @@
     }
   ],
   "variables": {
-    "checksum": "9d2b54506f8f9fdad6b72e45aff0f0de",
+    "checksum": "443511f6bf12402c12503733059269a2e10dec602916c0a75263e5d990f6bb93",
     "common_scripts": "common",
     "disk_size": "65536",
     "guest_additions_url": "",
     "home_dir": "/home/vagrant",
     "hostname": "home",
-    "iso_name": "ubuntu-20.04-legacy-server-amd64.iso",
-    "iso_url": "http://releases.ubuntu.com/16.04/ubuntu-16.04.6-server-amd64.iso",
-    "mirror": "http://cdimage.ubuntu.com",
-    "mirror_directory": "ubuntu-legacy-server/releases/20.04/release",
+    "iso_name": "ubuntu-20.04.1-live-server-amd64.iso",
+    "iso_url": "http://releases.ubuntu.com/focal/ubuntu-20.04.1-live-server-amd64.iso",
     "org_name": "jhwohlgemuth",
     "ssh_name": "vagrant",
     "ssh_pass": "vagrant",
