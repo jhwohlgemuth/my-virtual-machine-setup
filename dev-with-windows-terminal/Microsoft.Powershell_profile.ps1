@@ -173,9 +173,14 @@ function New-SshKey
     [Parameter()]
     [string] $Name="id_rsa")
   Write-Verbose "==> Generating SSH key pair"
-  Write-Output "~/.ssh/$Name"
-  # ssh-keygen -q -b 4096 -t rsa -N "" -f "~/.ssh/$Name"
-  if (Test-Path "~/.ssh/$Name.pub") {
+  $Path = "~/.ssh/$Name"
+  ssh-keygen --% -q -b 4096 -t rsa -N "" -f TEMPORARY_FILE_NAME
+  Move-Item -Path TEMPORARY_FILE_NAME -Destination $Path
+  Move-Item -Path TEMPORARY_FILE_NAME.pub -Destination "$Path.pub"
+  if (Test-Path "$Path.pub") {
+    Write-Verbose "==> $Name SSH private key saved to $Path"
+    Write-Verbose "==> Saving SSH public key to clipboard"
+    Get-Content "$Path.pub" | Set-Clipboard
     Write-Output "==> Public key saved to clipboard"
   } else {
     Write-Error "==> Failed to create SSH key"
