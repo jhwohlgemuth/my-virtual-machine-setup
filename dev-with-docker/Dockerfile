@@ -1,11 +1,16 @@
 FROM ubuntu
 
-EXPOSE 4669 4669
+LABEL author="Jason Wohlgemuth"
 
-ENV foo bar
+EXPOSE 1337
+EXPOSE 4669
+EXPOSE 8000
+EXPOSE 8080
+EXPOSE 46692
+
+ENV TZ America/Chicago
 
 # install dependencies
-ENV TZ America/Chicago
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt install -y \
     apt-utils \
