@@ -69,13 +69,6 @@ VSCODE_EXTENSIONS=(
     akamud.vscode-javascript-snippet-pack
     akamud.vscode-theme-onedark
 )
-install_nix() {
-    log "Installing Nix"
-    mkdir /etc/nix; echo 'use-sqlite-wal = false' | sudo tee -a /etc/nix/nix.conf && sh <(curl https://nixos.org/releases/nix/nix-2.1.3/install) 
-    if [ -f "${HOME}/.zshrc" ]; then
-        echo "source ${HOME}/.nix-profile/etc/profile.d/nix.sh" >> ${HOME}/.zshrc
-    fi
-}
 log() {
     TIMEZONE=Central
     MAXLEN=60

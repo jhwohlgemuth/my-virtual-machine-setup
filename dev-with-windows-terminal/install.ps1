@@ -3,6 +3,7 @@ $CHOCOLATEY_PACKAGES = @(
     'bat'
     'cascadiafonts'
     'ccleaner'
+    'delta'
     'dos2unix'
     'dropbox'
     'firacode'

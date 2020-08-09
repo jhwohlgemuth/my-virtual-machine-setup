@@ -1,5 +1,7 @@
 FROM ubuntu
 
+EXPOSE 4669 4669
+
 ENV foo bar
 
 # install dependencies
@@ -7,13 +9,16 @@ ENV TZ America/Chicago
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt install -y \
     apt-utils \
+    bat \
     build-essential \
     curl \
     git \
+    jq \
     libssl-dev \
     nano \
     openssh-server \
     pkg-config \
+    snapd \
     tree \
     tzdata \
     zsh
@@ -30,6 +35,7 @@ RUN sh -c "$(curl https://raw.githubusercontent.com/deluan/zsh-in-docker/master/
     -p https://github.com/zsh-users/zsh-syntax-highlighting \
     -p https://github.com/jhwohlgemuth/zsh-handy-helpers \
     -p https://github.com/jhwohlgemuth/zsh-pentest
+RUN echo "alias bat=batcat"
 
 # install nvm
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
@@ -44,6 +50,7 @@ RUN rustup toolchain install nightly \
     && rustup target add wasm32-unknown-unknown --toolchain nightly
 RUN cargo install cargo-audit \
     && cargo install cargo-edit \
+    && cargo install tokei \
     && cargo install wasm-bindgen-cli
 
 ENTRYPOINT [ "/bin/zsh" ]
