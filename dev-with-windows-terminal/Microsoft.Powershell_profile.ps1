@@ -1,8 +1,56 @@
+function Test-Admin
+{
+  <#
+  .SYNOPSIS
+  Helper function that returns true if user is in the "built-in" "admin" group, false otherwise
+  .EXAMPLE
+  Test-Admin
+  #>
+  [CmdletBinding()]
+  [OutputType([bool])]
+  param ()
+  ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) | Write-Output
+}
+function Test-Empty
+{
+  <#
+  .SYNOPSIS
+  Helper function that returns true if directory is empty, false otherwise
+  .EXAMPLE
+  echo <folder name> | Test-Empty
+  .EXAMPLE
+  dir . | %{Test-Empty $_.FullName}
+  #>
+  [CmdletBinding()]
+  [ValidateNotNullorEmpty()]
+  [OutputType([bool])]
+  param (
+    [Parameter(Mandatory=$true,ValueFromPipeline=$true)]
+    [string] $Name
+  )
+  Get-Item $Name | ForEach-Object {$_.psiscontainer -AND $_.GetFileSystemInfos().Count -EQ 0} | Write-Output
+}
 function Test-Installed
 {
   $Name = $args[0]
   Get-Module -ListAvailable -Name $Name
 }
+function Install-ModuleMaybe
+{
+  [CmdletBinding()]
+  param (
+    [Parameter(Mandatory=$true,ValueFromPipeline=$true)]
+    [string] $Name
+  )
+  if (Test-Installed $Name) {
+      Write-Output "==> $Name already installed"
+  } else {
+      Write-Output "==> Installing $Name"
+      Install-Module -Name $Name -Scope CurrentUser -AllowClobber
+  }
+}
+
+# Install Powershell modules, if not already installed
 if (Test-Installed posh-git) {
   Import-Module posh-git
 }
@@ -35,7 +83,7 @@ function Invoke-DockerRemoveAll { docker stop $(docker ps -a -q); docker rm $(do
 function Invoke-DockerRemoveAllImages { docker rmi $(docker images -a -q) }
 function Invoke-GitCommand { git $args }
 function Invoke-GitStatus { git status -sb }
-function Invoke-GitCommit { git commit -v $args }
+function Invoke-GitCommit { git commit -vam $args }
 function Invoke-GitRebase { git rebase -i $args }
 function Invoke-GitLog { git log --oneline --decorate }
 
@@ -55,40 +103,6 @@ function Find-Duplicates
     [string] $Name
   )
   Get-Item $Name | Get-ChildItem -Recurse | Get-FileHash | Group-Object -Property Hash | Where-Object Count -GT 1 | ForEach-Object {$_.Group | Select-Object Path, Hash} | Write-Output
-}
-
-function Test-Admin
-{
-  <#
-  .SYNOPSIS
-  Helper function that returns true if user is in the "built-in" "admin" group, false otherwise
-  .EXAMPLE
-  Test-Admin
-  #>
-  [CmdletBinding()]
-  [OutputType([bool])]
-  param ()
-  ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) | Write-Output
-}
-
-function Test-Empty
-{
-  <#
-  .SYNOPSIS
-  Helper function that returns true if directory is empty, false otherwise
-  .EXAMPLE
-  echo <folder name> | Test-Empty
-  .EXAMPLE
-  dir . | %{Test-Empty $_.FullName}
-  #>
-  [CmdletBinding()]
-  [ValidateNotNullorEmpty()]
-  [OutputType([bool])]
-  param (
-    [Parameter(Mandatory=$true,ValueFromPipeline=$true)]
-    [string] $Name
-  )
-  Get-Item $Name | ForEach-Object {$_.psiscontainer -AND $_.GetFileSystemInfos().Count -EQ 0} | Write-Output
 }
 
 function Remove-DirectoryForce
@@ -215,6 +229,7 @@ Set-Alias -Name dip -Value Invoke-DockerInspectAddress -Option AllScope
 Set-Alias -Name dra -Value Invoke-DockerRemoveAll -Option AllScope
 Set-Alias -Name drai -Value Invoke-DockerRemoveAllImages -Option AllScope
 Set-Alias -Name g -Value Invoke-GitCommand -Option AllScope
+Set-Alias -Name gcam -Value Invoke-GitCommit -Option AllScope
 Set-Alias -Name gsb -Value Invoke-GitStatus -Option AllScope
 Set-Alias -Name glo -Value Invoke-GitLog -Option AllScope
 Set-Alias -Name grbi -Value Invoke-GitRebase -Option AllScope
