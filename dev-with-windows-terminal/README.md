@@ -1,36 +1,39 @@
 Development with Windows Terminal
 =================================
 
+Requirements
+------------
+- [Windows Terminal](https://www.microsoft.com/store/productId/9N0DX20HK701)
+
 Quick Start
 -----------
-1. Install [Windows Terminal]()
-2. Open a Powershell terminal in a location, `C:/path/to/folder`, where you can save some files
+1. Open a Powershell terminal in a location, `C:/path/to/folder`, where you can save some files
 
-> While holding <key>shift</key>, right-click `C:/path/to/folder` directory and select "Open PowerShell window here"
+> While holding <kbd>shift</kbd>, right-click `C:/path/to/folder` directory and select "Open PowerShell window here"
 
-3. Clone this repository and navigate to `dev-with-windows-terminal` directory:
+2. Clone this repository and navigate to `dev-with-windows-terminal` directory:
 
 ```bash
 git clone https://github.com/jhwohlgemuth/env
 cd env/dev-with-windows-terminal
 ```
 
-4. Install PowerShell modules and Chocolatey packages:
+3. Install PowerShell modules and Chocolatey packages:
 > You are encouraged to read the content of [install.ps1](./install.ps1)
 
 ```powershell
 ./install.ps1
 ```
 
-5. Copy content of [Microsoft.Powershell_profile.ps1](./Microsoft.Powershell_profile.ps1) into Windows Terminal settings:
+4. Copy content of [Microsoft.Powershell_profile.ps1](./Microsoft.Powershell_profile.ps1) into Windows Terminal settings:
 
 ```powershell
 Set-Content -Path $PROFILE -Value (Get-Content -Path .\Microsoft.Powershell_profile.ps1)
 ```
 
-6. Open the Windows terminal `settings.json` file by pressing <key>CTRL</key>+<key>,</key> and replace contents with content of [settings.json](./settings.json) from this repository
+5. Open the Windows terminal `settings.json` file by pressing <kbd>CTRL</kbd>+<kbd>,</kbd> and replace contents with content of [settings.json](./settings.json) from this repository
 
-7. Enjoy your awesome new ***Windows*** terminal. `#cantBelieveItsNotLinux`
+> Enjoy your awesome new ***Windows*** terminal. `#cantBelieveItsNotLinux`
 
 Functions!
 ----------
