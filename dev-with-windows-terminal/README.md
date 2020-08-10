@@ -32,9 +32,8 @@ Set-Content -Path $PROFILE -Value (Get-Content -Path .\Microsoft.Powershell_prof
 
 7. Enjoy your awesome new ***Windows*** terminal. `#cantBelieveItsNotLinux`
 
-Now that you have an amazing terminal, [give Docker a try!](../dev-with-docker)
-
-
+Functions!
+----------
 [Microsoft.Powershell_profile.ps1](./Microsoft.Powershell_profile.ps1) provides the following functions:
 > Use `Get-Help <Function-Name>` to see usage details. **Example**: `Get-Help Find-Duplicates -examples`
 
@@ -49,7 +48,8 @@ Now that you have an amazing terminal, [give Docker a try!](../dev-with-docker)
 - `Install-ModuleMaybe`
 - `Install-SshServer`
 
-
+Aliases!
+--------
 [Microsoft.Powershell_profile.ps1](./Microsoft.Powershell_profile.ps1) provides the following aliases:
 > Use `Get-Alias <Name>` to see alias details. **Example**: `Get-Alias dra`
 
@@ -68,3 +68,7 @@ Now that you have an amazing terminal, [give Docker a try!](../dev-with-docker)
 - `rf`
 - `touch`
 - `u`, `uu`, `uuu`, `uuuu`, `uuuuu`
+
+What Next?!
+===========
+Now that you have an amazing terminal, [give Docker a try!](../dev-with-docker)
