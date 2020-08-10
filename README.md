@@ -34,9 +34,9 @@ Why?
 Quickstart
 ----------
 
-- [Easily manage a development virtual machine with Vagrant](dev-with-vagrant/README.md)
-- [Quickly create a development container with Docker](dev--with-docker/README.md)
 - [Customize your Windows Terminal and Powershell](dev-with-windows-terminal/README.md)
+- [Achieve epic levels of synergistic productivity using Docker](dev-with-docker/README.md)
+- [Easily manage a development virtual machine with Vagrant](dev-with-vagrant/README.md)
 
 Future
 ------
