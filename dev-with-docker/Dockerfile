@@ -36,13 +36,13 @@ RUN sh -c "$(curl https://raw.githubusercontent.com/deluan/zsh-in-docker/master/
     -p https://github.com/zsh-users/zsh-syntax-highlighting \
     -p https://github.com/jhwohlgemuth/zsh-handy-helpers \
     -p https://github.com/jhwohlgemuth/zsh-pentest
-RUN echo "alias bat=batcat"
+RUN echo "alias bat=batcat" >> ~/.zshrc
 
 # install nvm
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
 ENV PATH "/root/bin:${PATH}"
 ENV NVM_DIR "/root/.nvm"
-RUN echo ". /${NVM_DIR}/nvm.sh" >> ~/.zshrc
+RUN echo ". ${NVM_DIR}/nvm.sh" >> ~/.zshrc
 
 # install rust
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y

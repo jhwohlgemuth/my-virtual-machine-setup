@@ -1,0 +1,93 @@
+{
+    "$schema": "https://aka.ms/terminal-profiles-schema",
+    "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+    "confirmCloseAllTabs": false,
+    "copyOnSelect": true,
+    "copyFormatting": false,
+    "launchMode": "maximized",
+    "showTabsInTitlebar": true,
+    "startOnUserLogin": true,
+    "profiles":
+    {
+        "defaults": {
+            "colorScheme": "Campbell",
+            "cursorColor": "#00FFFF",
+            "cursorShape": "underscore",
+            "fontFace": "Cascadia Code PL",
+            "selectionBackground": "#FFFF00",
+            "useAcrylic": false
+        },
+        "list":
+        [
+            {
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "name": "Windows PowerShell",
+                "commandline": "powershell.exe",
+                "fontSize": 13,
+                "startingDirectory": "%USERPROFILE%/dev",
+                "hidden": false
+            },
+            {
+                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+                "name": "Command Prompt (retro)",
+                "colorScheme": "Retro",
+                "commandline": "cmd.exe",
+                "cursorColor" : "#FFFFFF",
+                "cursorShape": "filledBox",
+                "experimental.retroTerminalEffect": true,
+                "fontFace": "PxPlus IBM VGA8",
+                "hidden": false
+            },
+            {
+                "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
+                "name": "Azure Cloud Shell",
+                "source": "Windows.Terminal.Azure",
+                "hidden": true
+            }
+        ]
+    },
+    "schemes": [
+        {
+            "name": "Retro",
+            "background": "#000000",
+            "black": "#00ff00",
+            "blue": "#00ff00",
+            "brightBlack": "#00ff00",
+            "brightBlue": "#00ff00",
+            "brightCyan": "#00ff00",
+            "brightGreen": "#00ff00",
+            "brightPurple": "#00ff00",
+            "brightRed": "#00ff00",
+            "brightWhite": "#00ff00",
+            "brightYellow": "#00ff00",
+            "cyan": "#00ff00",
+            "foreground": "#00ff00",
+            "green": "#00ff00",
+            "purple": "#00ff00",
+            "red": "#00ff00",
+            "white": "#00ff00",
+            "yellow": "#00ff00"
+        }
+    ],
+    "keybindings": [
+        {
+            "command":{
+                "action": "copy",
+                "singleLine": false
+                },
+            "keys": "ctrl+c"
+        },
+        {
+            "command": "paste",
+            "keys": "ctrl+v"
+        },
+        {
+            "command": {
+                "action": "splitPane",
+                "split": "auto",
+                "splitMode": "duplicate"
+                },
+            "keys": "alt+shift+d"
+        }
+    ]
+}
