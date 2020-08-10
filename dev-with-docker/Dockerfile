@@ -2,11 +2,7 @@ FROM ubuntu
 
 LABEL author="Jason Wohlgemuth"
 
-EXPOSE 1337
-EXPOSE 4669
-EXPOSE 8000
-EXPOSE 8080
-EXPOSE 46692
+EXPOSE 1337 4669 8000 8080 46692
 
 ENV TZ America/Chicago
 
@@ -56,6 +52,7 @@ RUN rustup toolchain install nightly \
 RUN cargo install cargo-audit \
     && cargo install cargo-edit \
     && cargo install tokei \
-    && cargo install wasm-bindgen-cli
+    && cargo install wasm-bindgen-cli \
+    && cargo install wasm-pack
 
 ENTRYPOINT [ "/bin/zsh" ]
