@@ -82,8 +82,10 @@ function Invoke-DockerInspectAddress { docker inspect --format '{{ .NetworkSetti
 function Invoke-DockerRemoveAll { docker stop $(docker ps -a -q); docker rm $(docker ps -a -q) }
 function Invoke-DockerRemoveAllImages { docker rmi $(docker images -a -q) }
 function Invoke-GitCommand { git $args }
-function Invoke-GitStatus { git status -sb }
 function Invoke-GitCommit { git commit -vam $args }
+function Invoke-GitDiff { git diff $args }
+function Invoke-GitPushMaster { git push origin master }
+function Invoke-GitStatus { git status -sb }
 function Invoke-GitRebase { git rebase -i $args }
 function Invoke-GitLog { git log --oneline --decorate }
 
@@ -230,6 +232,8 @@ Set-Alias -Name dra -Value Invoke-DockerRemoveAll -Option AllScope
 Set-Alias -Name drai -Value Invoke-DockerRemoveAllImages -Option AllScope
 Set-Alias -Name g -Value Invoke-GitCommand -Option AllScope
 Set-Alias -Name gcam -Value Invoke-GitCommit -Option AllScope
+Set-Alias -Name gd -Value Invoke-GitDiff -Option AllScope
+Set-Alias -Name gpom -Value Invoke-GitPushMaster -Option AllScope
 Set-Alias -Name gsb -Value Invoke-GitStatus -Option AllScope
 Set-Alias -Name glo -Value Invoke-GitLog -Option AllScope
 Set-Alias -Name grbi -Value Invoke-GitRebase -Option AllScope
