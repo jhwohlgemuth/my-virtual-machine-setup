@@ -1,7 +1,7 @@
 {
     "name": "Development Container",
     "image": "jhwohlgemuth/env",
-    "runArgs": ["--name", "dev"],
+    "runArgs": ["--name", "env"],
     "forwardPorts": [
         1337,
         4669,
