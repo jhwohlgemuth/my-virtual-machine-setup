@@ -5,8 +5,9 @@ LABEL author="Jason Wohlgemuth"
 EXPOSE 1337 4669 8000 8080 46692
 
 ENV TZ America/Chicago
+ENV TERM xterm-256color
 
-# install dependencies
+# Install dependencies
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt install -y \
     apt-utils \
@@ -24,7 +25,7 @@ RUN apt-get update && apt install -y \
     tzdata \
     zsh
 
-# install and configure oh-my-zsh
+# Install and configure oh-my-zsh
 RUN sh -c "$(curl https://raw.githubusercontent.com/deluan/zsh-in-docker/master/zsh-in-docker.sh)" -- \
     -p colored-man-pages \
     -p encode64 \
@@ -36,15 +37,18 @@ RUN sh -c "$(curl https://raw.githubusercontent.com/deluan/zsh-in-docker/master/
     -p https://github.com/zsh-users/zsh-syntax-highlighting \
     -p https://github.com/jhwohlgemuth/zsh-handy-helpers \
     -p https://github.com/jhwohlgemuth/zsh-pentest
-RUN echo "alias bat=batcat" >> ~/.zshrc
+# Customize .zshrc
+RUN sed -i "s/export TERM=xterm/export TERM=xterm-256color/g" ~/.zshrc \
+    && echo "ZLE_RPROMPT_INDENT=0" >> ~/.zshrc \
+    && echo "alias bat=batcat" >> ~/.zshrc 
 
-# install nvm
+# Install nvm
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
 ENV PATH "/root/bin:${PATH}"
 ENV NVM_DIR "/root/.nvm"
 RUN echo ". ${NVM_DIR}/nvm.sh" >> ~/.zshrc
 
-# install rust
+# Install rust
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
 ENV PATH "/root/.cargo/bin:${PATH}"
 RUN rustup toolchain install nightly \
