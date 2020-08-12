@@ -44,7 +44,7 @@ customize_run_commands() {
     }
     if [ -f "${CONFIG}" ]; then
         [ -f $SCRIPT_FOLDER/functions.sh ] && echo "source ${SCRIPT_FOLDER}/functions.sh" >> $CONFIG
-        [[ `grep 'NVM_DIR' $CONFIG` ]] || add_nvm $CONFIG
+        [[ $(grep 'NVM_DIR' $CONFIG) ]] || add_nvm $CONFIG
     else
         log "Failed to find ${CONFIG} file"
     fi

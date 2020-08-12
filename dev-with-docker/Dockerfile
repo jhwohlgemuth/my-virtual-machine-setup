@@ -9,7 +9,7 @@ ENV TERM xterm-256color
 
 # Install dependencies
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt install -y \
+RUN apt-get update && apt-get install -y \
     apt-utils \
     bat \
     build-essential \
@@ -23,7 +23,9 @@ RUN apt-get update && apt install -y \
     snapd \
     tree \
     tzdata \
-    zsh
+    zsh \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install and configure oh-my-zsh
 RUN sh -c "$(curl https://raw.githubusercontent.com/deluan/zsh-in-docker/master/zsh-in-docker.sh)" -- \
