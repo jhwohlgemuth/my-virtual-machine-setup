@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu:latest
 
 LABEL author="Jason Wohlgemuth"
 
@@ -9,7 +9,7 @@ ENV TERM xterm-256color
 
 # Install dependencies
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install --no-install-recommends -y \
     apt-utils \
     bat \
     build-essential \
