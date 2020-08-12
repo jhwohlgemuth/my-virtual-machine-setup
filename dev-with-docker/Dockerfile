@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:focal
 
 LABEL author="Jason Wohlgemuth"
 
