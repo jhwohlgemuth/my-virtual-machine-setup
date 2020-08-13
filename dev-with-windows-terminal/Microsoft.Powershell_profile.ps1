@@ -15,6 +15,23 @@ function Find-Duplicates
   )
   Get-Item $Name | Get-ChildItem -Recurse | Get-FileHash | Group-Object -Property Hash | Where-Object Count -GT 1 | ForEach-Object {$_.Group | Select-Object Path, Hash} | Write-Output
 }
+workflow Find-Duplicates-Parallel
+{
+  <#
+  .SYNOPSIS
+  Workflow that calculates file hash values (in parallel) to find duplicate files recursively
+  .EXAMPLE
+  Find-Duplicates-Parallel <path to folder>
+  #>
+  param (
+    [Parameter(Mandatory=$true)]
+    [string] $Name
+  )
+  $results = foreach -parallel ($item in (Get-Item $Name | Get-childItem -Recurse)) {
+    inlineScript { $Using:item | Get-FileHash }
+  }
+  $results | Group-Object -Property Hash | Where-Object Count -GT 1 | ForEach-Object { $_.Group | Select-Object Path, Hash }
+}
 function New-File
 {
   <#
