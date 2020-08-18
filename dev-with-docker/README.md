@@ -67,22 +67,6 @@ docker run -dit --name dev jhwohlgemuth/env
 
 Tips
 ====
-- Create a `Makefile` in your Windows user home directory for easy access. This enables you to quickly open a shell in your container by opening Windows Terminal and executing `make start` or `make shell`
+- Copy this directory's [`Makefile`](./Makefile) into your Windows user home directory for easy access. This enables you to quickly open a shell in your container by opening Windows Terminal and executing `make` and `make shell` (if you have not created the `dev` container) or `make start` and `make shell` (after you have created the `dev` container)
 
-> If you skipped the [development with Windows Terminal](../dev-with-windows-terminal) instructions, you can install make on Windows with [Chocolatey](https://chocolatey.org/install) via `choco install make`
-
-Here is my `~/Makefile`:
-
-```makefile
-IMAGE_NAME = jhwohlgemuth/env
-CONTAINER_NAME = dev
-init:
-    @docker run -dit --name $(CONTAINER_NAME) -p 1337:1337 $(IMAGE_NAME)
-    @docker ps --latest
-shell:
-    @docker exec -it $(CONTAINER_NAME) zsh
-start:
-    @docker start --interactive $(CONTAINER_NAME)
-stop:
-    @docker stop $(CONTAINER_NAME)
-```
+> **Note:** If you skipped the [development with Windows Terminal](../dev-with-windows-terminal) instructions, you can install `make` on Windows with [Chocolatey](https://chocolatey.org/install) via `choco install make`
