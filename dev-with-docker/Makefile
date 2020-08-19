@@ -16,7 +16,7 @@ copy-ssh-key:
 	@echo "==> Copied SSH key to ${CONTAINER_NAME}"
 
 install-node:
-	@docker exec -it dev /bin/bash -c "nvm install node"
+	@docker exec -it dev /usr/bin/zsh -c "source ~/.zshrc && nvm install node"
 
 shell:
 	@docker exec -it $(CONTAINER_NAME) zsh
