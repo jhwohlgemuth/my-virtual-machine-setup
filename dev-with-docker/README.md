@@ -2,12 +2,14 @@ Development with Docker Containers
 ==================================
 > Now is the time to leverage Docker to seamlessly employ Windows and Linux in your development environment!
 
+
 Requirements
 ------------
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 
-Quick Start
+Quick Start  
 -----------
+> ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/jhwohlgemuth/env?style=for-the-badge)
 1. Open Windows Terminal
 
 > Ideally, you have already configured your Windows Terminal according to the [development with Windows Terminal](../dev-with-windows-terminal) instructions
