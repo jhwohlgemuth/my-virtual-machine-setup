@@ -29,6 +29,7 @@ $CHOCOLATEY_PACKAGES = @(
     'malwarebytes'
     'make'
     'miktex'
+    'nano'
     'nordvpn'
     'nvm'
     'packer'
