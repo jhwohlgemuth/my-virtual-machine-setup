@@ -1,7 +1,7 @@
 IMAGE_NAME = jhwohlgemuth/env
 CONTAINER_NAME = dev
 
-.PHONY: setup
+.PHONY: setup create copy-ssh-key copy-git-config install-node shell start stop build
 
 setup: create copy-ssh-key copy-git-config install-node
 
