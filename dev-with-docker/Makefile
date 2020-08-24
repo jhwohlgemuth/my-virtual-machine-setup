@@ -32,5 +32,18 @@ start:
 stop:
 	docker stop $(CONTAINER_NAME)
 
-build:
-	@docker build -t $(CONTAINER_NAME) .
+#
+# Remaining tasks used for local testing
+#
+TEST_NAME = test
+build-test:
+	@docker build -t $(TEST_NAME) .
+
+test-create: build-test
+	@docker run -dit --name $(TEST_NAME) --hostname $(HOST_NAME) -p 4669:4669 $(TEST_NAME)
+
+test-shell:
+	@docker exec -it $(TEST_NAME) zsh
+	
+test-start:
+	docker start --interactive $(TEST_NAME)

@@ -11,6 +11,7 @@ ENV TERM xterm-256color
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install --no-install-recommends -y \
     apt-utils \
+    apt-transport-https \
     bat \
     build-essential \
     curl \
@@ -25,6 +26,16 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     tree \
     tzdata \
     zsh \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install .NET runtime and SDK
+RUN curl -o packages-microsoft-prod.deb https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb \
+    && dpkg -i packages-microsoft-prod.deb \
+    && rm -f packages-microsoft-prod.deb
+RUN apt-get update && apt-get install -y \
+    dotnet-sdk-3.1 \
+    dotnet-runtime-3.1 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
