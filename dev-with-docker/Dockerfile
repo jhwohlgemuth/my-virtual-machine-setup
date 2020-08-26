@@ -25,6 +25,8 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     snapd \
     tree \
     tzdata \
+    unzip \
+    zip \
     zsh \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
@@ -62,16 +64,32 @@ ENV PATH "/root/bin:${PATH}"
 ENV NVM_DIR "/root/.nvm"
 RUN echo ". ${NVM_DIR}/nvm.sh" >> ~/.zshrc
 
-# Install rust
+# Install Rust
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
 ENV PATH "/root/.cargo/bin:${PATH}"
 RUN rustup toolchain install nightly \
     && rustup target add wasm32-unknown-unknown --toolchain nightly
 RUN cargo install cargo-audit \
     && cargo install cargo-edit \
+    && cargo install du-dust \
     && cargo install grex \
     && cargo install tokei \
     && cargo install wasm-bindgen-cli \
     && cargo install wasm-pack
+    
+# Install JVM, Kotlin and Clojure
+RUN curl -s "https://get.sdkman.io" | bash
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+RUN source "$HOME/.sdkman/bin/sdkman-init.sh" \
+    && sdk install java \
+    && sdk install kotlin \
+    && sdk install leiningen \
+    && rm -rf "$HOME/.sdkman/archives/*" \
+    && rm -rf "$HOME/.sdkman/tmp/*"
+RUN curl -O https://download.clojure.org/install/linux-install-1.10.1.561.sh \
+    && chmod +x linux-install-1.10.1.561.sh \
+    && ./linux-install-1.10.1.561.sh
+RUN mkdir ~/.lein
+COPY profiles.clj /root/.lein/
 
 ENTRYPOINT [ "/bin/zsh" ]
