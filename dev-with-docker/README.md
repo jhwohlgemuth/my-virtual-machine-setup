@@ -11,7 +11,7 @@ Quick Start
 -----------
 > ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/jhwohlgemuth/env?style=for-the-badge)
 
-> The `jhwohlgemuth/env` image includes a fully customized terminal and has all the best languages installed - dotnet (for F#), nvm (for Node.js), Rust, Kotlin, and Clojure
+> The `jhwohlgemuth/env` image includes a fully customized terminal and has all the best languages installed - dotnet (for F#), nvm (for Node.js), Rust, Kotlin, Clojure, and Elixir
 1. Open Windows Terminal
 
 > Ideally, you have already configured your Windows Terminal according to the [development with Windows Terminal](../dev-with-windows-terminal) instructions

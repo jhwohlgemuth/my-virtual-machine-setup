@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     build-essential \
     curl \
     git \
+    gnupg \
     jq \
     less \
     libssl-dev \
@@ -91,5 +92,16 @@ RUN curl -O https://download.clojure.org/install/linux-install-1.10.1.561.sh \
     && ./linux-install-1.10.1.561.sh
 RUN mkdir ~/.lein
 COPY profiles.clj /root/.lein/
+
+# Install Erlang and Elixir
+RUN curl --output erlang.deb https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb \
+    && dpkg -i erlang.deb \
+    && rm erlang.deb
+RUN apt-get update && apt-get install -y \
+    esl-erlang \
+    elixir \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+COPY .iex.exs /root/
 
 ENTRYPOINT [ "/bin/zsh" ]
