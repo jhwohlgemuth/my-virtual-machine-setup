@@ -2,7 +2,7 @@ FROM ubuntu:focal
 
 LABEL author="Jason Wohlgemuth"
 
-EXPOSE 1337 4669 8000 8080 46692
+EXPOSE 1337 4669 8000 8080 8111 46692
 
 ENV TZ America/Chicago
 ENV TERM xterm-256color
