@@ -16,6 +16,7 @@ copy-ssh-config:
 	@docker exec -it dev /bin/bash -c "chmod 600 /root/.ssh/id_rsa"
 	@echo "==> Copied SSH key to ${CONTAINER_NAME}"
 	@docker cp "${HOME}\.ssh\config" dev:/root/.ssh/
+	@echo "==> Copied SSH configuration to ${CONTAINER_NAME}"
 
 copy-git-config:
 	@docker cp "${HOME}\.gitconfig" dev:/root/
