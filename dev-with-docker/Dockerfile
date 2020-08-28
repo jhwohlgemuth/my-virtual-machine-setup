@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     curl \
     git \
     gnupg \
+    httpie \
     jq \
     less \
     libssl-dev \
@@ -71,6 +72,7 @@ ENV PATH "/root/.cargo/bin:${PATH}"
 RUN rustup toolchain install nightly \
     && rustup target add wasm32-unknown-unknown --toolchain nightly
 RUN cargo install cargo-audit \
+    && cargo install broot \
     && cargo install cargo-edit \
     && cargo install du-dust \
     && cargo install grex \
