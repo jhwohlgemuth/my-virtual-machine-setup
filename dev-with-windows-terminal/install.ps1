@@ -1,6 +1,6 @@
 param(
     [Parameter()]
-    [string] $InstallationType="chocolatey"
+    [string] $Type="chocolatey"
 )
 
 $POWERSHELL_MODULES = @(
@@ -82,10 +82,24 @@ $SCOOP_APPLICATIONS = @(
     # 'zotero'
 )
 
-# Install Powershell modules
+function Install-ModuleMaybe
+{
+  [CmdletBinding()]
+  param (
+    [Parameter(Mandatory=$true,ValueFromPipeline=$true)]
+    [string] $Name
+  )
+  if (Get-Module -ListAvailable -Name $Name) {
+      Write-Output "==> $Name already installed"
+  } else {
+      Write-Output "==> Installing $Name"
+      Install-Module -Name $Name -Scope CurrentUser -AllowClobber
+  }
+}
+Write-Output "==> Installing Powershell modules"
 $POWERSHELL_MODULES | ForEach-Object { Install-ModuleMaybe $_ }
 
-if ($InstallationType.StartsWith("choco")) {
+if ($Type.StartsWith("choco")) {
     Write-Output "==> Installing Chocolatey packages"
     choco feature enable -n allowGlobalConfirmation
     $CHOCOLATEY_PACKAGES | ForEach-Object { choco install $_ }

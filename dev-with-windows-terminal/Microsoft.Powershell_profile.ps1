@@ -144,20 +144,6 @@ function Test-Installed
   $Name = $args[0]
   Get-Module -ListAvailable -Name $Name
 }
-function Install-ModuleMaybe
-{
-  [CmdletBinding()]
-  param (
-    [Parameter(Mandatory=$true,ValueFromPipeline=$true)]
-    [string] $Name
-  )
-  if (Test-Installed $Name) {
-      Write-Output "==> $Name already installed"
-  } else {
-      Write-Output "==> Installing $Name"
-      Install-Module -Name $Name -Scope CurrentUser -AllowClobber
-  }
-}
 function Install-SshServer
 {
   <#
