@@ -15,6 +15,27 @@ function Find-Duplicates
   )
   Get-Item $Name | Get-ChildItem -Recurse | Get-FileHash | Group-Object -Property Hash | Where-Object Count -GT 1 | ForEach-Object {$_.Group | Select-Object Path, Hash} | Write-Output
 }
+function Get-File
+{
+  <#
+  .SYNOPSIS
+  Download a file from an internet endpoint (ex: http://example.com/file.txt)
+  .EXAMPLE
+  Get-File http://example.com/file.txt
+  .EXAMPLE
+  Get-File http://example.com/file.txt -File myfile.txt
+  .EXAMPLE
+  echo "http://example.com/file.txt" | Get-File
+  #>
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory=$true,Position=0,ValueFromPipeline=$true)]
+    [string] $Url,
+    [string] $File="download.txt"
+  )
+  $client = New-Object System.Net.WebClient
+  $client.DownloadFile($Url, $File)
+}
 function New-File
 {
   <#
