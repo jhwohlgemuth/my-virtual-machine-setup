@@ -24,6 +24,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     nano \
     openssh-server \
     pkg-config \
+    rlwrap \
     snapd \
     tree \
     tzdata \
