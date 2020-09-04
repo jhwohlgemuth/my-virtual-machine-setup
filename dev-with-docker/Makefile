@@ -1,8 +1,9 @@
 HOST_NAME = $(shell hostname)
+BASE_IMAGE_NAME = jhwohlgemuth/base
 IMAGE_NAME = jhwohlgemuth/env
 CONTAINER_NAME = dev
 
-.PHONY: setup create copy-ssh-config copy-git-config install-node shell start stop build
+.PHONY: setup clean create copy-ssh-config copy-git-config install-node shell start stop build local build-image build-base-image
 
 setup: create copy-ssh-config copy-git-config install-node
 
@@ -38,17 +39,17 @@ stop:
 # Remaining tasks used for local testing
 #
 TEST_NAME = test
-build-test:
+build-base-image:
+	@docker build --no-cache -t $(BASE_IMAGE_NAME) -f Dockerfile.base .
+
+build-image: build-base-image
 	@docker build --no-cache -t $(TEST_NAME) .
 
-test-create: build-test
+local: build-image
 	@docker run -dit --name $(TEST_NAME) --hostname $(HOST_NAME) -p 4669:4669 $(TEST_NAME)
 
 test-shell:
 	@docker exec -it $(TEST_NAME) zsh
-	
-test-start:
-	@docker start --interactive $(TEST_NAME)
 
 clean:
 	@docker stop $(TEST_NAME)

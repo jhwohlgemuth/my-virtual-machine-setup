@@ -1,65 +1,8 @@
-FROM ubuntu:focal
+FROM jhwohlgemuth/base
 
 LABEL author="Jason Wohlgemuth"
 
 EXPOSE 1337 4669 8000 8080 8111 46692
-
-ENV TZ America/Chicago
-ENV TERM xterm-256color
-
-# Install dependencies
-ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install --no-install-recommends -y \
-    apt-utils \
-    apt-transport-https \
-    bat \
-    build-essential \
-    curl \
-    git \
-    gnupg \
-    httpie \
-    jq \
-    less \
-    libssl-dev \
-    nano \
-    openssh-server \
-    pkg-config \
-    rlwrap \
-    snapd \
-    tree \
-    tzdata \
-    unzip \
-    zip \
-    zsh \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install .NET runtime and SDK
-RUN curl -o packages-microsoft-prod.deb https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb \
-    && dpkg -i packages-microsoft-prod.deb \
-    && rm -f packages-microsoft-prod.deb
-RUN apt-get update && apt-get install -y \
-    dotnet-sdk-3.1 \
-    dotnet-runtime-3.1 \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install and configure oh-my-zsh
-RUN sh -c "$(curl https://raw.githubusercontent.com/deluan/zsh-in-docker/master/zsh-in-docker.sh)" -- \
-    -p colored-man-pages \
-    -p encode64 \
-    -p extract \
-    -p git \
-    -p history-substring-search \
-    -p wd \
-    -p https://github.com/zsh-users/zsh-autosuggestions \
-    -p https://github.com/zsh-users/zsh-syntax-highlighting \
-    -p https://github.com/jhwohlgemuth/zsh-handy-helpers \
-    -p https://github.com/jhwohlgemuth/zsh-pentest
-# Customize .zshrc
-RUN sed -i "s/export TERM=xterm/export TERM=xterm-256color/g" ~/.zshrc \
-    && echo "ZLE_RPROMPT_INDENT=0" >> ~/.zshrc \
-    && echo "alias bat=batcat" >> ~/.zshrc 
 
 # Install nvm
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
@@ -80,7 +23,18 @@ RUN cargo install cargo-audit \
     && cargo install tokei \
     && cargo install wasm-bindgen-cli \
     && cargo install wasm-pack
-    
+
+# Install .NET runtime and SDK
+ARG DEBIAN_FRONTEND=noninteractive
+RUN curl -o packages-microsoft-prod.deb https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb \
+    && dpkg -i packages-microsoft-prod.deb \
+    && rm -f packages-microsoft-prod.deb
+RUN apt-get update && apt-get install -y \
+    dotnet-sdk-3.1 \
+    dotnet-runtime-3.1 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
 # Install JVM, Kotlin and Clojure
 RUN curl -s "https://get.sdkman.io" | bash
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh

@@ -1,0 +1,54 @@
+FROM ubuntu:focal
+
+LABEL author="Jason Wohlgemuth"
+
+EXPOSE 1337 4669 8000 8080 8111 46692
+
+ENV TZ America/Chicago
+ENV TERM xterm-256color
+
+# Install dependencies
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    apt-utils \
+    apt-transport-https \
+    bat \
+    build-essential \
+    curl \
+    git \
+    gnupg \
+    httpie \
+    jq \
+    less \
+    libssl-dev \
+    nano \
+    openssh-server \
+    pkg-config \
+    rlwrap \
+    snapd \
+    tree \
+    tzdata \
+    unzip \
+    zip \
+    zsh \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install and configure oh-my-zsh
+RUN sh -c "$(curl https://raw.githubusercontent.com/deluan/zsh-in-docker/master/zsh-in-docker.sh)" -- \
+    -p colored-man-pages \
+    -p encode64 \
+    -p extract \
+    -p git \
+    -p history-substring-search \
+    -p wd \
+    -p https://github.com/zsh-users/zsh-autosuggestions \
+    -p https://github.com/zsh-users/zsh-syntax-highlighting \
+    -p https://github.com/jhwohlgemuth/zsh-handy-helpers \
+    -p https://github.com/jhwohlgemuth/zsh-pentest
+# Customize .zshrc
+RUN sed -i "s/export TERM=xterm/export TERM=xterm-256color/g" ~/.zshrc \
+    && echo "ZLE_RPROMPT_INDENT=0" >> ~/.zshrc \
+    && echo "alias bat=batcat" >> ~/.zshrc
+
+ENTRYPOINT [ "/bin/zsh" ]
