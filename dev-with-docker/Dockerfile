@@ -2,7 +2,7 @@ FROM jhwohlgemuth/base
 
 LABEL author="Jason Wohlgemuth"
 
-EXPOSE 1337 4669 8000 8080 8111 46692
+EXPOSE 1337 3449 4669 8000 8080 8111 46692
 
 # Install nvm
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
