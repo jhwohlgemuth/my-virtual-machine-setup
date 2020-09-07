@@ -43,6 +43,7 @@ VSCODE_EXTENSIONS=(
     Ionide.Ionide-FAKE
     Ionide.Ionide-fsharp
     Ionide.Ionide-Paket
+    runem.lit-plugin
     silvenon.mdx
     techer.open-in-browser
     christian-kohler.path-intellisense
