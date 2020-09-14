@@ -6,9 +6,6 @@ function Test-Installed
   $Name = $args[0]
   Get-Module -ListAvailable -Name $Name
 }
-if (Test-Installed pwsh-handy-helpers) {
-  Import-Module pwsh-handy-helpers
-}
 if (Test-Installed posh-git) {
   Import-Module posh-git
 }
@@ -17,6 +14,9 @@ if (Test-Installed oh-my-posh) {
 }
 if (Test-Installed Get-ChildItemColor) {
   Import-Module Get-ChildItemColor
+}
+if (Test-Installed pwsh-handy-helpers) {
+  Import-Module pwsh-handy-helpers
 }
 #
 # Set Oh-my-posh theme
