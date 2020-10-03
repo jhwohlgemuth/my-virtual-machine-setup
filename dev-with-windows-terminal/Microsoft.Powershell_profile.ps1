@@ -6,6 +6,12 @@ function Test-Installed
   $Name = $args[0]
   Get-Module -ListAvailable -Name $Name
 }
+if (Test-Installed PSReadLine) {
+  Import-Module PSReadLine
+  Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
+  Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
+  Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
+}
 if (Test-Installed posh-git) {
   Import-Module posh-git
 }
