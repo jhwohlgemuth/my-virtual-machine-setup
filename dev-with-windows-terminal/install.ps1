@@ -8,6 +8,7 @@ $POWERSHELL_MODULES = @(
     'posh-git'
     'oh-my-posh'
     'PSConsoleTheme'
+    'PSScriptAnalyzer'
     'Get-ChildItemColor'
 )
 $CHOCOLATEY_PACKAGES = @(
@@ -98,6 +99,7 @@ function Install-ModuleMaybe
   }
 }
 Write-Output "==> Installing Powershell modules"
+Install-PackageProvider Nuget -MinimumVersion 2.8.5.201 -Force
 $POWERSHELL_MODULES | ForEach-Object { Install-ModuleMaybe $_ }
 
 if ($Type.StartsWith("choco")) {

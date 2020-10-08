@@ -12,6 +12,9 @@ if (Test-Installed PSReadLine) {
   Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
   Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
 }
+if (Test-Installed PSScriptAnalyzer) {
+  Import-Module PSScriptAnalyzer
+}
 if (Test-Installed posh-git) {
   Import-Module posh-git
 }
