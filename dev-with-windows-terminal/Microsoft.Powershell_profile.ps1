@@ -24,8 +24,8 @@ if (Test-Installed oh-my-posh) {
 if (Test-Installed Get-ChildItemColor) {
   Import-Module Get-ChildItemColor
 }
-if (Test-Installed pwsh-handy-helpers) {
-  Import-Module pwsh-handy-helpers
+if (Test-Installed pwsh-prelude) {
+  Import-Module pwsh-prelude
 }
 #
 # Set Oh-my-posh theme

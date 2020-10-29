@@ -4,7 +4,7 @@ param(
 )
 
 $POWERSHELL_MODULES = @(
-    'pwsh-handy-helpers'
+    'pwsh-prelude'
     'posh-git'
     'oh-my-posh'
     'PSConsoleTheme'
