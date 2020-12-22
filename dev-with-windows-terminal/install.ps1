@@ -5,11 +5,18 @@ param(
 
 $POWERSHELL_MODULES = @(
     'pwsh-prelude'
+    # https://github.com/dahlbyk/posh-git
     'posh-git'
+    # https://github.com/JanDeDobbeleer/oh-my-posh
     'oh-my-posh'
+    # https://github.com/mmims/PSConsoleTheme
     'PSConsoleTheme'
+    # https://github.com/PowerShell/PSScriptAnalyzer
     'PSScriptAnalyzer'
+    # https://github.com/joonro/Get-ChildItemColor
     'Get-ChildItemColor'
+    # https://github.com/aaronpowell/ps-nvm
+    'nvm'
 )
 $CHOCOLATEY_PACKAGES = @(
     '7zip'
