@@ -1,6 +1,7 @@
 set autoread
 " Give more space for displaying messages.
 set cmdheight=2
+set cursorline
 set encoding=UTF-8
 " TextEdit might fail if hidden is not set.
 set hidden
