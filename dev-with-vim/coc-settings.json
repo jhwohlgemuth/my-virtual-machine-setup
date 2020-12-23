@@ -1,0 +1,16 @@
+{
+    "coc.preferences.formatOnSaveFiletypes": [
+        "css",
+        "html",
+        "javascript",
+        "json",
+        "markdown",
+        "powershell",
+        "python",
+        "vim",
+        "yaml"
+    ],
+    "codeLens.enable": true,
+    "list.indicator": ">",
+    "coc.preferences.hoverTarget": "float"
+}
