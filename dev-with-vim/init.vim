@@ -1,17 +1,24 @@
-set nocompatible
+set autoread
 set encoding=UTF-8
+set nobackup
+set nocompatible
+set noswapfile
+set nowritebackup
+set ruler
 set termguicolors
 syntax on
-" source 'C:\Users\jason\AppData\Local\nvim\plug-config\coc.vim'
+" exe 'source' 'C:\Users\jason\AppData\Local\nvim\plug-config\coc.vim'
 
 call plug#begin()
+    Plug 'sheerun/vim-polyglot'
+    Plug 'chrisbra/csv.vim'
+    Plug 'elixir-lang/vim-elixir'
+    Plug 'rust-lang/rust.vim'
     Plug 'preservim/nerdtree'
     Plug 'Xuyuanp/nerdtree-git-plugin'
-    Plug 'ryanoasis/vim-devicons'
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-    Plug 'sheerun/vim-polyglot'
+    Plug 'ryanoasis/vim-devicons'
     Plug 'vim-syntastic/syntastic'
-    Plug 'rust-lang/rust.vim'
     Plug 'junegunn/vim-easy-align'
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'norcalli/nvim-colorizer.lua'
@@ -22,6 +29,12 @@ call plug#begin()
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'tomasiser/vim-code-dark'
+    Plug 'nathanaelkane/vim-indent-guides'
+    Plug 'luochen1990/rainbow'
+    Plug 'junegunn/goyo.vim'
+    " Plug 'wfxr/minimap.vim'
+    " Plug 'Xuyuanp/scrollbar.nvim'
+    " Plug 'severin-lemaignan/vim-minimap'
 call plug#end()
 
 " Configure colorizer.lua plugin
@@ -42,14 +55,15 @@ inoremap <silent><expr> <Tab>
       \ <SID>check_back_space() ? "\<Tab>" :
       \ coc#refresh()
 
-set guifont=DroidSansMono\ Nerd\ Font:h13
-" let g:mapleader = "\<Space>"
+set guifont=Cascadia\ Code\ PL:h13
+let g:mapleader = "\<Space>"
 let g:airline_powerline_fonts = 1
 " let g:airline_theme = 'codedark'
 let g:coc_global_extensions = ['coc-snippets', 'coc-vimlsp', 'coc-json', 'coc-git', 'coc-html', 'coc-emmet', 'coc-css', 'coc-powershell', 'coc-python', 'coc-elixir', 'coc-fsharp', 'coc-reason', 'coc-xml', 'coc-yaml']
 let g:NERDTreeShowHidden = 1
 let g:NERDTreeMinimalUI = 1
 let g:NERDTreeGitStatusUseNerdFonts = 1
+let g:rainbow_active = 1
 "{{{ Syntastic Settings }}}
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}

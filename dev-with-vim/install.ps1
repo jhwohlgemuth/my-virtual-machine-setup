@@ -1,14 +1,20 @@
-# Create environment variables for current user
+[CmdletBinding()]
+Param()
+
+'==> Creating NEOVIM_ROOT environment variable' | Write-Verbose
 $Parent = @($Env:XDG_DATA_HOME, $Env:LOCALAPPDATA)[$null -eq $Env:XDG_DATA_HOME]
 $User = [System.EnvironmentVariableTarget]::User
 [System.Environment]::SetEnvironmentVariable('NEOVIM_ROOT', (Join-Path $Parent 'nvim'), $User)
 
-# Create Vim configuration file
-# New-Item "$Env:NEOVIM_ROOT/init.vim" -ItemType File -Force
+'==> Creating Neovim plugin folder' | Write-Verbose
+New-Item "$Env:NEOVIM_ROOT/plugged" -ItemType Directory -Force | Out-Null
 
-# Create Vim plugin folder
-New-Item "$Env:NEOVIM_ROOT/plugged" -ItemType Directory -Force
+'==> Creating init.vim configuration file' | Write-Verbose
+Copy-Item "$PSScriptRoot/init.vim" $Env:NEOVIM_ROOT | Out-Null
 
-#Install VIM Plugin Manager, vim-plug
+'==> Creating coc.vim plugin settings file' | Write-Verbose
+Copy-Item "$PSScriptRoot/coc-settings.json" $Env:NEOVIM_ROOT | Out-Null
+
+'==> Installing Vim plugin manager, vim-plug' | Write-Verbose
 $Uri = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-Invoke-WebRequest -UseBasicParsing $Uri | New-Item "${Env:NEOVIM_ROOT}/autoload/plug.vim" -Force
+Invoke-WebRequest -UseBasicParsing $Uri | New-Item "${Env:NEOVIM_ROOT}/autoload/plug.vim" -Force | Out-Null
