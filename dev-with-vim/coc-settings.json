@@ -3,6 +3,7 @@
         "css",
         "html",
         "javascript",
+        "javascriptreact",
         "json",
         "markdown",
         "powershell",
@@ -12,5 +13,6 @@
     ],
     "codeLens.enable": true,
     "list.indicator": ">",
-    "coc.preferences.hoverTarget": "float"
+    "coc.preferences.hoverTarget": "float",
+    "coc.preferences.diagnostic.virtualText": true
 }
