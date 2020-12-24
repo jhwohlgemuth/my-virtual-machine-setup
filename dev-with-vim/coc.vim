@@ -1,4 +1,5 @@
 "{{{ Coc Settings }}}
+let g:coc_global_extensions = ['coc-fzf-preview', 'coc-snippets', 'coc-vimlsp', 'coc-json', 'coc-git', 'coc-html', 'coc-emmet', 'coc-css', 'coc-powershell', 'coc-python', 'coc-elixir', 'coc-fsharp', 'coc-reason', 'coc-xml', 'coc-yaml']
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
 if has("patch-8.1.1564")
