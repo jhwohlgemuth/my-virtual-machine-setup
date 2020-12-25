@@ -12,6 +12,7 @@ let g:which_key_map['e'] = [':CocCommand explorer --toggle', 'explorer']
 let g:which_key_map['i'] = [':IndentGuidesToggle', 'indent guides']
 let g:which_key_map['m'] = [':MarkdownPreview', 'preview']
 let g:which_key_map['s'] = ['z=', 'spelling']
+let g:which_key_map['u'] = [':UndotreeToggle', 'undo tree']
 let g:which_key_map['w'] = [':ChooseWin', 'window']
 let g:which_key_map['z'] = [':Goyo', 'zen']
 let g:which_key_map.b = {

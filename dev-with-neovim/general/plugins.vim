@@ -28,6 +28,7 @@ call plug#begin()
     Plug 'psliwka/vim-smoothie'
     Plug 'tpope/vim-surround'" change (cd)/ delete (ds) / add (ys)/ visual (S)
     Plug 'vim-syntastic/syntastic'
+    Plug 'mbbill/undotree'
     Plug 'mg979/vim-visual-multi', {'branch': 'master'}
     Plug 'liuchengxu/vim-which-key'
 call plug#end()
