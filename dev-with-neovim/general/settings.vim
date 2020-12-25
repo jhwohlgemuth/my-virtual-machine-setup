@@ -21,7 +21,7 @@ set shortmess+=c
 set smartindent
 set smarttab
 set termguicolors
-set timeoutlen=300
+set timeoutlen=100
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
 set updatetime=100
@@ -31,5 +31,3 @@ autocmd VimEnter *
   \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
   \|   PlugInstall --sync | q
   \| endif
-
-let g:mapleader = "\<Space>"

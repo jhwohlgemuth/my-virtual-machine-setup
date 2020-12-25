@@ -18,10 +18,6 @@ call plug#begin()
     Plug 'tpope/vim-fugitive'
     Plug 'junegunn/goyo.vim'
     Plug 'nathanaelkane/vim-indent-guides'
-    Plug 'preservim/nerdtree'
-    Plug 'Xuyuanp/nerdtree-git-plugin'
-    Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-    Plug 'ryanoasis/vim-devicons'
     Plug 'joshdick/onedark.vim'
     Plug 'sheerun/vim-polyglot'
     Plug 'luochen1990/rainbow'
@@ -31,6 +27,7 @@ call plug#begin()
     Plug 'tpope/vim-surround'" change (cd)/ delete (ds) / add (ys)/ visual (S)
     Plug 'vim-syntastic/syntastic'
     Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+    Plug 'liuchengxu/vim-which-key'
 call plug#end()
 
 " {{{ Airline Settings }}}
@@ -43,11 +40,16 @@ let g:airline_powerline_fonts = 1
 "                    \ 'javascript.jsx': 'javascript',
 "                    \ }
 
+" {{{ ChooseWin Settings }}}
+let g:choosewin_overlay_enable = 1
+
 " {{{ Colorizer Settings }}}
-lua require'colorizer'.setup()
+if exists("loaded_colorizer")
+    lua require'colorizer'.setup()
+endif
 
 " {{{ Floaterm Settings }}}
-let g:floaterm_title=''`
+let g:floaterm_title=''
 let g:floaterm_gitcommit='floaterm'
 let g:floaterm_autoinsert=1
 let g:floaterm_width=0.8
@@ -55,26 +57,8 @@ let g:floaterm_height=0.8
 let g:floaterm_wintitle=0
 let g:floaterm_autoclose=1
 
-" {{{ NERDTree Settings }}}
-let g:NERDTreeShowHidden = 1
-let g:NERDTreeMinimalUI = 1
-let g:NERDTreeGitStatusUseNerdFonts = 1
-if exists("g:loaded_webdevicons")
-	call webdevicons#refresh()
-endif
-" Start NERDTree, unless a file or session is specified, eg. vim -S session_file.vim.
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists('s:std_in') && v:this_session == '' | NERDTree | endif
-" Exit Vim if NERDTree is the only window left.
-autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-
 " {{{ Rainbow Settings }}}
 let g:rainbow_active = 1
-let g:rainbow_conf = {
-	\	'separately': {
-	\		'nerdtree': 0,
-	\	}
-	\}
 
 "{{{ Syntastic Settings }}}
 set statusline+=%#warningmsg#
