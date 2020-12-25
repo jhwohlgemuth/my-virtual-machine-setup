@@ -19,6 +19,7 @@ call plug#begin()
     Plug 'tpope/vim-fugitive'
     Plug 'junegunn/goyo.vim'
     Plug 'nathanaelkane/vim-indent-guides'
+    Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
     Plug 'joshdick/onedark.vim'
     Plug 'sheerun/vim-polyglot'
     Plug 'luochen1990/rainbow'
@@ -50,13 +51,16 @@ if exists("loaded_colorizer")
 endif
 
 " {{{ Floaterm Settings }}}
-let g:floaterm_title=''
-let g:floaterm_gitcommit='floaterm'
-let g:floaterm_autoinsert=1
-let g:floaterm_width=0.8
-let g:floaterm_height=0.8
-let g:floaterm_wintitle=0
-let g:floaterm_autoclose=1
+let g:floaterm_title = ''
+let g:floaterm_gitcommit = 'floaterm'
+let g:floaterm_autoinsert = 1
+let g:floaterm_width = 0.8
+let g:floaterm_height = 0.8
+let g:floaterm_wintitle = 0
+let g:floaterm_autoclose = 1
+
+" {{{ Indent-guides Settings }}}
+let g:indent_guides_guide_size = 1
 
 " {{{ Rainbow Settings }}}
 let g:rainbow_active = 1
@@ -69,5 +73,16 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-let g:syntastic_javascript_checkers = ['javascript']
+let g:syntastic_cs_checkers = ['cs']
 let g:syntastic_css_checkers = ['css']
+let g:syntastic_dockerfile_checkers = ['dockerfile']
+let g:syntastic_elixir_checkers = ['elixir']
+let g:syntastic_html_checkers = ['html']
+let g:syntastic_javascript_checkers = ['javascript']
+let g:syntastic_json_checkers = ['json']
+let g:syntastic_markdown_checkers = ['markdown']
+let g:syntastic_python_checkers = ['python']
+let g:syntastic_text_checkers = ['text', 'proselint']
+let g:syntastic_vim_checkers = ['vim']
+let g:syntastic_xml_checkers = ['xml']
+let g:syntastic_yaml_checkers = ['yaml']
