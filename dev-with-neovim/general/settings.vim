@@ -18,10 +18,6 @@ set smartindent
 set smarttab
 set termguicolors
 set timeoutlen=100
-" Use persistent history.
-if !isdirectory('~/AppData/Local/nvim/undo')
-    call mkdir('~/AppData/Local/nvim/undo', '', 0700)
-endif
 set undodir=~/AppData/Local/nvim/undo
 set undofile " Maintain undo history between sessions
 set updatetime=100 " Default is 4000ms
