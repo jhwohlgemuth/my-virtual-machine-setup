@@ -7,6 +7,7 @@ let g:which_key_map =  {}
 autocmd! FileType which_key
 autocmd  FileType which_key set laststatus=0 noshowmode noruler
   \| autocmd BufLeave <buffer> set laststatus=2 noshowmode ruler
+let g:which_key_map['c'] = [':Commentary', 'comment line']
 let g:which_key_map['e'] = [':CocCommand explorer --toggle', 'explorer']
 let g:which_key_map['w'] = [':ChooseWin', 'window']
 let g:which_key_map['z'] = [':Goyo', 'zen']
