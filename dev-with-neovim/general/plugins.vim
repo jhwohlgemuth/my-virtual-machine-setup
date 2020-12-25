@@ -2,6 +2,7 @@ call plug#begin()
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'jiangmiao/auto-pairs'
+    Plug 'MattesGroeger/vim-bookmarks' " bookmark (mm) / annotate (mi)
     Plug 't9md/vim-choosewin'
     Plug 'alvan/vim-closetag'
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -34,7 +35,7 @@ call plug#end()
 let g:airline_powerline_fonts = 1
 
 " {{{ Codi Settings }}}
-" Windows not support yet: https://github.com/metakirby5/codi.vim/issues/14
+" Windows not supported yet: https://github.com/metakirby5/codi.vim/issues/14
 " let g:codi#virtual_text_prefix = "❯ "
 " let g:codi#aliases = {
 "                    \ 'javascript.jsx': 'javascript',

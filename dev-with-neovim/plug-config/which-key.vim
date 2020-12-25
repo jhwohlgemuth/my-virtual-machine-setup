@@ -7,9 +7,16 @@ let g:which_key_map =  {}
 autocmd! FileType which_key
 autocmd  FileType which_key set laststatus=0 noshowmode noruler
   \| autocmd BufLeave <buffer> set laststatus=2 noshowmode ruler
-let g:which_key_map['e'] = [ ':CocCommand explorer --toggle'   , 'explorer' ]
-let g:which_key_map['w'] = [ ':ChooseWin', 'window' ]
-let g:which_key_map['z'] = [ ':Goyo', 'zen' ]
+let g:which_key_map['e'] = [':CocCommand explorer --toggle', 'explorer']
+let g:which_key_map['w'] = [':ChooseWin', 'window']
+let g:which_key_map['z'] = [':Goyo', 'zen']
+let g:which_key_map.b = {
+      \ 'name' : '+bookmark' ,
+      \ 'a' : [':BookmarkToggle', 'add bookmark'],
+      \ 'i' : [':BookmarkAnnotate', 'annotate bookmark'],
+      \ 's' : [':BookmarkShowAll', 'show all'],
+      \ 'c' : [':BookmarkClear', 'clear buffer'],
+      \ }
 let g:which_key_map.t = {
       \ 'name' : '+terminal' ,
       \ ';' : [':FloatermNew --wintype=normal --height=20 powershell', 'terminal'],
