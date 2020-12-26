@@ -26,6 +26,7 @@ call plug#begin()
     Plug 'rust-lang/rust.vim'
     Plug 'mhinz/vim-signify'
     Plug 'psliwka/vim-smoothie'
+    Plug 'honza/vim-snippets'
     Plug 'tpope/vim-surround'" change (cd)/ delete (ds) / add (ys)/ visual (S)
     Plug 'vim-syntastic/syntastic'
     Plug 'mbbill/undotree'

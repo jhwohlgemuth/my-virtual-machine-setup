@@ -9,7 +9,7 @@ $User = [System.EnvironmentVariableTarget]::User
 [System.Environment]::SetEnvironmentVariable('NEOVIM_ROOT', (Join-Path $Parent 'nvim'), $User)
 
 '==> Creating install destination folder structure' | Write-Verbose
-'general','plugged','plug-config','themes','undo' | ForEach-Object {
+'general','plugged','plug-config','snippets','themes','undo' | ForEach-Object {
   New-Item "$Env:NEOVIM_ROOT/$_" -ItemType Directory -Force | Out-Null
 }
 

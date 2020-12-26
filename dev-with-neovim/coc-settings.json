@@ -25,4 +25,5 @@
       "<cr>": ["expandable?", "expand", "open"],
       "v": "open:vsplit"
     },
+    "snippets.userSnippetsDirectory": "~/AppData/Local/nvim/snippets"
 }

@@ -10,6 +10,7 @@ autocmd  FileType which_key set laststatus=0 noshowmode noruler
 let g:which_key_map['c'] = [':Commentary', 'comment line']
 let g:which_key_map['e'] = [':CocCommand explorer --toggle', 'explorer']
 let g:which_key_map['i'] = [':IndentGuidesToggle', 'indent guides']
+let g:which_key_map['l'] = [':CocList snippets', 'list snippets']
 let g:which_key_map['m'] = [':MarkdownPreview', 'preview']
 let g:which_key_map['s'] = ['z=', 'spelling']
 let g:which_key_map['u'] = [':UndotreeToggle', 'undo tree']
