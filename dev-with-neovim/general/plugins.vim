@@ -10,7 +10,6 @@ call plug#begin()
     Plug 'norcalli/nvim-colorizer.lua'
     Plug 'chrisbra/csv.vim'
     Plug 'tpope/vim-commentary' " line (gcc) / motion (gc)
-    Plug 'junegunn/vim-easy-align'
     Plug 'elixir-lang/vim-elixir'
     Plug 'voldikss/vim-floaterm'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -29,6 +28,7 @@ call plug#begin()
     Plug 'honza/vim-snippets'
     Plug 'tpope/vim-surround'" change (cd)/ delete (ds) / add (ys)/ visual (S)
     Plug 'vim-syntastic/syntastic'
+    Plug 'godlygeek/tabular'
     Plug 'mbbill/undotree'
     Plug 'mg979/vim-visual-multi', {'branch': 'master'}
     Plug 'liuchengxu/vim-which-key'

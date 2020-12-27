@@ -22,10 +22,6 @@ inoremap <silent><expr> <Tab>
       \ coc#refresh()
 " Exit terminal with Escape
 tnoremap <Esc> <C-\><C-n>
-" Start interactive EasyAlign in visual mode (e.g. vipga)
-xmap ga <Plug>(EasyAlign)
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
 nnoremap <silent> <C-Bslash> :CocCommand explorer --toggle<CR>
 nnoremap <silent> <leader> :silent <c-u> :silent WhichKey '<Space>'<CR>
 vnoremap <silent> <leader> :silent <c-u> :silent WhichKeyVisual '<Space>'<CR>
