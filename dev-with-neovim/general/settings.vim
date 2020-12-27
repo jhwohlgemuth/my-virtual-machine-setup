@@ -24,6 +24,7 @@ set updatetime=100 " Default is 4000ms
 syntax on
 syntax enable
 filetype plugin indent on
+set foldmethod=indent
 
 " Automatically install missing plugins on startup
 autocmd VimEnter *
