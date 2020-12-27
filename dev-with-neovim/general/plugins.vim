@@ -26,11 +26,13 @@ call plug#begin()
     Plug 'mhinz/vim-signify'
     Plug 'psliwka/vim-smoothie'
     Plug 'honza/vim-snippets'
+    Plug 'mhinz/vim-startify'
     Plug 'tpope/vim-surround'" change (cd)/ delete (ds) / add (ys)/ visual (S)
     Plug 'vim-syntastic/syntastic'
     Plug 'godlygeek/tabular'
     Plug 'mbbill/undotree'
     Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+    Plug 'cj/vim-webdevicons'
     Plug 'liuchengxu/vim-which-key'
 call plug#end()
 
@@ -66,6 +68,21 @@ let g:indent_guides_guide_size = 1
 
 " {{{ Rainbow Settings }}}
 let g:rainbow_active = 1
+
+" {{{ Startify Settings }}}
+let s:startify_ascii_header = [
+\ '███╗░░██╗███████╗░█████╗░██╗░░░██╗██╗███╗░░░███╗',
+\ '████╗░██║██╔════╝██╔══██╗██║░░░██║██║████╗░████║',
+\ '██╔██╗██║█████╗░░██║░░██║╚██╗░██╔╝██║██╔████╔██║',
+\ '██║╚████║██╔══╝░░██║░░██║░╚████╔╝░██║██║╚██╔╝██║',
+\ '██║░╚███║███████╗╚█████╔╝░░╚██╔╝░░██║██║░╚═╝░██║',
+\ '',
+\]
+let g:startify_custom_header = map(s:startify_ascii_header + startify#fortune#quote(), '"   ".v:val')
+let g:webdevicons_enable_startify = 1
+function! StartifyEntryFormat()
+    return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
+endfunction
 
 "{{{ Syntastic Settings }}}
 set statusline+=%#warningmsg#
