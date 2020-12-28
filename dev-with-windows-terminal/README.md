@@ -26,9 +26,20 @@ cd env/dev-with-windows-terminal
 4. Run setup PowerShell script:
 > You are encouraged to read the content of [Invoke-Setup.ps1](./Invoke-Setup.ps1)
 
+**Install applications with [Chocolatey](https://chocolatey.org/):
 ```powershell
 ./Invoke-Setup.ps1
 ```
+
+**Install applications with [Scoop](https://scoop.sh/):
+```powershell
+./Invoke-Setup.ps1 -Type scoop
+
+# Read help for setup script
+Get-Help ./Invoke-Setup.ps1
+```
+
+> Not sure which to use? [Here is a comparison](https://github.com/lukesampson/scoop/wiki/Chocolatey-Comparison) provided by the maker of Scoop.
 
 5. Copy content of [Microsoft.Powershell_profile.ps1](./Microsoft.Powershell_profile.ps1) into Windows Terminal settings:
 
