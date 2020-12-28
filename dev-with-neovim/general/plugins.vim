@@ -25,6 +25,7 @@ call plug#begin()
     Plug 'rust-lang/rust.vim'
     Plug 'mhinz/vim-signify'
     Plug 'psliwka/vim-smoothie'
+    Plug 'justinmk/vim-sneak'
     Plug 'honza/vim-snippets'
     Plug 'mhinz/vim-startify'
     Plug 'tpope/vim-surround'" change (cd)/ delete (ds) / add (ys)/ visual (S)
@@ -68,6 +69,14 @@ let g:indent_guides_guide_size = 1
 
 " {{{ Rainbow Settings }}}
 let g:rainbow_active = 1
+
+" {{{ Sneak Settings }}}
+let g:sneak#label = 1
+let g:sneak#use_ic_scs = 1 " case insensitive sneak
+let g:sneak#s_next = 1
+highlight Sneak guifg=black guibg=#00C7DF ctermfg=black ctermbg=cyan
+highlight SneakScope guifg=red guibg=yellow ctermfg=red ctermbg=yellow
+let g:sneak#prompt = '🔎 '
 
 " {{{ Startify Settings }}}
 let s:startify_ascii_header = [
