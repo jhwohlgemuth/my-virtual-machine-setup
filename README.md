@@ -2,10 +2,18 @@ env &nbsp;
 [![CodeFactor](https://www.codefactor.io/repository/github/jhwohlgemuth/env/badge)](https://www.codefactor.io/repository/github/jhwohlgemuth/env)
 ===
 
-> Create development **env**ironments like a pro with Packer, Powershell, Vagrant, & Docker
+> Create development **env**ironments like a pro with Powershell, Neovim, Docker, Vagrant, & Packer
 
 What?
 -----
+
+ - [Windows Terminal](https://www.microsoft.com/en-us/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab) is an [open source](https://github.com/microsoft/terminal) terminal for the modern developer. Combined with Powershell, anyone can easily enjoy a comfortable and truly robust developer experience on Windows.
+
+- [Neovim](https://neovim.io/) is a hyper-extensible Vim-based text editor that can turn your terminal into an IDE.
+
+- [Docker](https://www.docker.com/) is to [LXC](https://stackoverflow.com/questions/16047306/how-is-docker-different-from-a-normal-virtual-machine)
+ as Vagrant is to [KVM](https://en.wikipedia.org/wiki/Kernel-based_Virtual_Machine)
+
 - [Vagrant](https://www.vagrantup.com/) is a high-level wrapper API for kernel-based virtual machines (KVM).
 Vagrant uses packaged environments called [boxes](https://docs.vagrantup.com/v2/boxes.html)
 and allows one to manage, configure, and control virtual environments with code and automation.
@@ -13,11 +21,6 @@ and allows one to manage, configure, and control virtual environments with code 
 - [Packer](https://packer.io/) enables one to _create Vagrant boxes_
 (and [other things](https://packer.io/docs/builders/docker.html))
 via an automated and repeatable process driven by a single [JSON-formatted template file](./packer.json).
-
-- [Docker](https://www.docker.com/) is to [LXC](https://stackoverflow.com/questions/16047306/how-is-docker-different-from-a-normal-virtual-machine)
- as Vagrant is to [KVM](https://en.wikipedia.org/wiki/Kernel-based_Virtual_Machine)
-
- - [Windows Terminal](https://www.microsoft.com/en-us/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab) is an [open source](https://github.com/microsoft/terminal) terminal for the modern developer. Combined with Powershell, anyone can easily enjoy a comfortable and truly robust developer experience on Windows.
 
 > Vagrant, Packer, and Docker are tools that facilitate applying
 [SOLID](https://scotch.io/bar-talk/s-o-l-i-d-the-first-five-principles-of-object-oriented-design),
@@ -32,12 +35,13 @@ Why?
 ----
 > This project codifies how I manage my development environment across Windows, Linux, and OSX.
 
-Quickstart
-----------
+Quickstarts
+-----------
 
-- [Customize your Windows Terminal and Powershell](dev-with-windows-terminal/README.md)
-- [Achieve epic levels of synergistic productivity using Docker](dev-with-docker/README.md)
-- [Easily manage a development virtual machine with Vagrant](dev-with-vagrant/README.md)
+- [Customize your Windows Terminal and Powershell](dev-with-windows-terminal/)
+- [Turn your terminal into an IDE with Neovim](dev-with-neovim/)
+- [Achieve epic levels of synergistic productivity using Docker](dev-with-docker/)
+- [Development within virtual machines using Vagrant (and make your own with Packer)](dev-with-vagrant/)
 
 Future
 ------
