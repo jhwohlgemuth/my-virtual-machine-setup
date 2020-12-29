@@ -2,6 +2,9 @@ Development with Docker Containers
 ==================================
 > Now is the time to leverage Docker to seamlessly employ Windows and Linux in your development environment!
 
+<div align="center">
+    <a href="https://gyazo.com/68ce98c18dce566e60886edab08fc4b8"><img alt="Docker in action!" src="https://i.gyazo.com/68ce98c18dce566e60886edab08fc4b8.gif" width="1280"/></a>
+</div>
 
 Requirements
 ------------
