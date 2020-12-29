@@ -20,26 +20,26 @@ git clone https://github.com/jhwohlgemuth/env
 3. Navigate to the `dev-with-windows-terminal` directory:
 
 ```bash
-cd env/dev-with-windows-terminal
+cd /path/to/env/dev-with-windows-terminal
 ```
 
 4. Run setup PowerShell script:
 > You are encouraged to read the content of [Invoke-Setup.ps1](./Invoke-Setup.ps1)
 
-**Install applications with [Chocolatey](https://chocolatey.org/):
+**Install applications with [Chocolatey](https://chocolatey.org/)**:
 ```powershell
 ./Invoke-Setup.ps1
 ```
 
-**Install applications with [Scoop](https://scoop.sh/):
+**Install applications with [Scoop](https://scoop.sh/)**:
 ```powershell
-./Invoke-Setup.ps1 -Type scoop
+./Invoke-Setup.ps1 -PackageManager scoop
 
-# Read help for setup script
+# Read help to understand all options
 Get-Help ./Invoke-Setup.ps1
 ```
 
-> Not sure which to use? [Here is a comparison](https://github.com/lukesampson/scoop/wiki/Chocolatey-Comparison) provided by the maker of Scoop.
+> Not sure which package manager to use? [Here is a comparison](https://github.com/lukesampson/scoop/wiki/Chocolatey-Comparison) provided by the maker of Scoop.
 
 5. Copy content of [Microsoft.Powershell_profile.ps1](./Microsoft.Powershell_profile.ps1) into Windows Terminal settings:
 
@@ -53,4 +53,4 @@ Set-Content -Path $PROFILE -Value (Get-Content -Path .\Microsoft.Powershell_prof
 
 What Next?!
 ===========
-Now that you have an amazing terminal, [give Docker a try!](../dev-with-docker)
+Now that you have an amazing terminal, [install Neovim](../dev-with-neovim), and/or [give Docker a try!](../dev-with-docker)

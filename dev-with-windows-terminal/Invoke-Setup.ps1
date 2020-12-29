@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-Setup script for installing useful PowerShell modules and applications for Windows.
+Setup script for installing useful PowerShell modules and applications on Windows
 .PARAMETER PackageManager
 Name of package manager to use ("Chocolatey" or "Scoop")
 > Note: Scoop does not provide all of the applications that are available via Chocolatey
