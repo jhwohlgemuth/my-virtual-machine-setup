@@ -15,7 +15,8 @@ if ($PSCmdlet.ShouldProcess('Create environment variables')) {
   Write-Progress -Activity 'Configuring Neovim' -Status 'Creating environment variables' -PercentComplete (($Count / $Total) * 100)
   '==> Setting up environment' | Write-Verbose
   $Parent = @($Env:XDG_DATA_HOME, $Env:LOCALAPPDATA)[$Null -eq $Env:XDG_DATA_HOME]
-  $User = [System.EnvironmentVariableTarget]::User
+  $User = [System.EnvironmentVariableTarget]::Userexit
+  $Env:NEOVIM_ROOT = Join-Path $Parent 'nvim' # need this when being run for first time
   [System.Environment]::SetEnvironmentVariable('NEOVIM_ROOT', (Join-Path $Parent 'nvim'), $User)
   $Count++
 }
