@@ -26,7 +26,7 @@ Param(
 )
 if (-not $SkipModules) {
   $Modules = @(
-    'pwsh-prelude'
+    'Prelude'
     'posh-git'           # https://github.com/dahlbyk/posh-git
     'oh-my-posh'         # https://github.com/JanDeDobbeleer/oh-my-posh
     'PSConsoleTheme'     # https://github.com/mmims/PSConsoleTheme

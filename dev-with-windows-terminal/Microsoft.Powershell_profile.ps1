@@ -23,8 +23,8 @@ if (Test-Installed oh-my-posh) {
 if (Test-Installed Get-ChildItemColor) {
   Import-Module Get-ChildItemColor
 }
-if (Test-Installed pwsh-prelude) {
-  Import-Module pwsh-prelude
+if (Test-Installed Prelude) {
+  Import-Module Prelude
 }
 #
 # Set Oh-my-posh theme
