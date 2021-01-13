@@ -65,6 +65,7 @@ if (-not $SkipApplications) {
       $ApplicationsToInstall = @(
         '7zip'
         'bat'
+        # 'beaker'
         # 'cascadiafonts'
         # 'ccleaner'
         'dos2unix'
@@ -119,6 +120,7 @@ if (-not $SkipApplications) {
       $ApplicationsToInstall = @(
         '7zip'
         'bat'
+        'beaker'
         'cascadiafonts'
         'ccleaner'
         'dos2unix'
