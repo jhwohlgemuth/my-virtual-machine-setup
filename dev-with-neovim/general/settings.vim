@@ -25,9 +25,3 @@ syntax on
 syntax enable
 filetype plugin indent on
 set foldmethod=indent
-
-" Automatically install missing plugins on startup
-autocmd VimEnter *
-  \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
-  \|   PlugInstall --sync | q
-  \| endif

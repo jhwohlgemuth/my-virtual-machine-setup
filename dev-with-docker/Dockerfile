@@ -48,7 +48,7 @@ RUN curl -O https://download.clojure.org/install/linux-install-1.10.1.561.sh \
     && chmod +x linux-install-1.10.1.561.sh \
     && ./linux-install-1.10.1.561.sh
 RUN mkdir ~/.lein
-COPY profiles.clj /root/.lein/
+COPY ./dev-with-docker/profiles.clj /root/.lein/
 
 # Install Erlang and Elixir
 RUN curl --output erlang.deb https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb \
@@ -59,6 +59,6 @@ RUN apt-get update && apt-get install -y \
     elixir \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
-COPY .iex.exs /root/
+COPY ./dev-with-docker/.iex.exs /root/
 
 ENTRYPOINT [ "/bin/zsh" ]

@@ -43,13 +43,3 @@ Write-Progress -Activity 'Configuring Neovim' -Status 'Copying One Dark theme' -
 '==> Copying One Dark theme' | Write-Verbose
 Copy-Item -Force:$Force -WhatIf:$WhatIf "$PSScriptRoot/themes/onedark.vim" (Join-Path $Env:NEOVIM_ROOT 'themes') | Out-Null
 $Count++
-
-if ($PSCmdlet.ShouldProcess('Download and install Vim plugin manager')) {
-  Write-Progress -Activity 'Configuring Neovim' -Status 'Installing Vim plugin manager' -PercentComplete (($Count / $Total) * 100)
-  '==> Installing Vim plugin manager, vim-plug' | Write-Verbose
-  $Uri = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  Invoke-WebRequest -UseBasicParsing $Uri |
-    New-Item -Force "${Env:NEOVIM_ROOT}/autoload/plug.vim" |
-    Out-Null
-  $Count++
-}

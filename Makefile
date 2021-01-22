@@ -40,10 +40,10 @@ stop:
 #
 TEST_NAME = test
 build-base-image:
-	@docker build --no-cache -t $(BASE_IMAGE_NAME) -f Dockerfile.base .
+	@docker build --no-cache -t $(BASE_IMAGE_NAME) -f ./dev-with-docker/Dockerfile.base .
 
 build-image: build-base-image
-	@docker build --no-cache -t $(TEST_NAME) .
+	@docker build --no-cache -t $(TEST_NAME) -f ./dev-with-docker/Dockerfile .
 
 local: build-image
 	@docker run -dit --name $(TEST_NAME) --hostname $(HOST_NAME) -p 4669:4669 $(TEST_NAME)

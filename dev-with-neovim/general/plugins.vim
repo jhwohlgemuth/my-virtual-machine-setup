@@ -1,3 +1,20 @@
+" Install vim-plug if not found
+let uname = substitute(system('uname'),'\n','','')
+if uname == 'Linux'
+    if empty(glob('~/.vim/autoload/plug.vim'))
+        silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    endif
+else
+    if empty(glob('~/AppData/Local/nvim/autoload/plug.vim'))
+        execute 'silent !curl -fLo' shellescape("%HOMEDRIVE%%HOMEPATH%/AppData/Local/nvim/autoload/plug.vim", 1) '--create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    endif
+endif
+" Automatically install missing plugins on startup
+autocmd VimEnter *
+  \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \|   PlugInstall --sync | q
+  \| endif
+
 call plug#begin()
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'

@@ -7,7 +7,7 @@ EXPOSE 1337 4669 8000 8080 8111 46692
 ENV TZ America/Chicago
 ENV TERM xterm-256color
 
-# Install dependencies
+# # Install dependencies
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install --no-install-recommends -y \
     apt-utils \
@@ -21,7 +21,6 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     jq \
     less \
     libssl-dev \
-    nano \
     neovim \
     openssh-server \
     pkg-config \
@@ -35,7 +34,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install and configure oh-my-zsh
+# # Install and configure oh-my-zsh
 RUN sh -c "$(curl https://raw.githubusercontent.com/deluan/zsh-in-docker/master/zsh-in-docker.sh)" -- \
     -p colored-man-pages \
     -p encode64 \
@@ -49,9 +48,19 @@ RUN sh -c "$(curl https://raw.githubusercontent.com/deluan/zsh-in-docker/master/
     -p https://github.com/jhwohlgemuth/zsh-pentest \
     -a 'bindkey "\$terminfo[kcuu1]" history-substring-search-up' \
     -a 'bindkey "\$terminfo[kcud1]" history-substring-search-down'
-# Customize .zshrc
+# # Customize .zshrc
 RUN sed -i "s/export TERM=xterm/export TERM=xterm-256color/g" ~/.zshrc \
     && echo "ZLE_RPROMPT_INDENT=0" >> ~/.zshrc \
     && echo "alias bat=batcat" >> ~/.zshrc
+
+# Configure NeoVim
+COPY ./dev-with-neovim/init.vim /root/.config/nvim/
+COPY ./dev-with-neovim/coc-settings.json /root/.config/nvim/
+COPY ./dev-with-neovim/general/settings.vim /root/.config/nvim/general/
+COPY ./dev-with-neovim/general/plugins.vim /root/.config/nvim/general/
+COPY ./dev-with-neovim/plug-config/coc.vim /root/.config/nvim/plug-config/
+COPY ./dev-with-neovim/plug-config/fzf.vim /root/.config/nvim/plug-config/
+COPY ./dev-with-neovim/plug-config/which-key.vim /root/.config/nvim/plug-config/
+COPY ./dev-with-neovim/themes/onedark.vim /root/.config/nvim/themes/
 
 ENTRYPOINT [ "/bin/zsh" ]
