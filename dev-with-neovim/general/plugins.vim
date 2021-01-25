@@ -35,6 +35,7 @@ call plug#begin()
     Plug 'tpope/vim-fugitive'
     Plug 'junegunn/goyo.vim'
     Plug 'nathanaelkane/vim-indent-guides'
+    Plug 'davidhalter/jedi-vim'
     Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
     Plug 'joshdick/onedark.vim'
     Plug 'sheerun/vim-polyglot'
