@@ -6,6 +6,8 @@ Name of package manager to use ("Chocolatey" or "Scoop")
 > Note: Scoop does not provide all of the applications that are available via Chocolatey
 .PARAMETER Exclude
 Array of application names that should not be installed
+.PARAMETER Exclusive
+Install applications exclusive to selected package manager
 .PARAMETER SkipModule
 Do not install any PowerShell modules
 .PARAMETER SkipApplication
@@ -17,192 +19,178 @@ Do not install any applications
 #>
 [CmdletBinding(SupportsShouldProcess=$True)]
 Param(
-  [Parameter(Position=0)]
-  [ValidateSet('choco', 'Chocalatey', 'Scoop')]
-  [String] $PackageManager='Chocolatey',
-  [String[]] $Exclude = '',
-  [Switch] $SkipModules,
-  [Switch] $SkipApplications
+    [Parameter(Position = 0)]
+    [ValidateSet('choco', 'Chocalatey', 'Scoop')]
+    [String] $PackageManager = 'Chocolatey',
+    [String[]] $Exclude = '',
+    [Switch] $Exclusive,
+    [Switch] $SkipModules,
+    [Switch] $SkipApplications
 )
-if (-not $SkipModules) {
-  $Modules = @(
-    'Prelude'
-    'posh-git'           # https://github.com/dahlbyk/posh-git
-    'oh-my-posh'         # https://github.com/JanDeDobbeleer/oh-my-posh
-    'PSConsoleTheme'     # https://github.com/mmims/PSConsoleTheme
-    'PSScriptAnalyzer'   # https://github.com/PowerShell/PSScriptAnalyzer
-    'Get-ChildItemColor' # https://github.com/joonro/Get-ChildItemColor
-    'nvm'                # https://github.com/aaronpowell/ps-nvm
-  )
-  function Install-ModuleMaybe {
+Function Test-CommandExists {
+    Param (
+        [Parameter(Mandatory = $True, Position = 0)]
+        [String] $Command
+    )
+    $Result = $False
+    $OriginalPreference = $ErrorActionPreference
+    $ErrorActionPreference = "stop"
+    try {
+        if (Get-Command $Command) {
+            $Result = $True
+        }
+    } Catch {
+        "==> '$Command' is not available command" | Write-Verbose
+    } Finally {
+        $ErrorActionPreference = $OriginalPreference
+    }
+    $Result
+}
+function Install-ModuleMaybe {
     [CmdletBinding()]
     Param (
-      [Parameter(Mandatory=$True, Position=0, ValueFromPipeline=$True)]
-      [String] $Name
+        [Parameter(Mandatory = $True, Position = 0, ValueFromPipeline = $True)]
+        [String] $Name
     )
     if (Get-Module -ListAvailable -Name $Name) {
-      "==> $Name already installed" | Write-Verbose
+        "==> $Name already installed" | Write-Verbose
     } else {
-      "==> Installing $Name" | Write-Verbose
-      Install-Module -Name $Name -Scope CurrentUser -AllowClobber
+        "==> Installing $Name" | Write-Verbose
+        Install-Module -Name $Name -Scope CurrentUser -AllowClobber
     }
-  }
-  '==> Installing PowerShell modules' | Write-Verbose
-  if ($PSCmdlet.ShouldProcess('Install Nuget package provider')) {
-    '==> Installing Nuget package provider' | Write-Verbose
-    Install-PackageProvider Nuget -MinimumVersion 2.8.5.201 -Force
-  }
-  foreach ($Name in $Modules) {
-    if ($PSCmdlet.ShouldProcess("Install $Name PowerShell module")) {
-      Install-ModuleMaybe -Name $Name
+}
+if (-not $SkipModules) {
+    $Modules = @(
+        'Prelude'
+        'posh-git'           # https://github.com/dahlbyk/posh-git
+        'oh-my-posh'         # https://github.com/JanDeDobbeleer/oh-my-posh
+        'PSConsoleTheme'     # https://github.com/mmims/PSConsoleTheme
+        'PSScriptAnalyzer'   # https://github.com/PowerShell/PSScriptAnalyzer
+        'Get-ChildItemColor' # https://github.com/joonro/Get-ChildItemColor
+        'nvm'                # https://github.com/aaronpowell/ps-nvm
+    )
+    '==> Installing PowerShell modules' | Write-Verbose
+    if ($PSCmdlet.ShouldProcess('Install Nuget package provider')) {
+        '==> Installing Nuget package provider' | Write-Verbose
+        Install-PackageProvider Nuget -MinimumVersion 2.8.5.201 -Force
     }
-  }
+    foreach ($Name in $Modules) {
+        if ($PSCmdlet.ShouldProcess("Install $Name PowerShell module")) {
+            Install-ModuleMaybe -Name $Name
+        }
+    }
 }
 if (-not $SkipApplications) {
-  switch ($PackageManager) {
-    { $PackageManager.StartsWith('scoop', 'CurrentCultureIgnoreCase') } {
-      $InstallerName = 'Scoop'
-      $ApplicationsToInstall = @(
+    $Common = @(
         '7zip'
         'bat'
-        # 'beaker'
-        # 'cascadiafonts'
-        # 'ccleaner'
         'dos2unix'
-        # 'dropbox'
-        'fciv'
         'fd'
-        # 'firacode'
-        # 'firefox'
         'fzf'
         'git'
-        # 'googlechrome'
-        # 'googledrive'
-        # 'insomnia-rest-api-client'
-        # 'itunes'
-        # 'jetbrainsmono'
         'jq'
         'lazydocker'
         'lazygit'
         'less'
-        # 'lockhunter'
-        # 'malwarebytes'
         'make'
-        # 'miktex'
-        # 'nordvpn'
         'neovim'
-        'ngrok'
         'nvm'
         'packer'
         'pandoc'
         'python'
         'ripgrep'
-        # 'speccy'
-        # 'steam'
-        # 'sysinternals'
-        # 'teracopy'
         'tokei'
         'vagrant'
-        # 'vscode'
-        # 'virtualbox'
-        # 'windirstat'
-        # 'zotero'
-      )
-      $InstallerCommand = 'scoop'
-      if (-not (Get-Command -Name $InstallerCommand)) {
-        "==> $InstallerName is not installed ($InstallerCommand is not an available command)" | Write-Warning
-        exit
-      }
-      $Install = { scoop install $Args[0] }
-      "==> Checking installed $PackageManager applications" | Write-Verbose
-      $InstalledApplications = scoop export
-    }
-    Default {
-      $InstallerName = 'Chocolatey'
-      $ApplicationsToInstall = @(
-        '7zip'
-        'bat'
+    )
+    $ExclusiveScoop = @(
+        'fciv'
+        'ngrok'
+    )
+    $ExclusiveChocolatey = @(
         'beaker'
         'cascadiafonts'
         'ccleaner'
-        'dos2unix'
         'dropbox'
-        'elixir'
-        # 'fciv'
-        'fd'
         'firacode'
         'firefox'
-        'fzf'
-        'git'
         'googlechrome'
         'googledrive'
         'insomnia-rest-api-client'
         'itunes'
         'jetbrainsmono'
-        'jq'
-        'lazydocker'
-        'lazygit'
-        'less'
         'lockhunter'
         'malwarebytes'
-        'make'
         'miktex'
-        'nano'
-        'neovim'
-        # 'ngrok'
         'nordvpn'
-        'nvm'
-        'packer'
-        'pandoc'
-        'python'
-        'ripgrep'
         'speccy'
         'steam'
         'sysinternals'
         'teracopy'
-        'tokei'
-        'vagrant'
         'vscode'
         'virtualbox'
         'windirstat'
         'zotero'
-      )
-      $InstallerCommand = 'choco'
-      if (-not (Get-Command -Name $InstallerCommand)) {
-        "==> $InstallerName is not installed ($InstallerCommand is not an available command)" | Write-Warning
-        exit
-      }
-      $Install = { choco install $Args[0] }
-      "==> Checking installed $PackageManager applications" | Write-Verbose
-      $InstalledApplications = choco list --local-only
-      if ($PSCmdlet.ShouldProcess('Enable Chocolatey silent install')) {
-        '==> Enabling choco silent install' | Write-Verbose
-        choco feature enable -n allowGlobalConfirmation
-      }
-    }
-  }
-  function Test-Installed {
-    Param(
-      [Parameter(Mandatory=$True, Position=0)]
-      [String] $Name
     )
-    ($InstalledApplications | Where-Object { $_.StartsWith($Name, 'CurrentCultureIgnoreCase') }).Count -gt 0
-  }
-  "==> Installing applications with $InstallerName" | Write-Verbose
-  $Count = 0
-  $Total = $ApplicationsToInstall.Count
-  foreach ($Application in $ApplicationsToInstall) {
-    if (Test-Installed $Application) {
-      "==> $Application is already installed" | Write-Verbose
-    } else {
-      if ($PSCmdlet.ShouldProcess("Install $Application with $InstallerName")) {
-        Write-Progress -Activity "Installing applications with $InstallerName" -Status "Processing $Application ($($Count + 1) of $Total)" -PercentComplete ((($Count + 1) / $Total) * 100)
-        "==> Installing $Application" | Write-Verbose
-        & $Install $Application
-        $Count++
-      }
+    switch ($PackageManager) {
+        { $PackageManager.StartsWith('scoop', 'CurrentCultureIgnoreCase') } {
+            $InstallerName = 'Scoop'
+            $ApplicationsToInstall = $ExclusiveScoop
+            $InstallerCommand = 'scoop'
+            if (-not (Get-Command -Name $InstallerCommand)) {
+                "==> $InstallerName is not installed ($InstallerCommand is not an available command)" | Write-Warning
+                exit
+            }
+            $Install = { scoop install $Args[0] }
+            "==> Checking installed $PackageManager applications" | Write-Verbose
+            $InstalledApplications = scoop export
+        }
+        Default {
+            $InstallerName = 'Chocolatey'
+            $ApplicationsToInstall = $ExclusiveChocolatey
+            $InstallerCommand = 'choco'
+            if (-not (Get-Command -Name $InstallerCommand)) {
+                "==> $InstallerName is not installed ($InstallerCommand is not an available command)" | Write-Warning
+                exit
+            }
+            $Install = { choco install $Args[0] }
+            "==> Checking installed $PackageManager applications" | Write-Verbose
+            $InstalledApplications = choco list --local-only
+            if ($PSCmdlet.ShouldProcess('Enable Chocolatey silent install')) {
+                '==> Enabling choco silent install' | Write-Verbose
+                choco feature enable -n allowGlobalConfirmation
+            }
+        }
     }
-  }
-  Write-Progress -Activity "Installing applications with $InstallerName" -Completed
-  "==> $Count applications were installed" | Write-Verbose
+    function Test-Installed {
+        Param(
+            [Parameter(Mandatory=$True, Position=0)]
+            [String] $Name
+        )
+        (Test-CommandExists $Name) -or (($InstalledApplications | Where-Object { $_.StartsWith($Name, 'CurrentCultureIgnoreCase') }).Count -gt 0)
+    }
+    "==> Installing applications with $InstallerName" | Write-Verbose
+    $Count = 0
+    if (-not $Exclusive) {
+        $ApplicationsToInstall += $Common
+    }
+    $Total = $ApplicationsToInstall.Count
+    foreach ($Application in ($ApplicationsToInstall | Sort-Object)) {
+        if (Test-Installed $Application) {
+            "==> $Application is already installed" | Write-Verbose
+        } else {
+            $Action = if ($Application -notin $Exclude) { 'Install' } else { 'Skip installation of' }
+            if ($PSCmdlet.ShouldProcess("$Action $Application with $InstallerName")) {
+                Write-Progress -Activity "Installing applications with $InstallerName" -Status "Processing $Application ($($Count + 1) of $Total)" -PercentComplete ((($Count + 1) / $Total) * 100)
+                if ($Application -notin $Exclude) {
+                    "==> Installing $Application" | Write-Verbose
+                    & $Install $Application
+                } else {
+                    "==> Skipping installation of $Application" | Write-Color -Red
+                }
+                $Count++
+            }
+        }
+    }
+    Write-Progress -Activity "Installing applications with $InstallerName" -Completed
+    "==> $Count applications were installed" | Write-Verbose
 }
