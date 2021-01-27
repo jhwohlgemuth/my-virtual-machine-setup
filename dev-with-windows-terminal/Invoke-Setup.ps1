@@ -27,7 +27,7 @@ Param(
     [Switch] $SkipModules,
     [Switch] $SkipApplications
 )
-Function Test-CommandExists {
+function Test-CommandExists {
     Param (
         [Parameter(Mandatory = $True, Position = 0)]
         [String] $Command
