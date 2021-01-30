@@ -62,8 +62,8 @@ if (Get-Command -Name git) {
 }
 if (Get-Command -Name docker) {
     function Invoke-DockerInspectAddress { docker inspect --format '{{ .NetworkSettings.IPAddress }}' $Args[0] }
-    function Invoke-DockerRemoveAll { docker stop $(docker ps -a -q); docker rm $(docker ps -a -q) }
-    function Invoke-DockerRemoveAllImage { docker rmi $(docker images -a -q) }
+    function Invoke-DockerRemoveAll { docker stop $(docker ps -a -q); docker rm --force $(docker ps -a -q) }
+    function Invoke-DockerRemoveAllImage { docker rmi --force $(docker images -a -q) }
     Set-Alias -Scope Global -Option AllScope -Name dip -Value Invoke-DockerInspectAddress
     Set-Alias -Scope Global -Option AllScope -Name dra -Value Invoke-DockerRemoveAll
     Set-Alias -Scope Global -Option AllScope -Name drai -Value Invoke-DockerRemoveAllImage
