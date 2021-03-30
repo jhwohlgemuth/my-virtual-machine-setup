@@ -11,20 +11,18 @@ if (Test-Installed PSReadLine) {
     Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
     Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
 }
-if (Test-Installed PSScriptAnalyzer) {
-    Import-Module PSScriptAnalyzer
-}
-if (Test-Installed posh-git) {
-    Import-Module posh-git
-}
-if (Test-Installed oh-my-posh) {
-    Import-Module oh-my-posh
-}
-if (Test-Installed Get-ChildItemColor) {
-    Import-Module Get-ChildItemColor
-}
-if (Test-Installed Prelude) {
-    Import-Module Prelude
+
+$Modules = @(
+    'PSScriptAnalyzer'
+    'posh-git'
+    'oh-my-posh'
+    'Get-ChildItemColor'
+    'Prelude'
+)
+foreach ($Module in $Modules) {
+    if (Test-Installed $Module) {
+        Import-Module -Name $Module
+    }
 }
 #
 # Set Oh-my-posh theme
@@ -71,8 +69,102 @@ if (Get-Command -Name docker) {
 #
 # Create directory traversal shortcuts
 #
-for($i = 1; $i -le 5; $i++) {
+for ($i = 1; $i -le 5; $i++) {
     $u =  "".PadLeft($i,"u")
     $d =  $u.Replace("u","../")
     Invoke-Expression "function $u { push-location $d }"
+}
+function Install-SshServer {
+    <#
+    .SYNOPSIS
+    Install OpenSSH server
+    .LINK
+    https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse
+    #>
+    [CmdletBinding(SupportsShouldProcess = $True)]
+    Param()
+    if ($PSCmdlet.ShouldProcess('OpenSSH Server Configuration')) {
+        Write-Verbose '==> Enabling OpenSSH server'
+        Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
+        Write-Verbose '==> Starting sshd service'
+        Start-Service sshd
+        Write-Verbose '==> Setting sshd service to start automatically'
+        Set-Service -Name sshd -StartupType 'Automatic'
+        Write-Verbose '==> Adding firewall rule for sshd'
+        New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
+    } else {
+        '==> Would have added windows OpenSSH.Server capability, started "sshd" service, and added a firewall rule for "sshd"' | Write-Color -DarkGray
+    }
+}
+function New-DailyShutdownJob {
+    <#
+    .SYNOPSIS
+    Create job to shutdown computer at a certain time every day
+    .EXAMPLE
+    New-DailyShutdownJob -At '22:00'
+    #>
+    [CmdletBinding()]
+    [OutputType([Bool])]
+    Param(
+        [Parameter(Mandatory = $True)]
+        [String] $At,
+        [Switch] $PassThru
+    )
+    $Result = $False
+    if (Test-Admin) {
+        $Trigger = New-JobTrigger -Daily -At $At
+        Register-ScheduledJob -Name 'DailyShutdown' -ScriptBlock { Stop-Computer -Force } -Trigger $Trigger
+        $Result = $True
+    } else {
+        Write-Error '==> New-DailyShutdownJob requires Administrator privileges'
+    }
+    if ($PassThru) {
+        $Result
+    }
+}
+function New-SshKey {
+    <#
+    .SYNOPSIS
+    Create new SSH key with passphrase, "123456"
+    #>
+    [CmdletBinding()]
+    Param(
+        [String] $Name = 'id_rsa'
+    )
+    Write-Verbose '==> Generating SSH key pair (Passphrase = 123456)'
+    $Path = (Resolve-Path "~/.ssh/$Name").Path
+    ssh-keygen --% -q -b 4096 -t rsa -N '123456' -f TEMPORARY_FILE_NAME
+    Move-Item -Path TEMPORARY_FILE_NAME -Destination $Path
+    Move-Item -Path TEMPORARY_FILE_NAME.pub -Destination "$Path.pub"
+    if (Test-Path "$Path.pub") {
+        Write-Verbose "==> $Name SSH private key saved to $Path"
+        Write-Verbose '==> Saving SSH public key to clipboard'
+        Get-Content "$Path.pub" | Set-Clipboard
+        Write-Output '==> Public key saved to clipboard'
+    } else {
+        Write-Error '==> Failed to create SSH key'
+    }
+}
+function Remove-DailyShutdownJob {
+    <#
+    .SYNOPSIS
+    Remove job created with New-DailyShutdownJob
+    .EXAMPLE
+    Remove-DailyShutdownJob
+    #>
+    [CmdletBinding()]
+    [OutputType([Bool])]
+    Param(
+        [Switch] $PassThru
+    )
+    $Result = $False
+    if (Test-Admin) {
+        Unregister-ScheduledJob -Name 'DailyShutdown'
+        $Result = $True
+    } else {
+        Write-Error '==> Remove-DailyShutdownJob requires Administrator privileges'
+    }
+    if ($PassThru) {
+        $Result
+    }
 }
