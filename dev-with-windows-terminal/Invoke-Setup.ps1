@@ -98,6 +98,7 @@ if (-not $SkipApplications) {
         'packer'
         'pandoc'
         'python'
+        'pwsh'
         'ripgrep'
         'tokei'
         'vagrant'
