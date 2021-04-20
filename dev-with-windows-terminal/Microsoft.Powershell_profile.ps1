@@ -42,7 +42,7 @@ if (Test-Installed Get-ChildItemColor) {
     Set-Alias -Scope Global -Option AllScope -Name la -Value Get-ChildItemColor
     Set-Alias -Scope Global -Option AllScope -Name ls -Value Get-ChildItemColorFormatWide
 }
-if (Get-Command -Name git) {
+if (Test-Command git) {
     function Invoke-GitCommand { git $Args }
     function Invoke-GitCommit { git commit -vam $Args }
     function Invoke-GitDiff { git diff $Args }
@@ -58,7 +58,7 @@ if (Get-Command -Name git) {
     Set-Alias -Scope Global -Option AllScope -Name grbi -Value Invoke-GitRebase
     Set-Alias -Scope Global -Option AllScope -Name gsb -Value Invoke-GitStatus
 }
-if (Get-Command -Name docker) {
+if (Test-Command docker) {
     function Invoke-DockerInspectAddress { docker inspect --format '{{ .NetworkSettings.IPAddress }}' $Args[0] }
     function Invoke-DockerRemoveAll { docker stop $(docker ps -a -q); docker rm --force $(docker ps -a -q) }
     function Invoke-DockerRemoveAllImage { docker rmi --force $(docker images -a -q) }
