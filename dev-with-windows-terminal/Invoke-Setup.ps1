@@ -27,6 +27,14 @@ Param(
     [Switch] $SkipModules,
     [Switch] $SkipApplications
 )
+function Test-Admin {
+    Param()
+    if ($IsLinux -is [Bool] -and $IsLinux) {
+        (whoami) -eq 'root'
+    } else {
+        ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) | Write-Output
+    }
+}
 function Test-CommandExists {
     Param (
         [Parameter(Mandatory = $True, Position = 0)]
@@ -60,23 +68,28 @@ function Install-ModuleMaybe {
     }
 }
 if (-not $SkipModules) {
-    $Modules = @(
-        'Prelude'
-        'posh-git'           # https://github.com/dahlbyk/posh-git
-        'oh-my-posh'         # https://github.com/JanDeDobbeleer/oh-my-posh
-        'PSConsoleTheme'     # https://github.com/mmims/PSConsoleTheme
-        'PSScriptAnalyzer'   # https://github.com/PowerShell/PSScriptAnalyzer
-        'Get-ChildItemColor' # https://github.com/joonro/Get-ChildItemColor
-        'nvm'                # https://github.com/aaronpowell/ps-nvm
-    )
-    '==> Installing PowerShell modules' | Write-Verbose
-    if ($PSCmdlet.ShouldProcess('Install Nuget package provider')) {
-        '==> Installing Nuget package provider' | Write-Verbose
-        Install-PackageProvider Nuget -MinimumVersion 2.8.5.201 -Force
-    }
-    foreach ($Name in $Modules) {
-        if ($PSCmdlet.ShouldProcess("Install $Name PowerShell module")) {
-            Install-ModuleMaybe -Name $Name
+    if (-not (Test-Admin)) {
+        'Installing PowerShell modules requires ADMINISTRATOR privileges. Please run Invoke-Setup.ps1 as administrator, or use the -SkipModules option.' | Write-Warning
+        exit
+    } else {
+        $Modules = @(
+            'Prelude'
+            'posh-git'           # https://github.com/dahlbyk/posh-git
+            'oh-my-posh'         # https://github.com/JanDeDobbeleer/oh-my-posh
+            'PSConsoleTheme'     # https://github.com/mmims/PSConsoleTheme
+            'PSScriptAnalyzer'   # https://github.com/PowerShell/PSScriptAnalyzer
+            'Get-ChildItemColor' # https://github.com/joonro/Get-ChildItemColor
+            'nvm'                # https://github.com/aaronpowell/ps-nvm
+        )
+        '==> Installing PowerShell modules' | Write-Verbose
+        if ($PSCmdlet.ShouldProcess('Install Nuget package provider')) {
+            '==> Installing Nuget package provider' | Write-Verbose
+            Install-PackageProvider Nuget -MinimumVersion 2.8.5.201 -Force
+        }
+        foreach ($Name in $Modules) {
+            if ($PSCmdlet.ShouldProcess("Install $Name PowerShell module")) {
+                Install-ModuleMaybe -Name $Name
+            }
         }
     }
 }
@@ -146,6 +159,10 @@ if (-not $SkipApplications) {
             $InstalledApplications = scoop export
         }
         Default {
+            if (-not (Test-Admin)) {
+                'Chocolatey requires ADMINISTRATOR privileges. Please run Invoke-Setup.ps1 as administrator.' | Write-Warning
+                exit
+            }
             $InstallerName = 'Chocolatey'
             $ApplicationsToInstall = $ExclusiveChocolatey
             $InstallerCommand = 'choco'
