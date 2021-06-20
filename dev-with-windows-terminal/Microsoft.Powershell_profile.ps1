@@ -67,6 +67,15 @@ if (Test-Command docker) {
     Set-Alias -Scope Global -Option AllScope -Name drai -Value Invoke-DockerRemoveAllImage
 }
 #
+# Zoxide setup
+#
+if (Test-Command -Name zoxide) {
+    Invoke-Expression (& {
+        $hook = if ($PSVersionTable.PSVersion.Major -lt 6) { 'prompt' } else { 'pwd' }
+        (zoxide init --hook $hook powershell) -join "`n"
+    })
+}
+#
 # Create directory traversal shortcuts
 #
 for ($i = 1; $i -le 5; $i++) {

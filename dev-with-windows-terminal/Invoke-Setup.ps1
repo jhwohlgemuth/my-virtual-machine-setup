@@ -8,6 +8,8 @@ Name of package manager to use ("Chocolatey" or "Scoop")
 Array of application names that should not be installed
 .PARAMETER Exclusive
 Install applications exclusive to selected package manager
+.PARAMETER ExtraApplications
+Install applications that I use a lot, but are not necessary everyone's cup of tea
 .PARAMETER SkipModule
 Do not install any PowerShell modules
 .PARAMETER SkipApplication
@@ -24,8 +26,10 @@ Param(
     [String] $PackageManager = 'Chocolatey',
     [String[]] $Exclude = '',
     [Switch] $Exclusive,
+    [Switch] $ExtraApplications,
     [Switch] $SkipModules,
-    [Switch] $SkipApplications
+    [Switch] $SkipApplications,
+    [Switch] $Help
 )
 function Test-Admin {
     Param()
@@ -66,6 +70,10 @@ function Install-ModuleMaybe {
         "==> Installing $Name" | Write-Verbose
         Install-Module -Name $Name -Scope CurrentUser -AllowClobber
     }
+}
+if ($Help) {
+    'Under Construction' | Write-Warning
+    exit
 }
 if (-not $SkipModules) {
     if (-not (Test-Admin)) {
@@ -115,6 +123,7 @@ if (-not $SkipApplications) {
         'ripgrep'
         'tokei'
         'vagrant'
+        'zoxide' # broken on scoop?
     )
     $ExclusiveScoop = @(
         'fciv'
@@ -124,26 +133,28 @@ if (-not $SkipApplications) {
         'beaker'
         'cascadiafonts'
         'ccleaner'
-        'dropbox'
         'firacode'
         'firefox'
         'googlechrome'
         'googledrive'
         'insomnia-rest-api-client'
-        'itunes'
         'jetbrainsmono'
         'lockhunter'
         'malwarebytes'
         'miktex'
-        'nordvpn'
         'speccy'
-        'steam'
         'sysinternals'
         'teracopy'
         'vscode'
         'virtualbox'
         'windirstat'
         'zotero'
+    )
+    $Extra = @(
+        'dropbox'
+        'itunes'
+        'nordvpn'
+        'steam'
     )
     switch ($PackageManager) {
         { $PackageManager.StartsWith('scoop', 'CurrentCultureIgnoreCase') } {
@@ -190,6 +201,9 @@ if (-not $SkipApplications) {
     $Count = 0
     if (-not $Exclusive) {
         $ApplicationsToInstall += $Common
+    }
+    if ($ExtraApplications) {
+        $ApplicationsToInstall += $Extra
     }
     $Total = $ApplicationsToInstall.Count
     foreach ($Application in ($ApplicationsToInstall | Sort-Object)) {
