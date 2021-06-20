@@ -31,6 +31,66 @@ Param(
     [Switch] $SkipApplications,
     [Switch] $Help
 )
+#
+# Applications to install based on selected options
+#
+$Common = @(
+    '7zip'
+    'bat'
+    'dos2unix'
+    'fd'
+    'fzf'
+    'git'
+    'jq'
+    'lazydocker'
+    'lazygit'
+    'less'
+    'make'
+    'neovim'
+    'nvm'
+    'packer'
+    'pandoc'
+    'python'
+    'pwsh'
+    'ripgrep'
+    'tokei'
+    'vagrant'
+    'zoxide' # broken on scoop?
+)
+$ExclusiveScoop = @(
+    'fciv'
+    'ngrok'
+    'rga' # "ripgrep-all" in Chocolatey
+    'tesseract-languages' # auto-installs tesseract
+)
+$ExclusiveChocolatey = @(
+    'beaker'
+    'cascadiafonts'
+    'ccleaner'
+    'firacode'
+    'firefox'
+    'googlechrome'
+    'googledrive'
+    'insomnia-rest-api-client'
+    'jetbrainsmono'
+    'lockhunter'
+    'malwarebytes'
+    'miktex'
+    'ripgrep-all' # "rga" in scoop
+    'speccy'
+    'sysinternals'
+    'teracopy'
+    'vscode'
+    'virtualbox'
+    'windirstat'
+    'zotero'
+)
+$Extra = @(
+    'dropbox'
+    'itunes'
+    'nordvpn'
+    'steam'
+)
 function Test-Admin {
     Param()
     if ($IsLinux -is [Bool] -and $IsLinux) {
@@ -102,60 +162,6 @@ if (-not $SkipModules) {
     }
 }
 if (-not $SkipApplications) {
-    $Common = @(
-        '7zip'
-        'bat'
-        'dos2unix'
-        'fd'
-        'fzf'
-        'git'
-        'jq'
-        'lazydocker'
-        'lazygit'
-        'less'
-        'make'
-        'neovim'
-        'nvm'
-        'packer'
-        'pandoc'
-        'python'
-        'pwsh'
-        'ripgrep'
-        'tokei'
-        'vagrant'
-        'zoxide' # broken on scoop?
-    )
-    $ExclusiveScoop = @(
-        'fciv'
-        'ngrok'
-    )
-    $ExclusiveChocolatey = @(
-        'beaker'
-        'cascadiafonts'
-        'ccleaner'
-        'firacode'
-        'firefox'
-        'googlechrome'
-        'googledrive'
-        'insomnia-rest-api-client'
-        'jetbrainsmono'
-        'lockhunter'
-        'malwarebytes'
-        'miktex'
-        'speccy'
-        'sysinternals'
-        'teracopy'
-        'vscode'
-        'virtualbox'
-        'windirstat'
-        'zotero'
-    )
-    $Extra = @(
-        'dropbox'
-        'itunes'
-        'nordvpn'
-        'steam'
-    )
     switch ($PackageManager) {
         { $PackageManager.StartsWith('scoop', 'CurrentCultureIgnoreCase') } {
             $InstallerName = 'Scoop'
@@ -166,6 +172,11 @@ if (-not $SkipApplications) {
                 exit
             }
             $Install = { scoop install $Args[0] }
+            $PostInstall = {
+                if ('tesseract-languages' -notin $Exclude) { 
+                    scoop reset tesseract-languages
+                }
+            }
             "==> Checking installed $PackageManager applications" | Write-Verbose
             $InstalledApplications = scoop export
         }
@@ -182,6 +193,7 @@ if (-not $SkipApplications) {
                 exit
             }
             $Install = { choco install $Args[0] }
+            $PostInstall = { }
             "==> Checking installed $PackageManager applications" | Write-Verbose
             $InstalledApplications = choco list --local-only
             if ($PSCmdlet.ShouldProcess('Enable Chocolatey silent install')) {
@@ -222,6 +234,9 @@ if (-not $SkipApplications) {
                 $Count++
             }
         }
+    }
+    if ($PSCmdlet.ShouldProcess("Perform post installation actions")) {
+        & $PostInstall
     }
     Write-Progress -Activity "Installing applications with $InstallerName" -Completed
     "==> $Count applications were installed" | Write-Verbose
