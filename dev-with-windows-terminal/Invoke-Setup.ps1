@@ -64,6 +64,7 @@ $ExclusiveScoop = @(
     'tesseract-languages' # auto-installs tesseract
 )
 $ExclusiveChocolatey = @(
+    'azure-data-studio'
     'beaker'
     'cascadiafonts'
     'ccleaner'
