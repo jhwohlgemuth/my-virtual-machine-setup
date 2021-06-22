@@ -1,23 +1,6 @@
 <#
 .SYNOPSIS
 Setup script for installing useful PowerShell modules and applications on Windows
-.PARAMETER PackageManager
-Name of package manager to use ("Chocolatey" or "Scoop")
-> Note: Scoop does not provide all of the applications that are available via Chocolatey
-.PARAMETER Exclude
-Array of application names that should not be installed
-.PARAMETER Exclusive
-Install applications exclusive to selected package manager
-.PARAMETER ExtraApplications
-Install applications that I use a lot, but are not necessary everyone's cup of tea
-.PARAMETER SkipModule
-Do not install any PowerShell modules
-.PARAMETER SkipApplication
-Do not install any applications
-.EXAMPLE
-./Invoke-Setup
-.EXAMPLE
-./Invoke-Setup -PackageManager 'Scoop' -Exclude 'python'
 #>
 [CmdletBinding(SupportsShouldProcess=$True)]
 Param(
@@ -133,7 +116,29 @@ function Install-ModuleMaybe {
     }
 }
 if ($Help) {
-    'Under Construction' | Write-Warning
+    '
+    Description:
+
+      Setup script for installing useful PowerShell modules and applications on Windows
+
+    Parameters:
+
+      PackageManager        Name of package manager to use ("Chocolatey" or "Scoop")
+      Exclude               String array of application names that should not be installed
+      Exclusive             Switch that will install applications exclusive to selected package manager
+      ExtraApplications     Install applications that I use a lot that are not related to development
+      SkipModules           Do not install any PowerShell modules
+      SkipApplications      Do not install any applications
+
+    Examples:
+
+      ./Invoke-Setup.ps1
+
+      ./Invoke-Setup.ps1 -Exclusive -ExtraApplications
+
+      ./Invoke-Setup.ps1 -PackageManager Scoop -Exclude python,vagrant
+
+    ' | Write-Output
     exit
 }
 if (-not $SkipModules) {
