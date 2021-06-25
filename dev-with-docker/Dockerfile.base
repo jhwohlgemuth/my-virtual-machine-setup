@@ -13,10 +13,12 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     apt-utils \
     apt-transport-https \
     build-essential \
+    cmatrix \
     curl \
     fzf \
     git \
     gnupg \
+    hexyl \
     httpie \
     jq \
     less \
