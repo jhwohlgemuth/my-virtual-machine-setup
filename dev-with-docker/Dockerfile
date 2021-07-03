@@ -35,15 +35,16 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install JVM, Kotlin and Clojure
+# Install JVM, Maven, Kotlin and Clojure
 RUN curl -s "https://get.sdkman.io" | bash
-RUN rm /bin/sh && ln -s /bin/bash /bin/sh
-RUN source "$HOME/.sdkman/bin/sdkman-init.sh" \
-    && sdk install java \
-    && sdk install kotlin \
-    && sdk install leiningen \
-    && rm -rf "$HOME/.sdkman/archives/*" \
-    && rm -rf "$HOME/.sdkman/tmp/*"
+RUN bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && \
+    yes | sdk install java && \
+    yes | sdk install maven && \
+    yes | sdk install kotlin && \
+    yes | sdk install leiningen && \
+    rm -rf $HOME/.sdkman/archives/* && \
+    rm -rf $HOME/.sdkman/tmp/*"
+
 RUN curl -O https://download.clojure.org/install/linux-install-1.10.1.561.sh \
     && chmod +x linux-install-1.10.1.561.sh \
     && ./linux-install-1.10.1.561.sh
