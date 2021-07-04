@@ -44,7 +44,6 @@ RUN bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && \
     yes | sdk install leiningen && \
     rm -rf $HOME/.sdkman/archives/* && \
     rm -rf $HOME/.sdkman/tmp/*"
-
 RUN curl -O https://download.clojure.org/install/linux-install-1.10.1.561.sh \
     && chmod +x linux-install-1.10.1.561.sh \
     && ./linux-install-1.10.1.561.sh
@@ -65,5 +64,12 @@ COPY ./dev-with-docker/.iex.exs /root/
 # Install Go
 RUN wget -c https://dl.google.com/go/go1.16.5.linux-amd64.tar.gz -O - | tar -xz -C /usr/local
 ENV PATH "${PATH}:/usr/local/go/bin"
+
+# Install OCaml
+RUN apt-get update && apt-get install -y \
+    ocaml \
+    opam \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 ENTRYPOINT [ "/bin/zsh" ]
