@@ -33,6 +33,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     tree \
     tzdata \
     unzip \
+    wget \
     zip \
     zsh \
     && apt-get clean \

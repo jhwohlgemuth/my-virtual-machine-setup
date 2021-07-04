@@ -62,4 +62,8 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 COPY ./dev-with-docker/.iex.exs /root/
 
+# Install Go
+RUN wget -c https://dl.google.com/go/go1.16.5.linux-amd64.tar.gz -O - | tar -xz -C /usr/local
+ENV PATH "${PATH}:/usr/local/go/bin"
+
 ENTRYPOINT [ "/bin/zsh" ]

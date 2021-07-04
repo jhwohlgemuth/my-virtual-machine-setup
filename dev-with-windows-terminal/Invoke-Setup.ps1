@@ -42,6 +42,7 @@ $Common = @(
 )
 $ExclusiveScoop = @(
     'fciv'
+    'go'
     'ngrok'
     'rga' # "ripgrep-all" in Chocolatey
     'tesseract-languages' # auto-installs tesseract
@@ -53,6 +54,7 @@ $ExclusiveChocolatey = @(
     'ccleaner'
     'firacode'
     'firefox'
+    'golang'
     'googlechrome'
     'googledrive'
     'insomnia-rest-api-client'
