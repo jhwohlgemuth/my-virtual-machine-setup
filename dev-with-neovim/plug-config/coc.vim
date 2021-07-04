@@ -1,4 +1,4 @@
-"{{{ Coc Settings }}}
+" --- Coc Settings
 let g:coc_global_extensions = [
   \ 'coc-css',
   \ 'coc-elixir',
@@ -140,7 +140,7 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
-" {{{ Explorer }}}
+" --- Explorer
 let g:coc_explorer_global_presets = {
 \   '.vim': {
 \     'root-uri': '~/AppData/Local/nvim',
@@ -176,7 +176,7 @@ let g:coc_explorer_global_presets = {
 \ }
 autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
 
-" {{{ Snippets }}}
+" --- Snippets
 " Use <C-l> for trigger snippet expand.
 imap <C-l> <Plug>(coc-snippets-expand)
 " Use <C-j> for select text for visual placeholder of snippet.
