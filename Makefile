@@ -13,8 +13,8 @@ create:
 
 copy-ssh-config:
 	@docker exec -it dev /bin/bash -c "mkdir -p /root/.ssh"
-	@docker cp "${HOME}\.ssh\id_rsa" dev:/root/.ssh/
-	@docker exec -it dev /bin/bash -c "chmod 600 /root/.ssh/id_rsa"
+	@docker cp "${HOME}\.ssh\id_ed25519" dev:/root/.ssh/
+	@docker exec -it dev /bin/bash -c "chmod 600 /root/.ssh/id_ed25519"
 	@echo "==> Copied SSH key to ${CONTAINER_NAME}"
 	@docker cp "${HOME}\.ssh\config" dev:/root/.ssh/
 	@echo "==> Copied SSH configuration to ${CONTAINER_NAME}"
