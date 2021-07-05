@@ -27,7 +27,7 @@ foreach ($Module in $Modules) {
 #
 # Set Oh-my-posh theme
 #
-Set-Theme Agnoster
+Set-PoshPrompt -Theme agnoster
 #
 # Import Chocolatey profile
 #
