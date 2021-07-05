@@ -72,4 +72,10 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+# Install PowerShell
+RUN apt-get update && apt-get install -y \
+    powershell \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
 ENTRYPOINT [ "/bin/zsh" ]
