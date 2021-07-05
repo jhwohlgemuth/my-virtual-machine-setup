@@ -1,4 +1,5 @@
 HOST_NAME = $(shell hostname)
+HOME_PATH = $(shell echo %userprofile%)
 BASE_IMAGE_NAME = jhwohlgemuth/base
 IMAGE_NAME = jhwohlgemuth/env
 CONTAINER_NAME = dev
@@ -13,14 +14,14 @@ create:
 
 copy-ssh-config:
 	@docker exec -it dev /bin/bash -c "mkdir -p /root/.ssh"
-	@docker cp "${HOME}\.ssh\id_ed25519" dev:/root/.ssh/
+	@docker cp "${HOME_PATH}\.ssh\id_ed25519" dev:/root/.ssh/
 	@docker exec -it dev /bin/bash -c "chmod 600 /root/.ssh/id_ed25519"
 	@echo "==> Copied SSH key to ${CONTAINER_NAME}"
-	@docker cp "${HOME}\.ssh\config" dev:/root/.ssh/
+	@docker cp "${HOME_PATH}\.ssh\config" dev:/root/.ssh/
 	@echo "==> Copied SSH configuration to ${CONTAINER_NAME}"
 
 copy-git-config:
-	@docker cp "${HOME}\.gitconfig" dev:/root/
+	@docker cp "${HOME_PATH}\.gitconfig" dev:/root/
 	@echo "==> Copied .gitconfig file to ${CONTAINER_NAME}"
 
 install-node:
