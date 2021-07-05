@@ -23,6 +23,7 @@ $Common = @(
     'dos2unix'
     'fd'
     'fzf'
+    'gh'
     'git'
     'jq'
     'lazydocker'
