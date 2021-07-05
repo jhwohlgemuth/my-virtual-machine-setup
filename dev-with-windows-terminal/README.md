@@ -29,32 +29,37 @@ cd /path/to/env/dev-with-windows-terminal
 ```
 
 4. Run setup PowerShell script:
-> You are encouraged to read the content of [Invoke-Setup.ps1](./Invoke-Setup.ps1)
+> You are encouraged to read the content of [Invoke-Install.ps1](./Invoke-Install.ps1)
 
 **Install applications with [Chocolatey](https://chocolatey.org/)**:
 ```powershell
-./Invoke-Setup.ps1
+./Invoke-Install.ps1
 ```
 
 **Install applications with [Scoop](https://scoop.sh/)**:
 ```powershell
-./Invoke-Setup.ps1 -PackageManager scoop
+./Invoke-Install.ps1 -PackageManager scoop
 
 # Read help to understand all options
-Get-Help ./Invoke-Setup.ps1
+./Invoke-Install.ps1 -Help
 ```
 
 > Not sure which package manager to use? [Here is a comparison](https://github.com/lukesampson/scoop/wiki/Chocolatey-Comparison) provided by the maker of Scoop.
 
-5. Copy content of [Microsoft.Powershell_profile.ps1](./Microsoft.Powershell_profile.ps1) into Windows Terminal settings:
+5. Copy content of [Microsoft.Powershell_profile.ps1](./Microsoft.Powershell_profile.ps1) into Windows Terminal profile:
 
 ```powershell
 Set-Content -Path $PROFILE -Value (Get-Content -Path .\Microsoft.Powershell_profile.ps1)
 ```
 
-6. Open the Windows terminal `settings.json` file by pressing <kbd>CTRL</kbd>+<kbd>,</kbd> and replace contents with content of [settings.json](./settings.json) from this repository
+6. Copy content of [settings.json](./settings.json) into Windows Terminal settings:
 
-> Enjoy your awesome new ***Windows*** terminal. `#cantBelieveItsNotLinux`
+
+```powershell
+Set-Content -Path "$Env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" -Value (Get-Content -Path .\settings.json)
+```
+
+> **Note**: You can open the Windows terminal `settings.json` file manually by pressing <kbd>CTRL</kbd>+<kbd>,</kbd>
 
 What Next?!
 ===========
