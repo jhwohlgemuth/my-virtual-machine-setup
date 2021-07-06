@@ -1,5 +1,8 @@
 HOST_NAME = $(shell hostname)
 HOME_PATH = $(shell echo %userprofile%)
+SSH_KEY = "${HOME_PATH}\.ssh\id_ed25519"
+SSH_CONFIG = "${HOME_PATH}\.ssh\config"
+GIT_CONFIG = "${HOME_PATH}\.gitconfig"
 BASE_IMAGE_NAME = jhwohlgemuth/base
 IMAGE_NAME = jhwohlgemuth/env
 CONTAINER_NAME = dev
@@ -14,15 +17,22 @@ create:
 
 copy-ssh-config:
 	@docker exec -it dev /bin/bash -c "mkdir -p /root/.ssh"
-	@docker cp "${HOME_PATH}\.ssh\id_ed25519" dev:/root/.ssh/
-	@docker exec -it dev /bin/bash -c "chmod 600 /root/.ssh/id_ed25519"
-	@echo "==> Copied SSH key to ${CONTAINER_NAME}"
-	@docker cp "${HOME_PATH}\.ssh\config" dev:/root/.ssh/
-	@echo "==> Copied SSH configuration to ${CONTAINER_NAME}"
+	@IF EXIST $(SSH_KEY) \
+		docker cp $(SSH_KEY) dev:/root/.ssh/
+	@IF EXIST $(SSH_KEY) \
+		docker exec -it dev /bin/bash -c "chmod 600 /root/.ssh/id_ed25519"
+	@IF EXIST $(SSH_KEY) \
+		echo "==> Copied SSH key to ${CONTAINER_NAME}"
+	@IF EXIST $(SSH_CONFIG) \
+		docker cp $(SSH_CONFIG) dev:/root/.ssh/
+	@IF EXIST $(SSH_CONFIG) \
+		echo "==> Copied SSH configuration to ${CONTAINER_NAME}"
 
 copy-git-config:
-	@docker cp "${HOME_PATH}\.gitconfig" dev:/root/
-	@echo "==> Copied .gitconfig file to ${CONTAINER_NAME}"
+	@IF EXIST $(GIT_CONFIG) \
+		docker cp $(GIT_CONFIG) dev:/root/
+	@IF EXIST $(GIT_CONFIG) \
+		echo "==> Copied .gitconfig file to ${CONTAINER_NAME}"
 
 install-node:
 	@docker exec -it dev /usr/bin/zsh -c "source ~/.zshrc && nvm install node"
