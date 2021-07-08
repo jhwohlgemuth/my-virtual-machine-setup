@@ -19,6 +19,7 @@ $Modules = @(
     'Get-ChildItemColor'
     'Prelude'
 )
+Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 foreach ($Module in $Modules) {
     if (Test-Installed $Module) {
         Import-Module -Name $Module
@@ -27,7 +28,7 @@ foreach ($Module in $Modules) {
 #
 # Set Oh-my-posh theme
 #
-$Env:POSH_GIT_ENABLED = $True
+# $Env:POSH_GIT_ENABLED = $True
 Set-PoshPrompt -Theme powerlevel10k_rainbow
 #
 # Import Chocolatey profile
