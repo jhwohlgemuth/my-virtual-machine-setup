@@ -28,7 +28,7 @@ foreach ($Module in $Modules) {
 # Set Oh-my-posh theme
 #
 $Env:POSH_GIT_ENABLED = $True
-Set-PoshPrompt -Theme agnoster
+Set-PoshPrompt -Theme powerlevel10k_rainbow
 #
 # Import Chocolatey profile
 #
