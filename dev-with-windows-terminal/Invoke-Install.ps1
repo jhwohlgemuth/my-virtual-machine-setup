@@ -228,7 +228,14 @@ if (-not $SkipApplications) {
         $ApplicationsToInstall += $Common
     }
     if ($ExtraApplications) {
-        $ApplicationsToInstall += $Extra
+        switch -regex ($PackageManager) {
+            { 'Scoop' } {
+                break
+            }
+            Default {
+                $ApplicationsToInstall += $Extra
+            }
+        }
     }
     $Total = $ApplicationsToInstall.Count
     foreach ($Application in ($ApplicationsToInstall | Sort-Object)) {
