@@ -37,7 +37,6 @@ $Common = @(
     'python'
     'pwsh'
     'ripgrep'
-    'tokei'
     'vagrant'
     'zoxide' # broken on scoop?
 )
@@ -47,6 +46,7 @@ $ExclusiveScoop = @(
     'ngrok'
     'rga' # "ripgrep-all" in Chocolatey
     'tesseract-languages' # auto-installs tesseract
+    'tokei'
 )
 $ExclusiveChocolatey = @(
     'azure-data-studio'
@@ -61,7 +61,6 @@ $ExclusiveChocolatey = @(
     'insomnia-rest-api-client'
     'jetbrainsmono'
     'lockhunter'
-    'malwarebytes'
     'miktex'
     'ripgrep-all' # "rga" in scoop
     'speccy'
@@ -73,8 +72,10 @@ $ExclusiveChocolatey = @(
     'zotero'
 )
 $Extra = @(
+    'discord'
     'dropbox'
     'itunes'
+    'malwarebytes'
     'nordvpn'
     'steam'
 )
