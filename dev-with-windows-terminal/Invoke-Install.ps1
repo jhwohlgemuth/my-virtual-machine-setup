@@ -133,7 +133,7 @@ if ($Help) {
       PackageManager        Name of package manager to use ("Chocolatey" or "Scoop")
       Exclude               String array of application names that should not be installed
       Exclusive             Switch that will install applications exclusive to selected package manager
-      ExtraApplications     Install applications that I use a lot that are not related to development
+      ExtraApplications     Install applications that I use a lot that are not directly related to development
       SkipModules           Do not install any PowerShell modules
       SkipApplications      Do not install any applications
 
