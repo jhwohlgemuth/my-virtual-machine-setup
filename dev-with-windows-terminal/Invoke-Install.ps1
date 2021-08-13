@@ -72,10 +72,13 @@ $ExclusiveChocolatey = @(
     'zotero'
 )
 $Extra = @(
+    'anki'
+    'dia'
     'discord'
     'dropbox'
     'itunes'
     'malwarebytes'
+    'manimce'
     'nordvpn'
     'steam'
 )
