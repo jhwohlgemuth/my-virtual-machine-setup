@@ -93,7 +93,8 @@ function Test-Admin {
 function Test-CommandExists {
     Param (
         [Parameter(Mandatory = $True, Position = 0)]
-        [String] $Command
+        [String] $Command,
+        [Switch] $Quiet
     )
     $Result = $False
     $OriginalPreference = $ErrorActionPreference
@@ -103,7 +104,9 @@ function Test-CommandExists {
             $Result = $True
         }
     } Catch {
-        "==> '$Command' is not available command" | Write-Verbose
+        if (-not $Quiet) {
+            "==> [NOT AVAILABLE] '$Command'" | Write-Warning
+        }
     } Finally {
         $ErrorActionPreference = $OriginalPreference
     }
@@ -116,9 +119,9 @@ function Install-ModuleMaybe {
         [String] $Name
     )
     if (Get-Module -ListAvailable -Name $Name) {
-        "==> $Name already installed" | Write-Verbose
+        "==> [INSTALLED] $Name" | Write-Verbose
     } else {
-        "==> Installing $Name" | Write-Verbose
+        "==> [INSTALLING...] $Name" | Write-Verbose
         Install-Module -Name $Name -Scope CurrentUser -AllowClobber
     }
 }
@@ -162,9 +165,9 @@ if (-not $SkipModules) {
             'Get-ChildItemColor' # https://github.com/joonro/Get-ChildItemColor
             'nvm'                # https://github.com/aaronpowell/ps-nvm
         )
-        '==> Installing PowerShell modules' | Write-Verbose
+        '==> [INSTALLING...] PowerShell modules' | Write-Verbose
         if ($PSCmdlet.ShouldProcess('Install Nuget package provider')) {
-            '==> Installing Nuget package provider' | Write-Verbose
+            '==> [INSTALLING...] Nuget package provider' | Write-Verbose
             Install-PackageProvider Nuget -MinimumVersion 2.8.5.201 -Force
         }
         foreach ($Name in $Modules) {
@@ -181,7 +184,7 @@ if (-not $SkipApplications) {
             $ApplicationsToInstall = $ExclusiveScoop
             $InstallerCommand = 'scoop'
             if (-not (Get-Command -Name $InstallerCommand)) {
-                "==> $InstallerName is not installed ($InstallerCommand is not an available command)" | Write-Warning
+                "$InstallerName is not installed ($InstallerCommand is not an available command)" | Write-Warning
                 exit
             }
             $Install = { scoop install $Args[0] }
@@ -190,7 +193,7 @@ if (-not $SkipApplications) {
                     scoop reset tesseract-languages
                 }
             }
-            "==> Checking installed $PackageManager applications" | Write-Verbose
+            "==> [INFO] Checking installed $PackageManager applications" | Write-Verbose
             $InstalledApplications = scoop export
         }
         Default {
@@ -202,15 +205,15 @@ if (-not $SkipApplications) {
             $ApplicationsToInstall = $ExclusiveChocolatey
             $InstallerCommand = 'choco'
             if (-not (Get-Command -Name $InstallerCommand)) {
-                "==> $InstallerName is not installed ($InstallerCommand is not an available command)" | Write-Warning
+                "$InstallerName is not installed ($InstallerCommand is not an available command)" | Write-Warning
                 exit
             }
             $Install = { choco install $Args[0] }
             $PostInstall = { }
-            "==> Checking installed $PackageManager applications" | Write-Verbose
+            "==> [INFO] Checking installed $PackageManager applications" | Write-Verbose
             $InstalledApplications = choco list --local-only
             if ($PSCmdlet.ShouldProcess('Enable Chocolatey silent install')) {
-                '==> Enabling choco silent install' | Write-Verbose
+                '==> [INFO] Enabling choco silent install' | Write-Verbose
                 choco feature enable -n allowGlobalConfirmation
             }
         }
@@ -220,9 +223,9 @@ if (-not $SkipApplications) {
             [Parameter(Mandatory=$True, Position=0)]
             [String] $Name
         )
-        (Test-CommandExists $Name) -or (($InstalledApplications | Where-Object { $_.StartsWith($Name, 'CurrentCultureIgnoreCase') }).Count -gt 0)
+        (Test-CommandExists -Command $Name -Quiet) -or (($InstalledApplications | Where-Object { $_.StartsWith($Name, 'CurrentCultureIgnoreCase') }).Count -gt 0)
     }
-    "==> Installing applications with $InstallerName" | Write-Verbose
+    "==> [INFO] Installing applications with $InstallerName" | Write-Verbose
     $Count = 0
     if (-not $Exclusive) {
         $ApplicationsToInstall += $Common
@@ -240,16 +243,16 @@ if (-not $SkipApplications) {
     $Total = $ApplicationsToInstall.Count
     foreach ($Application in ($ApplicationsToInstall | Sort-Object)) {
         if (Test-Installed $Application) {
-            "==> $Application is already installed" | Write-Verbose
+            "==> [INSTALLED] $Application" | Write-Verbose
         } else {
             $Action = if ($Application -notin $Exclude) { 'Install' } else { 'Skip installation of' }
             if ($PSCmdlet.ShouldProcess("$Action $Application with $InstallerName")) {
                 Write-Progress -Activity "Installing applications with $InstallerName" -Status "Processing $Application ($($Count + 1) of $Total)" -PercentComplete ((($Count + 1) / $Total) * 100)
                 if ($Application -notin $Exclude) {
-                    "==> Installing $Application" | Write-Verbose
+                    "==> [INSTALLING...] $Application" | Write-Verbose
                     & $Install $Application
                 } else {
-                    "==> Skipping installation of $Application" | Write-Color -Red
+                    "==> [INFO] Skipping installation of $Application" | Write-Color -Red
                 }
                 $Count++
             }
@@ -259,5 +262,5 @@ if (-not $SkipApplications) {
         & $PostInstall
     }
     Write-Progress -Activity "Installing applications with $InstallerName" -Completed
-    "==> $Count applications were installed" | Write-Verbose
+    "==> [INFO] $Count applications were installed" | Write-Verbose
 }
