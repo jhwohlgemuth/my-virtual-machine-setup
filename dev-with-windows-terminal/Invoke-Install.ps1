@@ -31,6 +31,7 @@ $Common = @(
     'less'
     'make'
     'neovim'
+    'ngrok'
     'nvm'
     'packer'
     'pandoc'
@@ -43,7 +44,6 @@ $Common = @(
 $ExclusiveScoop = @(
     'fciv'
     'go'
-    'ngrok'
     'rga' # "ripgrep-all" in Chocolatey
     'tesseract-languages' # auto-installs tesseract
     'tokei'
