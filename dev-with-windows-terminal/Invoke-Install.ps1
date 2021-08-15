@@ -178,6 +178,15 @@ if (-not $SkipModules) {
     }
 }
 if (-not $SkipApplications) {
+    $InstalledApplications = @()
+    if (Test-CommandExists 'choco') {
+        "==> [INFO] Checking installed Chocolatey applications" | Write-Verbose
+        $InstalledApplications += choco list --local-only
+    }
+    if (Test-CommandExists 'scoop') {
+        "==> [INFO] Checking installed Scoop applications" | Write-Verbose
+        $InstalledApplications += scoop export
+    }
     switch ($PackageManager) {
         { $PackageManager.StartsWith('scoop', 'CurrentCultureIgnoreCase') } {
             $InstallerName = 'Scoop'
@@ -193,8 +202,6 @@ if (-not $SkipApplications) {
                     scoop reset tesseract-languages
                 }
             }
-            "==> [INFO] Checking installed $PackageManager applications" | Write-Verbose
-            $InstalledApplications = scoop export
         }
         Default {
             if (-not (Test-Admin)) {
@@ -210,8 +217,6 @@ if (-not $SkipApplications) {
             }
             $Install = { choco install $Args[0] }
             $PostInstall = { }
-            "==> [INFO] Checking installed $PackageManager applications" | Write-Verbose
-            $InstalledApplications = choco list --local-only
             if ($PSCmdlet.ShouldProcess('Enable Chocolatey silent install')) {
                 '==> [INFO] Enabling choco silent install' | Write-Verbose
                 choco feature enable -n allowGlobalConfirmation
@@ -245,8 +250,8 @@ if (-not $SkipApplications) {
         if (Test-Installed $Application) {
             "==> [INSTALLED] $Application" | Write-Verbose
         } else {
-            $Action = if ($Application -notin $Exclude) { 'Install' } else { 'Skip installation of' }
-            if ($PSCmdlet.ShouldProcess("$Action $Application with $InstallerName")) {
+            $Action = if ($Application -notin $Exclude) { '[INSTALL]' } else { '[SKIP]' }
+            if ($PSCmdlet.ShouldProcess("$Action $Application")) {
                 Write-Progress -Activity "Installing applications with $InstallerName" -Status "Processing $Application ($($Count + 1) of $Total)" -PercentComplete ((($Count + 1) / $Total) * 100)
                 if ($Application -notin $Exclude) {
                     "==> [INSTALLING...] $Application" | Write-Verbose
