@@ -46,7 +46,7 @@ $ExclusiveScoop = @(
     'go'
     'rga' # "ripgrep-all" in Chocolatey
     'tesseract-languages' # auto-installs tesseract
-    'tokei'
+    'tokei' # broken on chocolatey
 )
 $ExclusiveChocolatey = @(
     'azure-data-studio'
