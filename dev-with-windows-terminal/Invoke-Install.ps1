@@ -43,7 +43,7 @@ $Common = @(
 )
 $ExclusiveScoop = @(
     'fciv'
-    'go'
+    'go' # "golang" in Chocolatey
     'rga' # "ripgrep-all" in Chocolatey
     'tesseract-languages' # auto-installs tesseract
     'tokei' # broken on chocolatey
@@ -69,7 +69,6 @@ $ExclusiveChocolatey = @(
     'vscode'
     'virtualbox'
     'windirstat'
-    'zotero'
 )
 $Extra = @(
     'anki'
@@ -81,6 +80,7 @@ $Extra = @(
     'manimce'
     'nordvpn'
     'steam'
+    'zotero'
 )
 function Test-Admin {
     Param()
