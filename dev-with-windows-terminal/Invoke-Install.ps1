@@ -59,24 +59,23 @@ $Common = @(
     'vagrant'
     'vscode'       # [scoop] extras/vscode
     'windirstat'   # [scoop] extras/windirstat
-    # 'tokei'      # [BROKEN] choco
-    # 'zoxide'     # [BROKEN] scoop
+    'winfetch'
 )
 $ExclusiveScoop = @(
-    'azuredatastudio'     # [choco] azure-data-studio
-    'Cascadia-Code'       # [choco] cascadiafonts
-    'FiraCode-NF'         # [choco] firacodenf
-    'go'                  # [choco] golang
+    'azuredatastudio'          # [choco] azure-data-studio
+    'Cascadia-Code'            # [choco] cascadiafonts
+    'FiraCode-NF'              # [choco] firacodenf
+    'go'                       # [choco] golang
     'hadolint'
-    'insomnia'            # [choco] insomnia-rest-api-client
+    'insomnia'                 # [choco] insomnia-rest-api-client
     'JetBrainsMono-NF'
-    'latex'               # [choco] miktex
-    'rga'                 # [choco] ripgrep-all
-    'speedtest-cli'       # [choco] speedtest
-    'teracopy-np'         # [choco] teracopy
+    'latex'                    # [choco] miktex
+    'rga'                      # [choco] ripgrep-all
+    'speedtest-cli'            # [choco] speedtest
+    'teracopy-np'              # [choco] teracopy
     'tesseract-languages'
     'tokei'
-    'virtualbox-np'       # [choco] virtualbox
+    'virtualbox-np'            # [choco] virtualbox
 )
 $ExclusiveChocolatey = @(
     'azure-data-studio'        # [scoop] extras/azuredatastudio
@@ -92,10 +91,11 @@ $ExclusiveChocolatey = @(
     'zoxide'
 )
 $Extra = @(
-    'anki'    # [scoop] extras/anki
-    'dia'     # [scoop] extras/dia
-    'discord' # [scoop] extras/discord
-    'steam'   # [scoop] extras/steam
+    'anki'                     # [scoop] extras/anki
+    'dia'                      # [scoop] extras/dia
+    'discord'                  # [scoop] extras/discord
+    'steam'                    # [scoop] extras/steam
+    'tor-browser'              # [scoop] extras/tor-browser
 )
 $ExtraScoop = @(
     'bitwarden-cli'

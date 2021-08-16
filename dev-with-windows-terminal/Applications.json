@@ -40,7 +40,8 @@
         "tldr",
         "vagrant",
         "vscode",
-        "windirstat"
+        "windirstat",
+        "winfetch"
     ],
     "ExclusiveScoop": [
         "azuredatastudio",
@@ -75,7 +76,8 @@
         "anki",
         "dia",
         "discord",
-        "steam"
+        "steam",
+        "tor-browser"
     ],
     "ExtraScoop": [
         "bitwarden-cli"
@@ -89,5 +91,13 @@
         "manimce",
         "nordvpn",
         "zotero"
-    ]
+    ],
+    "Broken": {
+        "Chocolatey": [
+            "tokei"
+        ],
+        "Scoop": [
+            "zoxide"
+        ]
+    }
 }
