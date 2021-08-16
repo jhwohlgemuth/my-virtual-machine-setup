@@ -80,10 +80,9 @@ $ExclusiveScoop = @(
 $ExclusiveChocolatey = @(
     'azure-data-studio'        # [scoop] extras/azuredatastudio
     'cascadiafonts'            # [scoop] nerd-fonts/Cascadia-Code
-    'firacode'                 # [scoop] nerd-fonts/FiraCode-NF
+    'firacodenf'                 # [scoop] nerd-fonts/FiraCode-NF
     'golang'                   # [scoop] main/go
     'insomnia-rest-api-client' # [scoop] insomnia
-    'jetbrainsmono'            # [scoop] nerd-fonts/JetBrainsMono-NF
     'miktex'                   # [scoop] main/latex
     'ripgrep-all'              # [scoop] main/rga
     'speedtest'                # [scoop] main/speedtest-cli
