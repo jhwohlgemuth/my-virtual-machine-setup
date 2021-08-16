@@ -2,16 +2,16 @@
 .SYNOPSIS
 Setup script for installing useful PowerShell modules and applications on Windows
 #>
-[CmdletBinding(SupportsShouldProcess=$True)]
+[CmdletBinding(SupportsShouldProcess = $True)]
 Param(
     [Parameter(Position = 0)]
     [ValidateSet('choco', 'Chocalatey', 'Scoop')]
     [String] $PackageManager = 'Chocolatey',
     [String[]] $Exclude = '',
     [Switch] $Exclusive,
-    [Switch] $ExtraApplications,
-    [Switch] $SkipModules,
-    [Switch] $SkipApplications,
+    [Switch] $WithExtra,
+    [ValidateSet('modules', 'applications')]
+    [String[]] $Skip,
     [Switch] $Help
 )
 #
@@ -20,15 +20,20 @@ Param(
 $Common = @(
     '7zip'
     'bat'
+    'beaker'       # [scoop] extras/beaker
+    'ccleaner'     # [scoop] extras/ccleaner
     'dos2unix'
     'fd'
+    'firefox'      # [scoop] extras/firefox
     'fzf'
     'gh'
     'git'
+    'googlechrome' # [scoop] extras/googlechrome
     'jq'
     'lazydocker'
     'lazygit'
     'less'
+    'lockhunter'   # [scoop] extras/lockhunter
     'make'
     'neovim'
     'ngrok'
@@ -38,48 +43,54 @@ $Common = @(
     'python'
     'pwsh'
     'ripgrep'
+    'speccy'       # [scoop] extras/speccy
+    'sysinternals' # [scoop] extras/sysinternals
     'vagrant'
-    'zoxide' # broken on scoop?
+    'vscode'       # [scoop] extras/vscode
+    'windirstat'   # [scoop] extras/windirstat
+    # 'tokei'      # [BROKEN] choco
+    # 'zoxide'     # [BROKEN] scoop
 )
 $ExclusiveScoop = @(
-    'fciv'
-    'go' # "golang" in Chocolatey
-    'rga' # "ripgrep-all" in Chocolatey
+    'azuredatastudio'     # [choco] azure-data-studio
+    'Cascadia-Code'       # [choco] cascadiafonts
+    'FiraCode-NF'         # [choco] firacode
+    'go'                  # [choco] golang
+    'insomnia'            # [choco] insomnia-rest-api-client
+    'JetBrainsMono-NF'    # [choco] jetbrainsmono
+    'latex'               # [choco] miktex
+    'rga'                 # [choco] ripgrep-all
+    'teracopy-np'         # [choco] teracopy
     'tesseract-languages' # auto-installs tesseract
-    'tokei' # broken on chocolatey
+    'tokei'
+    'virtualbox-np'       # [choco] virtualbox
 )
 $ExclusiveChocolatey = @(
-    'azure-data-studio'
-    'beaker'
-    'cascadiafonts'
-    'ccleaner'
-    'firacode'
-    'firefox'
-    'golang'
-    'googlechrome'
-    'googledrive'
-    'insomnia-rest-api-client'
-    'jetbrainsmono'
-    'lockhunter'
-    'miktex'
-    'ripgrep-all' # "rga" in scoop
-    'speccy'
-    'sysinternals'
-    'teracopy'
-    'vscode'
-    'virtualbox'
-    'windirstat'
+    'azure-data-studio'        # [scoop] extras/azuredatastudio
+    'cascadiafonts'            # [scoop] nerd-fonts/Cascadia-Code
+    'firacode'                 # [scoop] nerd-fonts/FiraCode-NF
+    'golang'                   # [scoop] main/go
+    'insomnia-rest-api-client' # [scoop] insomnia
+    'jetbrainsmono'            # [scoop] nerd-fonts/JetBrainsMono-NF
+    'miktex'                   # [scoop] main/latex
+    'ripgrep-all'              # [scoop] main/rga
+    'teracopy'                 # [scoop] nonportable/teracopy-np
+    'virtualbox'               # [scoop] nonportable/virtualbox-np
+    'zoxide'
 )
 $Extra = @(
-    'anki'
-    'dia'
-    'discord'
+    'anki'    # [scoop] extras/anki
+    'dia'     # [scoop] extras/dia
+    'discord' # [scoop] extras/discord
+    'steam'   # [scoop] extras/steam
+)
+$ExtraChocolatey = @(
     'dropbox'
+    'googledrive'
     'itunes'
     'malwarebytes'
     'manimce'
     'nordvpn'
-    'steam'
     'zotero'
 )
 function Test-Admin {
@@ -133,25 +144,24 @@ if ($Help) {
 
     Parameters:
 
-      PackageManager        Name of package manager to use ("Chocolatey" or "Scoop")
-      Exclude               String array of application names that should not be installed
-      Exclusive             Switch that will install applications exclusive to selected package manager
-      ExtraApplications     Install applications that I use a lot that are not directly related to development
-      SkipModules           Do not install any PowerShell modules
-      SkipApplications      Do not install any applications
+      PackageManager   Name of package manager to use ("Chocolatey" or "Scoop")
+      Exclude          String array of application names that should not be installed
+      Exclusive        Switch that will install applications exclusive to selected package manager
+      WithExtra        Install applications that I use a lot that are not directly related to development
+      Skip             Skip installing "modules" and/or "applications
 
     Examples:
 
       ./Invoke-Setup.ps1
 
-      ./Invoke-Setup.ps1 -Exclusive -ExtraApplications
+      ./Invoke-Setup.ps1 -Exclusive -WithExtra
 
       ./Invoke-Setup.ps1 -PackageManager Scoop -Exclude python,vagrant
 
     ' | Write-Output
     exit
 }
-if (-not $SkipModules) {
+if ('modules' -notin $Skip) {
     if (-not (Test-Admin)) {
         'Installing PowerShell modules requires ADMINISTRATOR privileges. Please run Invoke-Setup.ps1 as administrator, or use the -SkipModules option.' | Write-Warning
         exit
@@ -177,8 +187,8 @@ if (-not $SkipModules) {
         }
     }
 }
-if (-not $SkipApplications) {
-    $InstalledApplications = @()
+if ('applications' -notin $Skip) {
+    $InstalledApplications = (Get-StartApps).Name | Sort-Object
     if (Test-CommandExists 'choco') {
         "==> [INFO] Checking installed Chocolatey applications" | Write-Verbose
         $InstalledApplications += choco list --local-only
@@ -195,6 +205,15 @@ if (-not $SkipApplications) {
             if (-not (Get-Command -Name $InstallerCommand)) {
                 "$InstallerName is not installed ($InstallerCommand is not an available command)" | Write-Warning
                 exit
+            }
+            $PreInstall = {
+                '==> [INFO] Adding scoop buckets' | Write-Verbose
+                $Buckets = scoop bucket list
+                'extras', 'nerd-fonts', 'nonportable', 'java' | ForEach-Object {
+                    if ($_ -notin $Buckets) {
+                        scoop bucket add $_
+                    }
+                }
             }
             $Install = { scoop install $Args[0] }
             $PostInstall = {
@@ -215,6 +234,7 @@ if (-not $SkipApplications) {
                 "$InstallerName is not installed ($InstallerCommand is not an available command)" | Write-Warning
                 exit
             }
+            $PreInstall = { }
             $Install = { choco install $Args[0] }
             $PostInstall = { }
             if ($PSCmdlet.ShouldProcess('Enable Chocolatey silent install')) {
@@ -225,27 +245,32 @@ if (-not $SkipApplications) {
     }
     function Test-Installed {
         Param(
-            [Parameter(Mandatory=$True, Position=0)]
+            [Parameter(Mandatory = $True, Position = 0)]
             [String] $Name
         )
-        (Test-CommandExists -Command $Name -Quiet) -or (($InstalledApplications | Where-Object { $_.StartsWith($Name, 'CurrentCultureIgnoreCase') }).Count -gt 0)
+        $PrimaryName = ($Name -split '-')[0]
+        (Test-CommandExists -Command $Name -Quiet) -or (Test-CommandExists -Command $PrimaryName -Quiet) -or (($InstalledApplications | Where-Object { $_.StartsWith($Name, 'CurrentCultureIgnoreCase') }).Count -gt 0) -or (($InstalledApplications | Where-Object { $_.StartsWith($PrimaryName, 'CurrentCultureIgnoreCase') }).Count -gt 0)
     }
     "==> [INFO] Installing applications with $InstallerName" | Write-Verbose
     $Count = 0
     if (-not $Exclusive) {
         $ApplicationsToInstall += $Common
     }
-    if ($ExtraApplications) {
-        switch -regex ($PackageManager) {
-            { 'Scoop' } {
+    if ($WithExtra) {
+        $ApplicationsToInstall += $Extra
+        switch -regex ($InstallerCommand) {
+            'scoop' {
                 break
             }
             Default {
-                $ApplicationsToInstall += $Extra
+                $ApplicationsToInstall += $ExtraChocolatey
             }
         }
     }
     $Total = $ApplicationsToInstall.Count
+    if ($PSCmdlet.ShouldProcess("Perform PRE installation actions")) {
+        & $PreInstall
+    }
     foreach ($Application in ($ApplicationsToInstall | Sort-Object)) {
         if (Test-Installed $Application) {
             "==> [INSTALLED] $Application" | Write-Verbose
@@ -263,7 +288,7 @@ if (-not $SkipApplications) {
             }
         }
     }
-    if ($PSCmdlet.ShouldProcess("Perform post installation actions")) {
+    if ($PSCmdlet.ShouldProcess("Perform POST installation actions")) {
         & $PostInstall
     }
     Write-Progress -Activity "Installing applications with $InstallerName" -Completed
