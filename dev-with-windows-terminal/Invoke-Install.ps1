@@ -23,18 +23,26 @@ $Common = @(
     'beaker'       # [scoop] extras/beaker
     'ccleaner'     # [scoop] extras/ccleaner
     'dos2unix'
+    'duf'
+    'espanso'
     'fd'
     'firefox'      # [scoop] extras/firefox
     'fzf'
     'gh'
     'git'
+    'glow'
     'googlechrome' # [scoop] extras/googlechrome
+    'gource'
+    'gping'
+    'grex'
+    'gsudo'
     'jq'
     'lazydocker'
     'lazygit'
     'less'
     'lockhunter'   # [scoop] extras/lockhunter
     'make'
+    'micro'
     'neovim'
     'ngrok'
     'nvm'
@@ -43,8 +51,10 @@ $Common = @(
     'python'
     'pwsh'
     'ripgrep'
+    'shellcheck'
     'speccy'       # [scoop] extras/speccy
     'sysinternals' # [scoop] extras/sysinternals
+    'tldr'
     'vagrant'
     'vscode'       # [scoop] extras/vscode
     'windirstat'   # [scoop] extras/windirstat
@@ -56,10 +66,12 @@ $ExclusiveScoop = @(
     'Cascadia-Code'       # [choco] cascadiafonts
     'FiraCode-NF'         # [choco] firacode
     'go'                  # [choco] golang
+    'hadolint'
     'insomnia'            # [choco] insomnia-rest-api-client
     'JetBrainsMono-NF'    # [choco] jetbrainsmono
     'latex'               # [choco] miktex
     'rga'                 # [choco] ripgrep-all
+    'speedtest-cli'       # [choco] speedtest
     'teracopy-np'         # [choco] teracopy
     'tesseract-languages' # auto-installs tesseract
     'tokei'
@@ -74,6 +86,7 @@ $ExclusiveChocolatey = @(
     'jetbrainsmono'            # [scoop] nerd-fonts/JetBrainsMono-NF
     'miktex'                   # [scoop] main/latex
     'ripgrep-all'              # [scoop] main/rga
+    'speedtest'                # [scoop] main/speedtest-cli
     'teracopy'                 # [scoop] nonportable/teracopy-np
     'virtualbox'               # [scoop] nonportable/virtualbox-np
     'zoxide'
