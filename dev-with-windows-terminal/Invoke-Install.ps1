@@ -21,6 +21,7 @@ $Common = @(
     '7zip'
     'bat'
     'beaker'       # [scoop] extras/beaker
+    'bottom'
     'ccleaner'     # [scoop] extras/ccleaner
     'dos2unix'
     'duf'
@@ -64,23 +65,23 @@ $Common = @(
 $ExclusiveScoop = @(
     'azuredatastudio'     # [choco] azure-data-studio
     'Cascadia-Code'       # [choco] cascadiafonts
-    'FiraCode-NF'         # [choco] firacode
+    'FiraCode-NF'         # [choco] firacodenf
     'go'                  # [choco] golang
     'hadolint'
     'insomnia'            # [choco] insomnia-rest-api-client
-    'JetBrainsMono-NF'    # [choco] jetbrainsmono
+    'JetBrainsMono-NF'
     'latex'               # [choco] miktex
     'rga'                 # [choco] ripgrep-all
     'speedtest-cli'       # [choco] speedtest
     'teracopy-np'         # [choco] teracopy
-    'tesseract-languages' # auto-installs tesseract
+    'tesseract-languages'
     'tokei'
     'virtualbox-np'       # [choco] virtualbox
 )
 $ExclusiveChocolatey = @(
     'azure-data-studio'        # [scoop] extras/azuredatastudio
     'cascadiafonts'            # [scoop] nerd-fonts/Cascadia-Code
-    'firacodenf'                 # [scoop] nerd-fonts/FiraCode-NF
+    'firacodenf'               # [scoop] nerd-fonts/FiraCode-NF
     'golang'                   # [scoop] main/go
     'insomnia-rest-api-client' # [scoop] insomnia
     'miktex'                   # [scoop] main/latex
