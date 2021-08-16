@@ -97,7 +97,11 @@ $Extra = @(
     'discord' # [scoop] extras/discord
     'steam'   # [scoop] extras/steam
 )
+$ExtraScoop = @(
+    'bitwarden-cli'
+)
 $ExtraChocolatey = @(
+    'bitwarden'
     'dropbox'
     'googledrive'
     'itunes'
@@ -273,6 +277,7 @@ if ('applications' -notin $Skip) {
         $ApplicationsToInstall += $Extra
         switch -regex ($InstallerCommand) {
             'scoop' {
+                $ApplicationsToInstall += $ExtraScoop
                 break
             }
             Default {
