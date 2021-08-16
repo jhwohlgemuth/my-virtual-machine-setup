@@ -265,7 +265,7 @@ if ('applications' -notin $Skip) {
             [Parameter(Mandatory = $True, Position = 0)]
             [String] $Name
         )
-        $PrimaryName = ($Name -split '-')[0]
+        $PrimaryName = $Name -replace '-(cli|NF|np)',''
         (Test-CommandExists -Command $Name -Quiet) -or (Test-CommandExists -Command $PrimaryName -Quiet) -or (($InstalledApplications | Where-Object { $_.StartsWith($Name, 'CurrentCultureIgnoreCase') }).Count -gt 0) -or (($InstalledApplications | Where-Object { $_.StartsWith($PrimaryName, 'CurrentCultureIgnoreCase') }).Count -gt 0)
     }
     "==> [INFO] Installing applications with $InstallerName" | Write-Verbose
