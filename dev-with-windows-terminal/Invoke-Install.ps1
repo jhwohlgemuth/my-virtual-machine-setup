@@ -5,17 +5,49 @@ Setup script for installing useful PowerShell modules and applications on Window
 [CmdletBinding(SupportsShouldProcess = $True)]
 Param(
     [Parameter(Position = 0)]
-    [ValidateSet('choco', 'Chocalatey', 'Scoop')]
+    [ValidateSet('Chocolatey', 'Scoop')]
     [String] $PackageManager = 'Chocolatey',
     [String] $Path = '.\Applications.json',
+    [ValidateSet('exclusive', 'extra')]
+    [String[]] $Include,
     [String[]] $Exclude = '',
-    [Switch] $Exclusive,
-    [Switch] $WithExtra,
     [ValidateSet('modules', 'applications')]
     [String[]] $Skip,
     [Switch] $Help
 )
-$AppData = Get-Content $Path | ConvertFrom-Json
+if ($Help) {
+    '
+    Description:
+
+        Setup script for installing useful PowerShell modules and applications on Windows
+
+    Parameters:
+
+        PackageManager   Name of package manager to use ("Chocolatey" or "Scoop")
+        Path             Path to application manifest (list of which applications to install)
+        Include          Install applications from certain groups: "exclusive" or "extra"
+                             - Extra = applications I use a lot but are not directly related to development
+                             - Exclusive = applications exclusive to selected package manager
+        Exclude          String array of application names that should not be installed
+        Skip             Skip installing "modules" and/or "applications
+
+    Examples:
+
+        # Install modules and applications common to all package managers
+        ./Invoke-Install.ps1
+
+        # Only install modules
+        ./Invoke-Install.ps1 -Skip applications
+
+        # Same as above, but also install extra and exclusive applications
+        ./Invoke-Install.ps1 -Include extra,exclusive
+
+        # Use Scoop to install applications, do not install python or vagrant
+        ./Invoke-Install.ps1 -PackageManager Scoop -Exclude python,vagrant
+
+    ' | Write-Output
+    exit
+}
 function Test-Admin {
     Param()
     if ($IsLinux -is [Bool] -and $IsLinux) {
@@ -24,66 +56,50 @@ function Test-Admin {
         ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) | Write-Output
     }
 }
-function Test-CommandExists {
-    Param (
+function Test-Installed {
+    Param(
         [Parameter(Mandatory = $True, Position = 0)]
-        [String] $Command,
-        [Switch] $Quiet
-    )
-    $Result = $False
-    $OriginalPreference = $ErrorActionPreference
-    $ErrorActionPreference = "stop"
-    try {
-        if (Get-Command $Command) {
-            $Result = $True
-        }
-    } Catch {
-        if (-not $Quiet) {
-            "==> [NOT AVAILABLE] '$Command'" | Write-Warning
-        }
-    } Finally {
-        $ErrorActionPreference = $OriginalPreference
-    }
-    $Result
-}
-function Install-ModuleMaybe {
-    [CmdletBinding()]
-    Param (
-        [Parameter(Mandatory = $True, Position = 0, ValueFromPipeline = $True)]
         [String] $Name
     )
-    if (Get-Module -ListAvailable -Name $Name) {
-        "==> [INSTALLED] $Name" | Write-Verbose
-    } else {
-        "==> [INSTALLING...] $Name" | Write-Verbose
-        Install-Module -Name $Name -Scope CurrentUser -AllowClobber
+    Begin {
+        function Test-CommandExists {
+            Param(
+                [Parameter(Mandatory = $True, Position = 0)]
+                [String] $Command,
+                [Switch] $Quiet
+            )
+            $Result = $False
+            $OriginalPreference = $ErrorActionPreference
+            $ErrorActionPreference = "stop"
+            try {
+                if (Get-Command $Command) {
+                    $Result = $True
+                }
+            } Catch {
+                if (-not $Quiet) {
+                    "==> [NOT AVAILABLE] '$Command'" | Write-Warning
+                }
+            } Finally {
+                $ErrorActionPreference = $OriginalPreference
+            }
+            $Result
+        }
     }
-}
-if ($Help) {
-    '
-    Description:
-
-      Setup script for installing useful PowerShell modules and applications on Windows
-
-    Parameters:
-
-      PackageManager   Name of package manager to use ("Chocolatey" or "Scoop")
-      Path             Path to application manifest (list of which applications to install)
-      Exclude          String array of application names that should not be installed
-      Exclusive        Switch that will install applications exclusive to selected package manager
-      WithExtra        Install applications that I use a lot that are not directly related to development
-      Skip             Skip installing "modules" and/or "applications
-
-    Examples:
-
-      ./Invoke-Setup.ps1
-
-      ./Invoke-Setup.ps1 -Exclusive -WithExtra
-
-      ./Invoke-Setup.ps1 -PackageManager Scoop -Exclude python,vagrant
-
-    ' | Write-Output
-    exit
+    Process {
+        if ($Script:InstalledApplications.Count -eq 0) {
+            $Script:InstalledApplications = (Get-StartApps).Name | Sort-Object
+            if (Test-CommandExists 'choco') {
+                "==> [INFO] Checking installed Chocolatey applications" | Write-Verbose
+                $Script:InstalledApplications += choco list --local-only
+            }
+            if (Test-CommandExists 'scoop') {
+                "==> [INFO] Checking installed Scoop applications" | Write-Verbose
+                $Script:InstalledApplications += scoop export
+            }
+        }
+        $PrimaryName = $Name -replace '-(cli|NF|np)',''
+        (Test-CommandExists -Command $Name -Quiet) -or (Test-CommandExists -Command $PrimaryName -Quiet) -or (($Script:InstalledApplications | Where-Object { $_.StartsWith($Name, 'CurrentCultureIgnoreCase') }).Count -gt 0) -or (($Script:InstalledApplications | Where-Object { $_.StartsWith($PrimaryName, 'CurrentCultureIgnoreCase') }).Count -gt 0)
+    }
 }
 if ('modules' -notin $Skip) {
     if (-not (Test-Admin)) {
@@ -99,32 +115,30 @@ if ('modules' -notin $Skip) {
             'Get-ChildItemColor' # https://github.com/joonro/Get-ChildItemColor
             'nvm'                # https://github.com/aaronpowell/ps-nvm
         )
-        '==> [INSTALLING...] PowerShell modules' | Write-Verbose
+        '==> [INFO] Installing PowerShell modules...' | Write-Verbose
         if ($PSCmdlet.ShouldProcess('Install Nuget package provider')) {
-            '==> [INSTALLING...] Nuget package provider' | Write-Verbose
+            '==> [INFO] Installing Nuget package provider' | Write-Verbose
             Install-PackageProvider Nuget -MinimumVersion 2.8.5.201 -Force
         }
         foreach ($Name in $Modules) {
             if ($PSCmdlet.ShouldProcess("Install $Name PowerShell module")) {
-                Install-ModuleMaybe -Name $Name
+                if (Get-Module -ListAvailable -Name $Name) {
+                    "==> [INSTALLED] $Name" | Write-Verbose
+                } else {
+                    "==> [INFO] Installing $Name..." | Write-Verbose
+                    Install-Module -Name $Name -Scope CurrentUser -AllowClobber
+                }
             }
         }
     }
+} else {
+    '==> [INFO] Skipping installation of modules' | Write-Verbose
 }
 if ('applications' -notin $Skip) {
-    $InstalledApplications = (Get-StartApps).Name | Sort-Object
-    if (Test-CommandExists 'choco') {
-        "==> [INFO] Checking installed Chocolatey applications" | Write-Verbose
-        $InstalledApplications += choco list --local-only
-    }
-    if (Test-CommandExists 'scoop') {
-        "==> [INFO] Checking installed Scoop applications" | Write-Verbose
-        $InstalledApplications += scoop export
-    }
+    $AppData = Get-Content $Path | ConvertFrom-Json
     switch ($PackageManager) {
         { $PackageManager.StartsWith('scoop', 'CurrentCultureIgnoreCase') } {
             $InstallerName = 'Scoop'
-            $ApplicationsToInstall = $AppData.Exclusive.Scoop
             $InstallerCommand = 'scoop'
             if (-not (Get-Command -Name $InstallerCommand)) {
                 "$InstallerName is not installed ($InstallerCommand is not an available command)" | Write-Warning
@@ -152,7 +166,6 @@ if ('applications' -notin $Skip) {
                 exit
             }
             $InstallerName = 'Chocolatey'
-            $ApplicationsToInstall = $AppData.Exclusive.Chocolatey
             $InstallerCommand = 'choco'
             if (-not (Get-Command -Name $InstallerCommand)) {
                 "$InstallerName is not installed ($InstallerCommand is not an available command)" | Write-Warning
@@ -167,35 +180,28 @@ if ('applications' -notin $Skip) {
             }
         }
     }
-    function Test-Installed {
-        Param(
-            [Parameter(Mandatory = $True, Position = 0)]
-            [String] $Name
-        )
-        $PrimaryName = $Name -replace '-(cli|NF|np)',''
-        (Test-CommandExists -Command $Name -Quiet) -or (Test-CommandExists -Command $PrimaryName -Quiet) -or (($InstalledApplications | Where-Object { $_.StartsWith($Name, 'CurrentCultureIgnoreCase') }).Count -gt 0) -or (($InstalledApplications | Where-Object { $_.StartsWith($PrimaryName, 'CurrentCultureIgnoreCase') }).Count -gt 0)
-    }
-    "==> [INFO] Installing applications with $InstallerName" | Write-Verbose
+    #
+    # Create list of applications to install
+    #
     $Count = 0
-    if (-not $Exclusive) {
-        $ApplicationsToInstall += $AppData.Common
-    }
-    if ($WithExtra) {
+    $ApplicationsToInstall = $AppData.Common
+    if ($Include -contains 'extra') {
         $ApplicationsToInstall += $AppData.Extra.Common
-        switch -regex ($InstallerCommand) {
-            'scoop' {
-                $ApplicationsToInstall += $AppData.Extra.Scoop
-                break
-            }
-            Default {
-                $ApplicationsToInstall += $AppData.Extra.Chocolatey
-            }
-        }
+    }
+    $Include | ForEach-Object {
+        $ApplicationsToInstall += $AppData.$_.$InstallerName
     }
     $Total = $ApplicationsToInstall.Count
+    #
+    # Perform PRE installation actions
+    #
     if ($PSCmdlet.ShouldProcess("Perform PRE installation actions")) {
         & $PreInstall
     }
+    #
+    # Install applications
+    #
+    "==> [INFO] Installing applications with $InstallerName" | Write-Verbose
     foreach ($Application in ($ApplicationsToInstall | Sort-Object)) {
         if (Test-Installed $Application) {
             "==> [INSTALLED] $Application" | Write-Verbose
@@ -204,7 +210,7 @@ if ('applications' -notin $Skip) {
             if ($PSCmdlet.ShouldProcess("$Action $Application")) {
                 Write-Progress -Activity "Installing applications with $InstallerName" -Status "Processing $Application ($($Count + 1) of $Total)" -PercentComplete ((($Count + 1) / $Total) * 100)
                 if ($Application -notin $Exclude) {
-                    "==> [INSTALLING...] $Application" | Write-Verbose
+                    "==> [INFO] Installing $Application" | Write-Verbose
                     & $Install $Application
                 } else {
                     "==> [INFO] Skipping installation of $Application" | Write-Color -Red
@@ -213,9 +219,14 @@ if ('applications' -notin $Skip) {
             }
         }
     }
+    #
+    # Perform POST installation actions
+    #
     if ($PSCmdlet.ShouldProcess("Perform POST installation actions")) {
         & $PostInstall
     }
     Write-Progress -Activity "Installing applications with $InstallerName" -Completed
     "==> [INFO] $Count applications were installed" | Write-Verbose
+} else {
+    '==> [INFO] Skipping installation of applications' | Write-Verbose
 }
