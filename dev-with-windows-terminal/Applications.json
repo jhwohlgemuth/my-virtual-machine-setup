@@ -43,55 +43,71 @@
         "windirstat",
         "winfetch"
     ],
-    "ExclusiveScoop": [
-        "azuredatastudio",
-        "Cascadia-Code",
-        "FiraCode-NF",
-        "go",
-        "hadolint",
-        "insomnia",
-        "JetBrainsMono-NF",
-        "latex",
-        "rga",
-        "speedtest-cli",
-        "teracopy-np",
-        "tesseract-languages",
-        "tokei",
-        "virtualbox-np"
-    ],
-    "ExclusiveChocolatey": [
-        "azure-data-studio",
-        "cascadiafonts",
-        "firacodenf",
-        "golang",
-        "insomnia-rest-api-client",
-        "miktex",
-        "ripgrep-all",
-        "speedtest",
-        "teracopy",
-        "virtualbox",
-        "zoxide"
-    ],
-    "Extra": [
-        "anki",
-        "dia",
-        "discord",
-        "steam",
-        "tor-browser"
-    ],
-    "ExtraScoop": [
-        "bitwarden-cli"
-    ],
-    "ExtraChocolatey": [
-        "bitwarden",
-        "dropbox",
-        "googledrive",
-        "itunes",
-        "malwarebytes",
-        "manimce",
-        "nordvpn",
-        "zotero"
-    ],
+    "Exclusive": {
+        "Scoop": [
+            "azuredatastudio",
+            "Cascadia-Code",
+            "FiraCode-NF",
+            "go",
+            "hadolint",
+            "insomnia",
+            "JetBrainsMono-NF",
+            "latex",
+            "rga",
+            "speedtest-cli",
+            "teracopy-np",
+            "tesseract-languages",
+            "tokei",
+            "virtualbox-np"
+        ],
+        "Chocolatey": [
+            "azure-data-studio",
+            "cascadiafonts",
+            "firacodenf",
+            "golang",
+            "insomnia-rest-api-client",
+            "miktex",
+            "ripgrep-all",
+            "speedtest",
+            "teracopy",
+            "virtualbox",
+            "zoxide"
+        ]
+    },
+    "Extra": {
+        "Common": [
+            "anki",
+            "dia",
+            "discord",
+            "steam",
+            "tor-browser"
+        ],
+        "Scoop": [
+            "bitwarden-cli"
+        ],
+        "Chocolatey": [
+            "bitwarden",
+            "dropbox",
+            "googledrive",
+            "itunes",
+            "malwarebytes",
+            "manimce",
+            "nordvpn",
+            "zotero"
+        ]
+    },
+    "Alias": {
+        "azuredatastudio": "azure-data-studio",
+        "Cascadia-Code": "cascadiafonts",
+        "FiraCode-NF": "firacodenf",
+        "go": "golang",
+        "insomnia": "insomnia-rest-api-client",
+        "latex": "miktex",
+        "rga": "ripgrep-all",
+        "speedtest-cli": "speedtest",
+        "teracopy-np": "teracopy",
+        "virtualbox-np": "virtualbox"
+    },
     "Broken": {
         "Chocolatey": [
             "tokei"

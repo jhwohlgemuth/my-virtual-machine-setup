@@ -7,6 +7,7 @@ Param(
     [Parameter(Position = 0)]
     [ValidateSet('choco', 'Chocalatey', 'Scoop')]
     [String] $PackageManager = 'Chocolatey',
+    [String] $Path = '.\Applications.json',
     [String[]] $Exclude = '',
     [Switch] $Exclusive,
     [Switch] $WithExtra,
@@ -14,102 +15,7 @@ Param(
     [String[]] $Skip,
     [Switch] $Help
 )
-#
-# Applications to install based on selected options
-#
-$Common = @(
-    '7zip'
-    'bat'
-    'beaker'       # [scoop] extras/beaker
-    'bottom'
-    'ccleaner'     # [scoop] extras/ccleaner
-    'dos2unix'
-    'duf'
-    'espanso'
-    'fd'
-    'firefox'      # [scoop] extras/firefox
-    'fzf'
-    'gh'
-    'git'
-    'glow'
-    'googlechrome' # [scoop] extras/googlechrome
-    'gource'
-    'gping'
-    'grex'
-    'gsudo'
-    'jq'
-    'lazydocker'
-    'lazygit'
-    'less'
-    'lockhunter'   # [scoop] extras/lockhunter
-    'make'
-    'micro'
-    'neovim'
-    'ngrok'
-    'nvm'
-    'packer'
-    'pandoc'
-    'python'
-    'pwsh'
-    'ripgrep'
-    'shellcheck'
-    'speccy'       # [scoop] extras/speccy
-    'sysinternals' # [scoop] extras/sysinternals
-    'tldr'
-    'vagrant'
-    'vscode'       # [scoop] extras/vscode
-    'windirstat'   # [scoop] extras/windirstat
-    'winfetch'
-)
-$ExclusiveScoop = @(
-    'azuredatastudio'          # [choco] azure-data-studio
-    'Cascadia-Code'            # [choco] cascadiafonts
-    'FiraCode-NF'              # [choco] firacodenf
-    'go'                       # [choco] golang
-    'hadolint'
-    'insomnia'                 # [choco] insomnia-rest-api-client
-    'JetBrainsMono-NF'
-    'latex'                    # [choco] miktex
-    'rga'                      # [choco] ripgrep-all
-    'speedtest-cli'            # [choco] speedtest
-    'teracopy-np'              # [choco] teracopy
-    'tesseract-languages'
-    'tokei'
-    'virtualbox-np'            # [choco] virtualbox
-)
-$ExclusiveChocolatey = @(
-    'azure-data-studio'        # [scoop] extras/azuredatastudio
-    'cascadiafonts'            # [scoop] nerd-fonts/Cascadia-Code
-    'firacodenf'               # [scoop] nerd-fonts/FiraCode-NF
-    'golang'                   # [scoop] main/go
-    'insomnia-rest-api-client' # [scoop] insomnia
-    'miktex'                   # [scoop] main/latex
-    'ripgrep-all'              # [scoop] main/rga
-    'speedtest'                # [scoop] main/speedtest-cli
-    'teracopy'                 # [scoop] nonportable/teracopy-np
-    'virtualbox'               # [scoop] nonportable/virtualbox-np
-    'zoxide'
-)
-$Extra = @(
-    'anki'                     # [scoop] extras/anki
-    'dia'                      # [scoop] extras/dia
-    'discord'                  # [scoop] extras/discord
-    'steam'                    # [scoop] extras/steam
-    'tor-browser'              # [scoop] extras/tor-browser
-)
-$ExtraScoop = @(
-    'bitwarden-cli'
-)
-$ExtraChocolatey = @(
-    'bitwarden'
-    'dropbox'
-    'googledrive'
-    'itunes'
-    'malwarebytes'
-    'manimce'
-    'nordvpn'
-    'zotero'
-)
+$AppData = Get-Content $Path | ConvertFrom-Json
 function Test-Admin {
     Param()
     if ($IsLinux -is [Bool] -and $IsLinux) {
@@ -162,6 +68,7 @@ if ($Help) {
     Parameters:
 
       PackageManager   Name of package manager to use ("Chocolatey" or "Scoop")
+      Path             Path to application manifest (list of which applications to install)
       Exclude          String array of application names that should not be installed
       Exclusive        Switch that will install applications exclusive to selected package manager
       WithExtra        Install applications that I use a lot that are not directly related to development
@@ -217,7 +124,7 @@ if ('applications' -notin $Skip) {
     switch ($PackageManager) {
         { $PackageManager.StartsWith('scoop', 'CurrentCultureIgnoreCase') } {
             $InstallerName = 'Scoop'
-            $ApplicationsToInstall = $ExclusiveScoop
+            $ApplicationsToInstall = $AppData.Exclusive.Scoop
             $InstallerCommand = 'scoop'
             if (-not (Get-Command -Name $InstallerCommand)) {
                 "$InstallerName is not installed ($InstallerCommand is not an available command)" | Write-Warning
@@ -245,7 +152,7 @@ if ('applications' -notin $Skip) {
                 exit
             }
             $InstallerName = 'Chocolatey'
-            $ApplicationsToInstall = $ExclusiveChocolatey
+            $ApplicationsToInstall = $AppData.Exclusive.Chocolatey
             $InstallerCommand = 'choco'
             if (-not (Get-Command -Name $InstallerCommand)) {
                 "$InstallerName is not installed ($InstallerCommand is not an available command)" | Write-Warning
@@ -271,17 +178,17 @@ if ('applications' -notin $Skip) {
     "==> [INFO] Installing applications with $InstallerName" | Write-Verbose
     $Count = 0
     if (-not $Exclusive) {
-        $ApplicationsToInstall += $Common
+        $ApplicationsToInstall += $AppData.Common
     }
     if ($WithExtra) {
-        $ApplicationsToInstall += $Extra
+        $ApplicationsToInstall += $AppData.Extra.Common
         switch -regex ($InstallerCommand) {
             'scoop' {
-                $ApplicationsToInstall += $ExtraScoop
+                $ApplicationsToInstall += $AppData.Extra.Scoop
                 break
             }
             Default {
-                $ApplicationsToInstall += $ExtraChocolatey
+                $ApplicationsToInstall += $AppData.Extra.Chocolatey
             }
         }
     }
