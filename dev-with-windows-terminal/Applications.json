@@ -45,32 +45,13 @@
     ],
     "Exclusive": {
         "Scoop": [
-            "azuredatastudio",
-            "Cascadia-Code",
-            "FiraCode-NF",
-            "go",
+            "fciv",
             "hadolint",
-            "insomnia",
             "JetBrainsMono-NF",
-            "latex",
-            "rga",
-            "speedtest-cli",
-            "teracopy-np",
             "tesseract-languages",
-            "tokei",
-            "virtualbox-np"
+            "tokei"
         ],
         "Chocolatey": [
-            "azure-data-studio",
-            "cascadiafonts",
-            "firacodenf",
-            "golang",
-            "insomnia-rest-api-client",
-            "miktex",
-            "ripgrep-all",
-            "speedtest",
-            "teracopy",
-            "virtualbox",
             "zoxide"
         ]
     },

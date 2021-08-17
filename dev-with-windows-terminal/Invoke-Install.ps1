@@ -185,6 +185,10 @@ if ('applications' -notin $Skip) {
     #
     $Count = 0
     $ApplicationsToInstall = $AppData.Common
+    $ApplicationsToInstall += switch ($InstallerName) {
+        'Scoop' { $AppData.Alias.PSObject.Properties.Name }
+        Default { $AppData.Alias.PSObject.Properties.Value }
+    }
     if ($Include -contains 'extra') {
         $ApplicationsToInstall += $AppData.Extra.Common
     }
