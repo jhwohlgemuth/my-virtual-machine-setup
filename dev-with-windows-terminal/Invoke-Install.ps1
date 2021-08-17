@@ -116,12 +116,12 @@ if ('modules' -notin $Skip) {
             'nvm'                # https://github.com/aaronpowell/ps-nvm
         )
         '==> [INFO] Installing PowerShell modules...' | Write-Verbose
-        if ($PSCmdlet.ShouldProcess('Install Nuget package provider')) {
+        if ($PSCmdlet.ShouldProcess('[INSTALL] Nuget package provider')) {
             '==> [INFO] Installing Nuget package provider' | Write-Verbose
             Install-PackageProvider Nuget -MinimumVersion 2.8.5.201 -Force
         }
         foreach ($Name in $Modules) {
-            if ($PSCmdlet.ShouldProcess("Install $Name PowerShell module")) {
+            if ($PSCmdlet.ShouldProcess("[INSTALL] $Name PowerShell module")) {
                 if (Get-Module -ListAvailable -Name $Name) {
                     "==> [INSTALLED] $Name" | Write-Verbose
                 } else {
@@ -206,6 +206,7 @@ if ('applications' -notin $Skip) {
     # Install applications
     #
     "==> [INFO] Installing applications with $InstallerName" | Write-Verbose
+    $Exclude += $AppData.Broken.$InstallerName
     foreach ($Application in ($ApplicationsToInstall | Sort-Object)) {
         if (Test-Installed $Application) {
             "==> [INSTALLED] $Application" | Write-Verbose

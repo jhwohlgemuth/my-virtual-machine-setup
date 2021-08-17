@@ -38,22 +38,21 @@
         "speccy",
         "sysinternals",
         "tldr",
+        "tokei",
         "vagrant",
         "vscode",
         "windirstat",
-        "winfetch"
+        "winfetch",
+        "zoxide"
     ],
     "Exclusive": {
         "Scoop": [
             "fciv",
             "hadolint",
             "JetBrainsMono-NF",
-            "tesseract-languages",
-            "tokei"
+            "tesseract-languages"
         ],
-        "Chocolatey": [
-            "zoxide"
-        ]
+        "Chocolatey": []
     },
     "Extra": {
         "Common": [
