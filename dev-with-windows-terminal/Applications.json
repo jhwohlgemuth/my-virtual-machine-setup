@@ -4,6 +4,7 @@
         "bat",
         "beaker",
         "bottom",
+        "brave",
         "ccleaner",
         "dos2unix",
         "duf",
@@ -23,9 +24,11 @@
         "lazydocker",
         "lazygit",
         "less",
+        "linqpad",
         "lockhunter",
         "make",
         "micro",
+        "mockoon",
         "neovim",
         "ngrok",
         "nvm",
@@ -33,6 +36,7 @@
         "pandoc",
         "python",
         "pwsh",
+        "qalculate",
         "ripgrep",
         "shellcheck",
         "speccy",
@@ -57,8 +61,12 @@
     "Extra": {
         "Common": [
             "anki",
+            "carnac",
             "dia",
             "discord",
+            "gifcam",
+            "notion",
+            "screentogif",
             "steam",
             "tor-browser"
         ],
@@ -77,6 +85,7 @@
         ]
     },
     "Alias": {
+        "altair": "altair-graphql",
         "azuredatastudio": "azure-data-studio",
         "Cascadia-Code": "cascadiafonts",
         "FiraCode-NF": "firacodenf",

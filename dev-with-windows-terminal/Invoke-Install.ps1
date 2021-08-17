@@ -211,10 +211,11 @@ if ('applications' -notin $Skip) {
         if (Test-Installed $Application) {
             "==> [INSTALLED] $Application" | Write-Verbose
         } else {
-            $Action = if ($Application -notin $Exclude) { '[INSTALL]' } else { '[SKIP]' }
+            $ShouldInstall = $Application -notin $Exclude
+            $Action = if ($ShouldInstall) { '[INSTALL]' } else { '[SKIP]' }
             if ($PSCmdlet.ShouldProcess("$Action $Application")) {
                 Write-Progress -Activity "Installing applications with $InstallerName" -Status "Processing $Application ($($Count + 1) of $Total)" -PercentComplete ((($Count + 1) / $Total) * 100)
-                if ($Application -notin $Exclude) {
+                if ($ShouldInstall) {
                     "==> [INFO] Installing $Application" | Write-Verbose
                     & $Install $Application
                 } else {
