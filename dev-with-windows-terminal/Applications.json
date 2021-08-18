@@ -50,13 +50,13 @@
         "zoxide"
     ],
     "Exclusive": {
+        "Chocolatey": [],
         "Scoop": [
             "fciv",
             "hadolint",
             "JetBrainsMono-NF",
             "tesseract-languages"
-        ],
-        "Chocolatey": []
+        ]
     },
     "Extra": {
         "Common": [
@@ -70,9 +70,6 @@
             "steam",
             "tor-browser"
         ],
-        "Scoop": [
-            "bitwarden-cli"
-        ],
         "Chocolatey": [
             "bitwarden",
             "dropbox",
@@ -82,6 +79,9 @@
             "manimce",
             "nordvpn",
             "zotero"
+        ],
+        "Scoop": [
+            "bitwarden-cli"
         ]
     },
     "Alias": {
