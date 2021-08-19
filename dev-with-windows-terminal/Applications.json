@@ -102,6 +102,7 @@
             "tokei"
         ],
         "Scoop": [
+            "fciv",
             "zoxide"
         ]
     }
