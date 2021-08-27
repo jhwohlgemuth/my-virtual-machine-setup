@@ -16,7 +16,7 @@ $Modules = @(
     'PSScriptAnalyzer'
     'posh-git'
     'oh-my-posh'
-    'Get-ChildItemColor'
+    'Terminal-Icons'
     'Prelude'
 )
 Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
@@ -40,10 +40,6 @@ if (Test-Path $ChocolateyProfile) {
 #
 # Set aliases
 #
-if (Test-Installed Get-ChildItemColor) {
-    Set-Alias -Scope Global -Option AllScope -Name la -Value Get-ChildItemColor
-    Set-Alias -Scope Global -Option AllScope -Name ls -Value Get-ChildItemColorFormatWide
-}
 if (Test-Command git) {
     function Invoke-GitCommand { git $Args }
     function Invoke-GitCommit { git commit -vam $Args }

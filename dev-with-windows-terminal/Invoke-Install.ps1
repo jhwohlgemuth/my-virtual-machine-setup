@@ -112,7 +112,7 @@ if ('modules' -notin $Skip) {
             'oh-my-posh'         # https://github.com/JanDeDobbeleer/oh-my-posh
             'PSConsoleTheme'     # https://github.com/mmims/PSConsoleTheme
             'PSScriptAnalyzer'   # https://github.com/PowerShell/PSScriptAnalyzer
-            'Get-ChildItemColor' # https://github.com/joonro/Get-ChildItemColor
+            'Terminal-Icons'     # https://github.com/devblackops/Terminal-Icons
             'nvm'                # https://github.com/aaronpowell/ps-nvm
         )
         '==> [INFO] Installing PowerShell modules...' | Write-Verbose
