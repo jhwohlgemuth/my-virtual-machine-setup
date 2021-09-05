@@ -35,6 +35,7 @@
         "mechatroner.rainbow-csv",
         "ms-azuretools.vscode-docker",
         "ms-dotnettools.csharp",
+        "ms-dotnettools.dotnet-interactive-vscode",
         "ms-dotnettools.vscode-dotnet-runtime",
         "ms-python.python",
         "ms-python.vscode-pylance",
