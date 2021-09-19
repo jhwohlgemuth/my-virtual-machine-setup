@@ -129,29 +129,6 @@ function New-DailyShutdownJob {
         $Result
     }
 }
-function New-SshKey {
-    <#
-    .SYNOPSIS
-    Create new SSH key with passphrase, "123456"
-    #>
-    [CmdletBinding()]
-    Param(
-        [String] $Name = 'id_rsa'
-    )
-    Write-Verbose '==> Generating SSH key pair (Passphrase = 123456)'
-    $Path = (Resolve-Path "~/.ssh/$Name").Path
-    ssh-keygen --% -q -b 4096 -t rsa -N '123456' -f TEMPORARY_FILE_NAME
-    Move-Item -Path TEMPORARY_FILE_NAME -Destination $Path
-    Move-Item -Path TEMPORARY_FILE_NAME.pub -Destination "$Path.pub"
-    if (Test-Path "$Path.pub") {
-        Write-Verbose "==> $Name SSH private key saved to $Path"
-        Write-Verbose '==> Saving SSH public key to clipboard'
-        Get-Content "$Path.pub" | Set-Clipboard
-        Write-Output '==> Public key saved to clipboard'
-    } else {
-        Write-Error '==> Failed to create SSH key'
-    }
-}
 function Remove-DailyShutdownJob {
     <#
     .SYNOPSIS
