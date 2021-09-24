@@ -155,7 +155,7 @@ if ('applications' -notin $Skip) {
             }
             $Install = { scoop install $Args[0] }
             $PostInstall = {
-                if ('tesseract-languages' -notin $Exclude) { 
+                if (('extra' -in $Include) -and ('tesseract-languages' -notin $Exclude)) { 
                     scoop reset tesseract-languages
                 }
             }
