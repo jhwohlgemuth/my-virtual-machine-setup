@@ -3,7 +3,7 @@ Development with Windows Terminal
 > `#cantBelieveItsNotLinux`
 
 <div align="center">
-    <a href="https://gyazo.com/c299ded42555b2fccdbddd78527cceb9"><img alt="Windows Terminal in action!" src="https://i.gyazo.com/c299ded42555b2fccdbddd78527cceb9.gif" alt="Image from Gyazo" width="1280"/></a>
+    <a href="#"><img alt="Windows Terminal in action!" src="http://www.jasonwohlgemuth.com/env/images/env_terminal_demo.gif" alt="So pretty!" width="1280"/></a>
 </div>
 
 Requirements
