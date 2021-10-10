@@ -20,6 +20,7 @@ RUN cargo install cargo-audit \
     && cargo install cargo-edit \
     && cargo install du-dust \
     && cargo install grex \
+    && cargo install htmlq \
     && cargo install tokei \
     && cargo install wasm-bindgen-cli \
     && cargo install wasm-pack
