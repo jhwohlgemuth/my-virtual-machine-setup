@@ -47,6 +47,8 @@ tnoremap <Esc> <C-\><C-n>
 nnoremap <silent> <C-Bslash> :CocCommand explorer --toggle<CR>
 nnoremap <silent> <leader> :silent <c-u> :silent WhichKey '<Space>'<CR>
 vnoremap <silent> <leader> :silent <c-u> :silent WhichKeyVisual '<Space>'<CR>
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
 " map <C-f> :Files<CR>
 " map <leader>b :Buffers<CR>
 " nnoremap <leader>g :Rg<CR>
