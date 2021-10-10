@@ -1,5 +1,6 @@
-" --- Coc Settings
+" Coc Settings {{{
 let g:coc_global_extensions = [
+  " {{{
   \ 'coc-css',
   \ 'coc-elixir',
   \ 'coc-emmet',
@@ -16,6 +17,7 @@ let g:coc_global_extensions = [
   \ 'coc-vimlsp',
   \ 'coc-xml',
   \ 'coc-yaml'
+  " }}}
 \ ]
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
@@ -122,7 +124,8 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
 " provide custom statusline: lightline.vim, vim-airline.
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-" Mappings for CoCList
+" }}}
+" CoCList Mappings {{{
 " Show all diagnostics.
 nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
 " Manage extensions.
@@ -139,8 +142,8 @@ nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
-
-" --- Explorer
+" }}}
+" Explorer {{{
 let g:coc_explorer_global_presets = {
 \   '.vim': {
 \     'root-uri': '~/AppData/Local/nvim',
@@ -175,8 +178,8 @@ let g:coc_explorer_global_presets = {
 \   }
 \ }
 autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
-
-" --- Snippets
+" }}}
+" Snippets {{{
 " Use <C-l> for trigger snippet expand.
 imap <C-l> <Plug>(coc-snippets-expand)
 " Use <C-j> for select text for visual placeholder of snippet.
@@ -187,3 +190,4 @@ let g:coc_snippet_next = '<c-j>'
 let g:coc_snippet_prev = '<c-k>'
 " Use <C-j> for both expand and jump (make expand higher priority.)
 imap <C-j> <Plug>(coc-snippets-expand-jump)
+" }}}

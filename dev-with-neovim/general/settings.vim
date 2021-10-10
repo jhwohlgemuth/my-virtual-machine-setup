@@ -5,6 +5,7 @@ set cmdheight=1
 set cursorline
 set encoding=UTF-8
 set expandtab " Convert tabs to spaces
+set foldmethod=marker
 set hidden " TextEdit might fail if hidden is not set
 set nobackup
 set nocompatible
@@ -31,7 +32,7 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
-" {{ Keymappings }}
+" Keymappings {{{
 let g:mapleader = "\<Space>"
 nnoremap <silent> <C-s> :w<CR>
 " use <CR> to confirm completion
@@ -51,3 +52,4 @@ vnoremap <silent> <leader> :silent <c-u> :silent WhichKeyVisual '<Space>'<CR>
 " nnoremap <leader>g :Rg<CR>
 " nnoremap <leader>t :Tags<CR>
 " nnoremap <leader>m :Marks<CR>
+" }}}

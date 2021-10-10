@@ -1,4 +1,3 @@
-" --- Which-key Settings
 let g:which_key_timeout = 100
 let g:which_key_display_names = {'<CR>': '↵', '<TAB>': '⇆'}
 let g:which_key_sep = '→'

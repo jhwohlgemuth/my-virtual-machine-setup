@@ -16,6 +16,7 @@ autocmd VimEnter *
   \| endif
 
 call plug#begin()
+    " Plugins {{{
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'jiangmiao/auto-pairs'
@@ -53,27 +54,28 @@ call plug#begin()
     Plug 'mg979/vim-visual-multi', {'branch': 'master'}
     Plug 'cj/vim-webdevicons'
     Plug 'liuchengxu/vim-which-key'
+    " }}}
 call plug#end()
 
-" --- Airline Settings
+" Airline Settings {{{
 let g:airline_powerline_fonts = 1
-
-" --- Codi Settings
+" }}}
+" Codi Settings {{{
 " Windows not supported yet: https://github.com/metakirby5/codi.vim/issues/14
 " let g:codi#virtual_text_prefix = "❯ "
 " let g:codi#aliases = {
 "                    \ 'javascript.jsx': 'javascript',
 "                    \ }
-
-" --- ChooseWin Settings
+" }}}
+" ChooseWin Settings {{{
 let g:choosewin_overlay_enable = 1
-
-" --- Colorizer Settings
+" }}}
+" Colorizer Settings {{{
 if exists("loaded_colorizer")
     lua require'colorizer'.setup()
 endif
-
-" --- Floaterm Settings
+" }}}
+" Floaterm Settings {{{
 let g:floaterm_title = ''
 let g:floaterm_gitcommit = 'floaterm'
 let g:floaterm_autoinsert = 1
@@ -81,22 +83,22 @@ let g:floaterm_width = 0.8
 let g:floaterm_height = 0.8
 let g:floaterm_wintitle = 0
 let g:floaterm_autoclose = 1
-
-" --- Indent-guides Settings
+" }}}
+" Indent-guides Settings {{{
 let g:indent_guides_guide_size = 1
-
-" --- Rainbow Settings
+" }}}
+" Rainbow Settings {{{
 let g:rainbow_active = 1
-
-" --- Sneak Settings
+" }}}
+" Sneak Settings {{{
 let g:sneak#label = 1
 let g:sneak#use_ic_scs = 1 " case insensitive sneak
 let g:sneak#s_next = 1
 highlight Sneak guifg=black guibg=#00C7DF ctermfg=black ctermbg=cyan
 highlight SneakScope guifg=red guibg=yellow ctermfg=red ctermbg=yellow
 let g:sneak#prompt = '🔎 '
-
-" --- Startify Settings
+" }}}
+" Startify Settings {{{
 let s:startify_ascii_header = [
 \ '███╗░░██╗███████╗░█████╗░██╗░░░██╗██╗███╗░░░███╗',
 \ '████╗░██║██╔════╝██╔══██╗██║░░░██║██║████╗░████║',
@@ -110,8 +112,8 @@ let g:webdevicons_enable_startify = 1
 function! StartifyEntryFormat()
     return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
 endfunction
-
-" --- Syntastic Settings
+" }}}
+" Syntastic Settings {{{
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -132,3 +134,4 @@ let g:syntastic_text_checkers = ['text', 'proselint']
 let g:syntastic_vim_checkers = ['vim']
 let g:syntastic_xml_checkers = ['xml']
 let g:syntastic_yaml_checkers = ['yaml']
+" }}}
