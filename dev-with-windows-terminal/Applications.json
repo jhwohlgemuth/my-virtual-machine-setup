@@ -96,6 +96,7 @@
         "go": "golang",
         "insomnia": "insomnia-rest-api-client",
         "latex": "miktex",
+        "openssl": "openssl.light",
         "rga": "ripgrep-all",
         "speedtest-cli": "speedtest",
         "teracopy-np": "teracopy",
@@ -107,6 +108,7 @@
         ],
         "Scoop": [
             "fciv",
+            "openssl",
             "zoxide"
         ]
     }
