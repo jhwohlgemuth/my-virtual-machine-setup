@@ -7,7 +7,7 @@ BASE_IMAGE_NAME = jhwohlgemuth/base
 IMAGE_NAME = jhwohlgemuth/env
 CONTAINER_NAME = dev
 
-.PHONY: setup clean create copy-ssh-config copy-git-config install-node shell start stop build local build-image build-base-image
+.PHONY: setup lint clean create copy-ssh-config copy-git-config install-node shell start stop server build local build-image build-base-image
 
 setup: create copy-ssh-config copy-git-config install-node
 
@@ -35,7 +35,7 @@ copy-git-config:
 		echo "==> Copied .gitconfig file to ${CONTAINER_NAME}"
 
 install-node:
-	@docker exec -it dev /usr/bin/zsh -c "source ~/.zshrc && nvm install node"
+	@docker exec -it dev /usr/bin/zsh -c "source ~/.zshrc && nvm install node && npm install ijavascript --global && ijsinstall"
 
 shell:
 	@docker exec -it $(CONTAINER_NAME) zsh
@@ -43,11 +43,14 @@ shell:
 start:
 	docker start --interactive $(CONTAINER_NAME)
 
+server:
+	@echo "==> Starting server"
+
 stop:
 	docker stop $(CONTAINER_NAME)
 
 #
-# Remaining tasks used for local testing
+# Remaining tasks used for local testing and development
 #
 TEST_NAME = test
 build-base-image:
@@ -61,6 +64,10 @@ local: build-image
 
 test-shell:
 	@docker exec -it $(TEST_NAME) zsh
+
+lint:
+	@hadolint ./dev-with-docker/Dockerfile --no-fail
+	@hadolint ./dev-with-docker/Dockerfile.base
 
 clean:
 	@docker stop $(TEST_NAME)

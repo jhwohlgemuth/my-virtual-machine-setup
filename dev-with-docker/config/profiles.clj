@@ -8,6 +8,7 @@
                   [com.bhauman/rebel-readline "0.1.4"]
                   [clj-kondo "RELEASE"]]
         :plugins [
+                  [lein-jupyter "0.1.16"]
                   [lein-drip "0.1.1-SNAPSHOT"];; faster JVM
                   ;; Ultra is awesome, but v0.6.0 has issues with JDK v11
                 ;   [venantius/ultra "0.6.0"];; pretty print and stuff

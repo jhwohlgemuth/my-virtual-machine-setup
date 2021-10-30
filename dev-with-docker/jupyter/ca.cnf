@@ -1,0 +1,16 @@
+[ req ]
+default_bits = 2048
+default_keyfile = my.key
+default_md = sha256
+prompt = no
+encrypt_key = no
+distinguished_name = server
+
+[ server ]
+countryName = US
+stateOrProvinceName = Nebraska
+localityName = Omaha
+organizationName = Wohlgemuth Tech Foundation
+organizationalUnitName = Development
+commonName = Jupyter Server
+emailAddress = noop@example.com
