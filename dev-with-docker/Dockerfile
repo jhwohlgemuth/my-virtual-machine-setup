@@ -4,12 +4,6 @@ LABEL author="Jason Wohlgemuth"
 
 EXPOSE 1337 3449 4669 8000 8080 8111 46692
 
-# Install nvm
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
-ENV PATH "/root/bin:${PATH}"
-ENV NVM_DIR "/root/.nvm"
-RUN echo ". ${NVM_DIR}/nvm.sh" >> ~/.zshrc
-
 # Install conda
 ENV PATH="/root/miniconda3/bin:${PATH}"
 ARG PATH="/root/miniconda3/bin:${PATH}"
@@ -18,21 +12,20 @@ RUN curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.s
     && bash Miniconda3-latest-Linux-x86_64.sh -b \
     && rm -f Miniconda3-latest-Linux-x86_64.sh
 
+# Install nvm
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+ENV PATH "/root/bin:${PATH}"
+ENV NVM_DIR "/root/.nvm"
+RUN echo ". ${NVM_DIR}/nvm.sh" >> ~/.zshrc
+
 # Install Rust
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
 ENV PATH "/root/.cargo/bin:${PATH}"
 RUN rustup toolchain install nightly \
-    && rustup target add wasm32-unknown-unknown --toolchain nightly
-# Install Rust-powered system tools
-RUN cargo install cargo-audit \
-    && cargo install broot \
+    && rustup target add wasm32-unknown-unknown --toolchain nightly \
+    && cargo install cargo-audit \
     && cargo install cargo-edit \
-    && cargo install du-dust \
     && cargo install evcxr_repl \
-    && cargo install evcxr_jupyter \
-    && cargo install grex \
-    && cargo install htmlq \
-    && cargo install tokei \
     && cargo install wasm-bindgen-cli \
     && cargo install wasm-pack
 
@@ -167,6 +160,13 @@ RUN stack setup
 RUN stack build ihaskell --only-snapshot
 RUN stack install ihaskell --local-bin-path ./bin/ 
 RUN ./bin/ihaskell install --stack
+
+# Install Rust-powered system tools
+RUN cargo install broot \
+    && cargo install du-dust \
+    && cargo install grex \
+    && cargo install htmlq \
+    && cargo install tokei
 
 WORKDIR /root/dev
 

@@ -31,8 +31,10 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     libpango1.0-dev \
     libsqlite3-dev \
     libssl-dev \
-    libzmq3-dev \
     libtinfo-dev \
+    libxcb-shape0-dev \
+    libxcb-xfixes0-dev \
+    libzmq3-dev \
     nano \
     neovim \
     netbase \
