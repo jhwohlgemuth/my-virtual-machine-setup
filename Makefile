@@ -3,13 +3,13 @@ HOME_PATH = $(shell echo %userprofile%)
 SSH_KEY = "${HOME_PATH}\.ssh\id_ed25519"
 SSH_CONFIG = "${HOME_PATH}\.ssh\config"
 GIT_CONFIG = "${HOME_PATH}\.gitconfig"
+NOTEBOOK_DIR = "${HOME_PATH}\dev\notebooks"
 BASE_IMAGE_NAME = jhwohlgemuth/base
 IMAGE_NAME = jhwohlgemuth/env
 CONTAINER_NAME = dev
-IGNORE_RULES = --ignore DL3006 --ignore DL3008 --ignore DL3013 --ignore DL4006
-JUPYTER_PORT = 4669
 JUPYTER_HOST = veda
-NOTEBOOK_DIR = "${HOME_PATH}\dev\notebooks"
+JUPYTER_PORT = 4669
+IGNORE_RULES = --ignore DL3006 --ignore DL3008 --ignore DL3013 --ignore DL4006
 
 .PHONY: lint setup clean create copy-ssh-config copy-git-config install-node shell start stop server tunnel build local build-image build-base-image
 
