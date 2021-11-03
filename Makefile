@@ -51,8 +51,12 @@ shell:
 start:
 	docker start --interactive $(CONTAINER_NAME)
 
-server: stop
+server:
+	@echo "==> Starting ${CONTAINER_NAME} container..."
+	@docker start $(CONTAINER_NAME)
+	@echo "==> Starting Jupyter server..."
 	@docker exec --detach --tty $(CONTAINER_NAME) /bin/zsh -c "cd ~/dev/notebooks && jupyter notebook --allow-root"
+	@echo "==> Server started"
 
 tunnel:
 	@pwsh -Command "Start-Job -Name JupyterTunnel -ScriptBlock { ssh -N -L localhost:${JUPYTER_PORT}:localhost:${JUPYTER_PORT} ${JUPYTER_HOST} }"
