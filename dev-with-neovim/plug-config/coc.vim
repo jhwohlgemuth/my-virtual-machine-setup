@@ -1,6 +1,5 @@
 " Coc Settings {{{
 let g:coc_global_extensions = [
-  " {{{
   \ 'coc-css',
   \ 'coc-elixir',
   \ 'coc-emmet',
@@ -17,7 +16,6 @@ let g:coc_global_extensions = [
   \ 'coc-vimlsp',
   \ 'coc-xml',
   \ 'coc-yaml'
-  " }}}
 \ ]
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
