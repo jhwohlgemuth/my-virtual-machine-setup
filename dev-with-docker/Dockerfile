@@ -118,8 +118,7 @@ RUN pip install --no-cache-dir \
     && jupyter nbextension install --py jupyter_tabnine --user \
     # && jupyter nbextension enable code_prettify/code_prettify --user \
     && jupyter nbextension enable --py jupyter_tabnine --user \
-    && jupyter serverextension enable --py jupyter_tabnine --user \
-    && echo "alias start-server=\"cd ~/dev/notebooks && jupyter notebook --allow-root\"" >> ~/.zshrc
+    && jupyter serverextension enable --py jupyter_tabnine --user
 # Install language kernels
 # .NET (C#, F#, and PowerShell)
 ENV PATH "/root/.dotnet/tools:${PATH}"

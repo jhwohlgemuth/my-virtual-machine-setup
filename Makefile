@@ -11,16 +11,16 @@ JUPYTER_HOST = veda
 JUPYTER_PORT = 4669
 IGNORE_RULES = --ignore DL3006 --ignore DL3008 --ignore DL3013 --ignore DL4006
 
-.PHONY: lint setup clean create copy-ssh-config copy-git-config install-node shell start stop server tunnel build local build-image build-base-image
+.PHONY: lint setup clean create copy-ssh-config copy-git-config install-node install-ijavascript shell start stop server tunnel build local build-image build-base-image
 
 lint:
 	@hadolint ./dev-with-docker/Dockerfile --no-fail $(IGNORE_RULES)
 	@hadolint ./dev-with-docker/Dockerfile.base $(IGNORE_RULES)
 
-setup: create copy-ssh-config copy-git-config install-node
+setup: create copy-ssh-config copy-git-config install-node install-ijavascript
 
 create:
-	@docker run -dit --name $(CONTAINER_NAME) --hostname $(HOST_NAME) -p 8000:8000 -p 8080:8080 -p 8111:8111 -p 1337:1337 -p 3449:3449 -p 4669:4669 -p 46692:46692 $(IMAGE_NAME)
+	@docker run -dit --name $(CONTAINER_NAME) --hostname $(HOST_NAME) -v $(HOME_PATH)\dev\notebooks:/root/dev/notebooks -p 8000:8000 -p 8080:8080 -p 8111:8111 -p 1337:1337 -p 3449:3449 -p 4669:4669 -p 46692:46692 $(IMAGE_NAME)
 	@echo "==> Created ${CONTAINER_NAME} container"
 
 copy-ssh-config:
@@ -43,7 +43,10 @@ copy-git-config:
 		echo "==> Copied .gitconfig file to ${CONTAINER_NAME}"
 
 install-node:
-	@docker exec -it $(CONTAINER_NAME) /usr/bin/zsh -c "source ~/.zshrc && nvm install node && npm install ijavascript --global && ijsinstall"
+	@docker exec -it $(CONTAINER_NAME) /usr/bin/zsh -c "source ~/.zshrc && nvm install node"
+
+install-ijavascript:
+	@docker exec -it $(CONTAINER_NAME) /usr/bin/zsh -c "cd /root/dev/notebooks && source ~/.zshrc && npm init -y && npm install ijavascript && node_modules/ijavascript/bin/ijsinstall.js --spec-path=full"
 
 shell:
 	@docker exec -it $(CONTAINER_NAME) zsh
@@ -55,7 +58,7 @@ server:
 	@echo "==> Starting ${CONTAINER_NAME} container..."
 	@docker start $(CONTAINER_NAME)
 	@echo "==> Starting Jupyter server..."
-	@docker exec --detach --tty $(CONTAINER_NAME) /bin/zsh -c "cd ~/dev/notebooks && jupyter notebook --allow-root"
+	@docker exec --detach --tty $(CONTAINER_NAME) /bin/zsh -c "cd /root/dev/notebooks && jupyter notebook --allow-root"
 	@echo "==> Server started"
 
 tunnel:
