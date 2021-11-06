@@ -28,7 +28,12 @@ RUN rustup toolchain install nightly \
         cargo-edit \
         evcxr_repl \
         wasm-bindgen-cli \
-        wasm-pack
+        wasm-pack \
+        broot \
+        du-dust \
+        grex \
+        htmlq \
+        tokei
 
 # Install .NET runtime and SDK
 ARG DEBIAN_FRONTEND=noninteractive
@@ -89,80 +94,6 @@ RUN curl -sSL https://get.haskellstack.org/ | sh
 RUN apt-get update && apt-get install --no-install-recommends -y powershell \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
-
-# Install and Configure Jupyter server
-ENV JUPYTER_ROOT /root/.jupyter
-ENV CERTS_DIR /root/certs
-RUN mkdir -p /root/dev/notebooks && mkdir -p "${JUPYTER_ROOT}/custom" && mkdir -p $CERTS_DIR
-COPY ./dev-with-docker/jupyter/jupyter_notebook_config.py $JUPYTER_ROOT
-COPY ./dev-with-docker/jupyter/custom.css "${JUPYTER_ROOT}/custom"
-COPY ./dev-with-docker/jupyter/ca.cnf $CERTS_DIR
-WORKDIR $CERTS_DIR
-RUN openssl req -new -x509 -days 365 -out my.pem -config ca.cnf
-WORKDIR /root/dev
-# Install Jupyter
-RUN pip install --no-cache-dir \
-        autopep8 \
-        ipychart \
-        jill \
-        jupyter \
-        jupyterlab \
-        jupyter_contrib_nbextensions \
-        jupyter-manim \
-        jupyter-tabnine \
-        jut \
-        kotlin-jupyter-kernel \
-        yapf\
-    && pip install Pygments --upgrade --no-cache-dir \
-    && jupyter contrib nbextension install --user \
-    && jupyter nbextension install --py jupyter_tabnine --user \
-    # && jupyter nbextension enable code_prettify/code_prettify --user \
-    && jupyter nbextension enable --py jupyter_tabnine --user \
-    && jupyter serverextension enable --py jupyter_tabnine --user
-# Install language kernels
-# .NET (C#, F#, and PowerShell)
-ENV PATH "/root/.dotnet/tools:${PATH}"
-RUN dotnet tool install --global Microsoft.dotnet-interactive && dotnet interactive jupyter install
-# Julia
-RUN jill install --confirm && julia -e 'using Pkg;Pkg.add("IJulia")'
-# R
-RUN R -e "install.packages('IRkernel')" && R -e "IRkernel::installspec()"
-# Rust
-RUN cargo install evcxr_jupyter && evcxr_jupyter --install
-# Clojure
-# Note: Clojure kernel will not be useable until after https://github.com/clojupyter/clojupyter/issues/122 (hopefully)
-RUN conda install -y -c simplect clojupyter
-# Elixir
-# Note: Includes temporary fix that can be removed after https://github.com/pprzetacznik/IElixir/pull/60 is merged
-WORKDIR /opt
-RUN git clone https://github.com/pprzetacznik/IElixir.git
-WORKDIR /opt/IElixir
-RUN git remote add awill1988 https://github.com/awill1988/IElixir.git \
-    && git fetch awill1988 feature/elixir_1_12_otp_24_support \
-    && git switch --track awill1988/feature/elixir_1_12_otp_24_support \
-    && mix local.hex --force \
-    && mix local.rebar --force \
-    && mix deps.get \
-    && mix deps.compile \
-    && sed -i 's/python/python3/g' install_script.sh \
-    && ./install_script.sh
-# Haskell
-ENV PATH "${PATH}:/root/.local/bin"
-WORKDIR /opt
-RUN git clone https://github.com/gibiansky/IHaskell
-WORKDIR /opt/IHaskell
-RUN stack setup \
-    && stack build ihaskell --only-snapshot \
-    && stack install ihaskell --local-bin-path ./bin/ \
-    && ./bin/ihaskell install --stack
-
-# Install Rust-powered system tools
-RUN cargo install \
-    broot \
-    du-dust \
-    grex \
-    htmlq \
-    tokei
 
 WORKDIR /root/dev
 
