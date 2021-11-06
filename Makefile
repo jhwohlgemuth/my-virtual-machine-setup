@@ -16,10 +16,7 @@ TASKS = \
 	start \
 	test \
 	test-shell \
-	tunnel \
-	foo \
-	bar \
-	foobar
+	tunnel
 
 .PHONY: $(TASKS)
 
@@ -44,7 +41,7 @@ create-env:
 	@echo "==> Created ${NAME} container"
 
 create-notebook:
-	@docker run -dit --name $(NOTEBOOK_NAME) --hostname $(HOST_NAME) -v $(HOME_PATH)\dev\notebooks:/root/dev/notebooks -p 4669:4669 $(NOTEBOOK_IMAGE)
+	@docker run -dit --restart unless-stopped --name $(NOTEBOOK_NAME) --hostname $(HOST_NAME) -v $(HOME_PATH)\dev\notebooks:/root/dev/notebooks -p 4669:4669 $(NOTEBOOK_IMAGE)
 	@echo "==> Created ${NAME} container"
 
 copy-ssh-config:
@@ -77,9 +74,6 @@ shell:
 
 start:
 	docker start --interactive $(ENV_NAME)
-
-server:
-	@echo "==> Starting ${ENV_NAME} container..."
 
 tunnel:
 	@pwsh -Command "Start-Job -Name JupyterTunnel -ScriptBlock { ssh -N -L localhost:${JUPYTER_PORT}:localhost:${JUPYTER_PORT} ${JUPYTER_HOST} }"
