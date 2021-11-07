@@ -67,7 +67,7 @@ install-node:
 	@docker exec -it $(NAME) /usr/bin/zsh -c "source ~/.zshrc && nvm install node"
 
 install-ijavascript:
-	@docker exec -it $(NAME) /usr/bin/zsh -c "cd /root/dev/notebooks && source ~/.zshrc && npm init -y && npm install ijavascript && node_modules/ijavascript/bin/ijsinstall.js --spec-path=full"
+	@docker exec -it $(NAME) /usr/bin/zsh -c "export NODE_OPTIONS=--max-old-space-size=8192 && cd /root/dev/notebooks && source ~/.zshrc && npm init -y && npm install ijavascript && node_modules/ijavascript/bin/ijsinstall.js --spec-path=full"
 
 data-science:
 	@docker exect -it $(NAME) /usr/bin/zsh -c "pip install numpy pandas keras matplotlib"

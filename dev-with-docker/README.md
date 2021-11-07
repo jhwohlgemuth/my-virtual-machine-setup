@@ -14,15 +14,15 @@ Quick Start
 -----------
 > ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/jhwohlgemuth/env?style=for-the-badge)
 
-> The `jhwohlgemuth/env` image includes a fully customized terminal and has all the best languages installed - dotnet (for F#), nvm (for Node.js), Rust, Kotlin, Clojure, and Elixir
+> The `jhwohlgemuth/env` image includes a fully customized terminal and has all the best languages installed - Python, Julia, F#, nvm (for Node.js), Rust, Kotlin, Clojure, Go, and Elixir
 1. Open Windows Terminal
 
 > Ideally, you have already configured your Windows Terminal according to the [development with Windows Terminal](../dev-with-windows-terminal) instructions
 
-2. Start new shell inside a docker container (I like to name mine "dev")
+2. Start new shell inside a docker container (I like to name mine "env")
 
 ```bash
-docker run -it --name dev jhwohlgemuth/env
+docker run -it --name env jhwohlgemuth/env
 ```
 
 Build Your Own
@@ -34,12 +34,15 @@ Build Your Own
 
 2. Clone this repository and navigate to `dev-with-docker` directory:
 
-```bash
-git clone https://github.com/jhwohlgemuth/env
-cd env/dev-with-docker
-```
+    ```bash
+    git clone https://github.com/jhwohlgemuth/env
+    cd env/dev-with-docker
+    ```
 
-3. Build docker image and "dev" container with `make` command (this command also starts container in background)
+3. Build an environemt for development with the `make` command:
+    ```make
+    make env
+    ```
 
 4. From within Windows Terminal, open a shell to the container with `make shell`
 
@@ -56,13 +59,13 @@ Requirements
 
 Quick Start
 -----------
-1. Open Windows Terminal and create a Docker container (I like to call mine "dev"):
+1. Open Windows Terminal and create a Docker container:
 
 ```bash
-docker run -dit --name dev jhwohlgemuth/env
+docker run -dit --name env jhwohlgemuth/env
 ```
 
-> Instead of creating a new container, you *could* use the container you created up in the "Quick Start" section
+> **TIP** Instead of creating a new container, you *could* use the container you created up in the "Quick Start" section
 
 2. Within VS Code, open the Command Pallete with <kbd>CTRL</kbd>+<kbd>SHIFT</kbd>+<kbd>P</kbd> and type `Remote-Containers: Attach to Running Container...`, press <kbd>ENTER</kbd>
 
@@ -75,5 +78,6 @@ docker run -dit --name dev jhwohlgemuth/env
 Tips
 ====
 - Copy this directory's [`Makefile`](./Makefile) into your Windows user home directory for easy access. This enables you to quickly open a shell in your container by opening Windows Terminal and executing `make` and `make shell` (if you have not created the `dev` container) or `make start` and `make shell` (after you have created the `dev` container)
+- Run a Jupyter notebook server with `make notebook`.  The following language kernels are available: C#, F#, PowerShell, Clojure, Coq, Elixir, Go, Haskell, JavaScript/Node, Julia, Kotlin, R, Rust, and of course, Python.  See [the notebook Dockerfile](./Dockerfile.notebook) for what is included and the [Makefile](../Makefile) for how to use the image and container.
 
 > **Note:** If you skipped the [development with Windows Terminal](../dev-with-windows-terminal) instructions, you can install `make` on Windows with [Chocolatey](https://chocolatey.org/install) via `choco install make`
