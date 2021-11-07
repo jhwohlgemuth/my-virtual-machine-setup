@@ -40,6 +40,14 @@ ENV PATH "/root/.dotnet/tools:${PATH}"
 RUN dotnet tool install --global Microsoft.dotnet-interactive && dotnet interactive jupyter install
 # Coq
 RUN pip install coq-jupyter && python -m coq_jupyter.install
+# Go
+RUN env GO111MODULE=on go get github.com/gopherdata/gophernotes \
+    && export KERNEL_ROOT="$(jupyter --data-dir)/kernels" \
+    && mkdir -p "${KERNEL_ROOT}/go" \
+    && cd "${KERNEL_ROOT}/go" \
+    && cp "$(go env GOPATH)"/pkg/mod/github.com/gopherdata/gophernotes@v0.7.3/kernel/*  "." \
+    && chmod +w ./kernel.json \
+    && sed "s|gophernotes|$(go env GOPATH)/bin/gophernotes|" < kernel.json.in > kernel.json
 # Julia
 RUN jill install --confirm && julia -e 'using Pkg;Pkg.add("IJulia")'
 # R
