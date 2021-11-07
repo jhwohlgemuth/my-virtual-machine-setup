@@ -16,6 +16,7 @@ RUN curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.s
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
 ENV PATH "/root/bin:${PATH}"
 ENV NVM_DIR "/root/.nvm"
+ENV NODE_OPTIONS "--max-old-space-size=8192"
 RUN echo ". ${NVM_DIR}/nvm.sh" >> ~/.zshrc
 
 # Install Rust
