@@ -92,5 +92,6 @@ COPY ./dev-with-neovim/plug-config/coc.vim "${NEOVIM_ROOT}plug-config/"
 COPY ./dev-with-neovim/plug-config/fzf.vim "${NEOVIM_ROOT}plug-config/"
 COPY ./dev-with-neovim/plug-config/which-key.vim "${NEOVIM_ROOT}plug-config/"
 COPY ./dev-with-neovim/themes/onedark.vim "${NEOVIM_ROOT}themes/"
+RUN find $NEOVIM_ROOT -name "*.vim" | xargs dos2unix
 
 ENTRYPOINT [ "/bin/zsh" ]

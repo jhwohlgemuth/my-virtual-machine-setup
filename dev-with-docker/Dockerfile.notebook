@@ -18,6 +18,7 @@ WORKDIR /root
 RUN pip install --no-cache-dir \
         autopep8 \
         ipychart \
+        ipyparallel \
         jill \
         jupyter \
         jupyterlab \
@@ -27,7 +28,9 @@ RUN pip install --no-cache-dir \
         jut \
         kotlin-jupyter-kernel \
         yapf\
-    && pip install Pygments --upgrade --no-cache-dir \
+    && pip install --upgrade --no-cache-dir Pygments \
+    # Coq
+    && pip install --no-cache-dir coq-jupyter && python -m coq_jupyter.install \
     && jupyter contrib nbextension install --user \
     && jupyter nbextension install --py jupyter_tabnine --user \
     # && jupyter nbextension enable code_prettify/code_prettify --user \
@@ -38,8 +41,6 @@ RUN pip install --no-cache-dir \
 # .NET (C#, F#, and PowerShell)
 ENV PATH "/root/.dotnet/tools:${PATH}"
 RUN dotnet tool install --global Microsoft.dotnet-interactive && dotnet interactive jupyter install
-# Coq
-RUN pip install coq-jupyter && python -m coq_jupyter.install
 # Go
 RUN env GO111MODULE=on go get github.com/gopherdata/gophernotes \
     && export KERNEL_ROOT="$(jupyter --data-dir)/kernels" \
@@ -48,15 +49,13 @@ RUN env GO111MODULE=on go get github.com/gopherdata/gophernotes \
     && cp "$(go env GOPATH)"/pkg/mod/github.com/gopherdata/gophernotes@v0.7.3/kernel/*  "." \
     && chmod +w ./kernel.json \
     && sed "s|gophernotes|$(go env GOPATH)/bin/gophernotes|" < kernel.json.in > kernel.json
-# Julia
-RUN jill install --confirm && julia -e 'using Pkg;Pkg.add("IJulia")'
-# R
-RUN R -e "install.packages('IRkernel')" && R -e "IRkernel::installspec()"
-# Rust
-RUN cargo install evcxr_jupyter && evcxr_jupyter --install
-# Clojure
-# Note: Clojure kernel will not be useable until after https://github.com/clojupyter/clojupyter/issues/122 (hopefully)
-RUN conda install -y -c simplect clojupyter
+# Julia, R, Rust, and Clojure
+RUN jill install --confirm && julia -e 'using Pkg;Pkg.add("IJulia")' \
+    && R -e "install.packages('IRkernel')" && R -e "IRkernel::installspec()" \
+    && cargo install evcxr_jupyter && evcxr_jupyter --install \
+    # Clojure
+    # Note: Clojure kernel will not be useable until after https://github.com/clojupyter/clojupyter/issues/122 (hopefully)
+    && conda install -y -c simplect clojupyter
 # Elixir
 # Note: Includes temporary fix that can be removed after https://github.com/pprzetacznik/IElixir/pull/60 is merged
 WORKDIR /opt
