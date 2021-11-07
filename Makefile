@@ -69,17 +69,14 @@ install-node:
 install-ijavascript:
 	@docker exec -it $(NAME) /usr/bin/zsh -c "cd /root/dev/notebooks && source ~/.zshrc && npm init -y && npm install ijavascript && node_modules/ijavascript/bin/ijsinstall.js --spec-path=full"
 
+data-science:
+	@docker exect -it $(NAME) /usr/bin/zsh -c "pip install numpy pandas keras matplotlib"
+
 shell:
 	@docker exec -it $(ENV_NAME) zsh
 
 start:
 	docker start --interactive $(ENV_NAME)
-
-tunnel:
-	@pwsh -Command "Start-Job -Name JupyterTunnel -ScriptBlock { ssh -N -L localhost:${JUPYTER_PORT}:localhost:${JUPYTER_PORT} ${JUPYTER_HOST} }"
-
-stop-tunnel:
-	@pwsh -Command "Stop-Job -Name JupyterTunnel"
 
 #
 # Development tasks

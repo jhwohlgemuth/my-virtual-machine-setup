@@ -38,6 +38,8 @@ RUN pip install --no-cache-dir \
 # .NET (C#, F#, and PowerShell)
 ENV PATH "/root/.dotnet/tools:${PATH}"
 RUN dotnet tool install --global Microsoft.dotnet-interactive && dotnet interactive jupyter install
+# Coq
+RUN pip install coq-jupyter && python -m coq_jupyter.install
 # Julia
 RUN jill install --confirm && julia -e 'using Pkg;Pkg.add("IJulia")'
 # R
