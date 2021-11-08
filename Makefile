@@ -15,8 +15,7 @@ TASKS = \
 	shell \
 	start \
 	test \
-	test-shell \
-	tunnel
+	test-shell
 
 .PHONY: $(TASKS)
 
@@ -28,20 +27,20 @@ lint:
 setup: copy-ssh-config copy-git-config install-node
 
 env:
-	@$(MAKE) --no-print-directory create-env NAME=$@
-	@$(MAKE) --no-print-directory setup NAME=$@
+	@$(MAKE) NAME=$@ --no-print-directory create-env
+	@$(MAKE) NAME=$@ --no-print-directory setup
 
 notebook:
-	@$(MAKE) --no-print-directory create-notebook NAME=$@
-	@$(MAKE) --no-print-directory setup NAME=$@
-	@$(MAKE) --no-print-directory install-ijavascript NAME=$@
+	@$(MAKE) NAME=$@ --no-print-directory create-notebook
+	@$(MAKE) NAME=$@ --no-print-directory setup
+	@$(MAKE) NAME=$@ --no-print-directory install-ijavascript
 
 create-env:
 	@docker run -dit --name $(ENV_NAME) --hostname $(HOST_NAME) -v $(HOME_PATH)\dev:/root/dev -p 8000:8000 -p 8080:8080 -p 8111:8111 -p 1337:1337 -p 3449:3449 -p 4669:4669 -p 46692:46692 $(ENV_IMAGE)
 	@echo "==> Created ${NAME} container"
 
 create-notebook:
-	@docker run -dit --restart unless-stopped --name $(NOTEBOOK_NAME) --hostname $(HOST_NAME) -v $(HOME_PATH)\dev\notebooks:/root/dev/notebooks -p 4669:4669 $(NOTEBOOK_IMAGE)
+	@docker run -dit --restart unless-stopped --name $(NOTEBOOK_NAME) --hostname $(HOST_NAME) -v $(NOTEBOOK_DIR):/root/dev/notebooks -p 4669:4669 $(NOTEBOOK_IMAGE)
 	@echo "==> Created ${NAME} container"
 
 copy-ssh-config:
@@ -70,7 +69,7 @@ install-ijavascript:
 	@docker exec -it $(NAME) /usr/bin/zsh -c "cd /root/dev/notebooks && source ~/.zshrc && npm init -y && npm install ijavascript && node_modules/ijavascript/bin/ijsinstall.js --spec-path=full"
 
 data-science:
-	@docker exect -it $(NAME) /usr/bin/zsh -c "pip install numpy pandas keras matplotlib"
+	@docker exec -it $(NOTEBOOK_NAME) /usr/bin/zsh -c "pip install gdown matplotlib numpy pandas keras torch torchvision torchaudio chainer"
 
 shell:
 	@docker exec -it $(ENV_NAME) zsh
@@ -101,7 +100,6 @@ test-shell:
 #
 # Build variables
 #
-args = $(foreach a,$($(subst -,_,$1)_args),$(if $(value $a),$a="$($a)"))
 HOST_NAME = $(shell hostname)
 HOME_PATH = $(shell echo %userprofile%)
 SSH_KEY = "${HOME_PATH}\.ssh\id_ed25519"
