@@ -27,6 +27,7 @@ RUN pip install --no-cache-dir \
         jupyter-tabnine \
         jut \
         kotlin-jupyter-kernel \
+        manim \
         yapf\
     && pip install --upgrade --no-cache-dir Pygments \
     # Coq
