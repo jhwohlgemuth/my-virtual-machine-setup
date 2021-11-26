@@ -72,6 +72,10 @@ data-science:
 	@echo "==> Installing $(DATA_SCIENCE_PACKAGES)..."
 	@docker exec -it $(NOTEBOOK_NAME) /usr/bin/zsh -c "pip install $(DATA_SCIENCE_PACKAGES)"
 
+nlp:
+	@echo "==> Installing spaCy and NLTK..."
+	@docker exec -it $(NOTEBOOK_NAME) /usr/bin/zsh -c "pip install -U spacy && python -m spacy download en_core_web_sm && pip install -U nltk"
+
 shell:
 	@docker exec -it $(ENV_NAME) zsh
 
