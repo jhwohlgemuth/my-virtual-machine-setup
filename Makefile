@@ -69,7 +69,8 @@ install-ijavascript:
 	@docker exec -it $(NAME) /usr/bin/zsh -c "cd /root/dev/notebooks && source ~/.zshrc && npm init -y && npm install ijavascript && node_modules/ijavascript/bin/ijsinstall.js --spec-path=full"
 
 data-science:
-	@docker exec -it $(NOTEBOOK_NAME) /usr/bin/zsh -c "pip install gdown matplotlib numpy pandas keras torch torchvision torchaudio chainer"
+	@echo "==> Installing $(DATA_SCIENCE_PACKAGES)..."
+	@docker exec -it $(NOTEBOOK_NAME) /usr/bin/zsh -c "pip install $(DATA_SCIENCE_PACKAGES)"
 
 shell:
 	@docker exec -it $(ENV_NAME) zsh
@@ -115,3 +116,4 @@ NOTEBOOK_NAME = notebook
 JUPYTER_HOST = veda
 JUPYTER_PORT = 4669
 IGNORE_RULES = --ignore DL3006 --ignore DL3008 --ignore DL3013 --ignore DL4006
+DATA_SCIENCE_PACKAGES = gdown matplotlib seaborn numpy pandas keras torch torchvision torchaudio chainer tensorflow transformers
