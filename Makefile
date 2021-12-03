@@ -68,13 +68,15 @@ install-node:
 install-ijavascript:
 	@docker exec -it $(NAME) /usr/bin/zsh -c "cd /root/dev/notebooks && source ~/.zshrc && npm init -y && npm install ijavascript && node_modules/ijavascript/bin/ijsinstall.js --spec-path=full"
 
-data-science:
+data-science: machine-learning nlp
+
+machine-learning:
 	@echo "==> Installing $(DATA_SCIENCE_PACKAGES)..."
 	@docker exec -it $(NOTEBOOK_NAME) /usr/bin/zsh -c "pip install $(DATA_SCIENCE_PACKAGES)"
 
 nlp:
-	@echo "==> Installing spaCy and NLTK..."
-	@docker exec -it $(NOTEBOOK_NAME) /usr/bin/zsh -c "pip install -U spacy && python -m spacy download en_core_web_sm && pip install -U nltk"
+	@echo "==> Installing $(NLP_PACKAGES)..."
+	@docker exec -it $(NOTEBOOK_NAME) /usr/bin/zsh -c "pip install -U $(NLP_PACKAGES) && python -m spacy download en_core_web_sm && python -m spacy download en_core_web_trf && python -m nltk.downloader -d /usr/local/share/nltk_data all"
 
 shell:
 	@docker exec -it $(ENV_NAME) zsh
@@ -121,3 +123,4 @@ JUPYTER_HOST = veda
 JUPYTER_PORT = 4669
 IGNORE_RULES = --ignore DL3006 --ignore DL3008 --ignore DL3013 --ignore DL4006
 DATA_SCIENCE_PACKAGES = gdown matplotlib seaborn numpy pandas keras torch torchvision torchaudio chainer tensorflow transformers
+NLP_PACKAGES = spacy nltk polyglot gensim
