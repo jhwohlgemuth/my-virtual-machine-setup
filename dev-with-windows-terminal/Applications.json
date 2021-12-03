@@ -42,17 +42,6 @@
         "winfetch",
         "zoxide"
     ],
-    "Exclusive": {
-        "Chocolatey": [
-            "rsvg-convert"
-        ],
-        "Scoop": [
-            "fciv",
-            "hadolint",
-            "JetBrainsMono-NF",
-            "tesseract-languages"
-        ]
-    },
     "Extra": {
         "Common": [
             "anki",
@@ -75,12 +64,17 @@
             "malwarebytes",
             "manimce",
             "nordvpn",
+            "rsvg-convert",
             "zotero"
         ],
         "Scoop": [
             "altair",
             "bitwarden-cli",
-            "insomnia"
+            "fciv",
+            "hadolint",
+            "insomnia",
+            "JetBrainsMono-NF",
+            "tesseract-languages"
         ]
     },
     "Alias": {
