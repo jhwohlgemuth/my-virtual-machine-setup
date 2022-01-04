@@ -51,6 +51,8 @@ RUN curl -s "https://get.sdkman.io" | bash \
     && bash -c "source $HOME/.sdkman/bin/sdkman-init.sh \
         && yes | sdk install java \
         && yes | sdk install kotlin \
+        && yes | sdk install spark \
+        && yes | sdk install scala \
         && yes | sdk install leiningen \
         && rm -rf $HOME/.sdkman/archives/* \
         && rm -rf $HOME/.sdkman/tmp/*"
