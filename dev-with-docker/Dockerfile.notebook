@@ -32,6 +32,9 @@ RUN pip install --no-cache-dir \
     && pip install --upgrade --no-cache-dir Pygments \
     # Coq
     && pip install --no-cache-dir coq-jupyter && python -m coq_jupyter.install \
+    # Scala
+    && pip install --no-cache-dir pyspark spylon-kernel && python -m spylon_kernel install \
+    # Jupyter Extension Configuration
     && jupyter contrib nbextension install --user \
     && jupyter nbextension install --py jupyter_tabnine --user \
     # && jupyter nbextension enable code_prettify/code_prettify --user \

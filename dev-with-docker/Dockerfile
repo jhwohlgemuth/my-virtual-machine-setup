@@ -46,14 +46,15 @@ RUN curl -O https://packages.microsoft.com/config/ubuntu/20.04/packages-microsof
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Java and Kotlin
+# Install Java, Scala, and Kotlin
 RUN curl -s "https://get.sdkman.io" | bash \
     && bash -c "source $HOME/.sdkman/bin/sdkman-init.sh \
+        && yes | sdk install hadoop \
         && yes | sdk install java \
         && yes | sdk install kotlin \
-        && yes | sdk install spark \
-        && yes | sdk install scala \
         && yes | sdk install leiningen \
+        && yes | sdk install scala \
+        && yes | sdk install spark \
         && rm -rf $HOME/.sdkman/archives/* \
         && rm -rf $HOME/.sdkman/tmp/*"
 
