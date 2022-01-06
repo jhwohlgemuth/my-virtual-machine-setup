@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-Setup script for installing useful PowerShell modules and applications on Windows
+Script for installing useful PowerShell modules and applications on Windows
 #>
 [CmdletBinding(SupportsShouldProcess = $True)]
 Param(
