@@ -70,8 +70,8 @@ RUN curl --output erlang.deb https://packages.erlang-solutions.com/erlang-soluti
     && dpkg -i erlang.deb \
     && rm erlang.deb \
     && apt-get update && apt-get install --no-install-recommends -y \
-    esl-erlang \
-    elixir \
+        esl-erlang \
+        elixir \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 COPY ./dev-with-docker/config/.iex.exs /root/
