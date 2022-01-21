@@ -26,7 +26,7 @@ Param(
         'star',
         'wopian'
     )]
-    [String] $Theme = 'powerline'
+    [String] $Theme = 'powerlevel'
 )
 if ($Initial) {
     if ($PSCmdlet.ShouldProcess('==> [INFO] Create dev folder and install git')) {
