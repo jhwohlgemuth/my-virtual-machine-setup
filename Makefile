@@ -76,7 +76,7 @@ machine-learning:
 
 nlp:
 	@echo "==> Installing $(NLP_PACKAGES)..."
-	@docker exec -it $(NOTEBOOK_NAME) /usr/bin/zsh -c "pip install -U $(NLP_PACKAGES) && python -m spacy download en_core_web_sm && python -m spacy download en_core_web_trf && python -m nltk.downloader -d /usr/local/share/nltk_data all"
+	@docker exec -it $(NOTEBOOK_NAME) /usr/bin/zsh -c "pip install -U $(NLP_PACKAGES) && python -m spacy download en_core_web_sm && python -m spacy download en_core_web_trf && python -m nltk.downloader -d /usr/local/share/nltk_data all && python -m textblob.download_corpora"
 
 shell:
 	@docker exec -it $(ENV_NAME) zsh
@@ -122,5 +122,5 @@ NOTEBOOK_NAME = notebook
 JUPYTER_HOST = veda
 JUPYTER_PORT = 4669
 IGNORE_RULES = --ignore DL3006 --ignore DL3008 --ignore DL3013 --ignore DL4006
-DATA_SCIENCE_PACKAGES = gdown matplotlib seaborn numpy pandas keras torch torchvision torchaudio chainer tensorflow transformers
-NLP_PACKAGES = spacy nltk polyglot gensim
+DATA_SCIENCE_PACKAGES = gdown matplotlib seaborn numpy pandas polars keras torch torchvision torchaudio chainer tensorflow transformers
+NLP_PACKAGES = spacy nltk polyglot gensim textblob ludwig
