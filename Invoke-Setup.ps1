@@ -5,6 +5,8 @@ Setup script for configuring Windows Terminal
 Use if first time using this script. Creates ~/dev directory and installs Git using Scoop.
 .PARAMETER SkipInstall
 Whether or not to install PowerShell modules and Scoop applications.
+.PARAMETER SkipNeovim
+Whether or not to configure Neovim.
 .PARAMETER Theme
 The name of the oh-my-posh theme to use.
 .EXAMPLE
@@ -18,6 +20,7 @@ The name of the oh-my-posh theme to use.
 Param(
     [Switch] $Initial,
     [Switch] $SkipInstall,
+    [Switch] $SkipNeovim,
     [PSObject] $InstallOptions = @{ PackageManager = 'Scoop'; Include = 'extra'; Skip = 'modules' },
     [ValidateSet(
         'agnoster',
@@ -37,11 +40,13 @@ Param(
         'star',
         'wopian'
     )]
-    [String] $Theme = 'powerlevel'
+    [String] $Theme = 'powerlevel',
+    [Switch] $Force
 )
 
 $Root = $PSScriptRoot
 $TerminalRoot = Join-Path $Root 'dev-with-windows-terminal'
+$NeovimRoot = Join-Path $Root 'dev-with-neovim'
 $LocalSettingsPath = "$Env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
 $Verbose = $PSCmdlet.MyInvocation.BoundParameters['Verbose'].IsPresent -eq $True
 $WhatIf = $PSCmdlet.MyInvocation.BoundParameters['WhatIf'].IsPresent -eq $True
@@ -111,4 +116,9 @@ if ($PSCmdlet.ShouldProcess("==> [INFO] Update oh-my-posh theme to ${ThemeName}"
     "==> [INFO] Updating oh-my-posh theme to ${ThemeName}" | Write-Verbose
     Set-PoshPrompt -Theme $ThemeName
     ((Get-Content -path $PROFILE -Raw) -replace 'Set-PoshPrompt -Theme .*\r\n', "Set-PoshPrompt -Theme ${ThemeName}`n") | Set-Content -Path $PROFILE
+}
+if (-not $SkipNeovim) {
+    Set-Location $NeovimRoot
+    & .\Invoke-Setup.ps1 -Force:$Force -Verbose:$Verbose -WhatIf:$WhatIf
+    Set-Location $Root
 }
