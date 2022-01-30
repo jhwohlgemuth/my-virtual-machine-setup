@@ -28,18 +28,26 @@ Param(
     )]
     [String] $Theme = 'powerlevel'
 )
+$Root = $PSScriptRoot
+$TerminalRoot = Join-Path $Root 'dev-with-windows-terminal'
+$LocalSettingsPath = "$Env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
 if ($Initial) {
     if ($PSCmdlet.ShouldProcess('==> [INFO] Create dev folder and install git')) {
-        New-Item -ItemType Directory -Name dev -Path '~/dev/foo' -Force
+        New-Item -ItemType Directory -Name dev -Path (Join-Path $Env:USERPROFILE 'dev') -Force
         scoop install git
     }
+}
+if ($PSCmdlet.ShouldProcess('==> [INFO] Copy Makefile to user root')) {
+    Copy-Item -Path 'Makefile' -Destination $Env:USERPROFILE -Force
 }
 if (-not $SkipInstall) {
     if ($PSCmdlet.ShouldProcess('==> [RUN] Invoke-Install.ps1')) {
         '==> [RUN] Executing Invoke-Install.ps1' | Write-Verbose
         '==> [INFO] Install options:' | Write-Verbose
         $InstallOptions | Write-Verbose
+        Set-Location $TerminalRoot
         & .\Invoke-Install.ps1 @InstallOptions
+        Set-Location $Root
     }
 } else {
     '==> [INFO] Skipping execution of Invoke-Install.ps1' | Write-Verbose
@@ -47,13 +55,12 @@ if (-not $SkipInstall) {
 # Copy windows terminal profile
 if ($PSCmdlet.ShouldProcess('==> [INFO] Copy profile configuration')) {
     "==> [INFO] Copying profile configuration to ${PROFILE}" | Write-Verbose
-    Set-Content -Path $PROFILE -Value (Get-Content -Path .\Microsoft.Powershell_profile.ps1)
+    Set-Content -Path $PROFILE -Value (Get-Content -Path (Join-Path $TerminalRoot 'Microsoft.Powershell_profile.ps1'))
 }
 # Copy windows terminal settings.json
 if ($PSCmdlet.ShouldProcess('==> [INFO] Copy settings JSON file')) {
-    $LocalSettingsPath = "$Env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
     "==> [INFO] Copying settings.json to ${LocalSettingsPath}" | Write-Verbose
-    Set-Content -Path $LocalSettingsPath -Value (Get-Content -Path .\settings.json)
+    Set-Content -Path $LocalSettingsPath -Value (Get-Content -Path (Join-Path $TerminalRoot 'settings.json'))
 }
 # Update oh-my-posh theme
 $ThemeName = @{
