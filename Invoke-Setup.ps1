@@ -1,13 +1,24 @@
 <#
 .SYNOPSIS
 Setup script for configuring Windows Terminal
+.PARAMETER Initial
+Use if first time using this script. Creates ~/dev directory and installs Git using Scoop.
+.PARAMETER SkipInstall
+Whether or not to install PowerShell modules and Scoop applications.
+.PARAMETER Theme
+The name of the oh-my-posh theme to use.
+.EXAMPLE
+# Change the terminal theme (without installing anything)
+./Invoke-Setup.ps1 -Theme princess
+.EXAMPLE
+# Run the script to see what it would do without changing anything
+./Invoke-Setup.ps1 -Verbose -WhatIf
 #>
 [CmdletBinding(SupportsShouldProcess = $True)]
 Param(
     [Switch] $Initial,
-    [Switch] $EnableRemoting,
     [Switch] $SkipInstall,
-    [PSObject] $InstallOptions = @{ PackageManager = 'Scoop'; Include = 'extra'},
+    [PSObject] $InstallOptions = @{ PackageManager = 'Scoop'; Include = 'extra'; Skip = 'modules' },
     [ValidateSet(
         'agnoster',
         'aliens',
@@ -28,29 +39,44 @@ Param(
     )]
     [String] $Theme = 'powerlevel'
 )
+
 $Root = $PSScriptRoot
 $TerminalRoot = Join-Path $Root 'dev-with-windows-terminal'
 $LocalSettingsPath = "$Env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
+$Verbose = $PSCmdlet.MyInvocation.BoundParameters['Verbose'].IsPresent -eq $True
+$WhatIf = $PSCmdlet.MyInvocation.BoundParameters['WhatIf'].IsPresent -eq $True
+
+function Test-Admin {
+    Param()
+    if ($IsLinux -is [Bool] -and $IsLinux) {
+        (whoami) -eq 'root'
+    } else {
+        ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) | Write-Output
+    }
+}
+# Install Git if running for the first time
 if ($Initial) {
     if ($PSCmdlet.ShouldProcess('==> [INFO] Create dev folder and install git')) {
         New-Item -ItemType Directory -Name dev -Path (Join-Path $Env:USERPROFILE 'dev') -Force
         scoop install git
     }
 }
-if ($PSCmdlet.ShouldProcess('==> [INFO] Copy Makefile to user root')) {
-    Copy-Item -Path 'Makefile' -Destination $Env:USERPROFILE -Force
-}
+# Install PowerShell modules (if admin) and install Scoop applications
 if (-not $SkipInstall) {
-    if ($PSCmdlet.ShouldProcess('==> [RUN] Invoke-Install.ps1')) {
-        '==> [RUN] Executing Invoke-Install.ps1' | Write-Verbose
-        '==> [INFO] Install options:' | Write-Verbose
-        $InstallOptions | Write-Verbose
-        Set-Location $TerminalRoot
-        & .\Invoke-Install.ps1 @InstallOptions
-        Set-Location $Root
+    Set-Location $TerminalRoot
+    if (Test-Admin) {
+        & .\Invoke-Install.ps1 -PackageManager 'Scoop' -Skip 'applications' -Verbose:$Verbose -WhatIf:$WhatIf
     }
+    '==> [INFO] Install options:' | Write-Verbose
+    $InstallOptions | ConvertTo-Json | Write-Verbose
+    & .\Invoke-Install.ps1 @InstallOptions -Verbose:$Verbose -WhatIf:$WhatIf
+    Set-Location $Root
 } else {
     '==> [INFO] Skipping execution of Invoke-Install.ps1' | Write-Verbose
+}
+# Copy Makefile to user root folder
+if ($PSCmdlet.ShouldProcess('==> [INFO] Copy Makefile to user root')) {
+    Copy-Item -Path 'Makefile' -Destination $Env:USERPROFILE -Force
 }
 # Copy windows terminal profile
 if ($PSCmdlet.ShouldProcess('==> [INFO] Copy profile configuration')) {
