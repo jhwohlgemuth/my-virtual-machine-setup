@@ -15,7 +15,7 @@ COPY ./dev-with-docker/jupyter/ca.cnf $CERTS_DIR
 WORKDIR $CERTS_DIR
 RUN openssl req -new -x509 -days 365 -out my.pem -config ca.cnf
 WORKDIR /root
-RUN pip install --no-cache-dir \
+RUN pip install --upgrade pip && pip install --no-cache-dir \
         autopep8 \
         ipychart \
         ipyparallel \
@@ -28,11 +28,12 @@ RUN pip install --no-cache-dir \
         jut \
         kotlin-jupyter-kernel \
         manim \
-        yapf\
+        mobilechelonian \
+        yapf \
     && pip install --upgrade --no-cache-dir Pygments \
     # Coq
     && pip install --no-cache-dir coq-jupyter && python -m coq_jupyter.install \
-    # Scala
+    # Scala1a
     && pip install --no-cache-dir pyspark spylon-kernel && python -m spylon_kernel install \
     # Jupyter Extension Configuration
     && jupyter contrib nbextension install --user \
@@ -40,28 +41,36 @@ RUN pip install --no-cache-dir \
     # && jupyter nbextension enable code_prettify/code_prettify --user \
     && jupyter nbextension enable --py jupyter_tabnine --user \
     && jupyter serverextension enable --py jupyter_tabnine --user
-
-# Install language kernels
+#
 # .NET (C#, F#, and PowerShell)
+#
 ENV PATH "/root/.dotnet/tools:${PATH}"
 RUN dotnet tool install --global Microsoft.dotnet-interactive && dotnet interactive jupyter install
+#
 # Go
-RUN env GO111MODULE=on go get github.com/gopherdata/gophernotes \
-    && export KERNEL_ROOT="$(jupyter --data-dir)/kernels" \
-    && mkdir -p "${KERNEL_ROOT}/go" \
-    && cd "${KERNEL_ROOT}/go" \
-    && cp "$(go env GOPATH)"/pkg/mod/github.com/gopherdata/gophernotes@v0.7.3/kernel/*  "." \
-    && chmod +w ./kernel.json \
+#
+RUN env GO111MODULE=off go get -tags zmq_4_x -d -u github.com/gopherdata/gophernotes \
+    && cd "$(go env GOPATH)"/src/github.com/gopherdata/gophernotes \
+    && env GO111MODULE=on go install \
+    && mkdir -p ~/.local/share/jupyter/kernels/gophernotes \
+    && cp kernel/* ~/.local/share/jupyter/kernels/gophernotes
+WORKDIR /root/.local/share/jupyter/kernels/gophernotes
+RUN chmod +w ./kernel.json \
     && sed "s|gophernotes|$(go env GOPATH)/bin/gophernotes|" < kernel.json.in > kernel.json
+#
 # Julia, R, Rust, and Clojure
+#
+WORKDIR /root
 RUN jill install --confirm && julia -e 'using Pkg;Pkg.add("IJulia")' \
     && R -e "install.packages('IRkernel')" && R -e "IRkernel::installspec()" \
     && cargo install evcxr_jupyter && evcxr_jupyter --install \
     # Clojure
     # Note: Clojure kernel will not be useable until after https://github.com/clojupyter/clojupyter/issues/122 (hopefully)
     && conda install -y -c simplect clojupyter
+#
 # Elixir
 # Note: Includes temporary fix that can be removed after https://github.com/pprzetacznik/IElixir/pull/60 is merged
+#
 WORKDIR /opt
 RUN git clone https://github.com/pprzetacznik/IElixir.git
 WORKDIR /opt/IElixir
@@ -74,7 +83,9 @@ RUN git remote add awill1988 https://github.com/awill1988/IElixir.git \
     && mix deps.compile \
     && sed -i 's/python/python3/g' install_script.sh \
     && ./install_script.sh
+# 
 # Haskell
+# 
 ENV PATH "${PATH}:/root/.local/bin"
 WORKDIR /opt
 RUN git clone https://github.com/gibiansky/IHaskell
