@@ -19,13 +19,6 @@ TASKS = \
 
 .PHONY: $(TASKS)
 
-lint:
-	@hadolint ./dev-with-docker/Dockerfile.base $(IGNORE_RULES)
-	@hadolint ./dev-with-docker/Dockerfile $(IGNORE_RULES)
-	@hadolint ./dev-with-docker/Dockerfile.notebook $(IGNORE_RULES)
-
-setup: copy-ssh-config copy-git-config install-node
-
 env:
 	@$(MAKE) NAME=$@ --no-print-directory create-env
 	@$(MAKE) NAME=$@ --no-print-directory setup
@@ -42,6 +35,8 @@ create-env:
 create-notebook:
 	@docker run -dit --restart unless-stopped --name $(NOTEBOOK_NAME) --hostname $(HOST_NAME) -v $(NOTEBOOK_DIR):/root/dev/notebooks -p 4669:4669 $(NOTEBOOK_IMAGE)
 	@echo "==> Created ${NAME} container"
+
+setup: copy-ssh-config copy-git-config install-node
 
 copy-ssh-config:
 	@docker exec -it $(NAME) /bin/bash -c "mkdir -p /root/.ssh"
@@ -87,6 +82,11 @@ start:
 #
 # Development tasks
 #
+lint:
+	@hadolint ./dev-with-docker/Dockerfile.base $(IGNORE_RULES)
+	@hadolint ./dev-with-docker/Dockerfile $(IGNORE_RULES)
+	@hadolint ./dev-with-docker/Dockerfile.notebook $(IGNORE_RULES)
+
 build-all: build-base build-env build-notebook
 
 build-base:

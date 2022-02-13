@@ -58,15 +58,30 @@ WORKDIR /root/.local/share/jupyter/kernels/gophernotes
 RUN chmod +w ./kernel.json \
     && sed "s|gophernotes|$(go env GOPATH)/bin/gophernotes|" < kernel.json.in > kernel.json
 #
-# Julia, R, Rust, and Clojure
+# Julia, R, and Rust
 #
 WORKDIR /root
 RUN jill install --confirm && julia -e 'using Pkg;Pkg.add("IJulia")' \
     && R -e "install.packages('IRkernel')" && R -e "IRkernel::installspec()" \
-    && cargo install evcxr_jupyter && evcxr_jupyter --install \
-    # Clojure
-    # Note: Clojure kernel will not be useable until after https://github.com/clojupyter/clojupyter/issues/122 (hopefully)
-    && conda install -y -c simplect clojupyter
+    && cargo install evcxr_jupyter && evcxr_jupyter --install
+#
+# Clojure
+#
+RUN git clone https://github.com/clojupyter/clojupyter.git \
+    && cd clojupyter \
+    && git checkout master \
+    && git submodule update --init
+ENV PATH "${PATH}:/root/.sdkman/candidates/leiningen/current/bin:/root/.sdkman/candidates/java/current/bin/"
+WORKDIR /root/clojupyter
+RUN git checkout 0.2.2 \
+    && make install \
+    && cd .. \
+    && rm -rf clojupyter
+#
+# Lua
+#
+WORKDIR /root
+RUN conda install -c conda-forge mamba && mamba install -c conda-forge xeus-lua --yes
 #
 # Elixir
 # Note: Includes temporary fix that can be removed after https://github.com/pprzetacznik/IElixir/pull/60 is merged
