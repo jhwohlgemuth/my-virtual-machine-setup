@@ -77,6 +77,8 @@ RUN git checkout 0.2.2 \
     && make install \
     && cd .. \
     && rm -rf clojupyter
+WORKDIR /root/.local/share/jupyter/kernels/clojupyter
+COPY ./dev-with-docker/jupyter/logo_clojure.png logo-64x64.png
 #
 # Lua
 #
