@@ -29,7 +29,7 @@ notebook:
 	@$(MAKE) NAME=$@ --no-print-directory install-ijavascript
 
 create-env:
-	@docker run -dit --name $(ENV_NAME) --hostname $(HOST_NAME) -v $(HOME_PATH)\dev:/root/dev -p 8000:8000 -p 8080:8080 -p 8111:8111 -p 1337:1337 -p 3449:3449 -p 4669:4669 -p 46692:46692 $(ENV_IMAGE)
+	@docker run -dit --security-opt seccomp=unconfined --name $(ENV_NAME) --hostname $(HOST_NAME) -v $(HOME_PATH)\dev:/root/dev -p 8000:8000 -p 8080:8080 -p 8111:8111 -p 1337:1337 -p 3449:3449 -p 4669:4669 -p 46692:46692 $(ENV_IMAGE)
 	@echo "==> Created ${NAME} container"
 
 create-notebook:

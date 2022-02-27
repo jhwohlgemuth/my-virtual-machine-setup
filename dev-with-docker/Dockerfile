@@ -113,10 +113,22 @@ WORKDIR /root
 RUN curl -o- https://dl.google.com/go/go1.16.5.linux-amd64.tar.gz | tar -xz -C /usr/local
 ENV PATH "${PATH}:/usr/local/go/bin"
 #
+# Install Haskell
+#
+WORKDIR /root
+RUN curl -sSL https://get.haskellstack.org/ | sh
+#
 # Install OCaml
 #
 WORKDIR /root
 RUN apt-get update && apt-get install --no-install-recommends -y ocaml opam \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+#
+# Install PowerShell
+#
+WORKDIR /root
+RUN apt-get update && apt-get install --no-install-recommends -y powershell \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 #
@@ -129,17 +141,24 @@ RUN apt-get update && apt-get install --no-install-recommends -y r-base ruby-ful
     && R -e "install.packages(c('formatR', 'jsonlite'), repos='http://cran.rstudio.com')"
 ENV PATH "${PATH}:/root/.gem/ruby/2.7.0/bin"
 #
-# Install Haskell
+# Install Swift
 #
-WORKDIR /root
-RUN curl -sSL https://get.haskellstack.org/ | sh
-#
-# Install PowerShell
-#
-WORKDIR /root
-RUN apt-get update && apt-get install --no-install-recommends -y powershell \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+ENV SWIFT_SIGNING_KEY 'A62AE125BBBFBB96A6E042EC925CC1CCED3D1561'
+ENV SWIFT_PLATFORM 'ubuntu20.04'
+ENV SWIFT_BRANCH 'swift-5.5.3-release'
+ENV SWIFT_VERSION 'swift-5.5.3-RELEASE'
+ENV SWIFT_WEBROOT 'https://download.swift.org'
+RUN set -e; \
+    SWIFT_WEBDIR="${SWIFT_WEBROOT}/${SWIFT_BRANCH}/$(echo ${SWIFT_PLATFORM} | tr -d .)" \
+    && SWIFT_BIN_URL="${SWIFT_WEBDIR}/${SWIFT_VERSION}/${SWIFT_VERSION}-${SWIFT_PLATFORM}.tar.gz" \
+    && SWIFT_SIG_URL="${SWIFT_BIN_URL}.sig" \
+    && export GNUPGHOME="$(mktemp -d)" \
+    && curl -fsSL ${SWIFT_BIN_URL} -o swift.tar.gz ${SWIFT_SIG_URL} -o swift.tar.gz.sig \
+    && gpg --batch --quiet --keyserver keyserver.ubuntu.com --recv-keys ${SWIFT_SIGNING_KEY} \
+    && gpg --batch --verify swift.tar.gz.sig swift.tar.gz \
+    && tar -xzf swift.tar.gz --directory / --strip-components=1 \
+    && chmod -R o+r /usr/lib/swift \
+    && rm -rf ${GNUPGHOME} swift.tar.gz.sig swift.tar.gz
 
 WORKDIR /root/dev
 

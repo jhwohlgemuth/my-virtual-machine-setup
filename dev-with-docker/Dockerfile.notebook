@@ -129,6 +129,23 @@ RUN curl -Lo coursier https://git.io/coursier-cli \
     && chmod +x coursier \
     && ./coursier launch --fork almond:0.11.1 --scala 2.13 -- --install \
     && rm -f coursier
+#
+# Swift
+#
+ENV SWIFT_TENSORFLOW_PATH /usr/lib/swift-tensorflow-toolchain
+ENV SWIFT_TENSORFLOW_URL https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.13/swift-tensorflow-RELEASE-0.13-ubuntu20.04.tar.gz
+WORKDIR ${SWIFT_TENSORFLOW_PATH}
+RUN mkdir usr \
+    && curl -o swift.tar.gz ${SWIFT_TENSORFLOW_URL} \
+    && tar -xzf swift.tar.gz --directory=usr --strip-components=1 \
+    && rm swift.tar.gz
+WORKDIR /opt
+RUN git clone https://github.com/google/swift-jupyter.git \
+    && cd swift-jupyter \
+    && python register.py --user --swift-toolchain ${SWIFT_TENSORFLOW_PATH}
+ENV PATH "${PATH}:${SWIFT_TENSORFLOW_PATH}"
+WORKDIR /root/.local/share/jupyter/kernels/swift
+COPY ./dev-with-docker/jupyter/logo_swift.png logo-64x64.png 
 
 WORKDIR /root/dev/notebooks
 
