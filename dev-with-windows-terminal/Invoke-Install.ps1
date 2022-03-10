@@ -218,7 +218,7 @@ if ('applications' -notin $Skip) {
                     "==> [INFO] Installing $Application" | Write-Verbose
                     & $Install $Application
                 } else {
-                    "==> [INFO] Skipping installation of $Application" | Write-Color -Red
+                    "==> [INFO] Skipping installation of $Application" | Write-Verbose
                 }
                 $Count++
             }
