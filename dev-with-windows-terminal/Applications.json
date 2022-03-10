@@ -90,10 +90,14 @@
     },
     "Broken": {
         "Chocolatey": [
+            "gsudo",
+            "malwarebytes",
             "tokei"
         ],
         "Scoop": [
             "fciv",
+            "gsudo",
+            "JetBrainsMono-NF",
             "openssl",
             "zoxide"
         ]
