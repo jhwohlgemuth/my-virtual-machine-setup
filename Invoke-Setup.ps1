@@ -1,7 +1,7 @@
 <#
 .SYNOPSIS
 Setup script for configuring Windows Terminal and development environment.
-.PARAMETER SkipInstall
+.PARAMETER SkipApplications
 Whether or not to install PowerShell modules and Scoop applications.
 .PARAMETER Neovim
 Whether or not to configure Neovim.
@@ -19,7 +19,7 @@ The name of the oh-my-posh theme to use.
 #>
 [CmdletBinding(SupportsShouldProcess = $True)]
 Param(
-    [Switch] $SkipInstall,
+    [Switch] $SkipApplications,
     [Switch] $Neovim,
     [PSObject] $InstallOptions = @{ PackageManager = 'Scoop'; Include = 'extra'; Skip = 'modules' },
     [ValidateSet(
@@ -65,18 +65,23 @@ New-Item -ItemType Directory -Name dev -Path (Join-Path $Env:USERPROFILE 'dev') 
 if (-not (Get-Command -Name git -ErrorAction Ignore)) {
     scoop install git
 }
-# Install PowerShell modules (if admin) and install Scoop applications
-if (-not $SkipInstall) {
+# Install PowerShell modules (if admin)
+if (Test-Admin) {
     Set-Location $TerminalRoot
-    if (Test-Admin) {
-        & .\Invoke-Install.ps1 -PackageManager 'Scoop' -Skip 'applications' -Verbose:$Verbose -WhatIf:$WhatIf
-    }
+    & .\Invoke-Install.ps1 -Skip 'applications' -Verbose:$Verbose -WhatIf:$WhatIf
+    Set-Location $Root
+} else {
+    '==> [INFO] Skipping installation of PowerShell modules' | Write-Verbose
+}
+# Install applications
+if (-not $SkipApplications) {
+    Set-Location $TerminalRoot
     '==> [INFO] Install options:' | Write-Verbose
     $InstallOptions | ConvertTo-Json | Write-Verbose
     & .\Invoke-Install.ps1 @InstallOptions -Verbose:$Verbose -WhatIf:$WhatIf
     Set-Location $Root
 } else {
-    '==> [INFO] Skipping execution of Invoke-Install.ps1' | Write-Verbose
+    "==> [INFO] Skipping installation of $($InstallOptions.PackageManager) applications" | Write-Verbose
 }
 # Copy Makefile to user root folder
 if ($PSCmdlet.ShouldProcess('==> [INFO] Copy Makefile to user root')) {
