@@ -7,6 +7,8 @@ Whether or not to install PowerShell modules and Scoop applications.
 Whether or not to configure Neovim.
 .PARAMETER Theme
 The name of the oh-my-posh theme to use.
+.PARAMETER Standalone
+Use if running script outside of env repo (downloads jhwohlgemuth/env repo)
 .EXAMPLE
 # Change the terminal theme (without installing anything)
 ./Invoke-Setup.ps1 -Theme princess
@@ -41,16 +43,9 @@ Param(
         'wopian'
     )]
     [String] $Theme = 'powerlevel',
+    [Switch] $Standalone,
     [Switch] $Force
 )
-
-$Root = $PSScriptRoot
-$TerminalRoot = Join-Path $Root 'dev-with-windows-terminal'
-$NeovimRoot = Join-Path $Root 'dev-with-neovim'
-$LocalSettingsPath = "$Env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
-$Verbose = $PSCmdlet.MyInvocation.BoundParameters['Verbose'].IsPresent -eq $True
-$WhatIf = $PSCmdlet.MyInvocation.BoundParameters['WhatIf'].IsPresent -eq $True
-
 function Test-Admin {
     Param()
     if ($IsLinux -is [Bool] -and $IsLinux) {
@@ -59,45 +54,75 @@ function Test-Admin {
         ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) | Write-Output
     }
 }
-# Create ~/dev directory (if it doesn't exist)
-New-Item -ItemType Directory -Name dev -Path (Join-Path $Env:USERPROFILE 'dev') -Force
-# Install Git (if required)
-if (-not (Get-Command -Name git -ErrorAction Ignore)) {
-    scoop install git
+#
+# Set script variables
+#
+$DevDirectory = Join-Path $Env:USERPROFILE 'dev'
+$EnvDirectory = Join-Path $DevDirectory 'env'
+$Root = if ($Standalone) { $PSScriptRoot } else { $EnvDirectory }
+$TerminalRoot = Join-Path $Root 'dev-with-windows-terminal'
+$LocalSettingsPath = "$Env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
+$CmdletParameters = @{
+    Verbose = $PSCmdlet.MyInvocation.BoundParameters['Verbose'].IsPresent -eq $True
+    WhatIf = $PSCmdlet.MyInvocation.BoundParameters['WhatIf'].IsPresent -eq $True
 }
-# Install PowerShell modules (if admin)
+#
+# Install Git (if required)
+#
+if (-not (Get-Command -Name git -ErrorAction Ignore)) {
+    if ($PSCmdlet.ShouldProcess('==> [INFO] Install Git')) {
+        scoop install git
+    }
+}
+#
+# Create ~/dev directory
+#
+New-Item -ItemType Directory -Name dev -Path $DevDirectory -Force @CmdletParameters
+if ($Standalone) {
+    if ($PSCmdlet.ShouldProcess('==> [INFO] Clone jhwohlgemuth/env repo')) {
+        Set-Location -Path $DevDirectory
+        git clone https://github.com/jhwohlgemuth/env.git
+    }
+}
+#
+# Install PowerShell modules
+#
 if (Test-Admin) {
-    Set-Location $TerminalRoot
-    & .\Invoke-Install.ps1 -Skip 'applications' -Verbose:$Verbose -WhatIf:$WhatIf
-    Set-Location $Root
+    Set-Location -Path $TerminalRoot
+    & .\Invoke-Install.ps1 -Skip 'applications' @CmdletParameters
+    Set-Location -Path $Root
 } else {
     '==> [INFO] Skipping installation of PowerShell modules' | Write-Verbose
 }
+#
 # Install applications
+#
 if (-not $SkipApplications) {
-    Set-Location $TerminalRoot
+    Set-Location -Path $TerminalRoot
     '==> [INFO] Install options:' | Write-Verbose
     $InstallOptions | ConvertTo-Json | Write-Verbose
-    & .\Invoke-Install.ps1 @InstallOptions -Verbose:$Verbose -WhatIf:$WhatIf
-    Set-Location $Root
+    & .\Invoke-Install.ps1 @InstallOptions @CmdletParameters
+    Set-Location -Path $Root
 } else {
     "==> [INFO] Skipping installation of $($InstallOptions.PackageManager) applications" | Write-Verbose
 }
 # Copy Makefile to user root folder
-if ($PSCmdlet.ShouldProcess('==> [INFO] Copy Makefile to user root')) {
-    Copy-Item -Path 'Makefile' -Destination $Env:USERPROFILE -Force
-}
+#
+"==> [INFO] Copying Makefile to $($Env:USERPROFILE)" | Write-Verbose
+Copy-Item -Path 'Makefile' -Destination $Env:USERPROFILE -Force @CmdletParameters
+#
 # Copy windows terminal profile
-if ($PSCmdlet.ShouldProcess('==> [INFO] Copy profile configuration')) {
-    "==> [INFO] Copying profile configuration to ${PROFILE}" | Write-Verbose
-    Set-Content -Path $PROFILE -Value (Get-Content -Path (Join-Path $TerminalRoot 'Microsoft.Powershell_profile.ps1'))
-}
+#
+"==> [INFO] Copying profile configuration to ${PROFILE}" | Write-Verbose
+Set-Content -Path $PROFILE -Value (Get-Content -Path (Join-Path $TerminalRoot 'Microsoft.Powershell_profile.ps1')) @CmdletParameters
+#
 # Copy windows terminal settings.json
-if ($PSCmdlet.ShouldProcess('==> [INFO] Copy settings JSON file')) {
-    "==> [INFO] Copying settings.json to ${LocalSettingsPath}" | Write-Verbose
-    Set-Content -Path $LocalSettingsPath -Value (Get-Content -Path (Join-Path $TerminalRoot 'settings.json'))
-}
+#
+"==> [INFO] Copying settings.json to ${LocalSettingsPath}" | Write-Verbose
+Set-Content -Path $LocalSettingsPath -Value (Get-Content -Path (Join-Path $TerminalRoot 'settings.json')) @CmdletParameters
+#
 # Update oh-my-posh theme
+#
 $ThemeName = @{
     'agnoster'    = 'agnoster'
     'aliens'      = 'aliens'
@@ -121,8 +146,12 @@ if ($PSCmdlet.ShouldProcess("==> [INFO] Update oh-my-posh theme to ${ThemeName}"
     Set-PoshPrompt -Theme $ThemeName
     ((Get-Content -path $PROFILE -Raw) -replace 'Set-PoshPrompt -Theme .*\r\n', "Set-PoshPrompt -Theme ${ThemeName}`n") | Set-Content -Path $PROFILE
 }
+#
+# Install and configure Neovim
+#
 if ($Neovim) {
-    Set-Location $NeovimRoot
-    & .\Invoke-Setup.ps1 -Force:$Force -Verbose:$Verbose -WhatIf:$WhatIf
-    Set-Location $Root
+    Set-Location -Path (Join-Path $Root 'dev-with-neovim')
+    & .\Invoke-Setup.ps1 -Force:$Force @CmdletParameters
+    Set-Location -Path $Root
 }
+Set-Location -Path $DevDirectory
