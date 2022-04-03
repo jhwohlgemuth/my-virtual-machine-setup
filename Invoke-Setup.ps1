@@ -1,11 +1,9 @@
 <#
 .SYNOPSIS
-Setup script for configuring Windows Terminal
-.PARAMETER Initial
-Use if first time using this script. Creates ~/dev directory and installs Git using Scoop.
+Setup script for configuring Windows Terminal and development environment.
 .PARAMETER SkipInstall
 Whether or not to install PowerShell modules and Scoop applications.
-.PARAMETER SkipNeovim
+.PARAMETER Neovim
 Whether or not to configure Neovim.
 .PARAMETER Theme
 The name of the oh-my-posh theme to use.
@@ -15,12 +13,14 @@ The name of the oh-my-posh theme to use.
 .EXAMPLE
 # Run the script to see what it would do without changing anything
 ./Invoke-Setup.ps1 -Verbose -WhatIf
+.EXAMPLE
+# Also install and configure Neovim
+./Invoke-Setup.ps1 -Neovim
 #>
 [CmdletBinding(SupportsShouldProcess = $True)]
 Param(
-    [Switch] $Initial,
     [Switch] $SkipInstall,
-    [Switch] $SkipNeovim,
+    [Switch] $Neovim,
     [PSObject] $InstallOptions = @{ PackageManager = 'Scoop'; Include = 'extra'; Skip = 'modules' },
     [ValidateSet(
         'agnoster',
@@ -59,12 +59,11 @@ function Test-Admin {
         ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) | Write-Output
     }
 }
-# Install Git if running for the first time
-if ($Initial) {
-    if ($PSCmdlet.ShouldProcess('==> [INFO] Create dev folder and install git')) {
-        New-Item -ItemType Directory -Name dev -Path (Join-Path $Env:USERPROFILE 'dev') -Force
-        scoop install git
-    }
+# Create ~/dev directory (if it doesn't exist)
+New-Item -ItemType Directory -Name dev -Path (Join-Path $Env:USERPROFILE 'dev') -Force
+# Install Git (if required)
+if (-not (Get-Command -Name git -ErrorAction Ignore)) {
+    scoop install git
 }
 # Install PowerShell modules (if admin) and install Scoop applications
 if (-not $SkipInstall) {
@@ -117,7 +116,7 @@ if ($PSCmdlet.ShouldProcess("==> [INFO] Update oh-my-posh theme to ${ThemeName}"
     Set-PoshPrompt -Theme $ThemeName
     ((Get-Content -path $PROFILE -Raw) -replace 'Set-PoshPrompt -Theme .*\r\n', "Set-PoshPrompt -Theme ${ThemeName}`n") | Set-Content -Path $PROFILE
 }
-if (-not $SkipNeovim) {
+if ($Neovim) {
     Set-Location $NeovimRoot
     & .\Invoke-Setup.ps1 -Force:$Force -Verbose:$Verbose -WhatIf:$WhatIf
     Set-Location $Root
