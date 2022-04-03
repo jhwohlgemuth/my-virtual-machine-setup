@@ -58,6 +58,7 @@
         ],
         "Chocolatey": [
             "altair-graphql",
+            "bluescreenview",
             "bitwarden",
             "devtoys",
             "dropbox",
