@@ -70,7 +70,7 @@ $CmdletParameters = @{
 # Install Git (if required)
 #
 if (-not (Get-Command -Name git -ErrorAction Ignore)) {
-    if ($PSCmdlet.ShouldProcess('==> [INFO] Install Git')) {
+    if ($PSCmdlet.ShouldProcess('Install Git')) {
         scoop install git
     }
 }
@@ -79,7 +79,7 @@ if (-not (Get-Command -Name git -ErrorAction Ignore)) {
 #
 New-Item -ItemType Directory -Name dev -Path $DevDirectory -Force @CmdletParameters
 if ($Standalone) {
-    if ($PSCmdlet.ShouldProcess('==> [INFO] Clone jhwohlgemuth/env repo')) {
+    if ($PSCmdlet.ShouldProcess('Clone jhwohlgemuth/env repo')) {
         Set-Location -Path $DevDirectory
         git clone https://github.com/jhwohlgemuth/env.git
     }
@@ -141,7 +141,7 @@ $ThemeName = @{
     'star'        = 'star'
     'wopian'      = 'wopian'
 }[$Theme]
-if ($PSCmdlet.ShouldProcess("==> [INFO] Update oh-my-posh theme to ${ThemeName}")) {
+if ($PSCmdlet.ShouldProcess("Update oh-my-posh theme to ${ThemeName}")) {
     "==> [INFO] Updating oh-my-posh theme to ${ThemeName}" | Write-Verbose
     Set-PoshPrompt -Theme $ThemeName
     ((Get-Content -path $PROFILE -Raw) -replace 'Set-PoshPrompt -Theme .*\r\n', "Set-PoshPrompt -Theme ${ThemeName}`n") | Set-Content -Path $PROFILE
