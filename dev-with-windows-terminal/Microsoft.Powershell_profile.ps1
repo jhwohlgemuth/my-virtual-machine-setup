@@ -2,7 +2,10 @@
 # Import Powershell modules
 #
 function Test-Installed {
-    $Name = $Args[0]
+    Param(
+        [Parameter(Mandatory = $True, Position = 0)]
+        [String] $Name
+    )
     Get-Module -ListAvailable -Name $Name
 }
 if (Test-Installed PSReadLine) {
@@ -35,12 +38,12 @@ Set-PoshPrompt -Theme powerlevel10k_rainbow
 #
 $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 if (Test-Path $ChocolateyProfile) {
-    Import-Module "$ChocolateyProfile"
+    Import-Module -Name "$ChocolateyProfile"
 }
 #
 # Set aliases
 #
-if (Test-Command git) {
+if (Test-Command -Name git) {
     function Invoke-GitCommand { git $Args }
     function Invoke-GitCommit { git commit -vam $Args }
     function Invoke-GitDiff { git diff $Args }
@@ -64,7 +67,7 @@ if (Test-Command git) {
     Set-Alias -Scope Global -Option AllScope -Name gsb -Value Invoke-GitStatus
     Set-Alias -Scope Global -Option AllScope -Name gco -Value Invoke-GitCheckout
 }
-if (Test-Command docker) {
+if (Test-Command -Name docker) {
     $Format = "table {{.ID}}\t{{.Names}}\t{{.Status}}\t{{.Ports}}"
     function Invoke-DockerProcess { docker ps --format $Format }
     function Invoke-DockerProcessAll { docker ps -a --format $Format }
