@@ -122,5 +122,5 @@ NOTEBOOK_NAME = notebook
 JUPYTER_HOST = veda
 JUPYTER_PORT = 4669
 IGNORE_RULES = --ignore DL3006 --ignore DL3008 --ignore DL3013 --ignore DL4006
-DATA_SCIENCE_PACKAGES = gdown matplotlib seaborn numpy pandas polars keras torch torchvision torchaudio chainer tensorflow transformers
+DATA_SCIENCE_PACKAGES = gdown matplotlib seaborn numpy pandas polars keras torch torchvision torchaudio chainer tensorflow transformers drawdata
 NLP_PACKAGES = spacy nltk polyglot gensim textblob ludwig
