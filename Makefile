@@ -74,10 +74,8 @@ nlp:
 	@docker exec -it $(NOTEBOOK_NAME) /usr/bin/zsh -c "pip install -U $(NLP_PACKAGES) && python -m spacy download en_core_web_sm && python -m spacy download en_core_web_trf && python -m nltk.downloader -d /usr/local/share/nltk_data all && python -m textblob.download_corpora"
 
 shell:
-	@docker exec -it $(ENV_NAME) zsh
-
-start:
-	docker start --interactive $(ENV_NAME)
+	@docker start $(ENV_NAME)
+	@docker attach $(ENV_NAME)
 
 #
 # Development tasks
