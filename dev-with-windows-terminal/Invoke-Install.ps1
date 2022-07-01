@@ -154,6 +154,7 @@ if ('applications' -notin $Skip) {
             }
             $Install = { scoop install $Args[0] }
             $PostInstall = {
+                conda init powershell
                 if (('extra' -in $Include) -and ('tesseract-languages' -notin $Exclude)) { 
                     scoop reset tesseract-languages
                 }
