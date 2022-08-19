@@ -29,11 +29,29 @@ notebook:
 	@$(MAKE) NAME=$@ --no-print-directory install-ijavascript
 
 create-env:
-	@docker run -dit --security-opt seccomp=unconfined --name $(ENV_NAME) --hostname $(HOST_NAME) -v $(HOME_PATH)\dev:/root/dev -p 8000:8000 -p 8080:8080 -p 8111:8111 -p 1337:1337 -p 3449:3449 -p 4669:4669 -p 46692:46692 $(ENV_IMAGE)
+	@docker run -dit \
+		--security-opt seccomp=unconfined \
+		--name $(ENV_NAME) \
+		--hostname $(HOST_NAME) \
+		--volume $(HOME_PATH)\dev:/root/dev \
+		-p 8000:8000 \
+		-p 8080:8080 \
+		-p 8111:8111 \
+		-p 1337:1337 \
+		-p 3449:3449 \
+		-p 4669:4669 \
+		-p 46692:46692 \
+		$(ENV_IMAGE)
 	@echo "==> Created ${NAME} container"
 
 create-notebook:
-	@docker run -dit --restart unless-stopped --name $(NOTEBOOK_NAME) --hostname $(HOST_NAME) -v $(NOTEBOOK_DIR):/root/dev/notebooks -p 4669:4669 $(NOTEBOOK_IMAGE)
+	@docker run -dit \
+		--restart unless-stopped \
+		--name $(NOTEBOOK_NAME) \
+		--hostname $(HOST_NAME) \
+		--volume $(NOTEBOOK_DIR):/root/dev/notebooks \
+		-p 4669:4669 \
+		$(NOTEBOOK_IMAGE)
 	@echo "==> Created ${NAME} container"
 
 setup: copy-ssh-config copy-git-config install-node
@@ -58,10 +76,16 @@ copy-git-config:
 		echo "==> Copied .gitconfig file to ${NAME}"
 
 install-node:
-	@docker exec -it $(NAME) /usr/bin/zsh -c "source ~/.zshrc && nvm install node"
+	@docker exec -it \
+		$(NAME) \
+		/usr/bin/zsh \
+		-c "source ~/.zshrc && nvm install node"
 
 install-ijavascript:
-	@docker exec -it $(NAME) /usr/bin/zsh -c "cd /root/dev/notebooks && source ~/.zshrc && npm init -y && npm install ijavascript && node_modules/ijavascript/bin/ijsinstall.js --spec-path=full"
+	@docker exec -it \
+		$(NAME) \
+		/usr/bin/zsh \
+		-c "cd /root/dev/notebooks && source ~/.zshrc && npm init -y && npm install ijavascript && node_modules/ijavascript/bin/ijsinstall.js --spec-path=full"
 
 data-science: machine-learning nlp
 
@@ -71,7 +95,10 @@ machine-learning:
 
 nlp:
 	@echo "==> Installing $(NLP_PACKAGES)..."
-	@docker exec -it $(NOTEBOOK_NAME) /usr/bin/zsh -c "pip install -U $(NLP_PACKAGES) && python -m spacy download en_core_web_sm && python -m spacy download en_core_web_trf && python -m nltk.downloader -d /usr/local/share/nltk_data all && python -m textblob.download_corpora"
+	@docker exec -it \
+		$(NOTEBOOK_NAME) \
+		/usr/bin/zsh \
+		-c "pip install -U $(NLP_PACKAGES) && python -m spacy download en_core_web_sm && python -m spacy download en_core_web_trf && python -m nltk.downloader -d /usr/local/share/nltk_data all && python -m textblob.download_corpora"
 
 shell:
 	@docker start $(ENV_NAME)
@@ -120,5 +147,25 @@ NOTEBOOK_NAME = notebook
 JUPYTER_HOST = veda
 JUPYTER_PORT = 4669
 IGNORE_RULES = --ignore DL3006 --ignore DL3008 --ignore DL3013 --ignore DL4006
-DATA_SCIENCE_PACKAGES = gdown matplotlib seaborn numpy pandas polars keras torch torchvision torchaudio chainer tensorflow transformers drawdata
-NLP_PACKAGES = spacy nltk polyglot gensim textblob ludwig
+DATA_SCIENCE_PACKAGES = \
+	chainer \
+	drawdata \
+	gdown \
+	keras \
+	matplotlib \
+	numpy \
+	pandas \
+	polars \
+	seaborn \
+	tensorflow \
+	torch \
+	torchaudio \
+	torchvision \
+	transformers
+NLP_PACKAGES = \
+	gensim \
+	ludwig \
+	nltk \
+	polyglot \
+	spacy \
+	textblob
