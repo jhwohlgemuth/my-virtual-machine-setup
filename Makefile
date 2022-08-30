@@ -1,7 +1,7 @@
 TASKS = \
 	build-all \
-	build-base \
-	build-env \
+	base-image \
+	env-image \
 	build-notebook \
 	copy-git-config \
 	copy-ssh-config \
@@ -30,6 +30,7 @@ notebook:
 
 create-env:
 	@docker run -dit \
+		--gpus all \
 		--security-opt seccomp=unconfined \
 		--name $(ENV_NAME) \
 		--hostname $(HOST_NAME) \
@@ -41,17 +42,18 @@ create-env:
 		-p 3449:3449 \
 		-p 4669:4669 \
 		-p 46692:46692 \
-		$(ENV_IMAGE)
+		$(ENV_IMAGE_NAME)
 	@echo "==> Created ${NAME} container"
 
 create-notebook:
 	@docker run -dit \
+		--gpus all \
 		--restart unless-stopped \
 		--name $(NOTEBOOK_NAME) \
 		--hostname $(HOST_NAME) \
 		--volume $(NOTEBOOK_DIR):/root/dev/notebooks \
 		-p 4669:4669 \
-		$(NOTEBOOK_IMAGE)
+		$(NOTEBOOK_IMAGE_NAME)
 	@echo "==> Created ${NAME} container"
 
 setup: copy-ssh-config copy-git-config install-node
@@ -112,19 +114,19 @@ lint:
 	@hadolint ./dev-with-docker/Dockerfile $(IGNORE_RULES)
 	@hadolint ./dev-with-docker/Dockerfile.notebook $(IGNORE_RULES)
 
-build-all: build-base build-env build-notebook
+build-all: base-image env-image build-notebook
 
-build-base:
-	@docker build --no-cache -t $(BASE_IMAGE) -f ./dev-with-docker/Dockerfile.base .
+base-image:
+	@docker build --no-cache -t $(BASE_IMAGE_NAME) -f ./dev-with-docker/Dockerfile.base .
 
-build-env:
-	@docker build --no-cache -t $(ENV_IMAGE) -f ./dev-with-docker/Dockerfile .
+env-image:
+	@docker build --no-cache -t $(ENV_IMAGE_NAME) -f ./dev-with-docker/Dockerfile .
 
 build-notebook:
-	@docker build --no-cache -t $(NOTEBOOK_IMAGE) -f ./dev-with-docker/Dockerfile.notebook .
+	@docker build --no-cache -t $(NOTEBOOK_IMAGE_NAME) -f ./dev-with-docker/Dockerfile.notebook .
 
 test:
-	@docker run -dit --name $(TEST_NAME) --hostname $(HOST_NAME) -p 4669:4669 $(ENV_IMAGE)
+	@docker run -dit --name $(TEST_NAME) --hostname $(HOST_NAME) -p 4669:4669 $(ENV_IMAGE_NAME)
 
 test-shell:
 	@docker exec -it $(TEST_NAME) zsh
@@ -132,15 +134,16 @@ test-shell:
 #
 # Build variables
 #
+REPO = jhwohlgemuth
 HOST_NAME = $(shell hostname)
 HOME_PATH = $(shell echo %userprofile%)
 SSH_KEY = "${HOME_PATH}\.ssh\id_ed25519"
 SSH_CONFIG = "${HOME_PATH}\.ssh\config"
 GIT_CONFIG = "${HOME_PATH}\.gitconfig"
 NOTEBOOK_DIR = "${HOME_PATH}\dev\notebooks"
-BASE_IMAGE = jhwohlgemuth/base
-ENV_IMAGE = jhwohlgemuth/env
-NOTEBOOK_IMAGE = jhwohlgemuth/notebook
+BASE_IMAGE_NAME = "${REPO}/base"
+ENV_IMAGE_NAME = "${REPO}/${ENV_NAME}"
+NOTEBOOK_IMAGE_NAME = "${REPO}/${NOTEBOOK_NAME}"
 TEST_NAME = test
 ENV_NAME = env
 NOTEBOOK_NAME = notebook
