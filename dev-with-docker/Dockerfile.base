@@ -1,103 +1,36 @@
-FROM ubuntu:focal
+ARG BASE=ubuntu
+ARG TAG=focal
+ARG IMAGE=$BASE:$TAG
+FROM $IMAGE
 
 LABEL author="Jason Wohlgemuth"
 
 EXPOSE 1337 4669 8000 8080 8111 46692
 
-ENV TZ America/Chicago
+ENV TZ America/New_York
 ENV TERM xterm-256color
-
-# # Install dependencies
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+#
+# Install system dependencies
+#
+WORKDIR /root
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install --no-install-recommends -y \
-    apt-utils \
-    apt-transport-https \
-    binutils \
-    build-essential \
-    cmake \
-    cmatrix \
-    coqide \
-    curl \
-    dos2unix \
-    ffmpeg \
-    fzf \
-    git \
-    gnupg \
-    gnupg2 \
-    hexyl \
-    httpie \
-    jq \
-    less \
-    libblas-dev \
-    libc6-dev \
-    libcairo2-dev \
-    libcurl4 \
-    libedit2 \
-    liblapack-dev \
-    libgcc-9-dev \
-    libgmp-dev \
-    libmagic-dev \
-    libpango1.0-dev \
-    libpython2.7 \
-    libsqlite3-0 \
-    libsqlite3-dev \
-    libssl-dev \
-    libstdc++-9-dev \
-    libtinfo-dev \
-    libxcb-shape0-dev \
-    libxcb-xfixes0-dev \
-    libxml2 \
-    libz3-dev \
-    libzmq3-dev \
-    nano \
-    neovim \
-    netbase \
-    openssh-server \
-    pkg-config \
-    python3-dev \
-    python3-pip \
-    python3-setuptools \
-    rlwrap \
-    snapd \
-    tree \
-    tzdata \
-    unzip \
-    uuid-dev \
-    zip \
-    zlib1g-dev \
-    zsh \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-# This addresses a bug in the Rust build tools [link](https://askubuntu.com/a/1300824)
-RUN apt-get update && apt-get install --no-install-recommends -y -o Dpkg::Options::="--force-overwrite" \
-    bat \
-    ripgrep \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-# # Install and configure oh-my-zsh
-RUN sh -c "$(curl https://raw.githubusercontent.com/deluan/zsh-in-docker/master/zsh-in-docker.sh)" -- \
-    -p colored-man-pages \
-    -p encode64 \
-    -p extract \
-    -p fzf \
-    -p git \
-    -p history-substring-search \
-    -p wd \
-    -p https://github.com/zsh-users/zsh-autosuggestions \
-    -p https://github.com/zsh-users/zsh-syntax-highlighting \
-    -p https://github.com/jhwohlgemuth/zsh-handy-helpers \
-    -p https://github.com/jhwohlgemuth/zsh-pentest \
-    -a 'bindkey "\$terminfo[kcuu1]" history-substring-search-up' \
-    -a 'bindkey "\$terminfo[kcud1]" history-substring-search-down'
-# # Customize .zshrc
-RUN sed -i "s/export TERM=xterm/export TERM=xterm-256color/g" ~/.zshrc \
-    && echo "ZLE_RPROMPT_INDENT=0" >> ~/.zshrc \
-    && echo "alias bat=batcat" >> ~/.zshrc \
-    && echo "alias python=python3" >> ~/.zshrc \
-    && echo "alias pip=pip3" >> ~/.zshrc
-
+COPY ./dev-with-docker/provision/install_dependencies.sh .
+RUN chmod +x ./install_dependencies.sh \
+    && ./install_dependencies.sh \
+    && rm ./install_dependencies.sh
+#
+# Install and configure oh-my-zsh
+#
+WORKDIR /root
+ARG DEBIAN_FRONTEND=noninteractive
+COPY ./dev-with-docker/provision/install_ohmyzsh.sh .
+RUN chmod +x ./install_ohmyzsh.sh \
+    && ./install_ohmyzsh.sh \
+    && rm ./install_ohmyzsh.sh
+#
 # Configure NeoVim
+#
 ENV NEOVIM_ROOT /root/.config/nvim/
 COPY ./dev-with-neovim/init.vim $NEOVIM_ROOT
 COPY ./dev-with-neovim/coc-settings.json $NEOVIM_ROOT
