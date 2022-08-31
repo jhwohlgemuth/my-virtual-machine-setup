@@ -41,5 +41,13 @@ COPY ./dev-with-neovim/plug-config/fzf.vim "${NEOVIM_ROOT}plug-config/"
 COPY ./dev-with-neovim/plug-config/which-key.vim "${NEOVIM_ROOT}plug-config/"
 COPY ./dev-with-neovim/themes/onedark.vim "${NEOVIM_ROOT}themes/"
 RUN find $NEOVIM_ROOT -name "*.vim" | xargs dos2unix
+#
+# Install Homebrew
+#
+RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
+    && echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /root/.zshrc \
+    && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" \
+    && brew install thefuck \
+    && echo 'eval "$(thefuck --alias oops)"' >> /root/.zshrc
 
 ENTRYPOINT [ "/bin/zsh" ]
