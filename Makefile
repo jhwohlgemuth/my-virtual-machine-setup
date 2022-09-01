@@ -1,12 +1,14 @@
 TASKS = \
 	build-all \
 	base-image \
+	check \
 	env-image \
 	build-notebook \
 	copy-git-config \
 	copy-ssh-config \
 	create-env \
 	create-notebook \
+	format \
 	install-ijavascript \
 	install-node \
 	lint \
@@ -109,10 +111,20 @@ shell:
 #
 # Development tasks
 #
-lint:
+lint: check
 	@hadolint ./dev-with-docker/Dockerfile.base $(IGNORE_RULES)
 	@hadolint ./dev-with-docker/Dockerfile $(IGNORE_RULES)
 	@hadolint ./dev-with-docker/Dockerfile.notebook $(IGNORE_RULES)
+
+check:
+	@shellcheck ./dev-with-docker/provision/install_ohmyzsh.sh
+
+format:
+	@dos2unix ./dev-with-docker/provision/install_dependencies.sh
+	@dos2unix ./dev-with-docker/provision/install_conda.sh
+	@dos2unix ./dev-with-docker/provision/install_ohmyzsh.sh
+	@dos2unix ./dev-with-docker/provision/install_homebrew.sh
+	@dos2unix ./dev-with-docker/provision/install_dotnet.sh
 
 build-all: base-image env-image build-notebook
 
@@ -149,7 +161,7 @@ ENV_NAME = env
 NOTEBOOK_NAME = notebook
 JUPYTER_HOST = veda
 JUPYTER_PORT = 4669
-IGNORE_RULES = --ignore DL3006 --ignore DL3008 --ignore DL3013 --ignore DL4006
+IGNORE_RULES = --ignore DL3006 --ignore DL3008 --ignore DL3013 --ignore DL4006 --ignore SC2038
 DATA_SCIENCE_PACKAGES = \
 	chainer \
 	drawdata \

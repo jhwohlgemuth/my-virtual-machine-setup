@@ -20,8 +20,10 @@ sh -c "$(curl https://raw.githubusercontent.com/deluan/zsh-in-docker/master/zsh-
 #
 # Customize .zshrc
 #
-sed -i "s/export TERM=xterm/export TERM=xterm-256color/g" ~/.zshrc
-echo "ZLE_RPROMPT_INDENT=0" >> ~/.zshrc
-echo "alias bat=batcat" >> ~/.zshrc
-echo "alias python=python3" >> ~/.zshrc
-echo "alias pip=pip3" >> ~/.zshrc
+sed -i "s/export TERM=xterm/export TERM=xterm-256color/g" "${HOME}/.zshrc"
+{
+    echo "ZLE_RPROMPT_INDENT=0"
+    echo "alias bat=batcat"
+    echo "alias python=python3"
+    echo "alias pip=pip3"
+} >> "${HOME}/.zshrc"

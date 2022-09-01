@@ -23,7 +23,6 @@ RUN chmod +x ./install_dependencies.sh \
 # Install and configure oh-my-zsh
 #
 WORKDIR /root
-ARG DEBIAN_FRONTEND=noninteractive
 COPY ./dev-with-docker/provision/install_ohmyzsh.sh .
 RUN chmod +x ./install_ohmyzsh.sh \
     && ./install_ohmyzsh.sh \
@@ -42,12 +41,38 @@ COPY ./dev-with-neovim/plug-config/which-key.vim "${NEOVIM_ROOT}plug-config/"
 COPY ./dev-with-neovim/themes/onedark.vim "${NEOVIM_ROOT}themes/"
 RUN find $NEOVIM_ROOT -name "*.vim" | xargs dos2unix
 #
+# Install miniconda (conda) and mamba
+#
+WORKDIR /root
+ARG DEBIAN_FRONTEND=noninteractive
+COPY ./dev-with-docker/provision/install_dotnet.sh .
+RUN chmod +x ./install_dotnet.sh \
+    && ./install_dotnet.sh \
+    && rm ./install_dotnet.sh
+#
+# Install miniconda (conda) and mamba
+#
+WORKDIR /root
+COPY ./dev-with-docker/provision/install_conda.sh .
+RUN chmod +x ./install_conda.sh \
+    && ./install_conda.sh \
+    && rm ./install_conda.sh
+#
+# Install nvm (Node.js)
+#
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+ENV PATH "${PATH}:/root/bin"
+ENV NVM_DIR /root/.nvm
+ENV NODE_OPTIONS "--max-old-space-size=8192"
+RUN echo ". ${NVM_DIR}/nvm.sh" >> "${HOME}/.zshrc"
+#
 # Install Homebrew
 #
-RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
-    && echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /root/.zshrc \
-    && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" \
-    && brew install thefuck \
-    && echo 'eval "$(thefuck --alias oops)"' >> /root/.zshrc
+WORKDIR /root
+COPY ./dev-with-docker/provision/install_homebrew.sh .
+RUN chmod +x ./install_homebrew.sh \
+    && ./install_homebrew.sh \
+    && rm ./install_homebrew.sh
 
+WORKDIR /root
 ENTRYPOINT [ "/bin/zsh" ]

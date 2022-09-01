@@ -4,23 +4,6 @@ LABEL author="Jason Wohlgemuth"
 
 EXPOSE 1337 3449 4669 8000 8080 8111 46692
 #
-# Install conda (python)
-#
-ENV PATH="/root/miniconda3/bin:${PATH}"
-ARG PATH="/root/miniconda3/bin:${PATH}"
-RUN curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
-    && mkdir /root/.conda \
-    && bash Miniconda3-latest-Linux-x86_64.sh -b \
-    && rm -f Miniconda3-latest-Linux-x86_64.sh
-#
-# Install nvm (node.js)
-#
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
-ENV PATH "${PATH}:/root/bin"
-ENV NVM_DIR /root/.nvm
-ENV NODE_OPTIONS "--max-old-space-size=8192"
-RUN echo ". ${NVM_DIR}/nvm.sh" >> "${HOME}/.zshrc"
-#
 # Install Rust
 #
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
@@ -125,13 +108,6 @@ RUN apt-get update && apt-get install --no-install-recommends -y ocaml opam \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 #
-# Install PowerShell
-#
-WORKDIR /root
-RUN apt-get update && apt-get install --no-install-recommends -y powershell \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-#
 # Install R and Ruby
 #
 WORKDIR /root
@@ -161,5 +137,4 @@ RUN set -e; \
     && rm -rf ${GNUPGHOME} swift.tar.gz.sig swift.tar.gz
 
 WORKDIR /root/dev
-
 ENTRYPOINT [ "/bin/zsh" ]
