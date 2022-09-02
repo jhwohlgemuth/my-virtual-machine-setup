@@ -22,17 +22,6 @@ RUN rustup toolchain install nightly \
         htmlq \
         tokei
 #
-# Install .NET runtime and SDK
-#
-ARG DEBIAN_FRONTEND=noninteractive
-RUN curl -O https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb \
-    && dpkg -i packages-microsoft-prod.deb \
-    && rm -f packages-microsoft-prod.deb \
-    && apt-get update \
-    && apt-get install --no-install-recommends -y dotnet-sdk-6.0 dotnet-runtime-6.0 \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-#
 # Install Java, Scala, and Kotlin
 #
 SHELL ["/bin/bash", "-c"]
