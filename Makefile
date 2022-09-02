@@ -117,14 +117,18 @@ lint: check
 	@hadolint ./dev-with-docker/Dockerfile.notebook $(IGNORE_RULES)
 
 check:
+	@shellcheck ./dev-with-docker/provision/install_conda.sh
+	@shellcheck ./dev-with-docker/provision/install_dependencies.sh
+	@shellcheck ./dev-with-docker/provision/install_dotnet.sh
+	@shellcheck ./dev-with-docker/provision/install_homebrew.sh
 	@shellcheck ./dev-with-docker/provision/install_ohmyzsh.sh
 
 format:
-	@dos2unix ./dev-with-docker/provision/install_dependencies.sh
 	@dos2unix ./dev-with-docker/provision/install_conda.sh
-	@dos2unix ./dev-with-docker/provision/install_ohmyzsh.sh
-	@dos2unix ./dev-with-docker/provision/install_homebrew.sh
+	@dos2unix ./dev-with-docker/provision/install_dependencies.sh
 	@dos2unix ./dev-with-docker/provision/install_dotnet.sh
+	@dos2unix ./dev-with-docker/provision/install_homebrew.sh
+	@dos2unix ./dev-with-docker/provision/install_ohmyzsh.sh
 
 build-all: base-image env-image build-notebook
 
