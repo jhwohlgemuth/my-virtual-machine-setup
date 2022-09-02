@@ -1,4 +1,5 @@
 " Coc Settings {{{
+let g:coc_disable_startup_warning = 1
 let g:coc_global_extensions = [
   \ 'coc-css',
   \ 'coc-elixir',
