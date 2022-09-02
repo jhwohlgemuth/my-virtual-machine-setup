@@ -1,33 +1,23 @@
-TASKS = \
-	build-all \
-	base-image \
-	check \
-	env-image \
-	build-notebook \
-	copy-git-config \
-	copy-ssh-config \
-	create-env \
-	create-notebook \
-	format \
-	install-ijavascript \
-	install-node \
-	lint \
-	server \
-	setup \
-	shell \
-	start \
-	test \
-	test-shell
-
 .PHONY: $(TASKS)
 
-env:
-	@$(MAKE) NAME=$@ --no-print-directory create-env
-	@$(MAKE) NAME=$@ --no-print-directory setup
+copy-git-config:
+	@IF EXIST $(GIT_CONFIG) \
+		docker cp $(GIT_CONFIG) $(NAME):/root/
+	@IF EXIST $(GIT_CONFIG) \
+		echo "==> Copied .gitconfig file to ${NAME}"
 
-notebook:
-	@$(MAKE) NAME=$@ --no-print-directory create-notebook
-	@$(MAKE) NAME=$@ --no-print-directory setup
+copy-ssh-config:
+	@docker exec -it $(NAME) /bin/bash -c "mkdir -p /root/.ssh"
+	@IF EXIST $(SSH_KEY) \
+		docker cp $(SSH_KEY) $(NAME):/root/.ssh/
+	@IF EXIST $(SSH_KEY) \
+		docker exec -it $(NAME) /bin/bash -c "chmod 600 /root/.ssh/id_ed25519"
+	@IF EXIST $(SSH_KEY) \
+		echo "==> Copied SSH key to ${NAME}"
+	@IF EXIST $(SSH_CONFIG) \
+		docker cp $(SSH_CONFIG) $(NAME):/root/.ssh/
+	@IF EXIST $(SSH_CONFIG) \
+		echo "==> Copied SSH configuration to ${NAME}"
 	@$(MAKE) NAME=$@ --no-print-directory install-ijavascript
 
 create-env:
@@ -58,26 +48,9 @@ create-notebook:
 		$(NOTEBOOK_IMAGE_NAME)
 	@echo "==> Created ${NAME} container"
 
-setup: copy-ssh-config copy-git-config install-node
-
-copy-ssh-config:
-	@docker exec -it $(NAME) /bin/bash -c "mkdir -p /root/.ssh"
-	@IF EXIST $(SSH_KEY) \
-		docker cp $(SSH_KEY) $(NAME):/root/.ssh/
-	@IF EXIST $(SSH_KEY) \
-		docker exec -it $(NAME) /bin/bash -c "chmod 600 /root/.ssh/id_ed25519"
-	@IF EXIST $(SSH_KEY) \
-		echo "==> Copied SSH key to ${NAME}"
-	@IF EXIST $(SSH_CONFIG) \
-		docker cp $(SSH_CONFIG) $(NAME):/root/.ssh/
-	@IF EXIST $(SSH_CONFIG) \
-		echo "==> Copied SSH configuration to ${NAME}"
-
-copy-git-config:
-	@IF EXIST $(GIT_CONFIG) \
-		docker cp $(GIT_CONFIG) $(NAME):/root/
-	@IF EXIST $(GIT_CONFIG) \
-		echo "==> Copied .gitconfig file to ${NAME}"
+env:
+	@$(MAKE) NAME=$@ --no-print-directory create-env
+	@$(MAKE) NAME=$@ --no-print-directory setup
 
 install-node:
 	@docker exec -it \
@@ -91,62 +64,15 @@ install-ijavascript:
 		/usr/bin/zsh \
 		-c "cd /root/dev/notebooks && source ~/.zshrc && npm init -y && npm install ijavascript && node_modules/ijavascript/bin/ijsinstall.js --spec-path=full"
 
-data-science: machine-learning nlp
+notebook:
+	@$(MAKE) NAME=$@ --no-print-directory create-notebook
+	@$(MAKE) NAME=$@ --no-print-directory setup
 
-machine-learning:
-	@echo "==> Installing $(DATA_SCIENCE_PACKAGES)..."
-	@docker exec -it $(NOTEBOOK_NAME) /usr/bin/zsh -c "pip install $(DATA_SCIENCE_PACKAGES)"
-
-nlp:
-	@echo "==> Installing $(NLP_PACKAGES)..."
-	@docker exec -it \
-		$(NOTEBOOK_NAME) \
-		/usr/bin/zsh \
-		-c "pip install -U $(NLP_PACKAGES) && python -m spacy download en_core_web_sm && python -m spacy download en_core_web_trf && python -m nltk.downloader -d /usr/local/share/nltk_data all && python -m textblob.download_corpora"
+setup: copy-ssh-config copy-git-config install-node
 
 shell:
 	@docker start $(ENV_NAME)
 	@docker attach $(ENV_NAME)
-
-#
-# Development tasks
-#
-lint: check
-	@hadolint ./dev-with-docker/Dockerfile.base $(IGNORE_RULES)
-	@hadolint ./dev-with-docker/Dockerfile $(IGNORE_RULES)
-	@hadolint ./dev-with-docker/Dockerfile.notebook $(IGNORE_RULES)
-
-check:
-	@shellcheck ./dev-with-docker/provision/install_conda.sh
-	@shellcheck ./dev-with-docker/provision/install_dependencies.sh
-	@shellcheck ./dev-with-docker/provision/install_dotnet.sh
-	@shellcheck ./dev-with-docker/provision/install_homebrew.sh
-	@shellcheck ./dev-with-docker/provision/install_ohmyzsh.sh
-
-format:
-	@dos2unix ./dev-with-docker/provision/install_conda.sh
-	@dos2unix ./dev-with-docker/provision/install_dependencies.sh
-	@dos2unix ./dev-with-docker/provision/install_dotnet.sh
-	@dos2unix ./dev-with-docker/provision/install_homebrew.sh
-	@dos2unix ./dev-with-docker/provision/install_ohmyzsh.sh
-
-build-all: base-image env-image build-notebook
-
-base-image:
-	@docker build --no-cache -t $(BASE_IMAGE_NAME) -f ./dev-with-docker/Dockerfile.base .
-
-env-image:
-	@docker build --no-cache -t $(ENV_IMAGE_NAME) -f ./dev-with-docker/Dockerfile .
-
-build-notebook:
-	@docker build --no-cache -t $(NOTEBOOK_IMAGE_NAME) -f ./dev-with-docker/Dockerfile.notebook .
-
-test:
-	@docker run -dit --name $(TEST_NAME) --hostname $(HOST_NAME) -p 4669:4669 $(ENV_IMAGE_NAME)
-
-test-shell:
-	@docker exec -it $(TEST_NAME) zsh
-
 #
 # Build variables
 #
@@ -157,15 +83,10 @@ SSH_KEY = "${HOME_PATH}\.ssh\id_ed25519"
 SSH_CONFIG = "${HOME_PATH}\.ssh\config"
 GIT_CONFIG = "${HOME_PATH}\.gitconfig"
 NOTEBOOK_DIR = "${HOME_PATH}\dev\notebooks"
-BASE_IMAGE_NAME = "${REPO}/base"
 ENV_IMAGE_NAME = "${REPO}/${ENV_NAME}"
 NOTEBOOK_IMAGE_NAME = "${REPO}/${NOTEBOOK_NAME}"
-TEST_NAME = test
 ENV_NAME = env
 NOTEBOOK_NAME = notebook
-JUPYTER_HOST = veda
-JUPYTER_PORT = 4669
-IGNORE_RULES = --ignore DL3006 --ignore DL3008 --ignore DL3013 --ignore DL4006 --ignore SC2038
 DATA_SCIENCE_PACKAGES = \
 	chainer \
 	drawdata \
@@ -182,9 +103,22 @@ DATA_SCIENCE_PACKAGES = \
 	torchvision \
 	transformers
 NLP_PACKAGES = \
+	en_core_web_sm \
+	en_core_web_trf \
 	gensim \
 	ludwig \
 	nltk \
 	polyglot \
 	spacy \
 	textblob
+TASKS = \
+	copy-git-config \
+	copy-ssh-config \
+	create-env \
+	create-notebook \
+	env \
+	install-ijavascript \
+	install-node \
+	notebook \
+	setup \
+	shell

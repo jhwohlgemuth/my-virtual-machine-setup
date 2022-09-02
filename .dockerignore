@@ -1,8 +1,0 @@
-dev-with-vagrant/
-dev-with-windows-terminal/
-.git/
-.cache/
-.vscode/
-.LICENSE
-Makefile
-README.md

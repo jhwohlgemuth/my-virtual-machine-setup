@@ -63,15 +63,15 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     && . "${HOME}/kerl/${ERL_VERSION}/activate" \
     && echo "source ${HOME}/kerl/${ERL_VERSION}/activate" >> "${HOME}/.zshrc"
 #
-# Install kiex and Elixir
+# Install kerl, kiex, and Elixir
 #
 SHELL ["/bin/bash", "-c"]
 WORKDIR /root
 ENV ELIXIR_VERSION "1.12.3"
 # ENV ELIXIR_VERSION "1.13.3"
 RUN curl -sSL https://raw.githubusercontent.com/taylor/kiex/master/install | bash -s \
-    && echo "source ${HOME}/.kiex/scripts/kiex" >> "${HOME}/.zshrc"
-RUN source "${HOME}/kerl/${ERL_VERSION}"/activate \
+    && echo "source ${HOME}/.kiex/scripts/kiex" >> "${HOME}/.zshrc" \
+    && source "${HOME}/kerl/${ERL_VERSION}"/activate \
     && source "${HOME}/.kiex/scripts/kiex" \
     && kiex install ${ELIXIR_VERSION} \
     && kiex use ${ELIXIR_VERSION} \

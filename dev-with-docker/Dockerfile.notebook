@@ -15,7 +15,7 @@ COPY ./dev-with-docker/jupyter/ca.cnf $CERTS_DIR
 WORKDIR $CERTS_DIR
 RUN openssl req -new -x509 -days 365 -out my.pem -config ca.cnf
 WORKDIR /root
-RUN pip install --upgrade pip && pip install --no-cache-dir \
+RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir \
         autopep8 \
         ipychart \
         ipyparallel \
@@ -53,12 +53,10 @@ RUN dotnet tool install --global Microsoft.dotnet-interactive && dotnet interact
 # Clojure
 #
 WORKDIR /root
-RUN git clone https://github.com/clojupyter/clojupyter.git \
-    && cd clojupyter \
-    && git checkout master \
-    && git submodule update --init
-ENV PATH "${PATH}:/root/.sdkman/candidates/leiningen/current/bin:/root/.sdkman/candidates/java/current/bin/"
+RUN git clone https://github.com/clojupyter/clojupyter.git
 WORKDIR /root/clojupyter
+RUN git checkout master && git submodule update --init
+ENV PATH "${PATH}:/root/.sdkman/candidates/leiningen/current/bin:/root/.sdkman/candidates/java/current/bin/"
 RUN git checkout 0.2.2 \
     && make install \
     && cd .. \
@@ -104,7 +102,7 @@ RUN jill install --confirm && julia -e 'using Pkg;Pkg.add("IJulia")' \
 # Ruby
 #
 WORKDIR /root
-RUN gem install --user-install iruby && iruby register --force
+RUN gem install --user-install iruby:0.7.4 && iruby register --force
 # 
 # Haskell
 # 
@@ -140,14 +138,13 @@ RUN mkdir usr \
     && tar -xzf swift.tar.gz --directory=usr --strip-components=1 \
     && rm swift.tar.gz
 WORKDIR /opt
-RUN git clone https://github.com/google/swift-jupyter.git \
-    && cd swift-jupyter \
-    && python register.py --user --swift-toolchain ${SWIFT_TENSORFLOW_PATH}
+RUN git clone https://github.com/google/swift-jupyter.git
+WORKDIR /opt/swift-jupyter
+RUN python register.py --user --swift-toolchain ${SWIFT_TENSORFLOW_PATH}
 ENV PATH "${PATH}:${SWIFT_TENSORFLOW_PATH}"
 WORKDIR /root/.local/share/jupyter/kernels/swift
 COPY ./dev-with-docker/jupyter/logo_swift.png logo-64x64.png 
 
 WORKDIR /root/dev/notebooks
-
 ENTRYPOINT [ "jupyter" ]
 CMD [ "notebook", "--allow-root" ]
