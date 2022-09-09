@@ -22,6 +22,7 @@ copy-ssh-config:
 
 create-env:
 	@docker run -dit \
+		--init \
 		--gpus all \
 		--security-opt seccomp=unconfined \
 		--name $(ENV_NAME) \
@@ -39,6 +40,7 @@ create-env:
 
 create-notebook:
 	@docker run -dit \
+		--init \
 		--gpus all \
 		--restart unless-stopped \
 		--name $(NOTEBOOK_NAME) \
