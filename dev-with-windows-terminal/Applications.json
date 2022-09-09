@@ -11,6 +11,7 @@
         "espanso",
         "fd",
         "fzf",
+        "delta",
         "gh",
         "git",
         "git-lfs",
@@ -125,6 +126,7 @@
         "Brew": {
             "7zip": "sevenzip",
             "beaker": "beaker-browser",
+            "delta": "git-delta",
             "miniconda3": "miniconda",
             "pwsh": "powershell",
             "qalculate": "qalculate-gtk",
