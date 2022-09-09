@@ -15,7 +15,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 #
 WORKDIR /root
 ARG DEBIAN_FRONTEND=noninteractive
-COPY ./dev-with-docker/provision/install_dependencies.sh .
+COPY ./provision/install_dependencies.sh .
 RUN chmod +x ./install_dependencies.sh \
     && ./install_dependencies.sh \
     && rm ./install_dependencies.sh
@@ -23,7 +23,7 @@ RUN chmod +x ./install_dependencies.sh \
 # Install and configure oh-my-zsh
 #
 WORKDIR /root
-COPY ./dev-with-docker/provision/install_ohmyzsh.sh .
+COPY ./provision/install_ohmyzsh.sh .
 RUN chmod +x ./install_ohmyzsh.sh \
     && ./install_ohmyzsh.sh \
     && rm ./install_ohmyzsh.sh
@@ -31,21 +31,21 @@ RUN chmod +x ./install_ohmyzsh.sh \
 # Configure NeoVim
 #
 ENV NEOVIM_ROOT /root/.config/nvim/
-COPY ./dev-with-neovim/init.vim $NEOVIM_ROOT
-COPY ./dev-with-neovim/coc-settings.json $NEOVIM_ROOT
-COPY ./dev-with-neovim/general/settings.vim "${NEOVIM_ROOT}general/"
-COPY ./dev-with-neovim/general/plugins.vim "${NEOVIM_ROOT}general/"
-COPY ./dev-with-neovim/plug-config/coc.vim "${NEOVIM_ROOT}plug-config/"
-COPY ./dev-with-neovim/plug-config/fzf.vim "${NEOVIM_ROOT}plug-config/"
-COPY ./dev-with-neovim/plug-config/which-key.vim "${NEOVIM_ROOT}plug-config/"
-COPY ./dev-with-neovim/themes/onedark.vim "${NEOVIM_ROOT}themes/"
+COPY ./provision/neovim/init.vim $NEOVIM_ROOT
+COPY ./provision/neovim/coc-settings.json $NEOVIM_ROOT
+COPY ./provision/neovim/general/settings.vim "${NEOVIM_ROOT}general/"
+COPY ./provision/neovim/general/plugins.vim "${NEOVIM_ROOT}general/"
+COPY ./provision/neovim/plug-config/coc.vim "${NEOVIM_ROOT}plug-config/"
+COPY ./provision/neovim/plug-config/fzf.vim "${NEOVIM_ROOT}plug-config/"
+COPY ./provision/neovim/plug-config/which-key.vim "${NEOVIM_ROOT}plug-config/"
+COPY ./provision/neovim/themes/onedark.vim "${NEOVIM_ROOT}themes/"
 RUN find $NEOVIM_ROOT -name "*.vim" | xargs dos2unix
 #
 # Install .NET and PowerShell
 #
 WORKDIR /root
 ARG DEBIAN_FRONTEND=noninteractive
-COPY ./dev-with-docker/provision/install_dotnet.sh .
+COPY ./provision/install_dotnet.sh .
 RUN chmod +x ./install_dotnet.sh \
     && ./install_dotnet.sh \
     && rm ./install_dotnet.sh
@@ -53,7 +53,7 @@ RUN chmod +x ./install_dotnet.sh \
 # Install miniconda (conda) and mamba
 #
 WORKDIR /root
-COPY ./dev-with-docker/provision/install_conda.sh .
+COPY ./provision/install_conda.sh .
 RUN chmod +x ./install_conda.sh \
     && ./install_conda.sh \
     && rm ./install_conda.sh
@@ -69,7 +69,7 @@ RUN echo ". ${NVM_DIR}/nvm.sh" >> "${HOME}/.zshrc"
 # Install Homebrew
 #
 WORKDIR /root
-COPY ./dev-with-docker/provision/install_homebrew.sh .
+COPY ./provision/install_homebrew.sh .
 RUN chmod +x ./install_homebrew.sh \
     && ./install_homebrew.sh \
     && rm ./install_homebrew.sh

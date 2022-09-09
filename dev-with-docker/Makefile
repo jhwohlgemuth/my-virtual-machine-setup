@@ -24,13 +24,13 @@ format:
 build-all: base-image env-image build-notebook
 
 base-image:
-	@docker build --no-cache -t $(BASE_IMAGE_NAME) -f ./dev-with-docker/Dockerfile.base .
+	@docker build --no-cache -t $(BASE_IMAGE_NAME) -f ./Dockerfile.base .
 
 env-image:
-	@docker build --no-cache -t $(ENV_IMAGE_NAME) -f ./dev-with-docker/Dockerfile .
+	@docker build --no-cache -t $(ENV_IMAGE_NAME) -f ./Dockerfile .
 
 build-notebook:
-	@docker build --no-cache -t $(NOTEBOOK_IMAGE_NAME) -f ./dev-with-docker/Dockerfile.notebook .
+	@docker build --no-cache -t $(NOTEBOOK_IMAGE_NAME) -f ./Dockerfile.notebook .
 #
 # Build variables
 #

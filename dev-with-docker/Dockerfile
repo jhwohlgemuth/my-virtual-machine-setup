@@ -43,7 +43,7 @@ RUN curl -O https://download.clojure.org/install/linux-install-1.10.1.561.sh \
     && chmod +x linux-install-1.10.1.561.sh \
     && ./linux-install-1.10.1.561.sh \
     && mkdir /root/.lein
-COPY ./dev-with-docker/config/profiles.clj /root/.lein/
+COPY ./config/profiles.clj /root/.lein/
 #
 # Install kerl and Erlang
 #
@@ -76,7 +76,7 @@ RUN curl -sSL https://raw.githubusercontent.com/taylor/kiex/master/install | bas
     && kiex install ${ELIXIR_VERSION} \
     && kiex use ${ELIXIR_VERSION} \
     && kiex default ${ELIXIR_VERSION}
-COPY ./dev-with-docker/config/.iex.exs /root/
+COPY ./config/.iex.exs /root/
 SHELL ["/bin/sh", "-c"]
 #
 # Install Go
@@ -113,17 +113,11 @@ ENV SWIFT_PLATFORM 'ubuntu20.04'
 ENV SWIFT_BRANCH 'swift-5.5.3-release'
 ENV SWIFT_VERSION 'swift-5.5.3-RELEASE'
 ENV SWIFT_WEBROOT 'https://download.swift.org'
-RUN set -e; \
-    SWIFT_WEBDIR="${SWIFT_WEBROOT}/${SWIFT_BRANCH}/$(echo ${SWIFT_PLATFORM} | tr -d .)" \
+RUN SWIFT_WEBDIR="${SWIFT_WEBROOT}/${SWIFT_BRANCH}/$(echo ${SWIFT_PLATFORM} | tr -d .)" \
     && SWIFT_BIN_URL="${SWIFT_WEBDIR}/${SWIFT_VERSION}/${SWIFT_VERSION}-${SWIFT_PLATFORM}.tar.gz" \
-    && SWIFT_SIG_URL="${SWIFT_BIN_URL}.sig" \
-    && export GNUPGHOME="$(mktemp -d)" \
-    && curl -fsSL ${SWIFT_BIN_URL} -o swift.tar.gz ${SWIFT_SIG_URL} -o swift.tar.gz.sig \
-    && gpg --batch --quiet --keyserver keyserver.ubuntu.com --recv-keys ${SWIFT_SIGNING_KEY} \
-    && gpg --batch --verify swift.tar.gz.sig swift.tar.gz \
+    && curl -fsSL ${SWIFT_BIN_URL} -o swift.tar.gz \
     && tar -xzf swift.tar.gz --directory / --strip-components=1 \
-    && chmod -R o+r /usr/lib/swift \
-    && rm -rf ${GNUPGHOME} swift.tar.gz.sig swift.tar.gz
+    && chmod -R o+r /usr/lib/swift
 
 WORKDIR /root/dev
 ENTRYPOINT [ "/bin/zsh" ]

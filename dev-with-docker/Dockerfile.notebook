@@ -9,9 +9,9 @@ WORKDIR /root
 ENV JUPYTER_ROOT /root/.jupyter
 ENV CERTS_DIR /root/certs
 RUN mkdir -p /root/dev/notebooks && mkdir -p "${JUPYTER_ROOT}/custom" && mkdir -p $CERTS_DIR
-COPY ./dev-with-docker/jupyter/jupyter_notebook_config.py $JUPYTER_ROOT
-COPY ./dev-with-docker/jupyter/custom.css "${JUPYTER_ROOT}/custom"
-COPY ./dev-with-docker/jupyter/ca.cnf $CERTS_DIR
+COPY ./jupyter/jupyter_notebook_config.py $JUPYTER_ROOT
+COPY ./jupyter/custom.css "${JUPYTER_ROOT}/custom"
+COPY ./jupyter/ca.cnf $CERTS_DIR
 WORKDIR $CERTS_DIR
 RUN openssl req -new -x509 -days 365 -out my.pem -config ca.cnf
 WORKDIR /root
@@ -42,7 +42,7 @@ RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir \
     && jupyter nbextension enable --py jupyter_tabnine --user \
     && jupyter serverextension enable --py jupyter_tabnine --user
 WORKDIR /usr/local/share/jupyter/kernels/coq
-COPY ./dev-with-docker/jupyter/logo_coq.png logo-64x64.png
+COPY ./jupyter/logo_coq.png logo-64x64.png
 #
 # .NET (C#, F#, and PowerShell)
 #
@@ -62,7 +62,7 @@ RUN git checkout 0.2.2 \
     && cd .. \
     && rm -rf clojupyter
 WORKDIR /root/.local/share/jupyter/kernels/clojupyter
-COPY ./dev-with-docker/jupyter/logo_clojure.png logo-64x64.png
+COPY ./jupyter/logo_clojure.png logo-64x64.png
 #
 # Elixir
 # Note: Includes temporary fix that can be removed after https://github.com/pprzetacznik/IElixir/pull/60 is merged
@@ -143,7 +143,7 @@ WORKDIR /opt/swift-jupyter
 RUN python register.py --user --swift-toolchain ${SWIFT_TENSORFLOW_PATH}
 ENV PATH "${PATH}:${SWIFT_TENSORFLOW_PATH}"
 WORKDIR /root/.local/share/jupyter/kernels/swift
-COPY ./dev-with-docker/jupyter/logo_swift.png logo-64x64.png 
+COPY ./jupyter/logo_swift.png logo-64x64.png 
 
 WORKDIR /root/dev/notebooks
 ENTRYPOINT [ "jupyter" ]
