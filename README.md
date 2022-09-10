@@ -37,9 +37,7 @@ Why?
 
 Quickstarts
 -----------
-
 - [Customize your Windows Terminal and Powershell](dev-with-windows-terminal/)
-- [Turn your terminal into an IDE with Neovim](dev-with-neovim/)
 - [Achieve epic levels of synergistic productivity using Docker](dev-with-docker/)
 - [Development within virtual machines using Vagrant (and make your own with Packer)](dev-with-vagrant/)
 
