@@ -29,7 +29,7 @@ base-image:
 env-image:
 	@docker build --no-cache -t $(ENV_IMAGE_NAME) -f ./Dockerfile .
 
-build-notebook:
+notebook-image:
 	@docker build --no-cache -t $(NOTEBOOK_IMAGE_NAME) -f ./Dockerfile.notebook .
 #
 # Build variables

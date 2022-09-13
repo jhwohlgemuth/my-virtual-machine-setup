@@ -82,7 +82,7 @@ SHELL ["/bin/sh", "-c"]
 # Install Go
 #
 WORKDIR /root
-RUN curl -o- https://dl.google.com/go/go1.16.5.linux-amd64.tar.gz | tar -xz -C /usr/local
+RUN curl -o- https://dl.google.com/go/go1.19.1.linux-amd64.tar.gz | tar -xz -C /usr/local
 ENV PATH "${PATH}:/usr/local/go/bin"
 #
 # Install Haskell

@@ -4,6 +4,6 @@
 # shellcheck disable=SC2016
 echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> "${HOME}/.zshrc"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-brew install thefuck
+brew install thefuck up
 # shellcheck disable=SC2016
 echo 'eval "$(thefuck --alias oops)"' >> "${HOME}/.zshrc"

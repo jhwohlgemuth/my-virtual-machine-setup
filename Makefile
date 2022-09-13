@@ -18,7 +18,6 @@ copy-ssh-config:
 		docker cp $(SSH_CONFIG) $(NAME):/root/.ssh/
 	@IF EXIST $(SSH_CONFIG) \
 		echo "==> Copied SSH configuration to ${NAME}"
-	@$(MAKE) NAME=$@ --no-print-directory install-ijavascript
 
 create-env:
 	@docker run -dit \
@@ -65,6 +64,7 @@ install-ijavascript:
 		$(NAME) \
 		/usr/bin/zsh \
 		-c "cd /root/dev/notebooks && source ~/.zshrc && npm init -y && npm install ijavascript && node_modules/ijavascript/bin/ijsinstall.js --spec-path=full"
+	@$(MAKE) NAME=$@ --no-print-directory install-ijavascript
 
 notebook:
 	@$(MAKE) NAME=$@ --no-print-directory create-notebook
