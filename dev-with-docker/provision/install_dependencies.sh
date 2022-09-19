@@ -5,6 +5,7 @@ apt-get update && apt-get install --no-install-recommends -y \
     apt-transport-https \
     binutils \
     build-essential \
+    clang \
     cmake \
     cmatrix \
     coqide \
@@ -24,22 +25,30 @@ apt-get update && apt-get install --no-install-recommends -y \
     libcairo2-dev \
     libcurl4 \
     libedit2 \
-    liblapack-dev \
+    libffi-dev \
+    libffi7 \
     libgcc-9-dev \
+    libgmp10 \
     libgmp-dev \
+    liblapack-dev \
     libmagic-dev \
+    libncurses-dev \
+    libncurses5 \
     libpango1.0-dev \
     libpython2.7 \
     libsqlite3-0 \
     libsqlite3-dev \
     libssl-dev \
     libstdc++-9-dev \
+    libtinfo5 \
     libtinfo-dev \
     libxcb-shape0-dev \
     libxcb-xfixes0-dev \
     libxml2 \
     libz3-dev \
     libzmq3-dev \
+    lld \
+    lldb \
     nano \
     neovim \
     netbase \

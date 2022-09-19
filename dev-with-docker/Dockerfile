@@ -87,8 +87,17 @@ ENV PATH "${PATH}:/usr/local/go/bin"
 #
 # Install Haskell
 #
+SHELL ["/bin/bash", "-c"]
 WORKDIR /root
-RUN curl -sSL https://get.haskellstack.org/ | sh
+ENV BOOTSTRAP_HASKELL_NONINTERACTIVE 1
+ENV BOOTSTRAP_HASKELL_INSTALL_STACK 1
+ENV BOOTSTRAP_HASKELL_INSTALL_HLS 1
+RUN curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh \
+    && source ${HOME}/.ghcup/env \
+    && stack config set install-ghc false --global \
+    && stack config set system-ghc true --global \
+    && echo "source ${HOME}/.ghcup/env" >> "${HOME}/.zshrc"
+SHELL ["/bin/sh", "-c"]
 #
 # Install OCaml
 #
