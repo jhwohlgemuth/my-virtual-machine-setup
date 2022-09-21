@@ -13,6 +13,7 @@ sh -c "$(curl https://raw.githubusercontent.com/deluan/zsh-in-docker/master/zsh-
     -p wd \
     -p https://github.com/zsh-users/zsh-autosuggestions \
     -p https://github.com/zsh-users/zsh-syntax-highlighting \
+    -p https://github.com/conda-incubator/conda-zsh-completion \
     -p https://github.com/jhwohlgemuth/zsh-handy-helpers \
     -p https://github.com/jhwohlgemuth/zsh-pentest \
     -a 'bindkey "\$terminfo[kcuu1]" history-substring-search-up' \
