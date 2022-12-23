@@ -114,9 +114,12 @@ RUN apt-get update && apt-get install --no-install-recommends -y r-base ruby-ful
     && rm -rf /var/lib/apt/lists/* \
     && R -e "install.packages(c('formatR', 'jsonlite'), repos='http://cran.rstudio.com')"
 ENV PATH "${PATH}:/root/.gem/ruby/2.7.0/bin"
+SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
+RUN mamba install --channel conda-forge --name base radian
 #
 # Install Swift
 #
+SHELL ["/bin/bash", "-c"]
 ENV SWIFT_SIGNING_KEY 'A62AE125BBBFBB96A6E042EC925CC1CCED3D1561'
 ENV SWIFT_PLATFORM 'ubuntu20.04'
 ENV SWIFT_BRANCH 'swift-5.5.3-release'
