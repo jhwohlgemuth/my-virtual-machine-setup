@@ -73,6 +73,15 @@ COPY ./provision/install_homebrew.sh .
 RUN chmod +x ./install_homebrew.sh \
     && ./install_homebrew.sh \
     && rm ./install_homebrew.sh
+#
+# Install and configure oh-my-posh
+#
+WORKDIR /root
+ENV PROFILE "/root/.config/powershell/Microsoft.PowerShell_profile.ps1"
+COPY ./config/.theme.omp.json "/root/.theme.omp.json"
+RUN /home/linuxbrew/.linuxbrew/bin/brew install jandedobbeleer/oh-my-posh/oh-my-posh \
+    && mkdir -p "/root/.config/powershell" \
+    && echo "oh-my-posh init pwsh --config ~/.theme.omp.json | Invoke-Expression" >> ${PROFILE}
 
 WORKDIR /root
 ENTRYPOINT [ "/bin/zsh" ]

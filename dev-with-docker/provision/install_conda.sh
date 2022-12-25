@@ -11,5 +11,5 @@ rm -f Miniconda3-latest-Linux-x86_64.sh
 # Install mamba
 #
 /root/miniconda3/bin/conda update --name base conda
-/root/miniconda3/bin/conda install --name base --channel conda-forge mamba
+/root/miniconda3/bin/conda install --name base --channel conda-forge mamba conda-pack
 zsh -c "/root/miniconda3/bin/conda init zsh"

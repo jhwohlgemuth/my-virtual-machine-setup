@@ -129,7 +129,8 @@ RUN SWIFT_WEBDIR="${SWIFT_WEBROOT}/${SWIFT_BRANCH}/$(echo ${SWIFT_PLATFORM} | tr
     && SWIFT_BIN_URL="${SWIFT_WEBDIR}/${SWIFT_VERSION}/${SWIFT_VERSION}-${SWIFT_PLATFORM}.tar.gz" \
     && curl -fsSL ${SWIFT_BIN_URL} -o swift.tar.gz \
     && tar -xzf swift.tar.gz --directory / --strip-components=1 \
-    && chmod -R o+r /usr/lib/swift
+    && chmod -R o+r /usr/lib/swift \
+    && rm -frd swift.tar.gz
 
 WORKDIR /root/dev
 ENTRYPOINT [ "/bin/zsh" ]
