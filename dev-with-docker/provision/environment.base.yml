@@ -16,4 +16,5 @@ dependencies:
   - radian
   - ruff
   - pip:
+    - apprise
     - ptpython

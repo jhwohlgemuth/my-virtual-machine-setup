@@ -9,12 +9,14 @@ dependencies:
   - keras
   - matplotlib
   - numpy
+  - openpyxl
   - pandas
   - pip
   - plotly
   - polars
   - python=3.8
   - seaborn
+  - pyarrow
   - pytorch
   - pytorch-lightning
   - torchaudio
@@ -26,4 +28,5 @@ dependencies:
   - pip:
     - drawdata
     - gdown
+    - ptpython
     - tensorflow

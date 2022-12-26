@@ -1,0 +1,22 @@
+name: gis
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - cartopy
+  - fiona
+  - gdal
+  - geojson
+  - geopandas
+  - ipykernel
+  - keplergl
+  - matplotlib
+  - netCDF4
+  - numpy
+  - pandas
+  - polars
+  - rasterio
+  - shapely
+  - xarray-spatial
+  - pip:
+    - ptpython
