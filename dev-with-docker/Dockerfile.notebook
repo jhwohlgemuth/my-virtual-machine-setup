@@ -119,7 +119,7 @@ RUN jill install --confirm && julia -e 'using Pkg;Pkg.add("IJulia")'
 # Lua
 #
 WORKDIR /root
-RUN mamba install -c conda-forge xeus-lua --yes
+RUN mamba install --channel conda-forge xeus-lua --yes
 #
 # R
 #

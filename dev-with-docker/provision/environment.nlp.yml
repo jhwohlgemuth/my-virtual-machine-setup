@@ -1,0 +1,17 @@
+name: nlp
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - gensim
+  - ipykernel
+  - pip
+  - spacy
+  - spacy-model-en_core_web_sm
+  - spacy-model-en_core_web_trf
+  - textblob
+  - transformers
+  - pip:
+    - ludwig
+    - nltk
+    - polyglot

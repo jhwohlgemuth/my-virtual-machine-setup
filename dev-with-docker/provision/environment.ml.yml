@@ -1,0 +1,29 @@
+name: ml
+channels:
+  - conda-forge
+  - pytorch
+  - defaults
+dependencies:
+  - altair
+  - ipykernel
+  - keras
+  - matplotlib
+  - numpy
+  - pandas
+  - pip
+  - plotly
+  - polars
+  - python=3.8
+  - seaborn
+  - pytorch
+  - pytorch-lightning
+  - torchaudio
+  - torchinfo
+  - torchvision
+  - tqdm
+  - xarray
+  - zarr
+  - pip:
+    - drawdata
+    - gdown
+    - tensorflow

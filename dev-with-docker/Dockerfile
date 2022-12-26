@@ -114,8 +114,6 @@ RUN apt-get update && apt-get install --no-install-recommends -y r-base ruby-ful
     && rm -rf /var/lib/apt/lists/* \
     && R -e "install.packages(c('formatR', 'jsonlite'), repos='http://cran.rstudio.com')"
 ENV PATH "${PATH}:/root/.gem/ruby/2.7.0/bin"
-SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
-RUN mamba install --channel conda-forge --name base radian
 #
 # Install Swift
 #
@@ -131,6 +129,13 @@ RUN SWIFT_WEBDIR="${SWIFT_WEBROOT}/${SWIFT_BRANCH}/$(echo ${SWIFT_PLATFORM} | tr
     && tar -xzf swift.tar.gz --directory / --strip-components=1 \
     && chmod -R o+r /usr/lib/swift \
     && rm -frd swift.tar.gz
+#
+# Update Conda base environment
+#
+WORKDIR /root
+SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
+COPY ./provision/environment.base.yml environment.yml
+RUN mamba env update --file environment.yml --prune
 
 WORKDIR /root/dev
 ENTRYPOINT [ "/bin/zsh" ]

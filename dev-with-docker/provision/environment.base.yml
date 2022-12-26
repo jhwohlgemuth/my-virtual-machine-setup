@@ -1,0 +1,19 @@
+name: base
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - black
+  - conda
+  - conda-merge
+  - conda-pack
+  - ipykernel
+  - mamba
+  - pip
+  - pylint
+  - pytest
+  - pytest-cov
+  - radian
+  - ruff
+  - pip:
+    - ptpython

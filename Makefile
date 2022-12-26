@@ -49,6 +49,15 @@ create-notebook:
 		$(NOTEBOOK_IMAGE_NAME)
 	@echo "==> Created ${NAME} container"
 
+ml: start
+	@docker cp ./dev-with-docker/provision/environment.ml.yml $(ENV_NAME):/root
+	@docker exec -it $(ENV_NAME) /bin/zsh -c "cd /root && /root/miniconda3/bin/mamba env create -f environment.ml.yml"
+
+nlp: start
+	@docker cp ./dev-with-docker/provision/environment.nlp.yml $(ENV_NAME):/root
+	@docker exec -it $(ENV_NAME) /bin/zsh -c "cd /root && /root/miniconda3/bin/mamba env create -f environment.nlp.yml"
+
+
 env:
 	@$(MAKE) NAME=$@ --no-print-directory create-env
 	@$(MAKE) NAME=$@ --no-print-directory setup
@@ -72,8 +81,10 @@ notebook:
 
 setup: copy-ssh-config copy-git-config install-node
 
-shell:
+start:
 	@docker start $(ENV_NAME)
+
+shell: start
 	@docker attach $(ENV_NAME)
 #
 # Build variables
@@ -89,30 +100,6 @@ ENV_IMAGE_NAME = "${REPO}/${ENV_NAME}"
 NOTEBOOK_IMAGE_NAME = "${REPO}/${NOTEBOOK_NAME}"
 ENV_NAME = env
 NOTEBOOK_NAME = notebook
-DATA_SCIENCE_PACKAGES = \
-	chainer \
-	drawdata \
-	gdown \
-	keras \
-	matplotlib \
-	numpy \
-	pandas \
-	polars \
-	seaborn \
-	tensorflow \
-	torch \
-	torchaudio \
-	torchvision \
-	transformers
-NLP_PACKAGES = \
-	en_core_web_sm \
-	en_core_web_trf \
-	gensim \
-	ludwig \
-	nltk \
-	polyglot \
-	spacy \
-	textblob
 TASKS = \
 	copy-git-config \
 	copy-ssh-config \
@@ -121,6 +108,9 @@ TASKS = \
 	env \
 	install-ijavascript \
 	install-node \
+	ml \
+	nlp \
 	notebook \
 	setup \
-	shell
+	shell \
+	start
