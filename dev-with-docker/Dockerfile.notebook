@@ -110,31 +110,17 @@ RUN source ${HOME}/.ghcup/env \
     && stack install gtk2hs-buildtools \
     && stack install --fast \
     && ihaskell install --env-file=/root/.ghcup/env
-#
-# Julia
-#
 WORKDIR /root
-RUN jill install --confirm && julia -e 'using Pkg;Pkg.add("IJulia")'
-#
-# Lua
-#
-WORKDIR /root
-RUN mamba install --channel conda-forge xeus-lua --yes
-#
-# R
-#
-WORKDIR /root
-RUN R -e "install.packages('IRkernel')" && R -e "IRkernel::installspec()"
-#
-# Ruby
-#
-WORKDIR /root
-RUN gem install --user-install iruby:0.7.4 && iruby register --force
-#
-# Rust
-#
-WORKDIR /root
-RUN cargo install evcxr_jupyter && evcxr_jupyter --install
+# Julia kernel
+RUN jill install --confirm && julia -e 'using Pkg;Pkg.add("IJulia")' \
+    # Lua kernel
+    && mamba install --channel conda-forge xeus-lua --yes \
+    # R kernel
+    && R -e "install.packages('IRkernel')" && R -e "IRkernel::installspec()" \
+    # Ruby kernel
+    && gem install --user-install iruby:0.7.4 && iruby register --force \
+    # Rust kernel
+    && cargo install evcxr_jupyter && evcxr_jupyter --install
 #
 # Scala
 #
