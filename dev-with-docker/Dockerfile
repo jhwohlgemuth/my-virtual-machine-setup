@@ -15,24 +15,16 @@ RUN rustup toolchain install nightly \
         cargo-edit \
         evcxr_repl \
         wasm-bindgen-cli \
-        wasm-pack \
-        broot \
-        du-dust \
-        grex \
-        htmlq \
-        tokei
+        wasm-pack
 #
 # Install Java, Scala, and Kotlin
 #
 SHELL ["/bin/bash", "-c"]
 RUN curl -s "https://get.sdkman.io" | bash \
     && source "${HOME}/.sdkman/bin/sdkman-init.sh" \
-    && yes | sdk install hadoop \
     && yes | sdk install java 18-open \
     && yes | sdk install kotlin \
     && yes | sdk install leiningen \
-    && yes | sdk install scala \
-    && yes | sdk install spark \
     && rm -rf "${HOME}/.sdkman/archives/*" \
     && rm -rf "${HOME}/.sdkman/tmp/*"
 SHELL ["/bin/sh", "-c"]

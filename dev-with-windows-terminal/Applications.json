@@ -7,6 +7,7 @@
         "ccleaner",
         "dos2unix",
         "duf",
+        "dust",
         "dvc",
         "espanso",
         "fd",
@@ -54,6 +55,7 @@
         ],
         "Brew": [
             "aspell",
+            "broot",
             "docker",
             "dotnet-sdk",
             "fig",
