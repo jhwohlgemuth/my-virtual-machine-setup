@@ -49,6 +49,10 @@ create-notebook:
 		$(NOTEBOOK_IMAGE_NAME)
 	@echo "==> Created ${NAME} container"
 
+gis: start
+	@docker cp ./dev-with-docker/provision/environment.gis.yml $(ENV_NAME):/root
+	@docker exec -it $(ENV_NAME) /bin/zsh -c "cd /root && /root/miniconda3/bin/mamba env create -f environment.gis.yml"
+
 ml: start
 	@docker cp ./dev-with-docker/provision/environment.ml.yml $(ENV_NAME):/root
 	@docker exec -it $(ENV_NAME) /bin/zsh -c "cd /root && /root/miniconda3/bin/mamba env create -f environment.ml.yml"
