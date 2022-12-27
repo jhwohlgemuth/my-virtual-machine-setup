@@ -53,12 +53,12 @@
                         "{{ if gt .Ahead 0 }}#49416D{{ end }}",
                         "{{ if gt .Behind 0 }}#7A306C{{ end }}"
                     ],
-                    "template": " {{ if .UpstreamURL }}{{ url .UpstreamIcon .UpstreamURL }} {{ end }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }} ",
+                    "template": " {{ if .UpstreamURL }}{{ url .UpstreamIcon .UpstreamURL }} {{ end }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uF044 {{ .Working.String }}{{ end }}{{ if .Staging.Changed }} \uF046 {{ .Staging.String }}{{ end }} ",
                     "properties": {
                         "branch_max_length": 25,
                         "fetch_status": true,
                         "fetch_upstream_icon": true,
-                        "github_icon": "\uF7A3"
+                        "github_icon": "\uF7A3 "
                     }
                 },
                 {
