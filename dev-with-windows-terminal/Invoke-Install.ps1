@@ -5,7 +5,7 @@ Script for installing useful PowerShell modules and applications on Windows
 [CmdletBinding(SupportsShouldProcess = $True)]
 Param(
     [Parameter(Position = 0)]
-    [ValidateSet('Chocolatey', 'Scoop', 'Winget')]
+    [ValidateSet('Homebrew', 'Chocolatey', 'Scoop', 'Winget')]
     [String] $PackageManager = 'Scoop',
     [String] $Path = '.\Applications.json',
     [ValidateSet('extra')]
@@ -55,51 +55,6 @@ function Test-Admin {
         ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) | Write-Output
     }
 }
-function Test-Installed {
-    Param(
-        [Parameter(Mandatory = $True, Position = 0)]
-        [String] $Name
-    )
-    Begin {
-        function Test-CommandExists {
-            Param(
-                [Parameter(Mandatory = $True, Position = 0)]
-                [String] $Command,
-                [Switch] $Quiet
-            )
-            $Result = $False
-            $OriginalPreference = $ErrorActionPreference
-            $ErrorActionPreference = "stop"
-            try {
-                if (Get-Command $Command) {
-                    $Result = $True
-                }
-            } Catch {
-                if (-not $Quiet) {
-                    "==> [NOT AVAILABLE] '$Command'" | Write-Warning
-                }
-            } Finally {
-                $ErrorActionPreference = $OriginalPreference
-            }
-            $Result
-        }
-    }
-    Process {
-        if ($Script:InstalledApplications.Count -eq 0) {
-            $Script:InstalledApplications = (Get-StartApps).Name | Sort-Object
-            if (Test-CommandExists 'choco') {
-                "==> [INFO] Checking installed Chocolatey applications" | Write-Verbose
-                $Script:InstalledApplications += choco list --local-only
-            }
-            if (Test-CommandExists 'scoop') {
-                "==> [INFO] Checking installed Scoop applications" | Write-Verbose
-                $Script:InstalledApplications += scoop export
-            }
-        }
-        $PrimaryName = $Name -replace '-(cli|NF|np)',''
-        (Test-CommandExists -Command $Name -Quiet) -or (Test-CommandExists -Command $PrimaryName -Quiet) -or (($Script:InstalledApplications | Where-Object { $_.StartsWith($Name, 'CurrentCultureIgnoreCase') }).Count -gt 0) -or (($Script:InstalledApplications | Where-Object { $_.StartsWith($PrimaryName, 'CurrentCultureIgnoreCase') }).Count -gt 0)
-    }
-}
 if ('modules' -notin $Skip) {
     if (-not (Test-Admin)) {
         'Installing PowerShell modules requires ADMINISTRATOR privileges. Please run Invoke-Setup.ps1 as administrator, or use the -SkipModules option.' | Write-Warning
@@ -136,10 +91,50 @@ if ('modules' -notin $Skip) {
 if ('applications' -notin $Skip) {
     $AppData = Get-Content $Path | ConvertFrom-Json
     switch ($PackageManager) {
-        { $PackageManager.StartsWith('scoop', 'CurrentCultureIgnoreCase') } {
+        { $PackageManager.StartsWith('homebrew', 'CurrentCultureIgnoreCase') } {
+            $InstallerName = 'Homebrew'
+            $InstallerCommand = 'brew'
+            if (-not (./Test-Command.ps1 -Command $InstallerCommand -Quiet)) {
+                "$InstallerName is not installed ($InstallerCommand is not an available command)" | Write-Warning
+                exit
+            }
+            $PreInstall = { }
+            $Install = { }
+            $PostInstall = { }
+        }
+        { $PackageManager.StartsWith('choco', 'CurrentCultureIgnoreCase') } {
+            if (-not (Test-Admin)) {
+                'Chocolatey requires ADMINISTRATOR privileges. Please run Invoke-Setup.ps1 as administrator.' | Write-Warning
+                exit
+            }
+            $InstallerName = 'Chocolatey'
+            $InstallerCommand = 'choco'
+            if (-not (./Test-Command.ps1 -Command $InstallerCommand -Quiet)) {
+                "$InstallerName is not installed ($InstallerCommand is not an available command)" | Write-Warning
+                exit
+            }
+            $PreInstall = {
+                '==> [INFO] Enabling choco silent install' | Write-Verbose
+                choco feature enable -n allowGlobalConfirmation
+            }
+            $Install = { choco install $Args[0] }
+            $PostInstall = { }
+        }
+        { $PackageManager.StartsWith('winget', 'CurrentCultureIgnoreCase') } {
+            $InstallerName = 'Winget'
+            $InstallerCommand = 'winget'
+            if (-not (./Test-Command.ps1 -Command $InstallerCommand -Quiet)) {
+                "$InstallerName is not installed ($InstallerCommand is not an available command)" | Write-Warning
+                exit
+            }
+            $PreInstall = { }
+            $Install = { winget install $Args[0] }
+            $PostInstall = { }
+        }
+        Default {
             $InstallerName = 'Scoop'
             $InstallerCommand = 'scoop'
-            if (-not (Get-Command -Name $InstallerCommand)) {
+            if (-not (./Test-Command.ps1 -Command $InstallerCommand -Quiet)) {
                 "$InstallerName is not installed ($InstallerCommand is not an available command)" | Write-Warning
                 exit
             }
@@ -154,29 +149,12 @@ if ('applications' -notin $Skip) {
             }
             $Install = { scoop install $Args[0] }
             $PostInstall = {
-                conda init powershell
-                if (('extra' -in $Include) -and ('tesseract-languages' -notin $Exclude)) { 
+                if ('miniconda3' -notin $Exclude) {
+                    Invoke-Conda init powershell
+                }
+                if (('extra' -in $Include) -and ('tesseract-languages' -notin $Exclude)) {
                     scoop reset tesseract-languages
                 }
-            }
-        }
-        Default {
-            if (-not (Test-Admin)) {
-                'Chocolatey requires ADMINISTRATOR privileges. Please run Invoke-Setup.ps1 as administrator.' | Write-Warning
-                exit
-            }
-            $InstallerName = 'Chocolatey'
-            $InstallerCommand = 'choco'
-            if (-not (Get-Command -Name $InstallerCommand)) {
-                "$InstallerName is not installed ($InstallerCommand is not an available command)" | Write-Warning
-                exit
-            }
-            $PreInstall = { }
-            $Install = { choco install $Args[0] }
-            $PostInstall = { }
-            if ($PSCmdlet.ShouldProcess('Enable Chocolatey silent install')) {
-                '==> [INFO] Enabling choco silent install' | Write-Verbose
-                choco feature enable -n allowGlobalConfirmation
             }
         }
     }
@@ -184,10 +162,9 @@ if ('applications' -notin $Skip) {
     # Create list of applications to install
     #
     $Count = 0
-    $ApplicationsToInstall = $AppData.Common
-    $ApplicationsToInstall += switch ($InstallerName) {
-        'Scoop' { $AppData.Alias.PSObject.Properties.Name }
-        Default { $AppData.Alias.PSObject.Properties.Value }
+    $ApplicationsToInstall = [System.Collections.Generic.HashSet[string]]@()
+    foreach ($Application in $AppData.Common) {
+        $ApplicationsToInstall.Add($Application) | Out-Null
     }
     if ($Include -contains 'extra') {
         $ApplicationsToInstall += $AppData.Extra.Common
@@ -206,22 +183,29 @@ if ('applications' -notin $Skip) {
     # Install applications
     #
     "==> [INFO] Installing applications with $InstallerName" | Write-Verbose
-    $Exclude += $AppData.Broken.$InstallerName
+    $Exclude += $AppData.Broken.$PackageManager
+    $InstalledApplications = ./Get-Installed.ps1 -All
     foreach ($Application in ($ApplicationsToInstall | Sort-Object)) {
-        if (Test-Installed $Application) {
+        $Installed = ./Test-Installed.ps1 $Application -Search $InstalledApplications
+        $Alias = $AppData.Alias.$PackageManager.$Application
+        $App =  if ($Alias) { $Alias } else { $Application }
+        if ($Installed) {
             "==> [INSTALLED] $Application" | Write-Verbose
         } else {
             $ShouldInstall = $Application -notin $Exclude
             $Action = if ($ShouldInstall) { '[INSTALL]' } else { '[SKIP]' }
-            if ($PSCmdlet.ShouldProcess("$Action $Application")) {
-                Write-Progress -Activity "Installing applications with $InstallerName" -Status "Processing $Application ($($Count + 1) of $Total)" -PercentComplete ((($Count + 1) / $Total) * 100)
+            if ($PSCmdlet.ShouldProcess("$Action $App")) {
+                Write-Progress -Activity "Installing applications with $InstallerName" -Status "Processing $App ($($Count + 1) of $Total)" -PercentComplete ((($Count + 1) / $Total) * 100)
                 if ($ShouldInstall) {
-                    "==> [INFO] Installing $Application" | Write-Verbose
-                    & $Install $Application
+                    "==> [INFO] Installing $App" | Write-Verbose
+                    & $Install $App
                 } else {
-                    "==> [INFO] Skipping installation of $Application" | Write-Verbose
+                    "==> [INFO] Skipping installation of $App" | Write-Verbose
                 }
                 $Count++
+            }
+            if ($Alias) {
+                "==> [INFO] ${Alias} will be used instead of ${Application}" | Write-Verbose
             }
         }
     }

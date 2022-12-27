@@ -117,6 +117,15 @@
         ]
     },
     "Alias": {
+        "Brew": {
+            "7zip": "sevenzip",
+            "beaker": "beaker-browser",
+            "delta": "git-delta",
+            "miniconda3": "miniconda",
+            "pwsh": "powershell",
+            "qalculate": "qalculate-gtk",
+            "vscode": "visual-studio-code"
+        },
         "Choco": {
             "Cascadia-Code": "cascadiafonts",
             "FiraCode-NF": "firacodenf",
@@ -126,15 +135,6 @@
             "rga": "ripgrep-all",
             "speedtest-cli": "speedtest",
             "teracopy-np": "teracopy"
-        },
-        "Brew": {
-            "7zip": "sevenzip",
-            "beaker": "beaker-browser",
-            "delta": "git-delta",
-            "miniconda3": "miniconda",
-            "pwsh": "powershell",
-            "qalculate": "qalculate-gtk",
-            "vscode": "visual-studio-code"
         },
         "Scoop": {},
         "Winget": {
