@@ -14,7 +14,7 @@
                     "foreground": "#26C6DA",
                     "background": "transparent",
                     "trailing_diamond": "\uE0B4",
-                    "template": " {{ if .WSL }}WSL at {{ end }}{{ .Icon }}  "
+                    "template": " {{ if .WSL }}WSL at {{ end }}{{ .Icon }} "
                 },
                 {
                     "type": "session",
