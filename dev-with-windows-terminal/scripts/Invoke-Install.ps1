@@ -47,27 +47,18 @@ if ($Help) {
     ' | Write-Output
     exit
 }
-function Test-Admin {
-    Param()
-    if ($IsLinux -is [Bool] -and $IsLinux) {
-        (whoami) -eq 'root'
-    } else {
-        ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) | Write-Output
-    }
-}
 if ('modules' -notin $Skip) {
-    if (-not (Test-Admin)) {
+    if (-not (& "${PSScriptRoot}/Test-Admin.ps1")) {
         'Installing PowerShell modules requires ADMINISTRATOR privileges. Please run Invoke-Setup.ps1 as administrator, or use the -SkipModules option.' | Write-Warning
         exit
     } else {
         $Modules = @(
             'Prelude'
-            'posh-git'           # https://github.com/dahlbyk/posh-git
-            'oh-my-posh'         # https://github.com/JanDeDobbeleer/oh-my-posh
-            'PSConsoleTheme'     # https://github.com/mmims/PSConsoleTheme
-            'PSScriptAnalyzer'   # https://github.com/PowerShell/PSScriptAnalyzer
-            'Terminal-Icons'     # https://github.com/devblackops/Terminal-Icons
-            'nvm'                # https://github.com/aaronpowell/ps-nvm
+            'posh-git'         # https://github.com/dahlbyk/posh-git
+            'PSConsoleTheme'   # https://github.com/mmims/PSConsoleTheme
+            'PSScriptAnalyzer' # https://github.com/PowerShell/PSScriptAnalyzer
+            'Terminal-Icons'   # https://github.com/devblackops/Terminal-Icons
+            'nvm'              # https://github.com/aaronpowell/ps-nvm
         )
         '==> [INFO] Installing PowerShell modules...' | Write-Verbose
         if ($PSCmdlet.ShouldProcess('[INSTALL] Nuget package provider')) {
@@ -94,7 +85,7 @@ if ('applications' -notin $Skip) {
         { $PackageManager.StartsWith('homebrew', 'CurrentCultureIgnoreCase') } {
             $InstallerName = 'Homebrew'
             $InstallerCommand = 'brew'
-            if (-not (./Test-Command.ps1 -Command $InstallerCommand -Quiet)) {
+            if (-not (& "${PSScriptRoot}/Test-Command.ps1" -Command $InstallerCommand -Quiet)) {
                 "$InstallerName is not installed ($InstallerCommand is not an available command)" | Write-Warning
                 exit
             }
@@ -103,13 +94,13 @@ if ('applications' -notin $Skip) {
             $PostInstall = { }
         }
         { $PackageManager.StartsWith('choco', 'CurrentCultureIgnoreCase') } {
-            if (-not (Test-Admin)) {
+            if (-not (& "${PSScriptRoot}/Test-Admin.ps1")) {
                 'Chocolatey requires ADMINISTRATOR privileges. Please run Invoke-Setup.ps1 as administrator.' | Write-Warning
                 exit
             }
             $InstallerName = 'Chocolatey'
             $InstallerCommand = 'choco'
-            if (-not (./Test-Command.ps1 -Command $InstallerCommand -Quiet)) {
+            if (-not (& "${PSScriptRoot}/Test-Command.ps1" -Command $InstallerCommand -Quiet)) {
                 "$InstallerName is not installed ($InstallerCommand is not an available command)" | Write-Warning
                 exit
             }
@@ -123,7 +114,7 @@ if ('applications' -notin $Skip) {
         { $PackageManager.StartsWith('winget', 'CurrentCultureIgnoreCase') } {
             $InstallerName = 'Winget'
             $InstallerCommand = 'winget'
-            if (-not (./Test-Command.ps1 -Command $InstallerCommand -Quiet)) {
+            if (-not (& "${PSScriptRoot}/Test-Command.ps1" -Command $InstallerCommand -Quiet)) {
                 "$InstallerName is not installed ($InstallerCommand is not an available command)" | Write-Warning
                 exit
             }
@@ -134,7 +125,7 @@ if ('applications' -notin $Skip) {
         Default {
             $InstallerName = 'Scoop'
             $InstallerCommand = 'scoop'
-            if (-not (./Test-Command.ps1 -Command $InstallerCommand -Quiet)) {
+            if (-not (& "${PSScriptRoot}/Test-Command.ps1" -Command $InstallerCommand -Quiet)) {
                 "$InstallerName is not installed ($InstallerCommand is not an available command)" | Write-Warning
                 exit
             }
@@ -184,9 +175,9 @@ if ('applications' -notin $Skip) {
     #
     "==> [INFO] Installing applications with $InstallerName" | Write-Verbose
     $Exclude += $AppData.Broken.$PackageManager
-    $InstalledApplications = ./Get-Installed.ps1 -All
+    $InstalledApplications = & "${PSScriptRoot}/Get-Installed.ps1" -All
     foreach ($Application in ($ApplicationsToInstall | Sort-Object)) {
-        $Installed = ./Test-Installed.ps1 $Application -Search $InstalledApplications
+        $Installed = & "${PSScriptRoot}/Test-Installed.ps1" $Application -Search $InstalledApplications
         $Alias = $AppData.Alias.$PackageManager.$Application
         $App =  if ($Alias) { $Alias } else { $Application }
         if ($Installed) {

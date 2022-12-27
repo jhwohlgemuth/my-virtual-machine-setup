@@ -20,12 +20,12 @@ Begin {
             [String] $Value
         )
         $AugmentedValue = $Value -replace '-(cli|NF|np)',''
-        $CommandExists = (./Test-Command.ps1 -Command $Value -Quiet) -or (./Test-Command.ps1 -Command $AugmentedValue -Quiet)
-        $ApplicationNames = $Script:InstalledApplications.Where({ (Test-MatchStart $_ $Value) -or (Test-MatchStart $_ $AugmentedValue) })
+        $CommandExists = (& "${PSScriptRoot}/Test-Command.ps1" -Command $Value -Quiet) -or (& "${PSScriptRoot}/Test-Command.ps1" -Command $AugmentedValue -Quiet)
+        $ApplicationNames = $InstalledApplications.Where({ (Test-MatchStart $_ $Value) -or (Test-MatchStart $_ $AugmentedValue) })
         $CommandFound = $ApplicationNames.Count -gt 0
         $CommandExists -or $CommandFound
     }
-    $Script:InstalledApplications = if ($Search.Count -gt 0) { $Search } else { ./Get-Installed.ps1 }
+    $InstalledApplications = if ($Search.Count -gt 0) { $Search } else { & "${PSScriptRoot}/Get-Installed.ps1" -All }
     if ($Names.Count -gt 0) {
         $Names | ForEach-Object { Invoke-TestName $_ }
     }

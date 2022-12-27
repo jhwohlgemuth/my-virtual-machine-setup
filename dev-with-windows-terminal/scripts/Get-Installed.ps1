@@ -12,7 +12,7 @@ if ($All -or ($Include -contains 'Start')) {
     (Get-StartApps).Name | Sort-Object | ForEach-Object { $InstalledApplications.Add($_.ToLower()) | Out-Null }
 }
 if ($All -or ($Include -contains 'Chocolatey')) {
-    if (./Test-Command.ps1 'choco') {
+    if (& "${PSScriptRoot}/Test-Command.ps1" 'choco') {
         "==> [INFO] Getting installed Chocolatey packages" | Write-Verbose
         $Temp = 'INSTALLED_CHOCOLATEY_APPLICATIONS.xml'
         choco export -o $Temp | Out-Null
@@ -22,7 +22,7 @@ if ($All -or ($Include -contains 'Chocolatey')) {
     }
 }
 if ($All -or ($Include -contains 'Scoop')) {
-    if (./Test-Command.ps1 'scoop') {
+    if (& "${PSScriptRoot}/Test-Command.ps1" 'scoop') {
         "==> [INFO] Getting installed Scoop apps" | Write-Verbose
         $Temp = 'INSTALLED_SCOOP_APPLICATIONS.json'
         scoop export > $Temp
@@ -32,7 +32,7 @@ if ($All -or ($Include -contains 'Scoop')) {
     }
 }
 if ($All -or ($Include -contains 'Winget')) {
-    if (./Test-Command.ps1 'winget') {
+    if (& "${PSScriptRoot}/Test-Command.ps1" 'winget') {
         "==> [INFO] Getting installed Winget packages" | Write-Verbose
         $Temp = 'INSTALLED_WINGET_APPLICATIONS.json'
         winget export --output $Temp | Out-Null

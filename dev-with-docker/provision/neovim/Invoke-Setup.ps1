@@ -16,7 +16,6 @@ $Count = 1
 $Total = 5
 
 "NEOVIM_ROOT = $NEOVIM_ROOT" | Write-Verbose
-$Force | Write-COlor -Magenta
 
 if ($PSCmdlet.ShouldProcess("==> [INFO] Setting Neovim environment variable to ${NEOVIM_ROOT}")) {
     Write-Progress -Activity 'Configuring Neovim' -Status 'Creating environment variables' -PercentComplete (($Count / $Total) * 100)

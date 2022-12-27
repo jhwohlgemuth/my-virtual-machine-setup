@@ -5,13 +5,8 @@ Setup script for configuring Windows Terminal and development environment.
 Whether or not to install PowerShell modules and Scoop applications.
 .PARAMETER Neovim
 Whether or not to configure Neovim.
-.PARAMETER Theme
-The name of the oh-my-posh theme to use.
 .PARAMETER Standalone
 Use if running script outside of env repo (downloads jhwohlgemuth/env repo)
-.EXAMPLE
-# Change the terminal theme (without installing anything)
-./Invoke-Setup.ps1 -Theme princess
 .EXAMPLE
 # Run the script to see what it would do without changing anything
 ./Invoke-Setup.ps1 -Verbose -WhatIf
@@ -24,36 +19,9 @@ Param(
     [Switch] $SkipApplications,
     [Switch] $Neovim,
     [PSObject] $InstallOptions = @{ PackageManager = 'Scoop'; Include = 'extra'; Skip = 'modules' },
-    [ValidateSet(
-        'agnoster',
-        'aliens',
-        'blueish',
-        'iterm2',
-        'lambda',
-        'microverse',
-        'night-owl',
-        'paradox',
-        'powerlevel',
-        'princess',
-        'tonybaloney',
-        'robbyrussel',
-        'slim',
-        'space',
-        'star',
-        'wopian'
-    )]
-    [String] $Theme = 'powerlevel',
     [Switch] $Standalone,
     [Switch] $Force
 )
-function Test-Admin {
-    Param()
-    if ($IsLinux -is [Bool] -and $IsLinux) {
-        (whoami) -eq 'root'
-    } else {
-        ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) | Write-Output
-    }
-}
 #
 # Set script variables
 #
@@ -87,9 +55,9 @@ if ($Standalone) {
 #
 # Install PowerShell modules
 #
-if (Test-Admin) {
+if (./dev-with-windows-terminal/scripts/Test-Admin.ps1) {
     Set-Location -Path $TerminalRoot
-    & .\Invoke-Install.ps1 -Skip 'applications' @CmdletParameters
+    & .\scripts\Invoke-Install.ps1 -Skip 'applications' @CmdletParameters
     Set-Location -Path $Root
 } else {
     '==> [INFO] Skipping installation of PowerShell modules' | Write-Verbose
@@ -101,7 +69,7 @@ if (-not $SkipApplications) {
     Set-Location -Path $TerminalRoot
     '==> [INFO] Install options:' | Write-Verbose
     $InstallOptions | ConvertTo-Json | Write-Verbose
-    & .\Invoke-Install.ps1 @InstallOptions @CmdletParameters
+    & .\scripts\Invoke-Install.ps1 @InstallOptions @CmdletParameters
     Set-Location -Path $Root
 } else {
     "==> [INFO] Skipping installation of $($InstallOptions.PackageManager) applications" | Write-Verbose
@@ -116,42 +84,21 @@ Copy-Item -Path 'Makefile' -Destination $Env:USERPROFILE -Force @CmdletParameter
 "==> [INFO] Copying profile configuration to ${PROFILE}" | Write-Verbose
 Set-Content -Path $PROFILE -Value (Get-Content -Path (Join-Path $TerminalRoot 'Microsoft.Powershell_profile.ps1')) @CmdletParameters
 #
+# Copy custom oh-my-posh theme
+#
+"==> [INFO] Copying custom oh-my-posh theme to ${HOME}" | Write-Verbose
+Set-Content -Path "${HOME}/.theme.omp.json" -Value (Get-Content -Path (Join-Path $Root 'dev-with-docker/config/.theme.omp.json')) @CmdletParameters
+#
 # Copy windows terminal settings.json
 #
 "==> [INFO] Copying settings.json to ${LocalSettingsPath}" | Write-Verbose
 Set-Content -Path $LocalSettingsPath -Value (Get-Content -Path (Join-Path $TerminalRoot 'settings.json')) @CmdletParameters
 #
-# Update oh-my-posh theme
-#
-$ThemeName = @{
-    'agnoster'    = 'agnoster'
-    'aliens'      = 'aliens'
-    'blueish'     = 'blueish'
-    'iterm2'      = 'iterm2'
-    'lambda'      = 'lambda'
-    'microverse'  = 'microverse-power'
-    'night-owl'   = 'night-owl'
-    'paradox'     = 'paradox'
-    'powerlevel'  = 'powerlevel10k_rainbow'
-    'princess'    = 'M365Princess'
-    'tonybaloney' = 'tonybaloney'
-    'robbyrussel' = 'robbyrussel'
-    'slim'        = 'slim'
-    'space'       = 'space'
-    'star'        = 'star'
-    'wopian'      = 'wopian'
-}[$Theme]
-if ($PSCmdlet.ShouldProcess("Update oh-my-posh theme to ${ThemeName}")) {
-    "==> [INFO] Updating oh-my-posh theme to ${ThemeName}" | Write-Verbose
-    Set-PoshPrompt -Theme $ThemeName
-    ((Get-Content -path $PROFILE -Raw) -replace 'Set-PoshPrompt -Theme .*\r\n', "Set-PoshPrompt -Theme ${ThemeName}`n") | Set-Content -Path $PROFILE
-}
-#
 # Install and configure Neovim
 #
 if ($Neovim) {
-    Set-Location -Path (Join-Path $Root 'dev-with-neovim')
+    Set-Location -Path (Join-Path $Root 'dev-with-docker/provision/neovim')
     & .\Invoke-Setup.ps1 -Force:$Force @CmdletParameters
     Set-Location -Path $Root
 }
-Set-Location -Path $DevDirectory
+Set-Location -Path $Root

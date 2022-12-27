@@ -29,16 +29,16 @@ cd /path/to/env/dev-with-windows-terminal
 ```
 
 4. Run installation PowerShell script <sup>[[1]](#1)</sup>:
-> You are encouraged to read the content of [Invoke-Install.ps1](./Invoke-Install.ps1). You can access the script's help with `./Invoke-Install.ps1 -Help`
+> You are encouraged to read the content of [Invoke-Install.ps1](./scripts/Invoke-Install.ps1). You can access the script's help with `./scripts/Invoke-Install.ps1 -Help`
 
 **Install applications with [Chocolatey](https://chocolatey.org/)**:
 ```powershell
-./Invoke-Install.ps1
+./scripts/Invoke-Install.ps1
 ```
 
 **Install applications with [Scoop](https://scoop.sh/)**:
 ```powershell
-./Invoke-Install.ps1 -PackageManager scoop
+./scripts/Invoke-Install.ps1 -PackageManager scoop
 ```
 
 > Not sure which package manager to use? [Here is a comparison](https://github.com/lukesampson/scoop/wiki/Chocolatey-Comparison) provided by the maker of Scoop.
@@ -69,9 +69,9 @@ Now that you have an amazing terminal, [install Neovim](../dev-with-neovim), and
 
 [1]
 ---
-> Depending on your system configuration, you may experience issues trying to execute [Invoke-Install.ps1](./Invoke-Install.ps1).
+> Depending on your system configuration, you may experience issues trying to execute [Invoke-Install.ps1](./scripts/Invoke-Install.ps1).
 > For execution policy problems, you can bypass the policy one time with
 
 ```
-Set-ExecutionPolicy Bypass -Scope Process -Force; ./Invoke-Install.ps1
+Set-ExecutionPolicy Bypass -Scope Process -Force; ./scripts/Invoke-Install.ps1
 ```

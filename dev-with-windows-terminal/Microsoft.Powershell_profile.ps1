@@ -18,7 +18,6 @@ if (Test-Installed PSReadLine) {
 $Modules = @(
     'PSScriptAnalyzer'
     'posh-git'
-    'oh-my-posh'
     'Terminal-Icons'
     'Prelude'
 )
@@ -29,10 +28,9 @@ foreach ($Module in $Modules) {
     }
 }
 #
-# Set Oh-my-posh theme
+# Initialize oh-my-posh and set custom theme
 #
-# $Env:POSH_GIT_ENABLED = $True
-Set-PoshPrompt -Theme powerlevel10k_rainbow
+oh-my-posh init pwsh --config ~/.theme.omp.json | Invoke-Expression
 #
 # Import Chocolatey profile
 #
