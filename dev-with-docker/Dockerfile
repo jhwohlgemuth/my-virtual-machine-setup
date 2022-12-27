@@ -27,18 +27,19 @@ RUN curl -s "https://get.sdkman.io" | bash \
     && yes | sdk install leiningen \
     && rm -rf "${HOME}/.sdkman/archives/*" \
     && rm -rf "${HOME}/.sdkman/tmp/*"
-SHELL ["/bin/sh", "-c"]
 #
 # Install Clojure
 #
+SHELL ["/bin/sh", "-c"]
 RUN curl -O https://download.clojure.org/install/linux-install-1.10.1.561.sh \
     && chmod +x linux-install-1.10.1.561.sh \
     && ./linux-install-1.10.1.561.sh \
     && mkdir /root/.lein
 COPY ./config/profiles.clj /root/.lein/
 #
-# Install kerl and Erlang
+# Install kerl and Erlang, OCaml, R, and Ruby
 #
+SHELL ["/bin/sh", "-c"]
 WORKDIR /usr/local/bin
 ENV ERL_VERSION "23.3.4.11"
 # ENV ERL_VERSION "24.2.1"
@@ -46,6 +47,12 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
         fop \
         libxml2-utils \
         xsltproc \
+        # OCaml
+        ocaml opam \
+        # R
+        r-base \
+        # Ruby
+        ruby-full \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && curl -O https://raw.githubusercontent.com/kerl/kerl/master/kerl \
@@ -53,9 +60,12 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     && kerl build ${ERL_VERSION} \
     && kerl install ${ERL_VERSION} "${HOME}/kerl/${ERL_VERSION}" \
     && . "${HOME}/kerl/${ERL_VERSION}/activate" \
-    && echo "source ${HOME}/kerl/${ERL_VERSION}/activate" >> "${HOME}/.zshrc"
+    && echo "source ${HOME}/kerl/${ERL_VERSION}/activate" >> "${HOME}/.zshrc" \
+    # Configure R
+    && R -e "install.packages(c('formatR', 'jsonlite'), repos='http://cran.rstudio.com')"
+ENV PATH "${PATH}:/root/.gem/ruby/2.7.0/bin"
 #
-# Install kerl, kiex, and Elixir
+# Install kiex and Elixir
 #
 SHELL ["/bin/bash", "-c"]
 WORKDIR /root
@@ -69,10 +79,10 @@ RUN curl -sSL https://raw.githubusercontent.com/taylor/kiex/master/install | bas
     && kiex use ${ELIXIR_VERSION} \
     && kiex default ${ELIXIR_VERSION}
 COPY ./config/.iex.exs /root/
-SHELL ["/bin/sh", "-c"]
 #
 # Install Go
 #
+SHELL ["/bin/sh", "-c"]
 WORKDIR /root
 RUN curl -o- https://dl.google.com/go/go1.19.1.linux-amd64.tar.gz | tar -xz -C /usr/local
 ENV PATH "${PATH}:/usr/local/go/bin"
@@ -89,23 +99,6 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh \
     && stack config set install-ghc false --global \
     && stack config set system-ghc true --global \
     && echo "source ${HOME}/.ghcup/env" >> "${HOME}/.zshrc"
-SHELL ["/bin/sh", "-c"]
-#
-# Install OCaml
-#
-WORKDIR /root
-RUN apt-get update && apt-get install --no-install-recommends -y ocaml opam \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-#
-# Install R and Ruby
-#
-WORKDIR /root
-RUN apt-get update && apt-get install --no-install-recommends -y r-base ruby-full \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && R -e "install.packages(c('formatR', 'jsonlite'), repos='http://cran.rstudio.com')"
-ENV PATH "${PATH}:/root/.gem/ruby/2.7.0/bin"
 #
 # Install Swift
 #
@@ -124,6 +117,7 @@ RUN SWIFT_WEBDIR="${SWIFT_WEBROOT}/${SWIFT_BRANCH}/$(echo ${SWIFT_PLATFORM} | tr
 #
 # Update Conda base environment
 #
+SHELL ["/bin/sh", "-c"]
 WORKDIR /root
 SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
 COPY ./provision/environment.base.yml environment.yml
