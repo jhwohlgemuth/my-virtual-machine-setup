@@ -5,8 +5,8 @@ Script for installing useful PowerShell modules and applications on Windows
 [CmdletBinding(SupportsShouldProcess = $True)]
 Param(
     [Parameter(Position = 0)]
-    [ValidateSet('Chocolatey', 'Scoop')]
-    [String] $PackageManager = 'Chocolatey',
+    [ValidateSet('Chocolatey', 'Scoop', 'Winget')]
+    [String] $PackageManager = 'Scoop',
     [String] $Path = '.\Applications.json',
     [ValidateSet('extra')]
     [String[]] $Include,
@@ -28,7 +28,7 @@ if ($Help) {
         Include          Install applications from certain groups: "extra"
                              - Extra = applications I use a lot but are not directly related to development (scoop and choco provide different applications)
         Exclude          String array of application names that should not be installed
-        Skip             Skip installing "modules" and/or "applications
+        Skip             Skip installing "modules" and/or "applications"
 
     Examples:
 
@@ -41,8 +41,8 @@ if ($Help) {
         # Same as above, but also install extra and applications
         ./Invoke-Install.ps1 -Include extra
 
-        # Use Scoop to install applications, do not install python or vagrant
-        ./Invoke-Install.ps1 -PackageManager Scoop -Exclude python,vagrant
+        # Use Scoop to install applications, do not install tesseract-languages
+        ./Invoke-Install.ps1 -PackageManager Chocolatey -Exclude tesseract-languages
 
     ' | Write-Output
     exit
