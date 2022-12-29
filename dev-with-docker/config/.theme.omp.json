@@ -117,6 +117,7 @@
                     "style": "powerline",
                     "foreground": "p:green",
                     "background": "transparent",
+                    "template": " \uE718 v{{ .Full }} ",
                     "properties": {
                         "display_mode": "files",
                         "fetch_package_manager": true
@@ -149,7 +150,7 @@
                     "style": "powerline",
                     "foreground": "p:yellow",
                     "background": "transparent",
-                    "template": "\uE235 v{{ .Full }} ({{ .Venv }}) ",
+                    "template": " \uE235 v{{ .Full }} ({{ .Venv }}) ",
                     "properties": {
                         "display_mode": "files",
                         "fetch_version": true,
