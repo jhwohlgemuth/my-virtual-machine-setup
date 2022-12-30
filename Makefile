@@ -49,18 +49,21 @@ create-notebook:
 		$(NOTEBOOK_IMAGE_NAME)
 	@echo "==> Created ${NAME} container"
 
-gis: start
-	@docker cp ./dev-with-docker/provision/environment.gis.yml $(ENV_NAME):/root
-	@docker exec -it $(ENV_NAME) /bin/zsh -c "cd /root && /root/miniconda3/bin/mamba env create -f environment.gis.yml"
+gis:
+	@$(MAKE) TASK=$@ CONTAINER=$(ENV_NAME) --no-print-directory create-conda-env
 
-ml: start
-	@docker cp ./dev-with-docker/provision/environment.ml.yml $(ENV_NAME):/root
-	@docker exec -it $(ENV_NAME) /bin/zsh -c "cd /root && /root/miniconda3/bin/mamba env create -f environment.ml.yml"
+ml:
+	@$(MAKE) TASK=$@ CONTAINER=$(ENV_NAME) --no-print-directory create-conda-env
 
-nlp: start
-	@docker cp ./dev-with-docker/provision/environment.nlp.yml $(ENV_NAME):/root
-	@docker exec -it $(ENV_NAME) /bin/zsh -c "cd /root && /root/miniconda3/bin/mamba env create -f environment.nlp.yml"
+nlp:
+	@$(MAKE) TASK=$@ CONTAINER=$(ENV_NAME) --no-print-directory create-conda-env
 
+quantum:
+	@$(MAKE) TASK=$@ CONTAINER=$(ENV_NAME) --no-print-directory create-conda-env
+
+create-conda-env: start
+	@docker cp ./dev-with-docker/provision/environment.${TASK}.yml ${CONTAINER}:/root
+	@docker exec -it ${CONTAINER} /bin/zsh -c "cd /root && /root/miniconda3/bin/mamba env create -f environment.${TASK}.yml"
 
 env:
 	@$(MAKE) NAME=$@ --no-print-directory create-env
@@ -112,9 +115,11 @@ TASKS = \
 	env \
 	install-ijavascript \
 	install-node \
+	gis \
 	ml \
 	nlp \
 	notebook \
+	quantum \
 	setup \
 	shell \
 	start

@@ -1,0 +1,21 @@
+name: quantum
+channels:
+  - conda-forge
+  - microsoft
+  - defaults
+dependencies:
+  - ipykernel
+  - pip
+  - qsharp
+  - notebook
+  - pyquil
+  - qutip
+  - pip:
+    - cirq
+    - pennylane
+    - pennylane-lightning
+    - pennylane-sf
+    - pennylane-qiskit
+    - pennylane-cirq
+    - pyzx
+    - strawberryfields
