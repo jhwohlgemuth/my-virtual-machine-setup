@@ -1,11 +1,10 @@
-name: ml
+name: cml
 channels:
   - conda-forge
   - pytorch
   - defaults
 dependencies:
   - altair
-  - ipykernel
   - keras
   - matplotlib
   - numpy
@@ -28,5 +27,4 @@ dependencies:
   - pip:
     - drawdata
     - gdown
-    - ptpython
     - tensorflow

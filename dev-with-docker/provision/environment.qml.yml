@@ -1,13 +1,12 @@
-name: quantum
+name: qml
 channels:
   - conda-forge
   - microsoft
   - defaults
 dependencies:
-  - ipykernel
-  - pip
   - qsharp
   - notebook
+  - pip
   - pyquil
   - qutip
   - pip:
