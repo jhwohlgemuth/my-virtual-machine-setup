@@ -23,7 +23,7 @@ format:
 
 build-all: base-image env-image build-notebook
 
-base-image:
+base-image: format
 	@docker build --no-cache -t $(BASE_IMAGE_NAME) -f ./Dockerfile.base .
 
 env-image:

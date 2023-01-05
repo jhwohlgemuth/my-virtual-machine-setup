@@ -77,14 +77,15 @@ RUN chmod +x ./install_homebrew.sh \
 # Install and configure oh-my-posh
 #
 WORKDIR /root
-ENV PROFILE "/root/.config/powershell/Microsoft.PowerShell_profile.ps1"
+SHELL ["/bin/pwsh", "-Command"]
+COPY ./config/.theme.omp.json .
+COPY ./config/profile.ps1 .
 RUN /home/linuxbrew/.linuxbrew/bin/brew install jandedobbeleer/oh-my-posh/oh-my-posh \
-    && mkdir -p "/root/.config/powershell" \
-    && pwsh -Command "Install-Module -Name Prelude -Scope CurrentUser -Force" \
-    && pwsh -Command "Install-Module -Name posh-git -Scope CurrentUser -Force" \
-    && pwsh -Command "Install-Module -Name Terminal-Icons -Scope CurrentUser -Force"
-COPY ./config/.theme.omp.json "/root/.theme.omp.json"
-COPY ./config/Microsoft.Powershell_profile.ps1 ${PROFILE}
+    && New-Item -Path '/root/.config/powershell' -ItemType Directory -Force \
+    && Install-Module -Name Prelude -Scope CurrentUser -Force \
+    && Install-Module -Name posh-git -Scope CurrentUser -Force \
+    && Install-Module -Name Terminal-Icons -Scope CurrentUser -Force \
+    && Move-Item profile.ps1 $PROFILE -Force
 
 WORKDIR /root
 ENTRYPOINT [ "/bin/zsh" ]
