@@ -51,7 +51,8 @@
             "dia",
             "firefox",
             "mockoon",
-            "tor-browser"
+            "tor-browser",
+            "zotero"
         ],
         "Brew": [
             "aspell",
@@ -88,8 +89,7 @@
             "speccy",
             "sysinternals",
             "windirstat",
-            "winfetch",
-            "zotero"
+            "winfetch"
         ],
         "Scoop": [
             "altair",
@@ -157,7 +157,8 @@
             "pwsh": "Microsoft.PowerShell",
             "qalculate": "Qalculate.Qalculate",
             "teracopy": "CodeSector.TeraCopy",
-            "vscode": "Microsoft.VisualStudioCode"
+            "vscode": "Microsoft.VisualStudioCode",
+            "zotero": "DigitalScholar.Zotero"
         }
     },
     "Broken": {
