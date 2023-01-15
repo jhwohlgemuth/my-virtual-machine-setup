@@ -51,6 +51,7 @@
             "dia",
             "firefox",
             "mockoon",
+            "podman",
             "tor-browser",
             "zotero"
         ],
@@ -154,6 +155,7 @@
             "neovim": "Neovim.Neovim",
             "obsidian": "Obsidian.Obsidian",
             "pandoc": "JohnMacFarlane.Pandoc",
+            "podman": "RedHat.Podman",
             "pwsh": "Microsoft.PowerShell",
             "qalculate": "Qalculate.Qalculate",
             "teracopy": "CodeSector.TeraCopy",
