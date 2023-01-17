@@ -30,7 +30,9 @@ foreach ($Module in $Modules) {
 #
 # Initialize oh-my-posh and set custom theme
 #
-oh-my-posh init pwsh --config ~/.theme.omp.json | Invoke-Expression
+if (Test-Command -Name 'oh-my-posh') {
+    oh-my-posh init pwsh --config ~/.theme.omp.json | Invoke-Expression
+}
 #
 # Import Chocolatey profile
 #
