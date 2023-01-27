@@ -118,7 +118,7 @@ if ('applications' -notin $Skip) {
                 "$InstallerName is not installed ($InstallerCommand is not an available command)" | Write-Warning
                 exit
             }
-            $PreInstall = { }
+            $PreInstall = { winget install JanDeDobbeleer.OhMyPosh -s winget }
             $Install = { winget install $Args[0] }
             $PostInstall = { }
         }
@@ -137,6 +137,8 @@ if ('applications' -notin $Skip) {
                         scoop bucket add $_
                     }
                 }
+                '==> [INFO] Installing oh-my-posh' | Write-Verbose
+                scoop install 'https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/oh-my-posh.json'
             }
             $Install = { scoop install $Args[0] }
             $PostInstall = {
