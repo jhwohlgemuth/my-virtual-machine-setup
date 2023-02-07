@@ -55,7 +55,7 @@ End {
     }
     $Content | Set-Content -Path $Output
     if (-not $NoInstall) {
-        $Command = "mamba env create --file ${Output}"
+        $Command = "mamba env create --file ${Output} --prefix $Env:_CONDA_ROOT/envs/${Name}"
         "==> [INFO] Executing: '${Command}'" | Write-Verbose
         if ($PSCmdlet.ShouldProcess("[EXECUTE] '${Command}'")) {
             Invoke-Expression $Command
