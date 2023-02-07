@@ -15,7 +15,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 #
 WORKDIR /root
 ARG DEBIAN_FRONTEND=noninteractive
-COPY ./provision/install_dependencies.sh .
+COPY ./provision/scripts/install_dependencies.sh .
 RUN chmod +x ./install_dependencies.sh \
     && ./install_dependencies.sh \
     && rm ./install_dependencies.sh
@@ -23,7 +23,7 @@ RUN chmod +x ./install_dependencies.sh \
 # Install and configure oh-my-zsh
 #
 WORKDIR /root
-COPY ./provision/install_ohmyzsh.sh .
+COPY ./provision/scripts/install_ohmyzsh.sh .
 RUN chmod +x ./install_ohmyzsh.sh \
     && ./install_ohmyzsh.sh \
     && rm ./install_ohmyzsh.sh
@@ -45,7 +45,7 @@ RUN find $NEOVIM_ROOT -name "*.vim" | xargs dos2unix
 #
 WORKDIR /root
 ARG DEBIAN_FRONTEND=noninteractive
-COPY ./provision/install_dotnet.sh .
+COPY ./provision/scripts/install_dotnet.sh .
 RUN chmod +x ./install_dotnet.sh \
     && ./install_dotnet.sh \
     && rm ./install_dotnet.sh
@@ -53,7 +53,7 @@ RUN chmod +x ./install_dotnet.sh \
 # Install miniconda (conda) and mamba
 #
 WORKDIR /root
-COPY ./provision/install_conda.sh .
+COPY ./provision/scripts/install_conda.sh .
 RUN chmod +x ./install_conda.sh \
     && ./install_conda.sh \
     && rm ./install_conda.sh
@@ -69,7 +69,7 @@ RUN echo ". ${NVM_DIR}/nvm.sh" >> "${HOME}/.zshrc"
 # Install Homebrew
 #
 WORKDIR /root
-COPY ./provision/install_homebrew.sh .
+COPY ./provision/scripts/install_homebrew.sh .
 RUN chmod +x ./install_homebrew.sh \
     && ./install_homebrew.sh \
     && rm ./install_homebrew.sh

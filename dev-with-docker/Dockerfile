@@ -120,7 +120,7 @@ RUN SWIFT_WEBDIR="${SWIFT_WEBROOT}/${SWIFT_BRANCH}/$(echo ${SWIFT_PLATFORM} | tr
 SHELL ["/bin/sh", "-c"]
 WORKDIR /root
 SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
-COPY ./provision/environment.base.yml environment.yml
+COPY ./provision/conda/environment.base.yml environment.yml
 RUN mamba env update --file environment.yml --prune
 
 WORKDIR /root/dev

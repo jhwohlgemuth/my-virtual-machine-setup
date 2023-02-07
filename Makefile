@@ -13,7 +13,7 @@ quantum:
 	@$(MAKE) TASK=$@ CONTAINER=$(ENV_NAME) --no-print-directory create-conda-env
 
 create-conda-env: start
-	@docker cp ./dev-with-docker/provision/environment.${TASK}.yml ${CONTAINER}:/root
+	@docker cp ./dev-with-docker/provision/conda/environment.${TASK}.yml ${CONTAINER}:/root
 	@docker exec -it ${CONTAINER} /bin/zsh -c "cd /root && /root/miniconda3/bin/mamba env create -f environment.${TASK}.yml"
 
 install-node:
