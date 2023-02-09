@@ -17,6 +17,7 @@ Param(
     [String] $Name = 'default',
     [Parameter(Mandatory = $False, Position = 2)]
     [String] $Output = 'environment.yml',
+    [String[]] $Exclude = @(),
     [Switch] $NoInstall,
     [Switch] $Persist,
     [Switch] $Force
@@ -52,6 +53,9 @@ End {
         (Invoke-Expression $Command) -replace 'name:.*$', "name: ${Name}"
     } else {
         ''
+    }
+    foreach ($Package in $Exclude) {
+        $Content = $Content | Where-Object { $_ -notmatch  "${Package}`$" }
     }
     $Content | Set-Content -Path $Output
     if (-not $NoInstall) {
