@@ -8,18 +8,18 @@ lint: check
 	@hadolint ./Dockerfile.notebook $(IGNORE_RULES)
 
 check:
-	@shellcheck ./provision/install_conda.sh
-	@shellcheck ./provision/install_dependencies.sh
-	@shellcheck ./provision/install_dotnet.sh
-	@shellcheck ./provision/install_homebrew.sh
-	@shellcheck ./provision/install_ohmyzsh.sh
+	@shellcheck ./provision/scripts/install_conda.sh
+	@shellcheck ./provision/scripts/install_dependencies.sh
+	@shellcheck ./provision/scripts/install_dotnet.sh
+	@shellcheck ./provision/scripts/install_homebrew.sh
+	@shellcheck ./provision/scripts/install_ohmyzsh.sh
 
 format:
-	@dos2unix ./provision/install_conda.sh
-	@dos2unix ./provision/install_dependencies.sh
-	@dos2unix ./provision/install_dotnet.sh
-	@dos2unix ./provision/install_homebrew.sh
-	@dos2unix ./provision/install_ohmyzsh.sh
+	@dos2unix ./provision/scripts/install_conda.sh
+	@dos2unix ./provision/scripts/install_dependencies.sh
+	@dos2unix ./provision/scripts/install_dotnet.sh
+	@dos2unix ./provision/scripts/install_homebrew.sh
+	@dos2unix ./provision/scripts/install_ohmyzsh.sh
 
 build-all: base-image env-image build-notebook
 
