@@ -16,6 +16,7 @@ dependencies:
   - pandas
   - pip=22.2.2
   - polars
+  - pyarrow
   - pylint
   - pytest
   - pytest-cov
