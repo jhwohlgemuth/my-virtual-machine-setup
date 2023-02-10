@@ -1,14 +1,12 @@
 name: viz
 channels:
   - pyviz
-  # - bokeh
   - plotly
   - conda-forge
   - defaults
 dependencies:
   - altair
   - altair_saver
-  # - bokeh
   - datashader
   - holoviews
   - hvplot

@@ -4,17 +4,30 @@ channels:
   - defaults
 dependencies:
   - black
+  - bottleneck
   - conda
   - conda-merge
   - conda-pack
+  - gin-config
   - ipykernel
   - mamba
-  - pip
+  - numba
+  - numpy
+  - pandas
+  - pip=22.2.2
+  - polars
   - pylint
   - pytest
   - pytest-cov
-  - radian
+  - python=3.8
+  - pyyaml
   - ruff
+  - tqdm
+  - xarray
+  - zarr
   - pip:
     - apprise
+    - drawdata
+    - gdown
+    - hypothesis
     - ptpython
