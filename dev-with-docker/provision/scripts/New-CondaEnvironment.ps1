@@ -54,8 +54,8 @@ End {
     } else {
         ''
     }
-    foreach ($Package in $Exclude) {
-        $Content = $Content | Where-Object { $_ -notmatch  "${Package}`$" }
+    foreach ($PackageRegex in $Exclude) {
+        $Content = $Content | Where-Object { $_ -notmatch  $PackageRegex }
     }
     $Content | Set-Content -Path $Output
     if (-not $NoInstall) {
