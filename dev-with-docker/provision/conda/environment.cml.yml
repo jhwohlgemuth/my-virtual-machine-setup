@@ -29,14 +29,11 @@ dependencies:
   - torchinfo
   - torchvision
   - pip:
-    - --no-binary=horovod
     - bentoml==1.0.5
     - deepchecks[vision]==0.10.0
     - great_expectations
-    - horovod[pytorch]==0.25.0
-    - merlin-dataloader==0.0.4
-    - nebullvm==0.4.3
-    - nvidia-ml-py==11.525.84
+    - merlin-dataloader
+    - nebullvm
     - psycopg2-binary==2.9.3
     - segmentation-models==1.0.1
     - torchviz==0.0.2
