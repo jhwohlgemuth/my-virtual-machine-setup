@@ -11,6 +11,7 @@ dependencies:
   - gin-config
   - ipykernel
   - mamba
+  - modin-all
   - numba
   - numpy
   - pandas
