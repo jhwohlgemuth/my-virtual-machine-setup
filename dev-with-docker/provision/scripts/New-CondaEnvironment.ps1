@@ -8,6 +8,7 @@ Param(
         'base',
         'cml',
         'gis',
+        'nlp',
         'qml',
         'viz',
         'xai'
@@ -18,6 +19,7 @@ Param(
     [Parameter(Mandatory = $False, Position = 2)]
     [String] $Output = 'environment.yml',
     [String[]] $Exclude = @(),
+    [String] $Container,
     [Switch] $NoInstall,
     [Switch] $Persist,
     [Switch] $Force
@@ -48,8 +50,8 @@ Begin {
 End {
     $Arguments = ($Files | ForEach-Object { "`"$($_ | Resolve-Path)`"" }) -join ' '
     $Command = "conda-merge ${Arguments}"
-    "==> [INFO] Executing: '${Command}'" | Write-Verbose
-    $Content = if ($PSCmdlet.ShouldProcess("[EXECUTE] '${Command}'")) {
+    $Content = if ($PSCmdlet.ShouldProcess("[EXECUTE] Update Conda environment name")) {
+        "==> [INFO] Executing: '${Command}'" | Write-Verbose
         (Invoke-Expression $Command) -replace 'name:.*$', "name: ${Name}"
     } else {
         ''
@@ -59,9 +61,18 @@ End {
     }
     $Content | Set-Content -Path $Output
     if (-not $NoInstall) {
-        $Command = "mamba env create --file ${Output} --prefix $Env:_CONDA_ROOT/envs/${Name}"
-        "==> [INFO] Executing: '${Command}'" | Write-Verbose
-        if ($PSCmdlet.ShouldProcess("[EXECUTE] '${Command}'")) {
+        $InstallToContainer = $Container.Count -gt 0
+        $Command = if ($InstallToContainer) {
+            "docker exec -it ${Container} /bin/zsh -c `"/root/miniconda3/bin/mamba env create --file /root/${Output}`""
+        } else {
+            "mamba env create --file ${Output} --prefix $Env:_CONDA_ROOT/envs/${Name}"
+        }
+        if ($PSCmdlet.ShouldProcess("[EXECUTE] Install Conda environment")) {
+            if ($InstallToContainer) {
+                "==> [INFO] Copying ${Output} to ${Container} container" | Write-Verbose
+                Invoke-Expression "docker cp ${Output} ${Container}:/root"
+            }
+            "==> [INFO] Executing: '${Command}'" | Write-Verbose
             Invoke-Expression $Command
         }
     }

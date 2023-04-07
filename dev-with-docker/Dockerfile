@@ -114,14 +114,6 @@ RUN SWIFT_WEBDIR="${SWIFT_WEBROOT}/${SWIFT_BRANCH}/$(echo ${SWIFT_PLATFORM} | tr
     && tar -xzf swift.tar.gz --directory / --strip-components=1 \
     && chmod -R o+r /usr/lib/swift \
     && rm -frd swift.tar.gz
-#
-# Update Conda base environment
-#
-SHELL ["/bin/sh", "-c"]
-WORKDIR /root
-SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
-COPY ./provision/conda/environment.base.yml environment.yml
-RUN mamba env update --file environment.yml --prune
 
 WORKDIR /root/dev
 ENTRYPOINT [ "/bin/zsh" ]
