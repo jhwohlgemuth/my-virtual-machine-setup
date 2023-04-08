@@ -1,21 +1,5 @@
 .PHONY: $(TASKS)
 
-gis:
-	@$(MAKE) TASK=$@ CONTAINER=$(ENV_NAME) --no-print-directory create-conda-env
-
-ml:
-	@$(MAKE) TASK=$@ CONTAINER=$(ENV_NAME) --no-print-directory create-conda-env
-
-nlp:
-	@$(MAKE) TASK=$@ CONTAINER=$(ENV_NAME) --no-print-directory create-conda-env
-
-quantum:
-	@$(MAKE) TASK=$@ CONTAINER=$(ENV_NAME) --no-print-directory create-conda-env
-
-create-conda-env: start
-	@docker cp ./dev-with-docker/provision/conda/environment.${TASK}.yml ${CONTAINER}:/root
-	@docker exec -it ${CONTAINER} /bin/zsh -c "cd /root && /root/miniconda3/bin/mamba env create -f environment.${TASK}.yml"
-
 install-node:
 	@docker exec -it \
 		$(NAME) \
@@ -32,9 +16,4 @@ install-ijavascript:
 ENV_NAME = env
 TASKS = \
 	install-ijavascript \
-	install-node \
-	gis \
-	ml \
-	nlp \
-	notebook \
-	quantum
+	install-node
