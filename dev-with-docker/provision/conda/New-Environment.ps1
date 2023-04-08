@@ -20,6 +20,7 @@ Param(
     [String] $Output = 'environment.yml',
     [String[]] $Exclude = @(),
     [String] $Container,
+    [String] $ManifestParent = '.',
     [Switch] $NoInstall,
     [Switch] $Persist,
     [Switch] $Force
@@ -34,7 +35,7 @@ Begin {
         exit
     }
     $Files = $Categories | ForEach-Object {
-        Join-Path $PSScriptRoot "../conda/environment.${_}.yml"
+        Join-Path $PSScriptRoot "${ManifestParent}/environment.${_}.yml"
     }
     foreach ($File in $Files) {
         if (Test-Path -Path $File) {

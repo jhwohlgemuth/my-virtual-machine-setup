@@ -11,6 +11,7 @@ dependencies:
   - textblob
   - transformers
   - pip:
+    - deepchecks[nlp]
     - ludwig
     - nltk
     - polyglot
