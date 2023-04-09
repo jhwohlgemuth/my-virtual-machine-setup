@@ -1,0 +1,53 @@
+FROM jhwohlgemuth/base
+
+LABEL author="Jason Wohlgemuth"
+
+# Port designated in ./jupyter/jupyter_notebook_config.py
+EXPOSE 4669
+
+SHELL ["/bin/bash", "-c"]
+WORKDIR /root
+ENV JUPYTER_ROOT /root/.jupyter
+ENV CERTS_DIR /root/certs
+RUN mkdir -p /root/dev/notebooks \
+    && mkdir -p "${JUPYTER_ROOT}/custom" \
+    && mkdir -p $CERTS_DIR
+COPY ./jupyter/jupyter_notebook_config.py $JUPYTER_ROOT
+COPY ./jupyter/custom.css "${JUPYTER_ROOT}/custom"
+COPY ./jupyter/ca.cnf $CERTS_DIR
+WORKDIR $CERTS_DIR
+RUN openssl req -new -x509 -days 365 -out my.pem -config ca.cnf
+WORKDIR /root
+SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
+RUN mamba install --name base \
+    autopep8 \
+    ipykernel \
+    ipyparallel \
+    nb_conda_kernels
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir \
+        ipychart \
+        jupyter \
+        jupyterlab \
+        jupyter_contrib_nbextensions \
+        jupyter-manim \
+        jupyter-tabnine \
+        jut \
+        manim \
+        # Turtle
+        mobilechelonian \
+        pyspark \
+        yapf \
+    && pip install --upgrade --no-cache-dir Pygments \
+    # [Mito](https://docs.trymito.io/)
+    # && pip install --upgrade --no-cache-dir mitoinstaller && python -m mitoinstaller install \
+    # Jupyter Extension Configuration
+    && jupyter contrib nbextension install --user \
+    && jupyter nbextension install --py jupyter_tabnine --user \
+    # && jupyter nbextension enable code_prettify/code_prettify --user \
+    && jupyter nbextension enable --py jupyter_tabnine --user \
+    && jupyter serverextension enable --py jupyter_tabnine --user
+
+WORKDIR /root/dev/notebooks
+ENTRYPOINT ["/root/miniconda3/bin/conda", "run", "-n", "base", "jupyter"]
+CMD ["notebook", "--allow-root", "--Session.debug=True"]

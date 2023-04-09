@@ -5,8 +5,6 @@ FROM $IMAGE
 
 LABEL author="Jason Wohlgemuth"
 
-EXPOSE 1337 4669 8000 8080 8111 46692
-
 ENV TZ America/New_York
 ENV TERM xterm-256color
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -41,14 +39,13 @@ COPY ./provision/neovim/plug-config/which-key.vim "${NEOVIM_ROOT}plug-config/"
 COPY ./provision/neovim/themes/onedark.vim "${NEOVIM_ROOT}themes/"
 RUN find $NEOVIM_ROOT -name "*.vim" | xargs dos2unix
 #
-# Install .NET and PowerShell
+# Install Homebrew
 #
 WORKDIR /root
-ARG DEBIAN_FRONTEND=noninteractive
-COPY ./provision/scripts/install_dotnet.sh .
-RUN chmod +x ./install_dotnet.sh \
-    && ./install_dotnet.sh \
-    && rm ./install_dotnet.sh
+COPY ./provision/scripts/install_homebrew.sh .
+RUN chmod +x ./install_homebrew.sh \
+    && ./install_homebrew.sh \
+    && rm ./install_homebrew.sh
 #
 # Install miniconda (conda) and mamba
 #
@@ -66,13 +63,14 @@ ENV NVM_DIR /root/.nvm
 ENV NODE_OPTIONS "--max-old-space-size=8192"
 RUN echo ". ${NVM_DIR}/nvm.sh" >> "${HOME}/.zshrc"
 #
-# Install Homebrew
+# Install .NET and PowerShell
 #
 WORKDIR /root
-COPY ./provision/scripts/install_homebrew.sh .
-RUN chmod +x ./install_homebrew.sh \
-    && ./install_homebrew.sh \
-    && rm ./install_homebrew.sh
+ARG DEBIAN_FRONTEND=noninteractive
+COPY ./provision/scripts/install_dotnet.sh .
+RUN chmod +x ./install_dotnet.sh \
+    && ./install_dotnet.sh \
+    && rm ./install_dotnet.sh
 #
 # Install and configure oh-my-posh
 #

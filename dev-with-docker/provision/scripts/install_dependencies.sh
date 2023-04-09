@@ -8,7 +8,6 @@ apt-get update && apt-get install --no-install-recommends -y \
     clang \
     cmake \
     cmatrix \
-    coqide \
     curl \
     dos2unix \
     ffmpeg \

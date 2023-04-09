@@ -21,25 +21,19 @@ format:
 	@dos2unix ./provision/scripts/install_homebrew.sh
 	@dos2unix ./provision/scripts/install_ohmyzsh.sh
 
-build-all: base-image env-image build-notebook
+base: format
+	@$(MAKE) TASK=$@ --no-print-directory build-image
 
-base-image: format
-	@docker build --no-cache -t $(BASE_IMAGE_NAME) -f ./Dockerfile.base .
+jupyter: format
+	@$(MAKE) TASK=$@ --no-print-directory build-image
 
-env-image:
-	@docker build --no-cache -t $(ENV_IMAGE_NAME) -f ./Dockerfile .
-
-notebook-image:
-	@docker build --no-cache -t $(NOTEBOOK_IMAGE_NAME) -f ./Dockerfile.notebook .
+build-image:
+	@docker build --no-cache -t ${CONTAINER_REGISTRY}/${REPO}/${TASK} -f ./Dockerfile.${TASK} .
 #
 # Build variables
 #
+CONTAINER_REGISTRY = ghcr.io
 REPO = jhwohlgemuth
-BASE_IMAGE_NAME = "${REPO}/base"
-ENV_IMAGE_NAME = "${REPO}/${ENV_NAME}"
-NOTEBOOK_IMAGE_NAME = "${REPO}/${NOTEBOOK_NAME}"
-ENV_NAME = env
-NOTEBOOK_NAME = notebook
 IGNORE_RULES = \
 	--ignore DL3003 \
 	--ignore DL3006 \
@@ -50,10 +44,7 @@ IGNORE_RULES = \
 	--ignore SC2038 \
 	--ignore SC2086
 TASKS = \
-	build-all \
-	build-notebook \
-	base-image \
-	env-image \
+	base \
 	lint \
 	check \
 	format
