@@ -1,6 +1,7 @@
-FROM jhwohlgemuth/base
+FROM ghcr.io/jhwohlgemuth/base:latest
 
 LABEL author="Jason Wohlgemuth"
+LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
 
 # Port designated in ./jupyter/jupyter_notebook_config.py
 EXPOSE 4669

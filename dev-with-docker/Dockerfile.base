@@ -4,6 +4,7 @@ ARG IMAGE=$BASE:$TAG
 FROM $IMAGE
 
 LABEL author="Jason Wohlgemuth"
+LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
 
 ENV TZ America/New_York
 ENV TERM xterm-256color

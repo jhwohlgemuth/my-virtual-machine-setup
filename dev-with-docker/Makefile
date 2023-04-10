@@ -1,12 +1,13 @@
-.PHONY: $(TASKS)
 #
 # Development tasks
 #
+.PHONY: lint
 lint: check
 	@hadolint ./Dockerfile.base $(IGNORE_RULES)
 	@hadolint ./Dockerfile $(IGNORE_RULES)
 	@hadolint ./Dockerfile.notebook $(IGNORE_RULES)
 
+.PHONY: check
 check:
 	@shellcheck ./provision/scripts/install_conda.sh
 	@shellcheck ./provision/scripts/install_dependencies.sh
@@ -14,6 +15,7 @@ check:
 	@shellcheck ./provision/scripts/install_homebrew.sh
 	@shellcheck ./provision/scripts/install_ohmyzsh.sh
 
+.PHONY: format
 format:
 	@dos2unix ./provision/scripts/install_conda.sh
 	@dos2unix ./provision/scripts/install_dependencies.sh
@@ -21,14 +23,26 @@ format:
 	@dos2unix ./provision/scripts/install_homebrew.sh
 	@dos2unix ./provision/scripts/install_ohmyzsh.sh
 
-base: format
-	@$(MAKE) TASK=$@ --no-print-directory build-image
-
-jupyter: format
-	@$(MAKE) TASK=$@ --no-print-directory build-image
-
-build-image:
+.PHONY: build-image
+build-image:format
 	@docker build --no-cache -t ${CONTAINER_REGISTRY}/${REPO}/${TASK} -f ./Dockerfile.${TASK} .
+
+.PHONY: base
+base:
+	@$(MAKE) TASK=$@ --no-print-directory build-image
+
+.PHONY: jupyter
+jupyter:
+	@$(MAKE) TASK=$@ --no-print-directory build-image
+
+.PHONY: python
+python:
+	@$(MAKE) TASK=$@ --no-print-directory build-image
+
+.PHONY: rust
+rust:
+	@$(MAKE) TASK=$@ --no-print-directory build-image
+
 #
 # Build variables
 #
@@ -43,8 +57,3 @@ IGNORE_RULES = \
 	--ignore SC1091 \
 	--ignore SC2038 \
 	--ignore SC2086
-TASKS = \
-	base \
-	lint \
-	check \
-	format

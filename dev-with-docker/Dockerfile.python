@@ -1,0 +1,25 @@
+FROM ghcr.io/jhwohlgemuth/jupyter:latest
+
+LABEL author="Jason Wohlgemuth"
+LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
+
+# Port designated in ./jupyter/jupyter_notebook_config.py
+EXPOSE 4669
+#
+# Install Perfomant Python tools and alternatives
+#
+SHELL ["/bin/bash", "-c"]
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir \
+        jill \
+        # pyjion \
+    && /bin/bash -c "$(curl -fsSL https://exaloop.io/install.sh)" \
+    && echo 'export PATH="${HOME}/.codon/bin:${PATH}"' >> "${HOME}/.zshrc"
+#
+# Install Julia kernel
+#
+RUN jill install --confirm && julia -e 'using Pkg;Pkg.add("IJulia")'
+
+WORKDIR /root/dev/notebooks
+ENTRYPOINT ["/root/miniconda3/bin/conda", "run", "-n", "base", "jupyter"]
+CMD ["notebook", "--allow-root", "--Session.debug=True"]

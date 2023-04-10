@@ -1,0 +1,39 @@
+FROM ghcr.io/jhwohlgemuth/jupyter:latest
+
+LABEL author="Jason Wohlgemuth"
+LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
+
+EXPOSE 4669
+#
+# Install Rust language, libraries, and Jupyter kernel
+#
+SHELL ["/bin/bash", "-c"]
+RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
+ENV PATH "${PATH}:/root/.cargo/bin"
+RUN rustup toolchain install nightly \
+    && rustup target add wasm32-unknown-unknown --toolchain nightly \
+    && cargo install \
+        cargo-audit \
+        cargo-edit \
+        evcxr_repl \
+        wasm-bindgen-cli \
+        wasm-pack \
+        evcxr_jupyter \
+    && evcxr_jupyter --install
+#
+# Install WebAssembly runtimes
+#
+RUN /home/linuxbrew/.linuxbrew/bin/brew install wasmer wapm wasm3 \
+    # Wasmtime
+    && curl https://wasmtime.dev/install.sh -sSf | bash \
+    && echo 'export WASMTIME_HOME="${HOME}/.wasmtime"' >> "${HOME}/.zshrc" \
+    && echo 'export PATH="${WASMTIME_HOME}/bin:${PATH}"' >> "${HOME}/.zshrc" \
+    # WasmEdge
+    && curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash \
+    && echo '. "${HOME}/.wasmedge/env"' >> "${HOME}/.zshrc" \
+    # https://scale.sh
+    && curl -fsSL https://dl.scale.sh | sh
+
+WORKDIR /root/dev/notebooks
+ENTRYPOINT ["/root/miniconda3/bin/conda", "run", "-n", "base", "jupyter"]
+CMD ["notebook", "--allow-root", "--Session.debug=True"]
