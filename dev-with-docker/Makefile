@@ -31,8 +31,16 @@ build-image:format
 base:
 	@$(MAKE) TASK=$@ --no-print-directory build-image
 
+.PHONY: dotnet
+dotnet:
+	@$(MAKE) TASK=$@ --no-print-directory build-image
+
 .PHONY: jupyter
 jupyter:
+	@$(MAKE) TASK=$@ --no-print-directory build-image
+
+.PHONY: jvm
+jvm:
 	@$(MAKE) TASK=$@ --no-print-directory build-image
 
 .PHONY: python
@@ -42,7 +50,6 @@ python:
 .PHONY: rust
 rust:
 	@$(MAKE) TASK=$@ --no-print-directory build-image
-
 #
 # Build variables
 #

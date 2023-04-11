@@ -9,7 +9,6 @@ dependencies:
   - cudatoolkit=11.6.0
   - cudf
   - cuml
-  - dask
   - dask-cuda
   - dask-cudf
   - gputil

@@ -5,8 +5,8 @@ dpkg -i packages-microsoft-prod.deb
 rm -f packages-microsoft-prod.deb
 apt-get update
 apt-get install --no-install-recommends -y \
-    dotnet-sdk-6.0 \
-    dotnet-runtime-6.0 \
+    dotnet-sdk-7.0 \
+    dotnet-runtime-7.0 \
     powershell
 apt-get clean
 rm -rf /var/lib/apt/lists/*
