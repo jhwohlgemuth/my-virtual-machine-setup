@@ -16,7 +16,6 @@ RUN curl -s "https://get.sdkman.io" | bash \
     && yes | sdk install leiningen \
     && rm -rf "${HOME}/.sdkman/archives/*" \
     && rm -rf "${HOME}/.sdkman/tmp/*"
-#
 # Install Clojure language
 #
 SHELL ["/bin/sh", "-c"]
@@ -47,6 +46,13 @@ RUN curl -Lo coursier https://git.io/coursier-cli \
     && chmod +x coursier \
     && ./coursier launch --fork almond:0.11.1 --scala 2.13 -- --install \
     && rm -f coursier
+#
+# Install Kotlin kernel
+#
+SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir \
+        kotlin-jupyter-kernel
 
 WORKDIR /root/dev/notebooks
 ENTRYPOINT ["/root/miniconda3/bin/conda", "run", "-n", "base", "jupyter"]
