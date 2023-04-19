@@ -6,19 +6,48 @@ LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
 # Port designated in ./jupyter/jupyter_notebook_config.py
 EXPOSE 4669
 #
-# Install Perfomant Python tools and alternatives
+# Install Coq, Nim, and R
 #
-SHELL ["/bin/bash", "-c"]
+RUN apt-get update && apt-get install --no-install-recommends -y \
+        coq \
+        coqide \
+        r-base \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    # Configure R
+    && R -e "install.packages(c('formatR', 'jsonlite'), repos='http://cran.rstudio.com')" \
+    # Install R kernel
+    && R -e "install.packages('IRkernel')" && R -e "IRkernel::installspec()"
+#
+# Install Perfomant Python tools, Python alternatives, and Coq kernel
+#
+SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
 RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir \
+        hy \
         jill \
         # pyjion \
+    # Install Coq kernel
+    && pip install --no-cache-dir coq-jupyter && python -m coq_jupyter.install \
+    # Install Codon
     && /bin/bash -c "$(curl -fsSL https://exaloop.io/install.sh)" \
     && echo 'export PATH="${HOME}/.codon/bin:${PATH}"' >> "${HOME}/.zshrc"
+WORKDIR /usr/local/share/jupyter/kernels/coq
+COPY ./jupyter/logo_coq.png logo-64x64.png
 #
-# Install Julia kernel
+# Install Nim language and kernel
 #
-RUN jill install --confirm && julia -e 'using Pkg;Pkg.add("IJulia")'
+ENV PATH "${PATH}:/root/.nimble/bin"
+RUN curl https://nim-lang.org/choosenim/init.sh -sSf > init.sh \
+    && sh init.sh -y \
+    && rm init.sh \
+    && /root/.nimble/bin/choosenim stable \
+    && nimble install jupyternim -y
+#
+# Install Julia and Lua kernels
+#
+RUN jill install --confirm && julia -e 'using Pkg;Pkg.add("IJulia")' \
+    && mamba install --channel conda-forge xeus-lua --yes
 
 WORKDIR /root/dev/notebooks
 ENTRYPOINT ["/root/miniconda3/bin/conda", "run", "-n", "base", "jupyter"]

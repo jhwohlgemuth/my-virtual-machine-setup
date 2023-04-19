@@ -43,6 +43,10 @@ jupyter:
 jvm:
 	@$(MAKE) TASK=$@ --no-print-directory build-image
 
+.PHONY: lambda
+lambda:
+	@$(MAKE) TASK=$@ --no-print-directory build-image
+
 .PHONY: python
 python:
 	@$(MAKE) TASK=$@ --no-print-directory build-image
