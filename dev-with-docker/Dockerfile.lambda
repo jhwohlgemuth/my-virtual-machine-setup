@@ -1,0 +1,88 @@
+FROM ghcr.io/jhwohlgemuth/dotnet:latest
+
+LABEL author="Jason Wohlgemuth"
+LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
+
+EXPOSE 4669
+#
+# Install kerl, Erlang, and OCaml
+#
+SHELL ["/bin/sh", "-c"]
+WORKDIR /usr/local/bin
+ENV ERL_VERSION "23.3.4.11"
+# ENV ERL_VERSION "24.2.1"
+RUN apt-get update && apt-get install --no-install-recommends -y \
+        fop \
+        libxml2-utils \
+        xsltproc \
+        # OCaml
+        ocaml opam \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && curl -O https://raw.githubusercontent.com/kerl/kerl/master/kerl \
+    && chmod a+x kerl \
+    && kerl build ${ERL_VERSION} \
+    && kerl install ${ERL_VERSION} "${HOME}/kerl/${ERL_VERSION}" \
+    && . "${HOME}/kerl/${ERL_VERSION}/activate" \
+    && echo "source ${HOME}/kerl/${ERL_VERSION}/activate" >> "${HOME}/.zshrc"
+#
+# Install kiex and Elixir
+#
+SHELL ["/bin/bash", "-c"]
+WORKDIR /root
+ENV ELIXIR_VERSION "1.12.3"
+# ENV ELIXIR_VERSION "1.13.3"
+RUN curl -sSL https://raw.githubusercontent.com/taylor/kiex/master/install | bash -s \
+    && echo "source ${HOME}/.kiex/scripts/kiex" >> "${HOME}/.zshrc" \
+    && source "${HOME}/kerl/${ERL_VERSION}"/activate \
+    && source "${HOME}/.kiex/scripts/kiex" \
+    && kiex install ${ELIXIR_VERSION} \
+    && kiex use ${ELIXIR_VERSION} \
+    && kiex default ${ELIXIR_VERSION}
+COPY ./config/.iex.exs /root/
+#
+# Install Elixir kernel
+# Note: Includes temporary fix that can be removed after https://github.com/pprzetacznik/IElixir/pull/60 is merged
+#
+SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
+WORKDIR /opt
+RUN git clone https://github.com/pprzetacznik/IElixir.git
+WORKDIR /opt/IElixir
+ENV PATH "${PATH}:/root/kerl/${ERL_VERSION}/bin"
+ENV PATH "${PATH}:/root/.kiex/elixirs/elixir-${ELIXIR_VERSION}/bin"
+RUN . "/root/kerl/${ERL_VERSION}"/activate \
+    && mix local.hex --force \
+    && mix local.rebar --force \
+    && mix deps.get \
+    && mix deps.compile \
+    && sed -i 's/python/python3/g' install_script.sh \
+    && ./install_script.sh
+#
+# Install Haskell
+#
+SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
+WORKDIR /root
+ENV BOOTSTRAP_HASKELL_NONINTERACTIVE 1
+ENV BOOTSTRAP_HASKELL_INSTALL_STACK 1
+ENV BOOTSTRAP_HASKELL_INSTALL_HLS 1
+RUN curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh \
+    && source ${HOME}/.ghcup/env \
+    && stack config set install-ghc false --global \
+    && stack config set system-ghc true --global \
+    && echo "source ${HOME}/.ghcup/env" >> "${HOME}/.zshrc"
+# BROKE
+# Install Haskell kernel
+#
+SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
+WORKDIR /opt
+ENV PATH "${PATH}:/root/.local/bin"
+RUN git clone https://github.com/gibiansky/IHaskell
+WORKDIR /opt/IHaskell
+RUN source ${HOME}/.ghcup/env \
+    && stack install gtk2hs-buildtools \
+    && stack install --fast \
+    && ihaskell install --env-file=/root/.ghcup/env
+
+WORKDIR /root/dev/notebooks
+ENTRYPOINT ["/root/miniconda3/bin/conda", "run", "-n", "base", "jupyter"]
+CMD ["notebook", "--allow-root", "--Session.debug=True"]
