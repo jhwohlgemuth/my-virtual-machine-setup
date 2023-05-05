@@ -27,6 +27,19 @@ format:
 build-image:format
 	@docker build --no-cache -t ${CONTAINER_REGISTRY}/${REPO}/${TASK} -f ./Dockerfile.${TASK} .
 
+.PHONY: all
+build-all: base jupyter python rust jvm dotnet lambda
+
+.PHONY: publish-all
+publish-all:
+	@docker push ${CONTAINER_REGISTRY}/${REPO}/base
+	@docker push ${CONTAINER_REGISTRY}/${REPO}/jupyter
+	@docker push ${CONTAINER_REGISTRY}/${REPO}/python
+	@docker push ${CONTAINER_REGISTRY}/${REPO}/rust
+	@docker push ${CONTAINER_REGISTRY}/${REPO}/jvm
+	@docker push ${CONTAINER_REGISTRY}/${REPO}/dotnet
+	@docker push ${CONTAINER_REGISTRY}/${REPO}/lambda
+
 .PHONY: base
 base:
 	@$(MAKE) TASK=$@ --no-print-directory build-image

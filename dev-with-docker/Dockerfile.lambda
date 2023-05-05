@@ -12,6 +12,7 @@ WORKDIR /usr/local/bin
 ENV ERL_VERSION "23.3.4.11"
 # ENV ERL_VERSION "24.2.1"
 RUN apt-get update && apt-get install --no-install-recommends -y \
+        coq \
         fop \
         libxml2-utils \
         xsltproc \
@@ -25,6 +26,13 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     && kerl install ${ERL_VERSION} "${HOME}/kerl/${ERL_VERSION}" \
     && . "${HOME}/kerl/${ERL_VERSION}/activate" \
     && echo "source ${HOME}/kerl/${ERL_VERSION}/activate" >> "${HOME}/.zshrc"
+#
+# Install Coq kernel
+#
+SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir coq-jupyter \
+    && python -m coq_jupyter.install
 #
 # Install kiex and Elixir
 #
