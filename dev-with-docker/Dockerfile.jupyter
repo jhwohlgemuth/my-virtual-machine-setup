@@ -20,10 +20,11 @@ WORKDIR $CERTS_DIR
 RUN openssl req -new -x509 -days 365 -out my.pem -config ca.cnf
 WORKDIR /root
 SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
-RUN mamba install --name base \
+RUN mamba install --name base --channel conda-forge \
         autopep8 \
         ipykernel \
         ipyparallel \
+        manim \
         nb_conda_kernels \
     && mamba clean -yaf
 RUN pip install --no-cache-dir --upgrade pip \
@@ -34,9 +35,7 @@ RUN pip install --no-cache-dir --upgrade pip \
         jupyter \
         jupyterlab \
         jupyter_contrib_nbextensions \
-        jupyter-manim \
         jupyter-tabnine \
-        manim \
         # Turtle
         mobilechelonian \
         nbterm \

@@ -25,8 +25,6 @@ apt-get update && apt-get install --no-install-recommends -y \
     libcurl4 \
     libedit2 \
     libffi-dev \
-    libffi7 \
-    libgcc-9-dev \
     libgmp10 \
     libgmp-dev \
     liblapack-dev \
@@ -34,24 +32,27 @@ apt-get update && apt-get install --no-install-recommends -y \
     libncurses-dev \
     libncurses5 \
     libpango1.0-dev \
+    libpango-1.0-0 \
     libpython2.7 \
     libsqlite3-0 \
     libsqlite3-dev \
     libssl-dev \
-    libstdc++-9-dev \
     libtinfo5 \
     libtinfo-dev \
+    libudev-dev \
     libxcb-shape0-dev \
     libxcb-xfixes0-dev \
     libxml2 \
     libz3-dev \
     libzmq3-dev \
+    libzmq5 \
     lld \
     lldb \
     nano \
     neovim \
     netbase \
     openssh-server \
+    openssl \
     pkg-config \
     python3-dev \
     python3-pip \
@@ -66,11 +67,5 @@ apt-get update && apt-get install --no-install-recommends -y \
     zip \
     zlib1g-dev \
     zsh
-apt-get clean
-rm -rf /var/lib/apt/lists/*
-# This addresses a bug in the Rust build tools [link](https://askubuntu.com/a/1300824)
-apt-get update && apt-get install --no-install-recommends -y -o Dpkg::Options::="--force-overwrite" \
-    bat \
-    ripgrep
 apt-get clean
 rm -rf /var/lib/apt/lists/*

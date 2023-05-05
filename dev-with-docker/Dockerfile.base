@@ -1,5 +1,7 @@
-ARG BASE=ubuntu
-ARG TAG=focal
+ARG BASE=haskell
+ARG TAG=9.2.7-slim
+# ARG BASE=ubuntu
+# ARG TAG=focal
 ARG IMAGE=$BASE:$TAG
 FROM $IMAGE
 
@@ -76,7 +78,7 @@ RUN chmod +x ./install_dotnet.sh \
 # Install and configure oh-my-posh
 #
 WORKDIR /root
-SHELL ["/bin/pwsh", "-Command"]
+SHELL ["/usr/bin/pwsh", "-Command"]
 COPY ./config/.theme.omp.json .
 COPY ./config/profile.ps1 .
 RUN /home/linuxbrew/.linuxbrew/bin/brew install jandedobbeleer/oh-my-posh/oh-my-posh \

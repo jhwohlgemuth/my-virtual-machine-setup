@@ -10,7 +10,6 @@ EXPOSE 4669
 #
 RUN apt-get update && apt-get install --no-install-recommends -y \
         coq \
-        coqide \
         r-base \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \

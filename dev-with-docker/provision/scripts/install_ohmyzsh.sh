@@ -1,5 +1,4 @@
 #! /bin/sh
-
 #
 # Install oh-my-zsh
 #
@@ -24,7 +23,6 @@ sh -c "$(curl https://raw.githubusercontent.com/deluan/zsh-in-docker/master/zsh-
 sed -i "s/export TERM=xterm/export TERM=xterm-256color/g" "${HOME}/.zshrc"
 {
     echo "ZLE_RPROMPT_INDENT=0"
-    echo "alias bat=batcat"
     echo "alias python=python3"
     echo "alias pip=pip3"
 } >> "${HOME}/.zshrc"

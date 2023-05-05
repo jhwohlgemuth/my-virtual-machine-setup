@@ -5,10 +5,12 @@
 echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> "${HOME}/.zshrc"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 brew install \
+    bat \
     broot \
     dust \
     grex \
     htmlq \
+    ripgrep \
     thefuck \
     tokei \
     up \
