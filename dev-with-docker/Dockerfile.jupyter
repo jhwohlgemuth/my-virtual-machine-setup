@@ -39,7 +39,6 @@ RUN pip install --no-cache-dir --upgrade pip \
         # Turtle
         mobilechelonian \
         nbterm \
-        pyspark \
         yapf \
     && pip install --upgrade --no-cache-dir Pygments \
     # [Mito](https://docs.trymito.io/)

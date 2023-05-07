@@ -33,6 +33,8 @@ SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
 RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir coq-jupyter \
     && python -m coq_jupyter.install
+WORKDIR /usr/local/share/jupyter/kernels/coq
+COPY ./jupyter/logo_coq.png logo-64x64.png
 #
 # Install kiex and Elixir
 #
@@ -78,7 +80,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh \
     && stack config set install-ghc false --global \
     && stack config set system-ghc true --global \
     && echo "source ${HOME}/.ghcup/env" >> "${HOME}/.zshrc"
-# BROKE
+#
 # Install Haskell kernel
 #
 SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
@@ -90,6 +92,19 @@ RUN source ${HOME}/.ghcup/env \
     && stack install gtk2hs-buildtools \
     && stack install --fast \
     && ihaskell install --env-file=/root/.ghcup/env
+#
+# Install OCaml kernel
+#
+SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
+WORKDIR /root
+RUN opam init --disable-sandboxing --yes \
+    && echo 'eval $(opam env)' >> "${HOME}/.zshrc" \
+    && opam install jupyter --yes \
+    && eval $(opam env) \
+    && ocaml-jupyter-opam-genspec \
+    && jupyter kernelspec install --name "OCaml" "$(opam var share)/jupyter"
+WORKDIR /root/.local/share/jupyter/kernels/ocaml
+COPY ./jupyter/logo_ocaml.png logo-64x64.png
 
 WORKDIR /root/dev/notebooks
 ENTRYPOINT ["/root/miniconda3/bin/conda", "run", "-n", "base", "jupyter"]

@@ -50,8 +50,6 @@ RUN pip install --no-cache-dir --upgrade pip \
     # && jupyter nbextension enable code_prettify/code_prettify --user \
     && jupyter nbextension enable --py jupyter_tabnine --user \
     && jupyter serverextension enable --py jupyter_tabnine --user
-WORKDIR /usr/local/share/jupyter/kernels/coq
-COPY ./jupyter/logo_coq.png logo-64x64.png
 #
 # .NET (C#, F#, and PowerShell)
 #

@@ -10,10 +10,13 @@ brew install \
     dust \
     grex \
     htmlq \
+    pipx \
     ripgrep \
+    teaxyz/pkgs/tea-cli \
     thefuck \
     tokei \
     up \
     yq
 # shellcheck disable=SC2016
+echo 'source <(tea --magic=zsh)' >> "${HOME}/.zshrc"
 echo 'eval "$(thefuck --alias oops)"' >> "${HOME}/.zshrc"

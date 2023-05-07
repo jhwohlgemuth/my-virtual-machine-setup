@@ -46,6 +46,7 @@ apt-get update && apt-get install --no-install-recommends -y \
     libz3-dev \
     libzmq3-dev \
     libzmq5 \
+    libzmq5-dev \
     lld \
     lldb \
     nano \
