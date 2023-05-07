@@ -99,7 +99,7 @@ SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
 WORKDIR /root
 RUN opam init --disable-sandboxing --yes \
     && echo 'eval $(opam env)' >> "${HOME}/.zshrc" \
-    && opam install jupyter --yes \
+    && opam install jupyter merlin --yes \
     && eval $(opam env) \
     && ocaml-jupyter-opam-genspec \
     && jupyter kernelspec install --name "OCaml" "$(opam var share)/jupyter"

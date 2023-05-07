@@ -7,6 +7,7 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 brew install \
     bat \
     broot \
+    direnv \
     dust \
     grex \
     htmlq \
@@ -19,4 +20,5 @@ brew install \
     yq
 # shellcheck disable=SC2016
 echo 'source <(tea --magic=zsh)' >> "${HOME}/.zshrc"
+echo 'eval "$(direnv hook zsh)"' >> "${HOME}/.zshrc"
 echo 'eval "$(thefuck --alias oops)"' >> "${HOME}/.zshrc"
