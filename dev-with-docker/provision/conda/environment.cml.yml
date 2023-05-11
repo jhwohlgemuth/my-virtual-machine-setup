@@ -9,6 +9,7 @@ dependencies:
   - cudatoolkit=11.6.0
   - cudf
   - cuml
+  - dask
   - dask-cuda
   - dask-cudf
   - gputil
@@ -19,7 +20,7 @@ dependencies:
   - opencv
   - openpyxl
   - pygments
-  - pytorch=1.12.0
+  - pytorch
   - pytorch-lightning
   - scikit-image
   - scikit-learn
@@ -28,12 +29,13 @@ dependencies:
   - torchinfo
   - torchvision
   - pip:
-    - bentoml==1.0.5
-    - deepchecks[vision]==0.10.0
+    - bentoml
+    - deepchecks[vision]
     - great_expectations
+    - ivy-core
     - merlin-dataloader
     - nebullvm
-    - psycopg2-binary==2.9.3
-    - segmentation-models==1.0.1
-    - torchviz==0.0.2
-    - truss==0.0.23
+    - psycopg2-binary
+    - segmentation-models
+    - torchviz
+    - truss
