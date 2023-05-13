@@ -27,8 +27,17 @@ format:
 build-image:format
 	@docker build --no-cache -t ${CONTAINER_REGISTRY}/${REPO}/${TASK} -f ./Dockerfile.${TASK} .
 
+.PHONY: publish
+publish:
+	@for image in $(IMAGES) ; do \
+        docker push ${CONTAINER_REGISTRY}/${REPO}/$$image ; \
+    done
+
 .PHONY: all
-all: base jupyter python rust jvm dotnet lambda
+all:
+	@for image in $(IMAGES) ; do \
+        $(MAKE) $$image ; \
+    done
 
 .PHONY: base
 base:
@@ -57,21 +66,19 @@ python:
 .PHONY: rust
 rust:
 	@$(MAKE) TASK=$@ --no-print-directory build-image
-
-.PHONY: publish-all
-publish-all:
-	@docker push ${CONTAINER_REGISTRY}/${REPO}/base
-	@docker push ${CONTAINER_REGISTRY}/${REPO}/jupyter
-	@docker push ${CONTAINER_REGISTRY}/${REPO}/python
-	@docker push ${CONTAINER_REGISTRY}/${REPO}/rust
-	@docker push ${CONTAINER_REGISTRY}/${REPO}/jvm
-	@docker push ${CONTAINER_REGISTRY}/${REPO}/dotnet
-	@docker push ${CONTAINER_REGISTRY}/${REPO}/lambda
 #
 # Build variables
 #
 CONTAINER_REGISTRY = ghcr.io
 REPO = jhwohlgemuth
+IMAGES = \
+	base \
+	jupyter \
+	python \
+	rust \
+	jvm \
+	dotnet \
+	lambda
 IGNORE_RULES = \
 	--ignore DL3003 \
 	--ignore DL3006 \

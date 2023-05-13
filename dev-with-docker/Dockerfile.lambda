@@ -5,14 +5,7 @@ LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
 
 EXPOSE 4669
 #
-# Install Coq kernel
-#
-SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
-RUN mamba install --channel conda-forge coq-jupyter
-WORKDIR /usr/local/share/jupyter/kernels/coq
-COPY ./jupyter/logo_coq.png logo-64x64.png
-#
-# Install kerl, Erlang, and OCaml
+# Install kerl, Erlang
 #
 SHELL ["/bin/sh", "-c"]
 WORKDIR /usr/local/bin
@@ -22,8 +15,6 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
         fop \
         libxml2-utils \
         xsltproc \
-        # OCaml
-        ocaml opam \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && curl -O https://raw.githubusercontent.com/kerl/kerl/master/kerl \
@@ -65,36 +56,18 @@ RUN . "/root/kerl/${ERL_VERSION}"/activate \
     && sed -i 's/python/python3/g' install_script.sh \
     && ./install_script.sh
 #
-# Install Haskell
-#
-SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
-WORKDIR /root
-ENV BOOTSTRAP_HASKELL_NONINTERACTIVE 1
-ENV BOOTSTRAP_HASKELL_INSTALL_STACK 1
-ENV BOOTSTRAP_HASKELL_INSTALL_HLS 1
-RUN curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh \
-    && source ${HOME}/.ghcup/env \
-    && stack config set install-ghc false --global \
-    && stack config set system-ghc true --global \
-    && echo "source ${HOME}/.ghcup/env" >> "${HOME}/.zshrc"
-#
-# Install Haskell kernel
-#
-SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
-WORKDIR /opt
-ENV PATH "${PATH}:/root/.local/bin"
-RUN git clone https://github.com/gibiansky/IHaskell
-WORKDIR /opt/IHaskell
-RUN source ${HOME}/.ghcup/env \
-    && stack install gtk2hs-buildtools \
-    && stack install --fast \
-    && ihaskell install --env-file=/root/.ghcup/env
-#
 # Install OCaml kernel
+# Note: Needs to be executed first(?)
 #
 SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
 WORKDIR /root
-RUN opam init --disable-sandboxing --yes \
+RUN apt-get update && apt-get install --no-install-recommends -y \
+        ocaml \
+        opam \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && opam init --disable-sandboxing --yes \
+    && eval $(opam env) \
     && echo 'eval $(opam env)' >> "${HOME}/.zshrc" \
     && opam install jupyter merlin dune --yes \
     && eval $(opam env) \
@@ -103,6 +76,16 @@ RUN opam init --disable-sandboxing --yes \
 WORKDIR /usr/local/share/jupyter/kernels/ocaml
 RUN sed -i 's/OCaml default/OCaml/' kernel.json
 COPY ./jupyter/logo_ocaml.png logo-64x64.png
+#
+# Install IHaskell kernel
+#
+SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
+WORKDIR /opt
+RUN git clone https://github.com/gibiansky/IHaskell
+WORKDIR /opt/IHaskell
+RUN pip3 install -r requirements.txt \
+    && stack install --fast \
+    && ihaskell install --stack
 
 WORKDIR /root/dev/notebooks
 ENTRYPOINT ["/root/miniconda3/bin/conda", "run", "-n", "base", "jupyter"]
