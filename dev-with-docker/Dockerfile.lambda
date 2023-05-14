@@ -3,7 +3,8 @@ FROM ghcr.io/jhwohlgemuth/dotnet:latest
 LABEL author="Jason Wohlgemuth"
 LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
 
-EXPOSE 4669
+EXPOSE 1337
+EXPOSE 8888
 #
 # Install kerl, Erlang
 #

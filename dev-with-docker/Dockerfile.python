@@ -3,8 +3,8 @@ FROM ghcr.io/jhwohlgemuth/jupyter:latest
 LABEL author="Jason Wohlgemuth"
 LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
 
-# Port designated in ./jupyter/jupyter_notebook_config.py
-EXPOSE 4669
+EXPOSE 1337
+EXPOSE 8888
 #
 # Install R language and kernel
 #
