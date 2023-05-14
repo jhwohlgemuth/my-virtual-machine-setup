@@ -1,7 +1,5 @@
-ARG BASE=haskell
-ARG TAG=9.2.7-slim
-# ARG BASE=ubuntu
-# ARG TAG=focal
+ARG BASE=bitnami/minideb
+ARG TAG=latest
 ARG IMAGE=$BASE:$TAG
 FROM $IMAGE
 
