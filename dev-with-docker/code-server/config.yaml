@@ -1,0 +1,7 @@
+auth: none
+bind-addr: 0.0.0.0:1337
+cert: /root/certs/my.pem
+cert-key: /root/certs/my.key
+disable-telemetry: true
+extensions-dir: /app/code-server/config/extensions
+user-data-dir: /app/code-server/config/data

@@ -19,6 +19,7 @@ apt-get update && apt-get install --no-install-recommends -y \
     httpie \
     jq \
     less \
+    libatomic1 \
     libblas-dev \
     libc6-dev \
     libcairo2-dev \
@@ -51,6 +52,8 @@ apt-get update && apt-get install --no-install-recommends -y \
     lldb \
     nano \
     neovim \
+    net-tools \
+    netcat \
     netbase \
     openssh-server \
     openssl \
@@ -61,6 +64,7 @@ apt-get update && apt-get install --no-install-recommends -y \
     rlwrap \
     screen \
     snapd \
+    sudo \
     tree \
     tzdata \
     unzip \
@@ -69,4 +73,7 @@ apt-get update && apt-get install --no-install-recommends -y \
     zlib1g-dev \
     zsh
 apt-get clean
-rm -rf /var/lib/apt/lists/*
+rm -rf \
+    /tmp/* \
+    /var/lib/apt/lists/* \
+    /var/tmp/*

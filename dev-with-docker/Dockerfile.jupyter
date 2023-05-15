@@ -5,6 +5,7 @@ LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
 
 # Port designated in ./jupyter/jupyter_notebook_config.py
 EXPOSE 1337
+EXPOSE 8443
 EXPOSE 8888
 
 SHELL ["/bin/bash", "-c"]
@@ -50,6 +51,29 @@ RUN pip install --no-cache-dir --upgrade pip \
     # && jupyter nbextension enable code_prettify/code_prettify --user \
     && jupyter nbextension enable --py jupyter_tabnine --user \
     && jupyter serverextension enable --py jupyter_tabnine --user
+#
+# Install code-server (VS Code)
+#
+# code-server --config /app/code-server/config/config.yaml ~/dev/notebooks
+WORKDIR /root
+ENV PATH "${PATH}:/app/code-server/bin"
+ENV CODE_SERVER_CONFIG_DIR /app/code-server/config
+ENV CODE_SERVER_EXTENSIONS_DIR "${CODE_SERVER_CONFIG_DIR}/extensions"
+COPY ./code-server/config.yaml /app/code-server/config/config.yaml
+COPY ./code-server/settings.json /app/code-server/config/data/Machine/settings.json
+RUN CODE_RELEASE=$(curl -sX GET https://api.github.com/repos/coder/code-server/releases/latest | awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's|^v||') \
+    && mkdir -p ${CODE_SERVER_CONFIG_DIR}/data \
+    && mkdir -p ${CODE_SERVER_EXTENSIONS_DIR} \
+    && mkdir -p ${CODE_SERVER_CONFIG_DIR}/workspace \
+    && curl -o /tmp/code-server.tar.gz -L "https://github.com/coder/code-server/releases/download/v${CODE_RELEASE}/code-server-${CODE_RELEASE}-linux-amd64.tar.gz" \
+    && tar xf /tmp/code-server.tar.gz -C /app/code-server --strip-components=1
+RUN code-server --extensions-dir ${CODE_SERVER_EXTENSIONS_DIR} --install-extension akamud.vscode-theme-onedark \
+    && code-server --extensions-dir ${CODE_SERVER_EXTENSIONS_DIR} --install-extension emmanuelbeziat.vscode-great-icons \
+    && code-server --extensions-dir ${CODE_SERVER_EXTENSIONS_DIR} --install-extension ms-vscode.atom-keybindings \
+    && code-server --extensions-dir ${CODE_SERVER_EXTENSIONS_DIR} --install-extension ms-toolsai.jupyter \
+    && code-server --extensions-dir ${CODE_SERVER_EXTENSIONS_DIR} --install-extension ms-python.python \
+    && code-server --extensions-dir ${CODE_SERVER_EXTENSIONS_DIR} --install-extension eamodio.gitlens \
+    && code-server --extensions-dir ${CODE_SERVER_EXTENSIONS_DIR} --install-extension codeium.codeium
 
 WORKDIR /root/dev/notebooks
 ENTRYPOINT ["/root/miniconda3/bin/conda", "run", "-n", "base", "jupyter"]

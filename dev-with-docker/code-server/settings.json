@@ -1,0 +1,17 @@
+{
+    "workbench.colorTheme": "Atom One Dark",
+    "editor.fontSize": 12,
+    "editor.fontLigatures": true,
+    "editor.fontFamily": "\"JetBrainsMono Nerd Font\", \"JetBrainsMono NF\"",
+    "terminal.integrated.fontFamily" : "\"JetBrainsMono Nerd Font\", \"JetBrainsMono NF\"",
+    "terminal.integrated.fontSize": 12,
+    "terminal.integrated.profiles.linux": {
+        "zsh": {
+            "path": "zsh",
+            "args": [
+                "-l"
+            ]
+        }
+    },
+    "terminal.integrated.defaultProfile.linux": "zsh"
+}

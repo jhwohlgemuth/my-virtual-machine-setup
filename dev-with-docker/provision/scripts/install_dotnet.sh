@@ -9,4 +9,7 @@ apt-get install --no-install-recommends -y \
     dotnet-runtime-7.0 \
     powershell
 apt-get clean
-rm -rf /var/lib/apt/lists/*
+rm -rf \
+    /tmp/* \
+    /var/lib/apt/lists/* \
+    /var/tmp/*
