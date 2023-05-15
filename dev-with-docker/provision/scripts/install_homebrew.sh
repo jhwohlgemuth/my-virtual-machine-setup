@@ -7,6 +7,7 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 brew install \
     bat \
     broot \
+    btop \
     direnv \
     dust \
     grex \
