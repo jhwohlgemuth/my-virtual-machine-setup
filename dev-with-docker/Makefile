@@ -47,8 +47,8 @@ base:
 dotnet:
 	@$(MAKE) TASK=$@ --no-print-directory build-image
 
-.PHONY: jupyter
-jupyter:
+.PHONY: notebook
+notebook:
 	@$(MAKE) TASK=$@ --no-print-directory build-image
 
 .PHONY: jvm
@@ -73,7 +73,7 @@ CONTAINER_REGISTRY = ghcr.io
 REPO = jhwohlgemuth
 IMAGES = \
 	base \
-	jupyter \
+	notebook \
 	python \
 	rust \
 	jvm \
