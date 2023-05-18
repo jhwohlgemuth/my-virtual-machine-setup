@@ -1,0 +1,3 @@
+#!/usr/bin/with-contenv sh
+
+exec code-server --config /app/code-server/config/config.yaml

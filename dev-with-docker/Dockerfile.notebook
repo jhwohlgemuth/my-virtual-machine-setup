@@ -43,7 +43,7 @@ RUN pip install --no-cache-dir --upgrade pip \
         nbterm \
         yapf \
     && pip install --upgrade --no-cache-dir Pygments \
-    # [Mito](https://docs.trymito.io/)
+    # [Mito](https://docs.trymito.io/)x
     # && pip install --upgrade --no-cache-dir mitoinstaller && python -m mitoinstaller install \
     # Jupyter Extension Configuration
     && jupyter contrib nbextension install --user \
@@ -57,12 +57,12 @@ RUN pip install --no-cache-dir --upgrade pip \
 # code-server --config /app/code-server/config/config.yaml ~/dev/notebooks
 WORKDIR /root
 ENV CODE_SERVER_CONFIG_DIR /app/code-server/config
-COPY ./code-server/config.yaml /app/code-server/config/config.yaml
-COPY ./code-server/settings.json /app/code-server/config/data/Machine/settings.json
 RUN CODE_RELEASE=$(curl -sX GET https://api.github.com/repos/coder/code-server/releases/latest | awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's|^v||') \
     && mkdir -p ${CODE_SERVER_CONFIG_DIR}/{data,extensions,workspace} \
     && curl -fOL https://github.com/coder/code-server/releases/download/v${CODE_RELEASE}/code-server_${CODE_RELEASE}_amd64.deb \
     && dpkg -i code-server_${CODE_RELEASE}_amd64.deb
+COPY ./code-server/settings.json /app/code-server/config/data/Machine/settings.json
+COPY ./code-server/config.yaml /app/code-server/config/config.yaml
 RUN code-server --extensions-dir ${CODE_SERVER_CONFIG_DIR}/extensions --install-extension akamud.vscode-theme-onedark \
     && code-server --extensions-dir ${CODE_SERVER_CONFIG_DIR}/extensions --install-extension emmanuelbeziat.vscode-great-icons \
     && code-server --extensions-dir ${CODE_SERVER_CONFIG_DIR}/extensions --install-extension ms-vscode.atom-keybindings \
@@ -70,7 +70,7 @@ RUN code-server --extensions-dir ${CODE_SERVER_CONFIG_DIR}/extensions --install-
     && code-server --extensions-dir ${CODE_SERVER_CONFIG_DIR}/extensions --install-extension ms-python.python \
     && code-server --extensions-dir ${CODE_SERVER_CONFIG_DIR}/extensions --install-extension eamodio.gitlens \
     && code-server --extensions-dir ${CODE_SERVER_CONFIG_DIR}/extensions --install-extension codeium.codeium
-COPY ./code-server/root /
+COPY ./code-server/etc /etc
 
 WORKDIR /root/dev/notebooks
 ENTRYPOINT ["/init", "/root/miniconda3/bin/conda", "run", "-n", "base", "jupyter"]
