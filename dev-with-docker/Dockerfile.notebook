@@ -48,13 +48,11 @@ RUN pip install --no-cache-dir --upgrade pip \
     # Jupyter Extension Configuration
     && jupyter contrib nbextension install --user \
     && jupyter nbextension install --py jupyter_tabnine --user \
-    # && jupyter nbextension enable code_prettify/code_prettify --user \
     && jupyter nbextension enable --py jupyter_tabnine --user \
     && jupyter serverextension enable --py jupyter_tabnine --user
 #
 # Install code-server (VS Code)
 #
-# code-server --config /app/code-server/config/config.yaml ~/dev/notebooks
 WORKDIR /root
 ENV CODE_SERVER_CONFIG_DIR /app/code-server/config
 RUN CODE_RELEASE=$(curl -sX GET https://api.github.com/repos/coder/code-server/releases/latest | awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's|^v||') \
