@@ -22,8 +22,10 @@ format:
 	@dos2unix ./provision/scripts/install_dotnet.sh
 	@dos2unix ./provision/scripts/install_homebrew.sh
 	@dos2unix ./provision/scripts/install_ohmyzsh.sh
-	@dos2unix ./code-server/etc/services.d/code-server/run
-	@dos2unix ./code-server/etc/services.d/code-server/finish
+	@dos2unix ./code-server/service/run
+	@dos2unix ./code-server/service/finish
+	@dos2unix ./jupyter/service/run
+	@dos2unix ./jupyter/service/finish
 
 .PHONY: build-image
 build-image:format
@@ -38,7 +40,7 @@ publish:
 .PHONY: all
 all:
 	@for image in $(IMAGES) ; do \
-        $(MAKE) $$image ; \
+        $(MAKE) --no-print-directory $$image ; \
     done
 
 .PHONY: base

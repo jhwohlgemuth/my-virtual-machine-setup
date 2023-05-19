@@ -3,10 +3,10 @@ FROM ghcr.io/jhwohlgemuth/base:latest
 LABEL author="Jason Wohlgemuth"
 LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
 
-# Port designated in ./jupyter/jupyter_notebook_config.py
+# Port designated in ./code-server/config.yaml
 EXPOSE 1337
-EXPOSE 8443
-EXPOSE 8888
+# Port designated in ./jupyter/jupyter_notebook_config.py
+EXPOSE 13337
 
 SHELL ["/bin/bash", "-c"]
 WORKDIR /root
@@ -59,10 +59,11 @@ WORKDIR /root
 ENV CODE_SERVER_CONFIG_DIR /app/code-server/config
 RUN CODE_RELEASE=$(curl -sX GET https://api.github.com/repos/coder/code-server/releases/latest | awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's|^v||') \
     && mkdir -p ${CODE_SERVER_CONFIG_DIR}/{data,extensions,workspace} \
-    && curl -fOL https://github.com/coder/code-server/releases/download/v${CODE_RELEASE}/code-server_${CODE_RELEASE}_amd64.deb \
-    && dpkg -i code-server_${CODE_RELEASE}_amd64.deb
+    && curl -o /tmp/code-server.tar.gz -L "https://github.com/coder/code-server/releases/download/v${CODE_RELEASE}/code-server-${CODE_RELEASE}-linux-amd64.tar.gz" \
+    && tar xf /tmp/code-server.tar.gz -C /app/code-server --strip-components=1
 COPY ./code-server/settings.json /app/code-server/config/data/Machine/settings.json
 COPY ./code-server/config.yaml /app/code-server/config/config.yaml
+ENV PATH "${PATH}:/app/code-server/bin"
 RUN code-server --extensions-dir ${CODE_SERVER_CONFIG_DIR}/extensions --install-extension akamud.vscode-theme-onedark \
     && code-server --extensions-dir ${CODE_SERVER_CONFIG_DIR}/extensions --install-extension emmanuelbeziat.vscode-great-icons \
     && code-server --extensions-dir ${CODE_SERVER_CONFIG_DIR}/extensions --install-extension ms-vscode.atom-keybindings \
@@ -70,8 +71,9 @@ RUN code-server --extensions-dir ${CODE_SERVER_CONFIG_DIR}/extensions --install-
     && code-server --extensions-dir ${CODE_SERVER_CONFIG_DIR}/extensions --install-extension ms-python.python \
     && code-server --extensions-dir ${CODE_SERVER_CONFIG_DIR}/extensions --install-extension eamodio.gitlens \
     && code-server --extensions-dir ${CODE_SERVER_CONFIG_DIR}/extensions --install-extension codeium.codeium
-COPY ./code-server/etc /etc
+COPY ./code-server/service/* /etc/services.d/code-server/
+COPY ./jupyter/service/* /etc/services.d/jupyter/
 
-WORKDIR /root/dev/notebooks
-ENTRYPOINT ["/init", "/root/miniconda3/bin/conda", "run", "-n", "base", "jupyter"]
-CMD ["notebook", "--allow-root", "--Session.debug=True"]
+WORKDIR /root/dev
+ENTRYPOINT [ "/init" ]
+CMD ["/bin/zsh"]

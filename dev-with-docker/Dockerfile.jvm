@@ -1,10 +1,10 @@
-FROM ghcr.io/jhwohlgemuth/jupyter:latest
+FROM ghcr.io/jhwohlgemuth/notebook:latest
 
 LABEL author="Jason Wohlgemuth"
 LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
 
 EXPOSE 1337
-EXPOSE 8888
+EXPOSE 13337
 #
 # Install Java, Scala, and Kotlin
 #
@@ -55,6 +55,6 @@ RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir \
         kotlin-jupyter-kernel
 
-WORKDIR /root/dev/notebooks
-ENTRYPOINT ["/root/miniconda3/bin/conda", "run", "-n", "base", "jupyter"]
-CMD ["notebook", "--allow-root", "--Session.debug=True"]
+WORKDIR /root/dev
+ENTRYPOINT [ "/init" ]
+CMD ["/bin/zsh"]

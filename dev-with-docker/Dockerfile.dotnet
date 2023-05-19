@@ -1,10 +1,10 @@
-FROM ghcr.io/jhwohlgemuth/jupyter:latest
+FROM ghcr.io/jhwohlgemuth/notebook:latest
 
 LABEL author="Jason Wohlgemuth"
 LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
 
 EXPOSE 1337
-EXPOSE 8888
+EXPOSE 13337
 #
 # Install .NET (C#, F#, and PowerShell) kernels
 #
@@ -13,6 +13,6 @@ ENV PATH "${PATH}:/root/.dotnet/tools"
 RUN dotnet tool install --global Microsoft.dotnet-interactive \
     && dotnet interactive jupyter install
 
-WORKDIR /root/dev/notebooks
-ENTRYPOINT ["/root/miniconda3/bin/conda", "run", "-n", "base", "jupyter"]
-CMD ["notebook", "--allow-root", "--Session.debug=True"]
+WORKDIR /root/dev
+ENTRYPOINT [ "/init" ]
+CMD ["/bin/zsh"]

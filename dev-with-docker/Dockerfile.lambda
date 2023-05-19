@@ -4,7 +4,7 @@ LABEL author="Jason Wohlgemuth"
 LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
 
 EXPOSE 1337
-EXPOSE 8888
+EXPOSE 13337
 #
 # Install kerl, Erlang
 #
@@ -90,6 +90,6 @@ RUN curl -sSL https://get.haskellstack.org/ | sh \
     && stack install --fast \
     && ihaskell install --stack
 
-WORKDIR /root/dev/notebooks
-ENTRYPOINT ["/root/miniconda3/bin/conda", "run", "-n", "base", "jupyter"]
-CMD ["notebook", "--allow-root", "--Session.debug=True"]
+WORKDIR /root/dev
+ENTRYPOINT [ "/init" ]
+CMD ["/bin/zsh"]

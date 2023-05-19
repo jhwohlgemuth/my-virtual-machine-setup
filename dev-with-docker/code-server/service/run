@@ -1,0 +1,3 @@
+#!/usr/bin/with-contenv sh
+
+exec /app/code-server/bin/code-server --config /app/code-server/config/config.yaml ~/dev/notebooks >> /etc/services.d/$1/log

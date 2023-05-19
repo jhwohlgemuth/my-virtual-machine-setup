@@ -1,0 +1,3 @@
+#!/usr/bin/with-contenv sh
+
+exec /root/miniconda3/bin/conda run -n base jupyter notebook --allow-root --Session.debug=True
