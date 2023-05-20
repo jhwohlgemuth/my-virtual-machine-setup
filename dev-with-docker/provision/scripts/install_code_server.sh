@@ -11,12 +11,12 @@ tar xf /tmp/code-server.tar.gz -C /app/code-server --strip-components=1
 #
 EXTENSIONS="\
     akamud.vscode-theme-onedark \
-    emmanuelbeziat.vscode-great-icons \
-    ms-vscode.atom-keybindings \
-    ms-toolsai.jupyter \
-    ms-python.python \
+    codeium.codeium \
     eamodio.gitlens \
-    codeium.codeium"
+    emmanuelbeziat.vscode-great-icons \
+    ms-python.python \
+    ms-toolsai.jupyter \
+    ms-vscode.atom-keybindings"
 
 for EXTENSION in ${EXTENSIONS}; do
     code-server --extensions-dir "${CODE_SERVER_CONFIG_DIR}/extensions" --install-extension "${EXTENSION}"
