@@ -20,6 +20,8 @@ brew install \
     up \
     yq
 # shellcheck disable=SC2016
-echo 'source <(tea --magic=zsh)' >> "${HOME}/.zshrc"
-echo 'eval "$(direnv hook zsh)"' >> "${HOME}/.zshrc"
-echo 'eval "$(thefuck --alias oops)"' >> "${HOME}/.zshrc"
+{
+    echo 'source <(tea --magic=zsh)'
+    echo 'eval "$(direnv hook zsh)"'
+    echo 'eval "$(thefuck --alias oops)"'
+} >> "${HOME}/.zshrc"

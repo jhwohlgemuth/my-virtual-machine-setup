@@ -3,9 +3,9 @@
 #
 .PHONY: lint
 lint: check
-	@hadolint ./Dockerfile.base $(IGNORE_RULES)
-	@hadolint ./Dockerfile $(IGNORE_RULES)
-	@hadolint ./Dockerfile.notebook $(IGNORE_RULES)
+	@for image in $(IMAGES) ; do \
+        hadolint ./Dockerfile.$$image $(IGNORE_RULES) ; \
+    done
 
 .PHONY: check
 check:
@@ -88,6 +88,7 @@ IMAGES = \
 IGNORE_RULES = \
 	--ignore DL3003 \
 	--ignore DL3006 \
+	--ignore DL3007 \
 	--ignore DL3008 \
 	--ignore DL3013 \
 	--ignore DL4006 \
