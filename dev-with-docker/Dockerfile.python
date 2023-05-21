@@ -28,6 +28,7 @@ RUN pip install --no-cache-dir --upgrade pip \
         hy \
         jill \
         # pyjion \
+        radian \
     # Install Coq kernel
     && pip install --no-cache-dir coq-jupyter && python -m coq_jupyter.install \
     # Install Codon

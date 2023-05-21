@@ -1,26 +1,55 @@
 {
-    "recommendations": [
+    "dotnet": [
+        "icsharpcode.ilspy-vscode",
+        "ionide.ionide-fake",
+        "ionide.ionide-fsharp",
+        "ionide.ionide-paket",
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.vscode-dotnet-runtime",
+        "ms-vscode.azure-account",
+        "ms-vscode.powershell",
+        "pspester.pester-test",
+        "redhat.vscode-xml",
+        "TylerLeonhardt.vscode-pester-test-adapter"
+    ],
+    "jvm": [
+        "lightbend.vscode-sbt-scala",
+        "scala-lang.scala"
+    ],
+    "lambda": [
+        "haskell.haskell",
+        "jakebecker.elixir-ls",
+        "justusadam.language-haskell",
+        "ocamllabs.ocaml-platform"
+    ],
+    "notebook": [
         "2gua.rainbow-brackets",
         "akamud.vscode-theme-onedark",
-        "bierner.markdown-mermaid",
         "christian-kohler.path-intellisense",
-        "deerawan.vscode-faker",
+        "codeium.codeium",
         "eamodio.gitlens",
         "emmanuelbeziat.vscode-great-icons",
         "formulahendry.auto-rename-tag",
-        "icsharpcode.ilspy-vscode",
-        "johnpapa.vscode-peacock",
         "kisstkondoros.vscode-gutter-preview",
         "mechatroner.rainbow-csv",
-        "ms-vscode-remote.remote-containers",
+        "ms-python.python",
+        "ms-toolsai.jupyter",
         "ms-vscode.atom-keybindings",
-        "ms-vscode.azure-account",
-        "ms-vscode.powershell",
         "oderwat.indent-rainbow",
         "rafamel.subtle-brackets",
-        "redhat.vscode-xml",
         "ryanluker.vscode-coverage-gutters",
-        "TylerLeonhardt.vscode-pester-test-adapter",
         "wmaurer.change-case"
+    ],
+    "python": [
+        "julialang.language-julia",
+        "nimsaem.nimvscode",
+        "maximedenes.vscoq",
+        "ms-python.python",
+        "reditorsupport.r",
+        "sumneko.lua"
+    ],
+    "rust": [
+        "dtsvet.vscode-wasm",
+        "rust-lang.rust-analyzer"
     ]
 }
