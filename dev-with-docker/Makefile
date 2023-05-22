@@ -9,8 +9,8 @@ lint: check
 
 .PHONY: check
 check:
+	@shellcheck ./code-server/install_extensions
 	@shellcheck ./provision/scripts/install_code_server.sh
-	@shellcheck ./provision/scripts/install_code_server_extensions.sh
 	@shellcheck ./provision/scripts/install_conda.sh
 	@shellcheck ./provision/scripts/install_dependencies.sh
 	@shellcheck ./provision/scripts/install_dotnet.sh
@@ -20,7 +20,6 @@ check:
 .PHONY: format
 format:
 	@dos2unix ./provision/scripts/install_code_server.sh
-	@dos2unix ./provision/scripts/install_code_server_extensions.sh
 	@dos2unix ./provision/scripts/install_conda.sh
 	@dos2unix ./provision/scripts/install_dependencies.sh
 	@dos2unix ./provision/scripts/install_dotnet.sh
@@ -28,6 +27,7 @@ format:
 	@dos2unix ./provision/scripts/install_ohmyzsh.sh
 	@dos2unix ./code-server/service/run
 	@dos2unix ./code-server/service/finish
+	@dos2unix ./code-server/install_extensions
 	@dos2unix ./jupyter/service/run
 	@dos2unix ./jupyter/service/finish
 
