@@ -68,10 +68,9 @@ RUN chmod +x ./install_code_server.sh \
 #
 # Copy script to install code-server extensions
 #
-WORKDIR /app/code-server/config
-COPY ./code-server/Extensions.json .
-COPY ./code-server/install_extensions /usr/local/bin
-RUN chmod +x /usr/local/bin/install_extensions
+WORKDIR /usr/local/bin
+COPY ./code-server/install_extensions .
+RUN chmod +x ./install_extensions
 
 WORKDIR /root/dev
 ENTRYPOINT [ "/init" ]

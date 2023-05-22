@@ -23,7 +23,6 @@
         "ocamllabs.ocaml-platform"
     ],
     "notebook": [
-        "2gua.rainbow-brackets",
         "akamud.vscode-theme-onedark",
         "christian-kohler.path-intellisense",
         "codeium.codeium",
@@ -36,7 +35,7 @@
         "ms-toolsai.jupyter",
         "ms-vscode.atom-keybindings",
         "oderwat.indent-rainbow",
-        "rafamel.subtle-brackets",
+        "shellscape.shellscape-brackets",
         "ryanluker.vscode-coverage-gutters",
         "wmaurer.change-case"
     ],
