@@ -1,0 +1,105 @@
+ARG BASE=bitnami/minideb
+ARG TAG=latest
+ARG IMAGE=$BASE:$TAG
+FROM $IMAGE
+
+LABEL author="Jason Wohlgemuth"
+LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
+
+ENV TZ America/New_York
+ENV TERM xterm-256color
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+#
+# Install system dependencies
+#
+WORKDIR /root
+ARG DEBIAN_FRONTEND=noninteractive
+COPY ./provision/scripts/install_dependencies.sh .
+RUN chmod +x ./install_dependencies.sh \
+    && ./install_dependencies.sh \
+    && rm ./install_dependencies.sh
+#
+# Install and configure oh-my-zsh
+#
+WORKDIR /root
+COPY ./provision/scripts/install_ohmyzsh.sh .
+RUN chmod +x ./install_ohmyzsh.sh \
+    && ./install_ohmyzsh.sh \
+    && rm ./install_ohmyzsh.sh
+#
+# Configure NeoVim
+#
+ENV NEOVIM_ROOT /root/.config/nvim/
+COPY ./provision/neovim/init.vim $NEOVIM_ROOT
+COPY ./provision/neovim/coc-settings.json $NEOVIM_ROOT
+COPY ./provision/neovim/general/settings.vim "${NEOVIM_ROOT}general/"
+COPY ./provision/neovim/general/plugins.vim "${NEOVIM_ROOT}general/"
+COPY ./provision/neovim/plug-config/coc.vim "${NEOVIM_ROOT}plug-config/"
+COPY ./provision/neovim/plug-config/fzf.vim "${NEOVIM_ROOT}plug-config/"
+COPY ./provision/neovim/plug-config/which-key.vim "${NEOVIM_ROOT}plug-config/"
+COPY ./provision/neovim/themes/onedark.vim "${NEOVIM_ROOT}themes/"
+RUN find $NEOVIM_ROOT -name "*.vim" | xargs dos2unix
+#
+# Install Homebrew
+#
+WORKDIR /root
+COPY ./provision/scripts/install_homebrew.sh .
+RUN chmod +x ./install_homebrew.sh \
+    && ./install_homebrew.sh \
+    && rm ./install_homebrew.sh
+#
+# Install miniconda (conda) and mamba
+#
+WORKDIR /root
+COPY ./provision/scripts/install_conda.sh .
+RUN chmod +x ./install_conda.sh \
+    && ./install_conda.sh \
+    && rm ./install_conda.sh
+#
+# Install nvm (Node.js)
+#
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+ENV PATH "${PATH}:/root/bin"
+ENV NVM_DIR /root/.nvm
+ENV NODE_OPTIONS "--max-old-space-size=8192"
+RUN echo ". ${NVM_DIR}/nvm.sh" >> "${HOME}/.zshrc"
+#
+# Install .NET and PowerShell
+#
+WORKDIR /root
+ARG DEBIAN_FRONTEND=noninteractive
+COPY ./provision/scripts/install_dotnet.sh .
+RUN chmod +x ./install_dotnet.sh \
+    && ./install_dotnet.sh \
+    && rm ./install_dotnet.sh
+#
+# Install and configure oh-my-posh
+#
+WORKDIR /root
+SHELL ["/usr/bin/pwsh", "-Command"]
+COPY ./config/.theme.omp.json .
+COPY ./config/profile.ps1 .
+RUN /home/linuxbrew/.linuxbrew/bin/brew install jandedobbeleer/oh-my-posh/oh-my-posh \
+    && New-Item -Path '/root/.config/powershell' -ItemType Directory -Force \
+    && Install-Module -Name Prelude -Scope CurrentUser -Force \
+    && Install-Module -Name posh-git -Scope CurrentUser -Force \
+    && Install-Module -Name Terminal-Icons -Scope CurrentUser -Force \
+    && Move-Item profile.ps1 $PROFILE -Force
+#
+# Install s6-overlay
+ARG S6_OVERLAY_VERSION=3.1.5.0
+ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz /tmp
+RUN tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz
+ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-x86_64.tar.xz /tmp
+RUN tar -C / -Jxpf /tmp/s6-overlay-x86_64.tar.xz
+#
+# Add s6 symlinks
+#
+ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-noarch.tar.xz /tmp
+RUN tar -C / -Jxpf /tmp/s6-overlay-symlinks-noarch.tar.xz
+ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-arch.tar.xz /tmp
+RUN tar -C / -Jxpf /tmp/s6-overlay-symlinks-arch.tar.xz
+
+WORKDIR /root/dev
+ENTRYPOINT [ "/init" ]
+CMD ["/bin/zsh"]
