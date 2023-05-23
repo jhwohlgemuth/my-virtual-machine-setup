@@ -1,5 +1,5 @@
-Development with Docker Containers
-==================================
+Development with Containers
+===========================
 > Now is the time to leverage Docker to seamlessly employ Windows and Linux in your development environment!
 
 <div align="center">
@@ -32,11 +32,11 @@ Build Your Own
 
 > While holding <kbd>shift</kbd>, right-click `C:/path/to/folder` directory and select "Open PowerShell window here"
 
-2. Clone this repository and navigate to `dev-with-docker` directory:
+2. Clone this repository and navigate to `dev-with-containers` directory:
 
     ```bash
     git clone https://github.com/jhwohlgemuth/env
-    cd env/dev-with-docker
+    cd env/dev-with-containers
     ```
 
 3. Build an environemt for development with the `make` command:

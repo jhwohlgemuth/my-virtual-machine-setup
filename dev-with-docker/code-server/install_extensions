@@ -4,7 +4,7 @@
 # Download Extensions listing
 #
 EXTENSIONS_JSON="${CODE_SERVER_CONFIG_DIR}"/Extensions.json
-curl -o "${EXTENSIONS_JSON}" https://raw.githubusercontent.com/jhwohlgemuth/env/master/dev-with-docker/code-server/extensions.json
+curl -o "${EXTENSIONS_JSON}" https://raw.githubusercontent.com/jhwohlgemuth/env/master/dev-with-containers/code-server/extensions.json
 #
 # Install Code Server extensions
 #
