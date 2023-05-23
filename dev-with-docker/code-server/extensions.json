@@ -10,7 +10,8 @@
         "ms-vscode.powershell",
         "pspester.pester-test",
         "redhat.vscode-xml",
-        "TylerLeonhardt.vscode-pester-test-adapter"
+        "TylerLeonhardt.vscode-pester-test-adapter",
+        "unoplatform.vscode"
     ],
     "jvm": [
         "lightbend.vscode-sbt-scala",
@@ -48,7 +49,7 @@
         "sumneko.lua"
     ],
     "rust": [
-        "dtsvet.vscode-wasm",
+        "gengjiawen.vscode-wasm",
         "rust-lang.rust-analyzer"
     ]
 }
