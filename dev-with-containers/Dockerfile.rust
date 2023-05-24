@@ -24,6 +24,7 @@ RUN rustup toolchain install nightly \
 #
 # Install WebAssembly runtimes
 #
+SHELL ["/bin/bash", "-c"]
 RUN /home/linuxbrew/.linuxbrew/bin/brew install wasmer wapm wasm3 \
     # Wasmtime
     && curl https://wasmtime.dev/install.sh -sSf | bash \
@@ -37,8 +38,16 @@ RUN /home/linuxbrew/.linuxbrew/bin/brew install wasmer wapm wasm3 \
 #
 # Install WASM Workers Server
 #
+SHELL ["/bin/bash", "-c"]
 WORKDIR /usr/local/bin
 RUN curl -fsSL https://workers.wasmlabs.dev/install | bash -s -- --local
+#
+# Install Spin Microservices server
+#
+SHELL ["/bin/bash", "-c"]
+WORKDIR /usr/local/bin
+RUN curl -fsSL https://developer.fermyon.com/downloads/install.sh | bash \
+    && rm -frd crt.pem LICENSE README.md spin.sig
 
 WORKDIR /root/dev
 ENTRYPOINT [ "/init" ]

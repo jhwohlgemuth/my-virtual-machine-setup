@@ -9,18 +9,20 @@ EXPOSE 13337
 # Install R language and kernel
 #
 RUN apt-get update && apt-get install --no-install-recommends -y \
+        coq \
         r-base \
     && apt-get clean \
     && rm -rf \
         /tmp/* \
         /var/lib/apt/lists/* \
         /var/tmp/* \
-    # Configure R
+    && mamba install --channel conda-forge --yes radian \
+    && mamba clean -yaf \
+    && echo 'alias r=radian' >> "${HOME}/.zshrc" \
     && R -e "install.packages(c('formatR', 'jsonlite'), repos='http://cran.rstudio.com')" \
-    # Install R kernel
     && R -e "install.packages('IRkernel')" && R -e "IRkernel::installspec()"
 #
-# Install Perfomant Python tools, Python alternatives, and Coq kernel
+# Install Perfomant Python tools and alternatives
 #
 SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
 RUN pip install --no-cache-dir --upgrade pip \
@@ -28,9 +30,6 @@ RUN pip install --no-cache-dir --upgrade pip \
         hy \
         jill \
         # pyjion \
-        radian \
-    # Install Coq kernel
-    && pip install --no-cache-dir coq-jupyter && python -m coq_jupyter.install \
     # Install Codon
     && /bin/bash -c "$(curl -fsSL https://exaloop.io/install.sh)" \
     && echo 'export PATH="${HOME}/.codon/bin:${PATH}"' >> "${HOME}/.zshrc"
@@ -44,13 +43,20 @@ RUN curl https://nim-lang.org/choosenim/init.sh -sSf > init.sh \
     && /root/.nimble/bin/choosenim stable \
     && nimble install jupyternim -y
 #
-# Install Coq, Julia, and Lua kernels
+# Install Lua language and kernel
+#
+SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
+RUN /home/linuxbrew/.linuxbrew/bin/brew install lua luarocks \
+    && eval "$(luarocks path)" \
+    && mamba install --channel conda-forge --yes xeus-lua \
+    && mamba clean -yaf
+#
+# Install Coq and Julia kernels
 #
 SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
 RUN jill install --confirm && julia -e 'using Pkg;Pkg.add("IJulia")' \
-    && mamba install --channel conda-forge --yes \
-        coq-jupyter \ 
-        xeus-lua
+    && mamba install --channel conda-forge --yes coq-jupyter \
+    && mamba clean -yaf
 WORKDIR /usr/local/share/jupyter/kernels/coq
 COPY ./jupyter/logo_coq.png logo-64x64.png
 
