@@ -1,7 +1,7 @@
 #!/usr/bin/env pwsh
 #Requires -Modules Prelude
 
-[CmdletBinding()]
+[CmdletBinding(SupportsShouldProcess = $True)]
 Param(
     [Parameter(Mandatory = $False, Position = 0)]
     [ValidateSet(
@@ -21,6 +21,7 @@ Param(
     [String[]] $Exclude = @(),
     [String] $Container,
     [String] $ManifestParent = '.',
+    [Switch] $Update,
     [Switch] $NoInstall,
     [Switch] $Persist,
     [Switch] $Force
@@ -51,7 +52,7 @@ Begin {
 End {
     $Arguments = ($Files | ForEach-Object { "`"$($_ | Resolve-Path)`"" }) -join ' '
     $Command = "conda-merge ${Arguments}"
-    $Content = if ($PSCmdlet.ShouldProcess("[EXECUTE] Update Conda environment name")) {
+    $Content = if ($PSCmdlet.ShouldProcess("[EXECUTE] Update Conda environment ${Name}")) {
         "==> [INFO] Executing: '${Command}'" | Write-Verbose
         (Invoke-Expression $Command) -replace 'name:.*$', "name: ${Name}"
     } else {
@@ -62,11 +63,12 @@ End {
     }
     $Content | Set-Content -Path $Output
     if (-not $NoInstall) {
-        $InstallToContainer = $Container.Count -gt 0
+        $InstallToContainer = ![String]::IsNullOrEmpty($Container)
+        $SubCommand = if ($Update) { 'env update' } else { 'env create' }
         $Command = if ($InstallToContainer) {
-            "docker exec -it ${Container} /bin/zsh -c `"/root/miniconda3/bin/mamba env create --file /root/${Output}`""
+            "docker exec -it ${Container} /bin/zsh -c `"/root/miniconda3/bin/mamba ${SubCommand} --file /root/${Output}`""
         } else {
-            "mamba env create --file ${Output} --prefix $Env:_CONDA_ROOT/envs/${Name}"
+            "mamba ${SubCommand} --prefix $Env:_CONDA_ROOT\envs\${Name} --file ${Output}"
         }
         if ($PSCmdlet.ShouldProcess("[EXECUTE] Install Conda environment")) {
             if ($InstallToContainer) {
