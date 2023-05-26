@@ -79,12 +79,8 @@ WORKDIR /root
 SHELL ["/usr/bin/pwsh", "-Command"]
 COPY ./config/.theme.omp.json .
 COPY ./config/profile.ps1 .
-RUN /home/linuxbrew/.linuxbrew/bin/brew install jandedobbeleer/oh-my-posh/oh-my-posh \
-    && New-Item -Path '/root/.config/powershell' -ItemType Directory -Force \
-    && Install-Module -Name Prelude -Scope CurrentUser -Force \
-    && Install-Module -Name posh-git -Scope CurrentUser -Force \
-    && Install-Module -Name Terminal-Icons -Scope CurrentUser -Force \
-    && Move-Item profile.ps1 $PROFILE -Force
+COPY ./provision/scripts/Install-OhMyPosh.ps1 .
+RUN ./Install-OhMyZsh.ps1 && rm ./Install-OhMyPosh.ps1
 #
 # Install s6-overlay
 ARG S6_OVERLAY_VERSION=3.1.5.0
