@@ -10,5 +10,6 @@ dependencies:
   - geopandas
   - keplergl
   - rasterio
+  - rioxarray
   - shapely
   - xarray-spatial

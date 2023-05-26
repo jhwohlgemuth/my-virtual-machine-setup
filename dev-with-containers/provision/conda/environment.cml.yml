@@ -35,7 +35,7 @@ dependencies:
     - ivy-core
     - merlin-dataloader
     - nebullvm
-    - psycopg2-binary
+    - safetensors
     - segmentation-models
     - torchviz
     - truss
