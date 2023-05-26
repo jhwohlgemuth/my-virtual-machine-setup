@@ -1,5 +1,5 @@
 ARG BASE=bitnami/minideb
-ARG TAG=latest
+ARG TAG=bullseye
 ARG IMAGE=$BASE:$TAG
 FROM $IMAGE
 
