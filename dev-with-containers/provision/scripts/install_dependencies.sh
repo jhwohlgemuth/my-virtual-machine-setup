@@ -9,8 +9,10 @@ apt-get update && apt-get install --no-install-recommends -y \
     cmake \
     cmatrix \
     curl \
+    dbus-user-session \
     dos2unix \
     ffmpeg \
+    fuse-overlayfs \
     fzf \
     git \
     gnupg \
@@ -63,6 +65,7 @@ apt-get update && apt-get install --no-install-recommends -y \
     python3-setuptools \
     rlwrap \
     screen \
+    slirp4netns \
     snapd \
     sudo \
     tree \
