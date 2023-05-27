@@ -30,7 +30,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - run: cd dev-with-containers && make base
+      - run: >
+        apt-get update
+        apt-get install -y dos2unix
+        cd dev-with-containers && make base
 
       # - name: Extract metadata (tags, labels) for Docker
       #   id: meta
