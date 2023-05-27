@@ -19,7 +19,7 @@ jobs:
       packages: write
 
     steps:
-      - run: echo "${env.IMAGE_NAME} will be built and pushed to ${{ env.REGISTRY }}"
+      - run: echo "${{ env.IMAGE_NAME }} will be built and pushed to ${{ env.REGISTRY }}"
 
       # - name: Checkout repository
       #   uses: actions/checkout@v3
