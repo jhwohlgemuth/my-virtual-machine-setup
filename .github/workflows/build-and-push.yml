@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - master
-    paths:
-      - '**/Dockerfile.base'
+    # paths:
+    #   - '**/Dockerfile.base'
 
 env:
   REGISTRY: ghcr.io
@@ -31,8 +31,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - run: |
-          apt-get update
-          apt-get install -y dos2unix
+          sudo apt-get update
+          sudo apt-get install -y dos2unix
           cd dev-with-containers && make base
 
       # - name: Extract metadata (tags, labels) for Docker
