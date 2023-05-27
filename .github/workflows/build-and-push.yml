@@ -31,9 +31,9 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - run: >
-        apt-get update
-        apt-get install -y dos2unix
-        cd dev-with-containers && make base
+          apt-get update
+          apt-get install -y dos2unix
+          cd dev-with-containers && make base
 
       # - name: Extract metadata (tags, labels) for Docker
       #   id: meta
