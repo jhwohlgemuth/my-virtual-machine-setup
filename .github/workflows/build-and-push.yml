@@ -1,14 +1,15 @@
 name: Build and push BASE image
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: base
+
 on:
   push:
     branches:
       - master
     paths:
-      - '**/Dockerfile.base'
-
-env:
-  REGISTRY: ghcr.io
+      - '**/Dockerfile.${{ env.IMAGE_NAME }}'
 
 jobs:
   build-and-push-image:
@@ -18,7 +19,7 @@ jobs:
       packages: write
 
     steps:
-      - run: echo "${{ github.actor }}/base will be built and pushed to ${{ env.REGISTRY }}"
+      - run: echo "${{ github.actor }}/${{ env.IMAGE_NAME }} will be built and pushed to ${{ env.REGISTRY }}"
 
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -33,5 +34,5 @@ jobs:
       - run: |
           sudo apt-get update
           sudo apt-get install -y dos2unix
-          cd dev-with-containers && make base
-          docker push ${{ env.REGISTRY }}/${{ github.actor }}/base
+          cd dev-with-containers && make ${{ env.IMAGE_NAME }}
+          docker push ${{ env.REGISTRY }}/${{ github.actor }}/${{ env.IMAGE_NAME }}
