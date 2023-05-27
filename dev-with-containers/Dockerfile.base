@@ -13,6 +13,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # Install system dependencies
 #
 WORKDIR /root
+SHELL ["/bin/bash", "-c"]
 ARG DEBIAN_FRONTEND=noninteractive
 COPY ./provision/scripts/install_dependencies.sh .
 RUN chmod +x ./install_dependencies.sh \
@@ -22,6 +23,7 @@ RUN chmod +x ./install_dependencies.sh \
 # Install and configure oh-my-zsh
 #
 WORKDIR /root
+SHELL ["/bin/bash", "-c"]
 COPY ./provision/scripts/install_ohmyzsh.sh .
 RUN chmod +x ./install_ohmyzsh.sh \
     && ./install_ohmyzsh.sh \
@@ -29,6 +31,7 @@ RUN chmod +x ./install_ohmyzsh.sh \
 #
 # Configure NeoVim
 #
+SHELL ["/bin/bash", "-c"]
 ENV NEOVIM_ROOT /root/.config/nvim/
 COPY ./provision/neovim/init.vim $NEOVIM_ROOT
 COPY ./provision/neovim/coc-settings.json $NEOVIM_ROOT
@@ -43,6 +46,7 @@ RUN find $NEOVIM_ROOT -name "*.vim" | xargs dos2unix
 # Install Homebrew
 #
 WORKDIR /root
+SHELL ["/bin/bash", "-c"]
 COPY ./provision/scripts/install_homebrew.sh .
 RUN chmod +x ./install_homebrew.sh \
     && ./install_homebrew.sh \
@@ -51,6 +55,7 @@ RUN chmod +x ./install_homebrew.sh \
 # Install miniconda (conda) and mamba
 #
 WORKDIR /root
+SHELL ["/bin/bash", "-c"]
 COPY ./provision/scripts/install_conda.sh .
 RUN chmod +x ./install_conda.sh \
     && ./install_conda.sh \
@@ -58,6 +63,7 @@ RUN chmod +x ./install_conda.sh \
 #
 # Install nvm (Node.js)
 #
+SHELL ["/bin/bash", "-c"]
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
 ENV PATH "${PATH}:/root/bin"
 ENV NVM_DIR /root/.nvm
@@ -67,6 +73,7 @@ RUN echo ". ${NVM_DIR}/nvm.sh" >> "${HOME}/.zshrc"
 # Install .NET and PowerShell
 #
 WORKDIR /root
+SHELL ["/bin/bash", "-c"]
 ARG DEBIAN_FRONTEND=noninteractive
 COPY ./provision/scripts/install_dotnet.sh .
 RUN chmod +x ./install_dotnet.sh \
@@ -83,6 +90,7 @@ COPY ./provision/scripts/Install-OhMyPosh.ps1 .
 RUN ./Install-OhMyPosh.ps1 && rm ./Install-OhMyPosh.ps1
 #
 # Install s6-overlay
+SHELL ["/bin/bash", "-c"]
 ARG S6_OVERLAY_VERSION=3.1.5.0
 ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz /tmp
 RUN tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz
@@ -91,6 +99,7 @@ RUN tar -C / -Jxpf /tmp/s6-overlay-x86_64.tar.xz
 #
 # Add s6 symlinks
 #
+SHELL ["/bin/bash", "-c"]
 ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-noarch.tar.xz /tmp
 RUN tar -C / -Jxpf /tmp/s6-overlay-symlinks-noarch.tar.xz
 ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-arch.tar.xz /tmp
