@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - './dev-with-containers/Dockerfile.base'
+      - '**/Dockerfile.base'
 
 env:
   REGISTRY: ghcr.io
