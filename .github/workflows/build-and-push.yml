@@ -31,8 +31,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - run: |
+      - name: Install build dependencies
+        run: |
           sudo apt-get update
           sudo apt-get install -y dos2unix
+
+      - name: Build and push
+        run: |
           cd dev-with-containers && make ${{ env.IMAGE_NAME }}
           docker push ${{ env.REGISTRY }}/${{ github.actor }}/${{ env.IMAGE_NAME }}
