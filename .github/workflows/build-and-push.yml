@@ -1,4 +1,4 @@
-name: Build and push ${{ env.IMAGE_NAME }} image
+name: Build and push image
 
 env:
   REGISTRY: ghcr.io
@@ -8,8 +8,8 @@ on:
   push:
     branches:
       - master
-    paths:
-      - '**/Dockerfile.${{ env.IMAGE_NAME }}'
+    # paths:
+    #   - '**/Dockerfile.${{ env.IMAGE_NAME }}'
 
 jobs:
   build-and-push-image:
