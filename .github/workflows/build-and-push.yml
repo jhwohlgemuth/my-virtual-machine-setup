@@ -1,4 +1,4 @@
-name: Build and push BASE image
+name: Build and push ${{ env.IMAGE_NAME }} image
 
 env:
   REGISTRY: ghcr.io
