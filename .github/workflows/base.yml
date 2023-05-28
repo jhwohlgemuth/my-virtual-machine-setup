@@ -1,4 +1,4 @@
-name: Build and push image
+name: Build and push BASE image
 
 env:
   REGISTRY: ghcr.io
@@ -8,16 +8,15 @@ on:
   push:
     branches:
       - master
-    paths:
-      - '**/Dockerfile.${{ env.IMAGE_NAME }}'
+    # paths:
+    #   - '**/Dockerfile.${{ env.IMAGE_NAME }}'
 
 jobs:
-  build-and-push-image:
+  base:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
-
     steps:
       - run: echo "${{ github.actor }}/${{ env.IMAGE_NAME }} will be built and pushed to ${{ env.REGISTRY }}"
 
@@ -31,12 +30,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install build dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y dos2unix
-
-      - name: Build and push
-        run: |
-          cd dev-with-containers && make ${{ env.IMAGE_NAME }}
-          docker push ${{ env.REGISTRY }}/${{ github.actor }}/${{ env.IMAGE_NAME }}
+      - uses: actions/checkout@v1
+      - name: Build and push ${{ env.IMAGE_NAME }} image
+        uses: ./.github/actions/build-and-push-image
+        with:
+          image-name: ${{ env.IMAGE_NAME }}

@@ -1,6 +1,6 @@
-name: 'Hello World'
+name: 'Build and Push Docker Image'
 
-description: 'Greet someone and record the time'
+description: 'Build and push a docker image with a given name'
 
 inputs:
   image-name:
@@ -12,5 +12,4 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.who-to-greet }}
     - ${{ inputs.image-name }}
