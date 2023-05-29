@@ -20,6 +20,6 @@ cd dev-with-containers
 for IMAGE in ${IMAGES} ; do
     printf "\n\n[INFO] Build and publish:\n"
     figlet ${IMAGE}
-    # make ${IMAGE}
-    # docker push "${REGISTRY}/${GITHUB_ACTOR}/${IMAGE}"
+    make ${IMAGE}
+    docker push "${REGISTRY}/${GITHUB_ACTOR}/${IMAGE}"
 done
