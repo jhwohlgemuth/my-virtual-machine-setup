@@ -1,6 +1,7 @@
 name: Build and push BASE image
 
 env:
+  ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   REGISTRY: ghcr.io
   IMAGE_NAME: base
 
