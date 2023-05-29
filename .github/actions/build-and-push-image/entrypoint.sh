@@ -1,6 +1,6 @@
 #! /bin/bash
 
-docker login ghcr.io -u ${GITHUB_ACTOR} --password ${GITHUB_TOKEN}
+docker login ghcr.io -u ${GITHUB_ACTOR} --password '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'
 #
 # Select images to build/push
 #
