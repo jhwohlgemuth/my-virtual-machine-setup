@@ -1,5 +1,6 @@
 #! /bin/bash
 
+echo ${GITHUB_TOKEN}
 echo ${GITHUB_TOKEN} | docker login ghcr.io -u ${GITHUB_ACTOR} --password-stdin
 #
 # Select images to build/push
@@ -20,6 +21,6 @@ cd dev-with-containers
 for IMAGE in ${IMAGES} ; do
     printf "\n\n[INFO] Build and publish:\n"
     figlet ${IMAGE}
-    make ${IMAGE}
-    docker push "${REGISTRY}/${GITHUB_ACTOR}/${IMAGE}"
+    # make ${IMAGE}
+    # docker push "${REGISTRY}/${GITHUB_ACTOR}/${IMAGE}"
 done
