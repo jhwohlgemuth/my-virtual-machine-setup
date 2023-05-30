@@ -5,7 +5,9 @@ FROM $IMAGE
 
 LABEL author="Jason Wohlgemuth"
 LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
-
+#
+# Configure environment variables
+#
 ENV TZ America/New_York
 ENV TERM xterm-256color
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
