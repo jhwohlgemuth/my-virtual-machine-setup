@@ -62,7 +62,9 @@ COPY ./code-server/config.yaml /app/code-server/config/config.yaml
 COPY ./code-server/service/* /etc/services.d/code-server/
 COPY ./jupyter/service/* /etc/services.d/jupyter/
 COPY ./provision/scripts/install_code_server.sh .
-RUN chmod +x ./install_code_server.sh \
+RUN chmod +x /etc/services.d/jupyter/run /etc/services.d/jupyter/finish \
+    && chmod +x /etc/services.d/code-server/run /etc/services.d/code-server/finish \
+    && chmod +x ./install_code_server.sh \
     && ./install_code_server.sh \
     && rm ./install_code_server.sh
 #

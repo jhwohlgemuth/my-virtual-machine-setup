@@ -52,7 +52,7 @@ RUN chmod +x ./install_homebrew.sh \
     && ./install_homebrew.sh \
     && rm ./install_homebrew.sh
 #
-# Install miniconda (conda) and mamba
+# Install miniconda (Conda) and Mamba
 #
 WORKDIR /root
 SHELL ["/bin/bash", "-c"]

@@ -9,8 +9,8 @@ on:
   push:
     branches:
       - master
-    # paths:
-    #   - '**/Dockerfile.${{ env.IMAGE_NAME }}'
+    paths:
+      - '**/Dockerfile.${{ env.IMAGE_NAME }}'
 
 jobs:
   base:
