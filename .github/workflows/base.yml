@@ -9,8 +9,14 @@ on:
   push:
     branches:
       - master
-    # paths:
-    #   - '**/Dockerfile.${{ env.IMAGE_NAME }}'
+    paths:
+      - './dev-with-containers/Dockerfile.${{ env.IMAGE_NAME }}'
+      - './dev-with-containers/code-server/**/*'
+      - './dev-with-containers/jupyter/**/*'
+      - './dev-with-containers/config/.theme.omp.json'
+      - './dev-with-containers/provision/neovim/**/*'
+      - './dev-with-containers/provision/scripts/*.sh'
+      - './dev-with-containers/provision/scripts/*.ps1'
 
 jobs:
   base:
