@@ -5,6 +5,7 @@ channels:
 dependencies:
   - cartopy
   - fiona
+  - folium
   - gdal
   - geojson
   - geopandas
