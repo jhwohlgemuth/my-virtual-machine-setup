@@ -12,6 +12,7 @@ apt-get update && apt-get install --no-install-recommends -y \
     dbus-user-session \
     dos2unix \
     ffmpeg \
+    figlet \
     fuse-overlayfs \
     fzf \
     git \

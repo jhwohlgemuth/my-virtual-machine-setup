@@ -5,6 +5,7 @@
 echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> "${HOME}/.zshrc"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 brew install \
+    ast-grep \
     bat \
     broot \
     btop \
@@ -24,4 +25,5 @@ brew install \
     echo 'source <(tea --magic=zsh)'
     echo 'eval "$(direnv hook zsh)"'
     echo 'eval "$(thefuck --alias oops)"'
+    echo 'alias sgrep=ast-grep'
 } >> "${HOME}/.zshrc"
