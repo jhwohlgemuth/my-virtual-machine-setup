@@ -12,6 +12,12 @@ WORKDIR /root
 ENV PATH "${PATH}:/root/.dotnet/tools"
 RUN dotnet tool install --global Microsoft.dotnet-interactive \
     && dotnet interactive jupyter install
+#
+# Install Mono runtime
+#
+RUN apt-get update \
+    && apt-get install -y mono-devel \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /root/dev
 ENTRYPOINT [ "/init" ]

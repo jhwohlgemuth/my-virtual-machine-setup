@@ -74,6 +74,10 @@ python:
 .PHONY: rust
 rust:
 	@$(MAKE) TASK=$@ --no-print-directory build-image
+
+.PHONY: web
+web:
+	@$(MAKE) TASK=$@ --no-print-directory build-image
 #
 # Build variables
 #
@@ -86,6 +90,7 @@ IMAGES = \
 	rust \
 	jvm \
 	dotnet \
+	web \
 	lambda
 IGNORE_RULES = \
 	--ignore DL3003 \

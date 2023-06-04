@@ -25,12 +25,14 @@
         "ocamllabs.ocaml-platform"
     ],
     "notebook": [
+        "aaron-bond.better-comments",
         "akamud.vscode-theme-onedark",
         "christian-kohler.path-intellisense",
         "codeium.codeium",
         "eamodio.gitlens",
         "emmanuelbeziat.vscode-great-icons",
         "formulahendry.auto-rename-tag",
+        "hbenl.vscode-test-explorer",
         "kisstkondoros.vscode-gutter-preview",
         "mechatroner.rainbow-csv",
         "ms-python.python",
@@ -38,6 +40,7 @@
         "ms-vscode.atom-keybindings",
         "oderwat.indent-rainbow",
         "shellscape.shellscape-brackets",
+        "redhat.vscode-yaml",
         "ryanluker.vscode-coverage-gutters",
         "wmaurer.change-case"
     ],
@@ -50,7 +53,17 @@
         "sumneko.lua"
     ],
     "rust": [
+        "bungcip.better-toml",
         "gengjiawen.vscode-wasm",
         "rust-lang.rust-analyzer"
+    ],
+    "web": [
+        "bierner.color-info",
+        "chenglou92.rescript-vscode",
+        "components.vscode-styled-components",
+        "sbrink.elm",
+        "team-sapling.sapling",
+        "wallabyjs.console-ninja",
+        "wix.glean"
     ]
 }

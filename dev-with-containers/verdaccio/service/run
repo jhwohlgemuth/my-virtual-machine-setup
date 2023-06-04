@@ -1,0 +1,4 @@
+#!/usr/bin/with-contenv bash
+
+. ${NVM_DIR}/nvm.sh
+verdaccio --config /verdaccio/conf/config.yml

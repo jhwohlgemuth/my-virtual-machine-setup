@@ -1,0 +1,47 @@
+storage: /verdaccio/storage
+plugins: /verdaccio/plugins
+web:
+  title: Verdaccio
+  gravatar: true
+  darkMode: true
+  html_cache: true
+  showThemeSwitch: true
+auth:
+  htpasswd:
+    file: /verdaccio/storage/htpasswd
+    max_users: 1000
+uplinks:
+  npmjs:
+    url: https://registry.npmjs.org/
+packages:
+  "@*/*":
+    access: $all
+    publish: $authenticated
+    unpublish: $authenticated
+    proxy: npmjs
+  "**":
+    access: $all
+    publish: $authenticated
+    unpublish: $authenticated
+    proxy: npmjs
+server:
+  keepAliveTimeout: 60
+publish:
+  allow_offline: true
+userRateLimit:
+  max: 1000
+listen:
+  - https://0.0.0.0:4873
+https:
+  key: /root/certs/my.key
+  cert: /root/certs/my.pem
+middlewares:
+  audit:
+    enabled: true
+log:
+  {
+    type: file,
+    path: /etc/services.d/verdaccio/log,
+    format: pretty-timestamped,
+    level: http,
+  }

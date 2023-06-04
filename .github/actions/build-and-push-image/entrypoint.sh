@@ -5,11 +5,11 @@ docker login ghcr.io -u ${GITHUB_ACTOR} --password ${ACCESS_TOKEN}
 # Select images to build/push
 #
 if [[ ${IMAGE_NAME} == "base" ]] ; then
-    IMAGES="base notebook python rust jvm dotnet lambda"
+    IMAGES="base notebook python rust jvm dotnet web lambda"
 elif [[ ${IMAGE_NAME} == "notebook" ]] ; then
     IMAGES="notebook python rust jvm dotnet lambda"
 elif [[ ${IMAGE_NAME} == "dotnet" ]] ; then
-    IMAGES="dotnet lambda"
+    IMAGES="dotnet web lambda"
 else
     IMAGES="${IMAGE_NAME}"
 fi

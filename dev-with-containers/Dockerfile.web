@@ -1,0 +1,44 @@
+FROM ghcr.io/jhwohlgemuth/dotnet:latest
+
+LABEL author="Jason Wohlgemuth"
+LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
+
+EXPOSE 1337
+EXPOSE 4873
+EXPOSE 8080
+EXPOSE 13337
+#
+# Install Node.js. Rescript, iJavaScript Jupyter kernel, and Verdaccio proxy service
+#
+SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
+WORKDIR /root/dev/notebooks
+COPY ./verdaccio/service/* /etc/services.d/verdaccio/
+RUN . ${NVM_DIR}/nvm.sh \
+    && nvm install node \
+    && mkdir ijavascript \
+    && cd ijavascript \
+    && npm init -y \
+    && npm install --omit=dev ijavascript \
+    && node_modules/ijavascript/bin/ijsinstall.js --spec-path=full \
+    && npm install --omit=dev --location=global verdaccio@6-next rescript esy \
+    && chmod +x /etc/services.d/verdaccio/run /etc/services.d/verdaccio/finish
+RUN mkdir -p /verdaccio/storage /verdaccio/plugins /verdaccio/conf
+COPY ./verdaccio/.npmrc /root/
+COPY ./verdaccio/config.yml /verdaccio/conf/
+#
+# Install Elm language and Jupyter kernel
+#
+SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
+WORKDIR /root/dev/
+RUN curl -L -o elm.gz https://github.com/elm/compiler/releases/download/0.19.1/binary-for-linux-64-bit.gz \
+    && gunzip elm.gz \
+    && chmod +x elm \
+    && mv elm /usr/local/bin/ \
+    && pip install --no-cache-dir elm_kernel \
+    && python -m elm_kernel.install
+WORKDIR /usr/local/share/jupyter/kernels/elm
+COPY ./jupyter/logo_elm.png logo-64x64.png
+
+WORKDIR /root/dev
+ENTRYPOINT [ "/init" ]
+CMD ["/bin/zsh"]
