@@ -5,10 +5,12 @@ apt-get update && apt-get install --no-install-recommends -y \
     apt-transport-https \
     binutils \
     build-essential \
+    ca-certificates \
     clang \
     cmake \
     cmatrix \
     curl \
+    dirmngr \
     dbus-user-session \
     dos2unix \
     ffmpeg \
