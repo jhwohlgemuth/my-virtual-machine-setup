@@ -1,21 +1,22 @@
-name: Build and push DOTNET
+name: Build and push NOTEBOOK
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: dotnet
+  IMAGE_NAME: notebook
   ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 on:
   workflow_run:
     workflows:
-      - Build and push NOTEBOOK
+      - Build and push BASE
     types:
       - completed
   push:
     branches:
       - master
     paths:
-      - "dev-with-containers/Dockerfile.dotnet"
+      - 'dev-with-containers/code-server/**'
+      - 'dev-with-containers/jupyter/**'
 
 jobs:
   base:

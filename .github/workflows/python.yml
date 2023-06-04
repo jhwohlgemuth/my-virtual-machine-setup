@@ -1,8 +1,8 @@
-name: Build and push DOTNET
+name: Build and push PYTHON
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: dotnet
+  IMAGE_NAME: python
   ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 on:
@@ -15,7 +15,7 @@ on:
     branches:
       - master
     paths:
-      - "dev-with-containers/Dockerfile.dotnet"
+      - "dev-with-containers/Dockerfile.python"
 
 jobs:
   base:

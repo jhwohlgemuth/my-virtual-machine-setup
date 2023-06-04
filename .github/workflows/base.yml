@@ -1,4 +1,4 @@
-name: Build and push BASE image
+name: Build and push BASE
 
 env:
   REGISTRY: ghcr.io
@@ -11,8 +11,6 @@ on:
       - master
     paths:
       - 'dev-with-containers/Dockerfile.base'
-      - 'dev-with-containers/code-server/**'
-      - 'dev-with-containers/jupyter/**'
       - 'dev-with-containers/config/.theme.omp.json'
       - 'dev-with-containers/provision/neovim/**'
       - 'dev-with-containers/provision/scripts/**'
