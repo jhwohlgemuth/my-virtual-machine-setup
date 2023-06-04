@@ -18,7 +18,7 @@ on:
       - "dev-with-containers/Dockerfile.web"
 
 jobs:
-  base:
+  web:
     runs-on: ubuntu-latest
     permissions:
       contents: read

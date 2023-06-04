@@ -18,7 +18,7 @@ on:
       - "dev-with-containers/Dockerfile.rust"
 
 jobs:
-  base:
+  rust:
     runs-on: ubuntu-latest
     permissions:
       contents: read

@@ -18,7 +18,7 @@ on:
       - "dev-with-containers/Dockerfile.jvm"
 
 jobs:
-  base:
+  jvm:
     runs-on: ubuntu-latest
     permissions:
       contents: read

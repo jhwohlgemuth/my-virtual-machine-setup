@@ -19,7 +19,7 @@ on:
       - 'dev-with-containers/jupyter/**'
 
 jobs:
-  base:
+  notebook:
     runs-on: ubuntu-latest
     permissions:
       contents: read
