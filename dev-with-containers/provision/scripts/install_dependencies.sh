@@ -1,5 +1,7 @@
 #! /bin/sh
-
+#
+# Install dependencies
+#
 apt-get update && apt-get install --no-install-recommends -y \
     apt-utils \
     apt-transport-https \
@@ -78,6 +80,9 @@ apt-get update && apt-get install --no-install-recommends -y \
     zip \
     zlib1g-dev \
     zsh
+#
+# Clean up
+#
 apt-get clean
 rm -rf \
     /tmp/* \
