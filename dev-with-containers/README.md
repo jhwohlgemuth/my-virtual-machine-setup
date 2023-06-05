@@ -21,8 +21,11 @@ Use VS Code in the browser in **Three Easy Steps™**
 Container Customization
 -----------------------
 > **Note**</br>
-> Use [`install_extensions`](./code-server/install_extensions) to install VS Code extensions.</br>
-> `install_extensions` accepts any number of image names (see [Image Design section](#image-design)). *Example* `install_extensions notebook dotnet web`
+> Use [`install_extensions`](./code-server/install_extensions) to install VS Code extensions.
+
+> **Note**</br>
+> [`install_extensions`](./code-server/install_extensions) accepts any number of image names (see [Image Design section](#image-design))</br>
+> *Example* `install_extensions notebook dotnet web`
 
 The following environment variables are available to customize containers:
 - `CODE_SERVER_CONFIG`: Location of code-server server configuration file (within container)
