@@ -1,83 +1,66 @@
 Development with Containers
 ===========================
-> Now is the time to leverage Docker to seamlessly employ Windows and Linux in your development environment!
-
-<div align="center">
-    <a href="https://gyazo.com/9d553806ab2c9bac1fc9800994c58396"><img alt="Docker in action!" src="https://i.gyazo.com/9d553806ab2c9bac1fc9800994c58396.gif" width="1264"/></a>
-</div>
-
-Requirements
-------------
-- [Docker Desktop](https://www.docker.com/products/docker-desktop)
-
-Quick Start  
------------
-> ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/jhwohlgemuth/env?style=for-the-badge)
-
-> The `jhwohlgemuth/env` image includes a fully customized terminal and has all the best languages installed - Python, Julia, F#, nvm (for Node.js), Rust, Kotlin, Clojure, Go, and Elixir
-1. Open Windows Terminal
-
-> Ideally, you have already configured your Windows Terminal according to the [development with Windows Terminal](../dev-with-windows-terminal) instructions
-
-2. Start new shell inside a docker container (I like to name mine "env")
-
-```bash
-docker run -it --name env jhwohlgemuth/env
-```
-
-Build Your Own
---------------
-> ***5 Simple Steps™*** — no Docker know-how required
-1. Open a Powershell terminal in a location, `C:/path/to/folder`, where you can save some files
-
-> While holding <kbd>shift</kbd>, right-click `C:/path/to/folder` directory and select "Open PowerShell window here"
-
-2. Clone this repository and navigate to `dev-with-containers` directory:
-
-    ```bash
-    git clone https://github.com/jhwohlgemuth/env
-    cd env/dev-with-containers
-    ```
-
-3. Build an environemt for development with the `make` command:
-    ```make
-    make env
-    ```
-
-4. From within Windows Terminal, open a shell to the container with `make shell`
-
-5. Enjoy your awesome new terminal in a ***Windows*** terminal. `#cantBelieveItsNotLinux`...although in this case, it is also Linux...in Windows
-
-What Next?!
-===========
-> Now that you have an awesome Docker container for development, you need to connect to it with [VSCode]() using the modern and maintained [Remote - Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)!
-
-Requirements
-------------
-- [Docker Desktop](https://www.docker.com/products/docker-desktop) (obviously...)
-- VS Code [Remote - Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 
 Quick Start
 -----------
-1. Open Windows Terminal and create a Docker container:
 
-```bash
-docker run -dit --name env jhwohlgemuth/env
+Use VS Code in the browser in **Three Easy Steps™**
+
+1. Install [Docker](https://docs.docker.com/get-docker/) or [Podman](https://podman.io/)
+2. Run the command
+    ```shell
+    docker run -it \
+        --name notebook \
+        -p 1337:1337 \
+        -p 4873:4873 \
+        -p 13337:13337 \
+        ghcr.io/jhwohlgemuth/web
+    ```
+3. Open a browser and navigate to [https://localhost:1337](https://localhost:1337)
+
+Container Customization
+-----------------------
+> **Note**
+> Use `install_extensions` to install VS Code extensions. `install_extensions` accepts any number of image names (see [Image Design section](#image-design))
+
+The following environment variables are available to customize containers:
+- `CODE_SERVER_CONFIG`: Location of code-server server configuration file (within container)
+  - Default: `/app/code-server/config/config.yaml`
+- `CODE_SERVER_PORT`: Port to use for code-server server
+  - Default: `1337`
+- `CODE_SERVER_PASSWORD`: Password to use for code-server server
+  - Default: `password`
+- `JUPYTER_CONFIG`: Location of code-server server configuration file (within container)
+  - Default: `/root/.jupyter/jupyter_notebook_config.py`
+- `JUPYTER_PORT`: Port to use for Jupyter server
+  - Default: `13337`
+- `JUPYTER_PASSWORD_HASH`: Password to use for Jupyter server
+  - Default: `password`
+
+
+Image Design
+------------
+> Images are built using GitHub Actions and deployed to the Github Container Registry, `ghcr.io`, under the username, `jhwohlgemuth`
+
+The following images are available:
+- `base`: Core image with all necessary system dependencies
+- `notebook`: Images with [Jupyter notebook](https://github.com/jupyter/notebook) server and [code-server](https://github.com/coder/code-server) services managed by [s6-overlay](https://github.com/just-containers/s6-overlay)
+- `dotnet`: .NET development environment
+- `jvm`: Java Virtual Machine development environment
+- `python`: Image with Python tools and Jupyter kernels
+- `lambda`: Functional programming languages and Jupyter kernels
+- `rust`: Rust and WebAssembly environment
+- `web`: Web development environment
+
+The images are build according the the following dependency graph:
+```mermaid
+graph LR
+    base --> notebook
+    notebook --> dotnet
+    notebook --> jvm
+    notebook --> python
+    notebook --> rust
+    dotnet --> lambda
+    dotnet --> web
 ```
 
-> **TIP** Instead of creating a new container, you *could* use the container you created up in the "Quick Start" section
-
-2. Within VS Code, open the Command Pallete with <kbd>CTRL</kbd>+<kbd>SHIFT</kbd>+<kbd>P</kbd> and type `Remote-Containers: Attach to Running Container...`, press <kbd>ENTER</kbd>
-
-3. In the dropdown, select the container you started in step 1 (or from "Quick Start" section)
-
-4. After VS Code reloads, open a folder on your container using the "Explorer" panel (toggle explorer panel with <kbd>CTRL</kbd>+<kbd>\\</kbd>)
-
-5. Smile. You are developing inside Linux with VS Code running on Windows. Maybe check out the [VS Code docs](https://code.visualstudio.com/docs).
-
-Tips
-====
-- Copy this directory's [`Makefile`](./Makefile) into your Windows user home directory for easy access. This enables you to quickly open a shell in your container by opening Windows Terminal and executing `make` and `make shell` (if you have not created the `dev` container) or `make start` and `make shell` (after you have created the `dev` container)
-- Run a Jupyter notebook server with `make notebook`.  The following language kernels are available: C#, F#, PowerShell, Clojure, Coq, Elixir, Go, Haskell, JavaScript/Node, Julia, Kotlin, R, Rust, and of course, Python.  See [the notebook Dockerfile](./Dockerfile.notebook) for what is included and the [Makefile](../Makefile) for how to use the image and container.
-
-> **Note:** If you skipped the [development with Windows Terminal](../dev-with-windows-terminal) instructions, you can install `make` on Windows with [Chocolatey](https://chocolatey.org/install) via `choco install make`
