@@ -13,6 +13,7 @@ brew install \
     dust \
     grex \
     htmlq \
+    nickel \
     pipx \
     ripgrep \
     teaxyz/pkgs/tea-cli \
