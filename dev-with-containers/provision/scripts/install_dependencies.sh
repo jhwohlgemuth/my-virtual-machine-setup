@@ -33,6 +33,7 @@ apt-get update && apt-get install --no-install-recommends -y \
     libcurl4 \
     libedit2 \
     libffi-dev \
+    libgl1 \
     libgmp10 \
     libgmp-dev \
     liblapack-dev \
@@ -41,7 +42,9 @@ apt-get update && apt-get install --no-install-recommends -y \
     libncurses5 \
     libpango1.0-dev \
     libpango-1.0-0 \
+    libpoppler-cpp-dev \
     libpython2.7 \
+    libreoffice \
     libsqlite3-0 \
     libsqlite3-dev \
     libssl-dev \
@@ -64,7 +67,9 @@ apt-get update && apt-get install --no-install-recommends -y \
     netbase \
     openssh-server \
     openssl \
+    pandoc \
     pkg-config \
+    poppler-utils \
     python3-dev \
     python3-pip \
     python3-setuptools \

@@ -32,6 +32,7 @@ dependencies:
     - bentoml
     - deepchecks[vision]
     - great_expectations
+    - huggingface-hub
     - ivy-core
     - merlin-dataloader
     - nebullvm

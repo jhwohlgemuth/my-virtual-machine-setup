@@ -5,6 +5,7 @@ channels:
 dependencies:
   - gensim
   - pip
+  - poppler
   - spacy
   - spacy-model-en_core_web_sm
   - spacy-model-en_core_web_trf
@@ -14,5 +15,9 @@ dependencies:
     - deepchecks[nlp]
     - ludwig
     - nltk
+    - pdf2image
+    - pillow
     - polyglot
+    - pytesseract
     - sentence-transformers
+    - unstructured[local-inference]
