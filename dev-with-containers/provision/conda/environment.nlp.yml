@@ -19,5 +19,6 @@ dependencies:
     - pillow
     - polyglot
     - pytesseract
+    - sentencepiece
     - sentence-transformers
     - unstructured[local-inference]
