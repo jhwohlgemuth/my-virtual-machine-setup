@@ -26,6 +26,7 @@ RUN chmod +x ./install_dependencies.sh \
 #
 WORKDIR /root
 SHELL ["/bin/bash", "-c"]
+COPY ./config/.p10k.zsh /root/.p10k.zsh
 COPY ./provision/scripts/install_ohmyzsh.sh .
 RUN chmod +x ./install_ohmyzsh.sh \
     && ./install_ohmyzsh.sh \

@@ -16,7 +16,8 @@ sh -c "$(curl https://raw.githubusercontent.com/deluan/zsh-in-docker/master/zsh-
     -p https://github.com/jhwohlgemuth/zsh-handy-helpers \
     -p https://github.com/jhwohlgemuth/zsh-pentest \
     -a 'bindkey "\$terminfo[kcuu1]" history-substring-search-up' \
-    -a 'bindkey "\$terminfo[kcud1]" history-substring-search-down'
+    -a 'bindkey "\$terminfo[kcud1]" history-substring-search-down' \
+    -a '[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh'
 #
 # Customize .zshrc
 #
