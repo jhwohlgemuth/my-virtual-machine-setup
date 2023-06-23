@@ -3,7 +3,16 @@
 
 [CmdletBinding(SupportsShouldProcess = $True)]
 Param(
-    [ValidateSet('env', 'notebook')]
+    [ValidateSet(
+        'base',
+        'dotnet',
+        'jvm',
+        'lambda',
+        'notebook',
+        'python',
+        'rust',
+        'web'
+    )]
     [Parameter(Mandatory = $True, Position = 0)]
     [String] $Type,
     [Parameter(Mandatory = $False)]
@@ -11,6 +20,8 @@ Param(
     [Parameter(Mandatory = $False)]
     [ValidateSet('ssh', 'git')]
     [String[]] $Configure = @(),
+    [Parameter(Mandatory = $False)]
+    [String] $Name = 'notebook',
     [String] $Namespace = 'jhwohlgemuth'
 )
 function Get-Context {
@@ -27,15 +38,13 @@ function Get-Context {
     @{
         Homepath = $Env:USERPROFILE
         Hostname = (hostname)
-        ImageName = "${Namespace}/${Type}"
+        ImageName = "ghcr.io/${Namespace}/${Type}"
     }
 }
 function New-Container {
     <#
     .SYNOPSIS
     Create a new container
-    .PARAM Type
-    dev or notebook
     #>
     [CmdletBinding(SupportsShouldProcess = $True)]
     Param(
@@ -44,36 +53,30 @@ function New-Container {
         [String] $Namespace
     )
     $Context = Get-Context -Type $Type -Namespace $Namespace
-    $BaseCommand = 'docker run -dit --init --security-opt seccomp=unconfined'
-    $Volume = switch ($Type) {
-        'env' {
-            "$($Context.Homepath)/dev:/root/dev"
-        }
-        'notebook' {
-            "$($Context.Homepath)/dev/notebooks:/root/dev/notebooks"
-        }
-    }
+    $BaseCommand = 'docker run -dit --security-opt seccomp=unconfined'
+    $Volume = "$($Context.Homepath)/dev:/root/dev"
     $Options = @{
         Gpus = 'all'
-        Name = $Type
+        Name = $Name
         Hostname = $Context.Hostname
         Volume = $Volume
     } | ConvertTo-ParameterString
     $Ports = switch ($Type) {
-        'env' {
+        'web' {
             @(
                 1337
-                3449
-                4669
+                4873
                 8000
                 8080
                 8111
-                46692
+                13337
             )
         }
-        'notebook' {
+        default {
             @(
-                4669
+                1337
+                3000
+                13337
             )
         }
     }
@@ -84,7 +87,7 @@ function New-Container {
     if ($PSCmdlet.ShouldProcess("==> [INFO] Create ${Type} container")) {
         Invoke-Expression $Command
     }
-    "==> [INFO] Created ${Type} container" | Write-Color -Green
+    "==> [INFO] Created `"${Name}`" container from `"${Type}`" image" | Write-Color -Green
 }
 function Start-Container {
     <#
