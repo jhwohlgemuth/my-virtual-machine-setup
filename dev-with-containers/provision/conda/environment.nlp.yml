@@ -4,6 +4,7 @@ channels:
   - defaults
 dependencies:
   - gensim
+  - langchain
   - pip
   - poppler
   - spacy
@@ -13,6 +14,7 @@ dependencies:
   - transformers
   - pip:
     - deepchecks[nlp]
+    - embedchain
     - ludwig
     - nltk
     - pdf2image
