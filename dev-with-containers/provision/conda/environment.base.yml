@@ -36,3 +36,4 @@ dependencies:
     - gdown
     - hypothesis
     - ptpython
+    - weave
