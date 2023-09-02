@@ -15,6 +15,7 @@ brew install \
     htmlq \
     nickel \
     pipx \
+    pixi \
     ripgrep \
     teaxyz/pkgs/tea-cli \
     thefuck \
