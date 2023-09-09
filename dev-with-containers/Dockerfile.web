@@ -8,7 +8,7 @@ EXPOSE 4873
 EXPOSE 8080
 EXPOSE 13337
 #
-# Install Node.js. Rescript, iJavaScript Jupyter kernel, and Verdaccio proxy service
+# Install Node.js, Rescript, iJavaScript Jupyter kernel, and Verdaccio proxy service
 #
 SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
 WORKDIR /root/dev/notebooks
