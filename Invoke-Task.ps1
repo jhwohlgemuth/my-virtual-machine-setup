@@ -13,7 +13,7 @@ Param(
         'rust',
         'web'
     )]
-    [Parameter(Mandatory = $True, Position = 0)]
+    [Parameter(Mandatory = $False, Position = 0)]
     [String] $Type,
     [Parameter(Mandatory = $False)]
     [Switch] $Create,
@@ -110,45 +110,45 @@ if ($Create) {
     New-Container -Type $Type -Namespace $Namespace
 }
 if ($Configure) {
-    Start-Container -Name $Type
+    Start-Container -Name $Name
     switch ($Configure) {
         'git' {
-            $Command = "docker cp ${Env:USERPROFILE}/.gitconfig ${Type}:/root/.gitconfig"
+            $Command = "docker cp ${Env:USERPROFILE}/.gitconfig ${Name}:/root/.gitconfig"
             $Command | Write-Verbose
             if ($PSCmdlet.ShouldProcess("==> [INFO] Copy .gitconfig")) {
                 Invoke-Expression $Command
-                "==> [INFO] Copied .gitconfig file to ${Type}" | Write-Color -Green
+                "==> [INFO] Copied .gitconfig file to ${Name}" | Write-Color -Green
             }
         }
         'ssh' {
             $SshKey = "${Env:USERPROFILE}\.ssh\id_ed25519"
             $SshConfig = "${Env:USERPROFILE}\.ssh\config"
             if (Test-Path $SshKey) {
-                $Command = "docker exec -it ${Type} /bin/bash -c `"mkdir -p /root/.ssh`""
+                $Command = "docker exec -it ${Name} /bin/bash -c `"mkdir -p /root/.ssh`""
                 $Command | Write-Verbose
                 if ($PSCmdlet.ShouldProcess("==> [INFO] Create .ssh directory")) {
                     Invoke-Expression $Command
-                    "==> [INFO] Created .ssh directory on ${Type}" | Write-Color -Green
+                    "==> [INFO] Created .ssh directory on ${Name}" | Write-Color -Green
                 }
-                $Command = "docker cp $SshKey ${Type}:/root/.ssh/"
+                $Command = "docker cp $SshKey ${Name}:/root/.ssh/"
                 $Command | Write-Verbose
                 if ($PSCmdlet.ShouldProcess("==> [INFO] Copy SSH key")) {
                     Invoke-Expression $Command
-                    "==> [INFO] Copied SSH key to ${Type}" | Write-Color -Green
+                    "==> [INFO] Copied SSH key to ${Name}" | Write-Color -Green
                 }
-                $Command = "docker exec -it ${Type} /bin/bash -c `"chmod 600 /root/.ssh/id_ed25519`""
+                $Command = "docker exec -it ${Name} /bin/bash -c `"chmod 600 /root/.ssh/id_ed25519`""
                 $Command | Write-Verbose
                 if ($PSCmdlet.ShouldProcess("==> [INFO] Fix SSH key permissions")) {
                     Invoke-Expression $Command
-                    "==> [INFO] Fixed SSH key permissions on ${Type}" | Write-Color -Green
+                    "==> [INFO] Fixed SSH key permissions on ${Name}" | Write-Color -Green
                 }
             }
             if (Test-Path $SshConfig) {
-                $Command = "docker cp ${SshConfig} ${Type}:/root/.ssh/"
+                $Command = "docker cp ${SshConfig} ${Name}:/root/.ssh/"
                 $Command | Write-Verbose
                 if ($PSCmdlet.ShouldProcess("==> [INFO] Copy SSH configuration")) {
                     Invoke-Expression $Command
-                    "==> [INFO] Copied SSH configuration to ${Type}" | Write-Color -Green
+                    "==> [INFO] Copied SSH configuration to ${Name}" | Write-Color -Green
                 }
             }
         }
