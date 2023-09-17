@@ -9,7 +9,7 @@ dependencies:
   - gdal
   - geojson
   - geopandas
-  - geopolars
+  # - geopolars
   - keplergl
   - rasterio
   - rioxarray

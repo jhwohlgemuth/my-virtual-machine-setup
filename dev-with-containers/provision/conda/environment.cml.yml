@@ -33,7 +33,7 @@ dependencies:
     - deepchecks[vision]
     - great_expectations
     - huggingface-hub
-    - ivy-core
+    # - ivy-core
     - merlin-dataloader
     - nebullvm
     - safetensors
