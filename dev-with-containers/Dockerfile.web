@@ -38,6 +38,10 @@ RUN curl -L -o elm.gz https://github.com/elm/compiler/releases/download/0.19.1/b
     && python -m elm_kernel.install
 WORKDIR /usr/local/share/jupyter/kernels/elm
 COPY ./jupyter/logo_elm.png logo-64x64.png
+#
+# Install Wasp (https://wasp-lang.dev/)
+#
+RUN curl -sSL https://get.wasp-lang.dev/installer.sh | sh
 
 WORKDIR /root/dev
 ENTRYPOINT [ "/init" ]
