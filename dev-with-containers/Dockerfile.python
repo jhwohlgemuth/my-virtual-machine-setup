@@ -22,11 +22,12 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     && R -e "install.packages(c('formatR', 'jsonlite'), repos='http://cran.rstudio.com')" \
     && R -e "install.packages('IRkernel')" && R -e "IRkernel::installspec()"
 #
-# Install Perfomant Python tools and alternatives
+# Install Briefcase, perfomant Python tools, and Python alternatives
 #
 SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
 RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir \
+        briefcase \
         hy \
         jill \
         # pyjion \
