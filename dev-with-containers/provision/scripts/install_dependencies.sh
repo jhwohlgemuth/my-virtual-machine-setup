@@ -19,6 +19,7 @@ apt-get update && apt-get install --no-install-recommends -y \
     figlet \
     fuse-overlayfs \
     fzf \
+    gir1.2-webkit2-4.0 \
     git \
     gnupg \
     gnupg2 \
@@ -30,9 +31,11 @@ apt-get update && apt-get install --no-install-recommends -y \
     libblas-dev \
     libc6-dev \
     libcairo2-dev \
+    libcanberra-gtk3-module \
     libcurl4 \
     libedit2 \
     libffi-dev \
+    libgirepository1.0-dev \
     libgl1 \
     libgmp10 \
     libgmp-dev \
@@ -71,6 +74,7 @@ apt-get update && apt-get install --no-install-recommends -y \
     pkg-config \
     poppler-utils \
     python3-dev \
+    python3-venv \
     python3-pip \
     python3-setuptools \
     rlwrap \
