@@ -54,9 +54,10 @@
         "sumneko.lua"
     ],
     "rust": [
-        "bungcip.better-toml",
         "gengjiawen.vscode-wasm",
-        "rust-lang.rust-analyzer"
+        "rust-lang.rust-analyzer",
+        "serayuzgur.crates",
+        "tamasfe.even-better-toml"
     ],
     "web": [
         "bierner.color-info",
