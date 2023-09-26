@@ -39,7 +39,7 @@ Quickstarts
 -----------
 - [Customize your Windows Terminal and Powershell](dev-with-windows-terminal/)
 - [Achieve epic levels of synergistic productivity using Docker](dev-with-docker/)
-- [Development within virtual machines using Vagrant (and make your own with Packer)](dev-with-vagrant/)
+- [Development within virtual machines using Vagrant (and make your own with Packer)](dev-with-virtual-machines/)
 
 Future
 ------
