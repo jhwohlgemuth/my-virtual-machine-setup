@@ -105,8 +105,8 @@ RUN tar -C / -Jxpf /tmp/s6-overlay-x86_64.tar.xz
 SHELL ["/bin/bash", "-c"]
 ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-noarch.tar.xz /tmp
 ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-arch.tar.xz /tmp
-RUN tar -C / -Jxpf /tmp/s6-overlay-symlinks-noarch.tar.xz
-RUN tar -C / -Jxpf /tmp/s6-overlay-symlinks-arch.tar.xz
+RUN tar -C / -Jxpf /tmp/s6-overlay-symlinks-noarch.tar.xz \
+    && tar -C / -Jxpf /tmp/s6-overlay-symlinks-arch.tar.xz
 
 WORKDIR /root/dev
 ENTRYPOINT [ "/init" ]

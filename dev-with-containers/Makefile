@@ -25,11 +25,14 @@ format:
 	@dos2unix ./provision/scripts/install_dotnet.sh
 	@dos2unix ./provision/scripts/install_homebrew.sh
 	@dos2unix ./provision/scripts/install_ohmyzsh.sh
-	@dos2unix ./code-server/service/run
-	@dos2unix ./code-server/service/finish
 	@dos2unix ./code-server/install_extensions
-	@dos2unix ./jupyter/service/run
+	@dos2unix ./code-server/service/finish
+	@dos2unix ./code-server/service/run
 	@dos2unix ./jupyter/service/finish
+	@dos2unix ./jupyter/service/run
+	@dos2unix ./verdaccio/service/finish
+	@dos2unix ./verdaccio/service/log
+	@dos2unix ./verdaccio/service/run
 
 .PHONY: build-image
 build-image:format

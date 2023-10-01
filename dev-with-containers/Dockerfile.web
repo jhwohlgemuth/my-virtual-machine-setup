@@ -20,7 +20,7 @@ RUN . ${NVM_DIR}/nvm.sh \
     && npm init -y \
     && npm install --omit=dev ijavascript \
     && node_modules/ijavascript/bin/ijsinstall.js --spec-path=full \
-    && npm install --omit=dev --location=global verdaccio@6-next rescript esy \
+    && npm install --omit=dev --location=global verdaccio@next rescript esy \
     && chmod +x /etc/services.d/verdaccio/run /etc/services.d/verdaccio/finish
 RUN mkdir -p /verdaccio/storage /verdaccio/plugins /verdaccio/conf
 COPY ./verdaccio/.npmrc /root/
