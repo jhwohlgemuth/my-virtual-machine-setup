@@ -19,11 +19,11 @@ brew install \
     pipx \
     pixi \
     ripgrep \
-    teaxyz/pkgs/tea-cli \
     thefuck \
     tokei \
     up \
     yq
+curl -fsS https://tea.xyz | sh
 # shellcheck disable=SC2016
 {
     echo 'source <(tea --shellcode)'
