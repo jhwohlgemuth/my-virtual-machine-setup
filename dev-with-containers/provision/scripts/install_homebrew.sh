@@ -26,7 +26,7 @@ brew install \
     yq
 # shellcheck disable=SC2016
 {
-    echo 'source <(tea --magic=zsh)'
+    echo 'source <(tea --shellcode)'
     echo 'eval "$(direnv hook zsh)"'
     echo 'eval "$(thefuck --alias oops)"'
     echo 'alias sgrep=ast-grep'
