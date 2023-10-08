@@ -27,3 +27,8 @@ sed -i "s/export TERM=xterm/export TERM=xterm-256color/g" "${HOME}/.zshrc"
     echo "alias python=python3"
     echo "alias pip=pip3"
 } >> "${HOME}/.zshrc"
+#
+# Increase file watcher limit
+# https://code.visualstudio.com/docs/setup/linux#_visual-studio-code-is-unable-to-watch-for-file-changes-in-this-large-workspace-error-enospc
+#
+echo "fs.inotify.max_user_watches=524288" >> /proc/sys/fs/inotify/max_user_watches
