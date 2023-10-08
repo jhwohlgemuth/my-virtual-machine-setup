@@ -38,7 +38,7 @@ Why?
 Quickstarts
 -----------
 - [Customize your Windows Terminal and Powershell](dev-with-windows-terminal/)
-- [Achieve epic levels of synergistic productivity using Docker](dev-with-docker/)
+- [Achieve epic levels of synergistic productivity using containers](dev-with-containers/)
 - [Development within virtual machines using Vagrant (and make your own with Packer)](dev-with-virtual-machines/)
 
 Future
