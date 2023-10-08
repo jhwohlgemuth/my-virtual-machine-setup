@@ -33,6 +33,7 @@ format:
 	@dos2unix ./verdaccio/service/finish
 	@dos2unix ./verdaccio/service/log
 	@dos2unix ./verdaccio/service/run
+	@dos2unix ./config/.p10k.zsh
 
 .PHONY: build-image
 build-image:format

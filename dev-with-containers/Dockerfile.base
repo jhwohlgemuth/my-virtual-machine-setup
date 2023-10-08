@@ -60,6 +60,8 @@ RUN chmod +x ./install_homebrew.sh \
 WORKDIR /root
 SHELL ["/bin/bash", "-c"]
 COPY ./provision/scripts/install_conda.sh .
+ENV CONDA_DIR /opt/conda
+ENV PATH "${PATH}:${CONDA_DIR}/bin"
 RUN chmod +x ./install_conda.sh \
     && ./install_conda.sh \
     && rm ./install_conda.sh

@@ -16,6 +16,7 @@ brew install \
     grex \
     htmlq \
     nickel \
+    pkgxdev/made/pkgx \
     pipx \
     pixi \
     ripgrep \
@@ -23,10 +24,9 @@ brew install \
     tokei \
     up \
     yq
-curl -fsS https://tea.xyz | sh
+eval "$(pkgx integrate)"
 # shellcheck disable=SC2016
 {
-    echo 'source <(tea --shellcode)'
     echo 'eval "$(direnv hook zsh)"'
     echo 'eval "$(thefuck --alias oops)"'
     echo 'alias sgrep=ast-grep'
