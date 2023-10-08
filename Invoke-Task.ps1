@@ -1,6 +1,24 @@
 #!/usr/bin/env pwsh
 #Requires -Modules Prelude
 
+<#
+.SYNOPSIS
+Invoke a task
+
+.EXAMPLE
+# Configure SSH and Git for a running container named "notebook"
+
+./Invoke-Task.ps1 -Configure ssh,git -Name notebook
+.EXAMPLE
+# Create a new container
+
+./Invoke-Task.ps1 -Create -Type python -Name dev
+.EXAMPLE
+# Create an npm proxy
+
+./Invoke-Task.ps1 -Create -Type web -Proxy -Name proxy
+#>
+
 [CmdletBinding(SupportsShouldProcess = $True)]
 Param(
     [ValidateSet(
@@ -22,7 +40,8 @@ Param(
     [String[]] $Configure = @(),
     [Parameter(Mandatory = $False)]
     [String] $Name = 'notebook',
-    [String] $Namespace = 'jhwohlgemuth'
+    [String] $Namespace = 'jhwohlgemuth',
+    [Switch] $Proxy
 )
 function Get-Context {
     <#
@@ -59,9 +78,16 @@ function New-Container {
         Gpus = 'all'
         Name = $Name
         Hostname = $Context.Hostname
+        Restart = 'always'
         Volume = $Volume
     } | ConvertTo-ParameterString
     $Ports = switch ($Type) {
+        {$Proxy -eq $True} {
+            ,@(
+                4873
+            )
+            break
+        }
         'web' {
             @(
                 1337
@@ -71,6 +97,7 @@ function New-Container {
                 8111
                 13337
             )
+            break
         }
         default {
             @(
