@@ -49,15 +49,17 @@ WORKDIR /usr/local/bin
 RUN curl -fsSL https://developer.fermyon.com/downloads/install.sh | bash \
     && rm -frd crt.pem LICENSE README.md spin.sig
 #
-# Install WAsmcloud SHell
+# Install Cosmonic CLI and WAsmcloud SHell
 #
-RUN curl -s https://packagecloud.io/install/repositories/wasmcloud/core/script.deb.sh | sudo bash \
+RUN bash -c "$(curl -fsSL https://cosmonic.sh/install.sh)" \
+    && curl -s https://packagecloud.io/install/repositories/wasmcloud/core/script.deb.sh | sudo bash \
     && apt-get install --no-install-recommends -y wash \
     && apt-get clean \
     && rm -rf \
         /tmp/* \
         /var/lib/apt/lists/* \
         /var/tmp/*
+ENV PATH "${PATH}:/root/.cosmo/bin"
 
 WORKDIR /root/dev
 ENTRYPOINT [ "/init" ]
