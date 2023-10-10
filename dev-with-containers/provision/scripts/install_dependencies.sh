@@ -91,11 +91,3 @@ apt-get update && apt-get install --no-install-recommends -y \
     zip \
     zlib1g-dev \
     zsh
-#
-# Clean up
-#
-apt-get clean
-rm -rf \
-    /tmp/* \
-    /var/lib/apt/lists/* \
-    /var/tmp/*

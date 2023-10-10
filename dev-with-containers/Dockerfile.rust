@@ -51,15 +51,19 @@ RUN curl -fsSL https://developer.fermyon.com/downloads/install.sh | bash \
 #
 # Install Cosmonic CLI and WAsmcloud SHell
 #
+ENV PATH "${PATH}:/root/.cosmo/bin"
 RUN bash -c "$(curl -fsSL https://cosmonic.sh/install.sh)" \
     && curl -s https://packagecloud.io/install/repositories/wasmcloud/core/script.deb.sh | sudo bash \
-    && apt-get install --no-install-recommends -y wash \
-    && apt-get clean \
-    && rm -rf \
-        /tmp/* \
-        /var/lib/apt/lists/* \
-        /var/tmp/*
-ENV PATH "${PATH}:/root/.cosmo/bin"
+    && apt-get install --no-install-recommends -y wash
+#
+# Cleanup
+#
+WORKDIR /root
+SHELL ["/bin/bash", "-c"]
+COPY ./provision/scripts/cleanup.sh .
+RUN chmod +x ./cleanup.sh \
+    && ./cleanup.sh \
+    && rm ./cleanup.sh
 
 WORKDIR /root/dev
 ENTRYPOINT [ "/init" ]

@@ -11,11 +11,6 @@ EXPOSE 13337
 RUN apt-get update && apt-get install --no-install-recommends -y \
         coq \
         r-base \
-    && apt-get clean \
-    && rm -rf \
-        /tmp/* \
-        /var/lib/apt/lists/* \
-        /var/tmp/* \
     && mamba install --channel conda-forge --yes radian \
     && mamba clean -yaf \
     && echo 'alias r=radian' >> "${HOME}/.zshrc" \
@@ -64,6 +59,15 @@ RUN mamba create --name coq --channel conda-forge --yes coq-jupyter=1.6.0 python
     && mamba clean -yaf
 WORKDIR /usr/local/share/jupyter/kernels/coq
 COPY ./jupyter/logo_coq.png logo-64x64.png
+#
+# Cleanup
+#
+WORKDIR /root
+SHELL ["/bin/bash", "-c"]
+COPY ./provision/scripts/cleanup.sh .
+RUN chmod +x ./cleanup.sh \
+    && ./cleanup.sh \
+    && rm ./cleanup.sh
 
 WORKDIR /root/dev
 ENTRYPOINT [ "/init" ]

@@ -16,8 +16,6 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
         fop \
         libxml2-utils \
         xsltproc \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
     && curl -O https://raw.githubusercontent.com/kerl/kerl/master/kerl \
     && chmod a+x kerl \
     && kerl build ${ERL_VERSION} \
@@ -65,8 +63,6 @@ WORKDIR /root
 RUN apt-get update && apt-get install --no-install-recommends -y \
         ocaml \
         opam \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
     && opam init --disable-sandboxing --yes \
     && eval $(opam env) \
     && echo 'eval $(opam env)' >> "${HOME}/.zshrc" \
@@ -89,6 +85,15 @@ RUN curl -sSL https://get.haskellstack.org/ | sh \
     && pip3 install --no-cache-dir -r requirements.txt \
     && stack install --fast \
     && ihaskell install --stack
+#
+# Cleanup
+#
+WORKDIR /root
+SHELL ["/bin/bash", "-c"]
+COPY ./provision/scripts/cleanup.sh .
+RUN chmod +x ./cleanup.sh \
+    && ./cleanup.sh \
+    && rm ./cleanup.sh
 
 WORKDIR /root/dev
 ENTRYPOINT [ "/init" ]

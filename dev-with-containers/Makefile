@@ -10,6 +10,7 @@ lint: check
 .PHONY: check
 check:
 	@shellcheck ./code-server/install_extensions
+	@dos2unix ./provision/scripts/cleanup.sh
 	@shellcheck ./provision/scripts/install_code_server.sh
 	@shellcheck ./provision/scripts/install_conda.sh
 	@shellcheck ./provision/scripts/install_dependencies.sh
@@ -19,6 +20,7 @@ check:
 
 .PHONY: format
 format:
+	@dos2unix ./provision/scripts/cleanup.sh
 	@dos2unix ./provision/scripts/install_code_server.sh
 	@dos2unix ./provision/scripts/install_conda.sh
 	@dos2unix ./provision/scripts/install_dependencies.sh
