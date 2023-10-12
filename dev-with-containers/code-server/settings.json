@@ -15,5 +15,6 @@
             ]
         }
     },
-    "terminal.integrated.defaultProfile.linux": "zsh"
+    "terminal.integrated.defaultProfile.linux": "zsh",
+    "workbench.panel.defaultLocation": "right"
 }
