@@ -5,7 +5,6 @@
 sh -c "$(curl https://raw.githubusercontent.com/deluan/zsh-in-docker/master/zsh-in-docker.sh)" -- \
     -p colored-man-pages \
     -p encode64 \
-    -p extract \
     -p fzf \
     -p git \
     -p history-substring-search \
