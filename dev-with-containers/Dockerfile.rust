@@ -1,4 +1,4 @@
-FROM ghcr.io/jhwohlgemuth/notebook:latest
+FROM ghcr.io/jhwohlgemuth/notebook:latest as build
 
 LABEL author="Jason Wohlgemuth"
 LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
@@ -6,28 +6,10 @@ LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
 EXPOSE 1337
 EXPOSE 13337
 #
-# Install Rust language, libraries, and Jupyter kernel
-#
-SHELL ["/bin/bash", "-c"]
-RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
-ENV PATH "${PATH}:/root/.cargo/bin"
-RUN rustup toolchain install nightly \
-    && rustup target add wasm32-unknown-unknown --toolchain nightly \
-    && cargo install \
-        cargo-audit \
-        cargo-edit \
-        evcxr_repl \
-        wasm-bindgen-cli \
-        wasm-pack \
-        evcxr_jupyter \
-    && evcxr_jupyter --install
-#
 # Install WebAssembly runtimes
 #
 SHELL ["/bin/bash", "-c"]
-RUN /home/linuxbrew/.linuxbrew/bin/brew install wasmer wapm wasm3 \
-    # Wasmtime
-    && curl https://wasmtime.dev/install.sh -sSf | bash \
+RUN curl https://wasmtime.dev/install.sh -sSf | bash \
     && echo 'export WASMTIME_HOME="${HOME}/.wasmtime"' >> "${HOME}/.zshrc" \
     && echo 'export PATH="${WASMTIME_HOME}/bin:${PATH}"' >> "${HOME}/.zshrc" \
     # WasmEdge
@@ -49,10 +31,43 @@ WORKDIR /usr/local/bin
 RUN curl -fsSL https://developer.fermyon.com/downloads/install.sh | bash \
     && rm -frd crt.pem LICENSE README.md spin.sig
 #
-# Install Cosmonic CLI and WAsmcloud SHell
+# Install Cosmonic CLI
 #
+RUN bash -c "$(curl -fsSL https://cosmonic.sh/install.sh)"
+#
+# Build development image
+#
+FROM ghcr.io/jhwohlgemuth/notebook:latest as dev
+#
+# Install Rust language, libraries, and Jupyter kernel
+#
+SHELL ["/bin/bash", "-c"]
+RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
+ENV PATH "${PATH}:/root/.cargo/bin"
+RUN rustup toolchain install nightly \
+    && rustup target add wasm32-unknown-unknown --toolchain nightly \
+    && cargo install \
+        cargo-audit \
+        cargo-edit \
+        evcxr_repl \
+        wasm-bindgen-cli \
+        wasm-pack \
+        evcxr_jupyter \
+    && evcxr_jupyter --install
+COPY --from=build /root/.cosmo /root/.cosmo
+COPY --from=build /usr/local/bin/scale /usr/local/bin/scale
+COPY --from=build /usr/local/bin/wws /usr/local/bin/wws
+COPY --from=build /root/.wasmedge /root/.wasmedge
+COPY --from=build /root/.wasmtime /root/.wasmtime
 ENV PATH "${PATH}:/root/.cosmo/bin"
-RUN bash -c "$(curl -fsSL https://cosmonic.sh/install.sh)" \
+RUN echo 'export WASMTIME_HOME="${HOME}/.wasmtime"' >> "${HOME}/.zshrc" \
+    && echo 'export PATH="${WASMTIME_HOME}/bin:${PATH}"' >> "${HOME}/.zshrc" \
+    && echo '. "${HOME}/.wasmedge/env"' >> "${HOME}/.zshrc"
+#
+# Install WebAssembly runtimes and WAsmcloud SHell
+#
+RUN /home/linuxbrew/.linuxbrew/bin/brew install wasmer wapm wasm3 \
+    && /home/linuxbrew/.linuxbrew/bin/brew cleanup --prune=all \
     && curl -s https://packagecloud.io/install/repositories/wasmcloud/core/script.deb.sh | sudo bash \
     && apt-get install --no-install-recommends -y wash
 #

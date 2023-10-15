@@ -25,6 +25,7 @@ brew install \
     up \
     yq
 eval "$(pkgx integrate)"
+/home/linuxbrew/.linuxbrew/bin/brew cleanup --prune=all
 # shellcheck disable=SC2016
 {
     echo 'eval "$(direnv hook zsh)"'
