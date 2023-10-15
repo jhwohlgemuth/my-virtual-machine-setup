@@ -1,4 +1,4 @@
-FROM ghcr.io/jhwohlgemuth/dotnet:latest
+FROM ghcr.io/jhwohlgemuth/notebook:latest
 
 LABEL author="Jason Wohlgemuth"
 LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
@@ -42,6 +42,14 @@ COPY ./jupyter/logo_elm.png logo-64x64.png
 # Install Wasp (https://wasp-lang.dev/)
 #
 RUN curl -sSL https://get.wasp-lang.dev/installer.sh | sh
+#
+# Install Bun and htmlq
+#
+RUN /home/linuxbrew/.linuxbrew/bin/brew tap oven-sh/bun \
+    && /home/linuxbrew/.linuxbrew/bin/brew install \
+        bun \
+        htmlq \
+    && /home/linuxbrew/.linuxbrew/bin/brew cleanup --prune=all
 
 WORKDIR /root/dev
 ENTRYPOINT [ "/init" ]

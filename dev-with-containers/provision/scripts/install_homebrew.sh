@@ -4,18 +4,14 @@
 # shellcheck disable=SC2016
 echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> "${HOME}/.zshrc"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-brew tap oven-sh/bun
 brew install \
     ast-grep \
     bat \
     broot \
     btop \
-    bun \
     direnv \
     dust \
     grex \
-    htmlq \
-    nickel \
     pkgxdev/made/pkgx \
     pipx \
     pixi \
