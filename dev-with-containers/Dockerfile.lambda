@@ -1,4 +1,4 @@
-FROM ghcr.io/jhwohlgemuth/dotnet:latest
+FROM ghcr.io/jhwohlgemuth/notebook:latest
 
 LABEL author="Jason Wohlgemuth"
 LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env

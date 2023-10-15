@@ -66,7 +66,7 @@ graph LR
     notebook --> jvm
     notebook --> python
     notebook --> rust
-    dotnet --> lambda
+    notebook --> lambda
     dotnet --> web
 ```
 
