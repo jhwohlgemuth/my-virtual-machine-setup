@@ -74,17 +74,17 @@ WORKDIR /usr/local/share/jupyter/kernels/ocaml
 RUN sed -i 's/OCaml default/OCaml/' kernel.json
 COPY ./jupyter/logo_ocaml.png logo-64x64.png
 #
-# Install IHaskell kernel
-#
-SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
-WORKDIR /opt
-RUN git clone https://github.com/gibiansky/IHaskell
-WORKDIR /opt/IHaskell
-ENV PATH "${PATH}:/root/.local/bin"
-RUN curl -sSL https://get.haskellstack.org/ | sh \
-    && pip3 install --no-cache-dir -r requirements.txt \
-    && stack install --fast \
-    && ihaskell install --stack
+# BROKEN Install IHaskell kernel
+# 
+# SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
+# WORKDIR /opt
+# RUN git clone https://github.com/gibiansky/IHaskell
+# WORKDIR /opt/IHaskell
+# ENV PATH "${PATH}:/root/.local/bin"
+# RUN curl -sSL https://get.haskellstack.org/ | sh \
+#     && pip3 install --no-cache-dir -r requirements.txt \
+#     && stack install --fast \
+#     && ihaskell install --stack
 #
 # Cleanup
 #
