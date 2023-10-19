@@ -7,14 +7,19 @@ on:
   workflow_dispatch:
 
 jobs:
-  delete-untagged-images:
-    name: Delete Untagged Images
-    runs-on: ubuntu-latest
-    steps:
-      - uses: bots-house/ghcr-delete-image-action@v1.1.0
-        with:
-          # NOTE: at now only orgs is supported
-          owner: jhwohlgemuth
-          name: base
-          token: ${{ secrets.GITHUB_TOKEN }}
-          untagged-keep-latest: 1
+    delete-untagged-images:
+        permissions:
+          packages: write
+    
+        name: Delete Untagged Images
+        runs-on: ubuntu-latest
+        steps:
+            - name: Prune
+              uses: vlaurin/action-ghcr-prune@v0.5.0
+              with:
+                token: ${{ secrets.GITHUB_TOKEN }}
+                user: jhwohlgemuth
+                container: base
+                keep-last: 1
+                prune-untagged: true
+              
