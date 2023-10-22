@@ -2,6 +2,8 @@ name: Image Maintenance
 
 env:
     ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    KEEP_UNTAGGED_COUNT: 1
+    USER: jhwohlgemuth
 
 on:
   workflow_dispatch:
@@ -17,26 +19,71 @@ jobs:
             - name: Prune Base
               uses: vlaurin/action-ghcr-prune@v0.5.0
               with:
-                token: ${{ secrets.GITHUB_TOKEN }}
-                user: jhwohlgemuth
                 container: base
-                keep-last: 1
+                token: ${{ env.ACCESS_TOKEN }}
+                user: ${{ env.USER }}
+                keep-last: ${{ env.KEEP_UNTAGGED_COUNT }}
                 prune-untagged: true
 
             - name: Prune Notebook
               uses: vlaurin/action-ghcr-prune@v0.5.0
               with:
-                token: ${{ secrets.GITHUB_TOKEN }}
-                user: jhwohlgemuth
                 container: notebook
-                keep-last: 1
+                token: ${{ env.ACCESS_TOKEN }}
+                user: ${{ env.USER }}
+                keep-last: ${{ env.KEEP_UNTAGGED_COUNT }}
                 prune-untagged: true
 
             - name: Prune Python
               uses: vlaurin/action-ghcr-prune@v0.5.0
               with:
-                token: ${{ secrets.GITHUB_TOKEN }}
-                user: jhwohlgemuth
                 container: python
-                keep-last: 1
+                token: ${{ env.ACCESS_TOKEN }}
+                user: ${{ env.USER }}
+                keep-last: ${{ env.KEEP_UNTAGGED_COUNT }}
+                prune-untagged: true
+
+            - name: Prune Rust
+              uses: vlaurin/action-ghcr-prune@v0.5.0
+              with:
+                container: rust
+                token: ${{ env.ACCESS_TOKEN }}
+                user: ${{ env.USER }}
+                keep-last: ${{ env.KEEP_UNTAGGED_COUNT }}
+                prune-untagged: true
+
+            - name: Prune JVM
+              uses: vlaurin/action-ghcr-prune@v0.5.0
+              with:
+                container: jvm
+                token: ${{ env.ACCESS_TOKEN }}
+                user: ${{ env.USER }}
+                keep-last: ${{ env.KEEP_UNTAGGED_COUNT }}
+                prune-untagged: true
+
+            - name: Prune Web
+              uses: vlaurin/action-ghcr-prune@v0.5.0
+              with:
+                container: web
+                token: ${{ env.ACCESS_TOKEN }}
+                user: ${{ env.USER }}
+                keep-last: ${{ env.KEEP_UNTAGGED_COUNT }}
+                prune-untagged: true
+
+            - name: Prune DOTNET
+              uses: vlaurin/action-ghcr-prune@v0.5.0
+              with:
+                container: dotnet
+                token: ${{ env.ACCESS_TOKEN }}
+                user: ${{ env.USER }}
+                keep-last: ${{ env.KEEP_UNTAGGED_COUNT }}
+                prune-untagged: true
+
+            - name: Prune Lambda
+              uses: vlaurin/action-ghcr-prune@v0.5.0
+              with:
+                container: lambda
+                token: ${{ env.ACCESS_TOKEN }}
+                user: ${{ env.USER }}
+                keep-last: ${{ env.KEEP_UNTAGGED_COUNT }}
                 prune-untagged: true
