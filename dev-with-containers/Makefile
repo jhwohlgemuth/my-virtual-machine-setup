@@ -9,33 +9,18 @@ lint: check
 
 .PHONY: check
 check:
-	@shellcheck ./code-server/install_extensions
-	@dos2unix ./provision/scripts/cleanup.sh
-	@shellcheck ./provision/scripts/install_code_server.sh
-	@shellcheck ./provision/scripts/install_conda.sh
-	@shellcheck ./provision/scripts/install_dependencies.sh
-	@shellcheck ./provision/scripts/install_dotnet.sh
-	@shellcheck ./provision/scripts/install_homebrew.sh
-	@shellcheck ./provision/scripts/install_ohmyzsh.sh
+	@for script in $(SCRIPTS) ; do \
+        shellcheck $$script; \
+    done
 
 .PHONY: format
 format:
-	@dos2unix ./provision/scripts/cleanup.sh
-	@dos2unix ./provision/scripts/install_code_server.sh
-	@dos2unix ./provision/scripts/install_conda.sh
-	@dos2unix ./provision/scripts/install_dependencies.sh
-	@dos2unix ./provision/scripts/install_dotnet.sh
-	@dos2unix ./provision/scripts/install_homebrew.sh
-	@dos2unix ./provision/scripts/install_ohmyzsh.sh
-	@dos2unix ./code-server/install_extensions
-	@dos2unix ./code-server/service/finish
-	@dos2unix ./code-server/service/run
-	@dos2unix ./jupyter/service/finish
-	@dos2unix ./jupyter/service/run
-	@dos2unix ./verdaccio/service/finish
-	@dos2unix ./verdaccio/service/log
-	@dos2unix ./verdaccio/service/run
-	@dos2unix ./config/.p10k.zsh
+	@for script in $(SCRIPTS) ; do \
+        dos2unix $$script; \
+    done
+	@for file in $(FILES) ; do \
+        dos2unix $$file; \
+    done
 
 .PHONY: build-image
 build-image:format
@@ -108,3 +93,22 @@ IGNORE_RULES = \
 	--ignore SC1091 \
 	--ignore SC2038 \
 	--ignore SC2086
+SCRIPTS = \
+	./code-server/install_extensions \
+	./provision/scripts/cleanup.sh \
+	./provision/scripts/install_code_server.sh \
+	./provision/scripts/install_conda.sh \
+	./provision/scripts/install_dependencies.sh \
+	./provision/scripts/install_dotnet.sh \
+	./provision/scripts/install_homebrew.sh \
+	./provision/scripts/install_ohmyzsh.sh \
+	./provision/scripts/install_singularity.sh
+FILES = \
+	./code-server/service/finish \
+	./code-server/service/run \
+	./jupyter/service/finish \
+	./jupyter/service/run \
+	./verdaccio/service/finish \
+	./verdaccio/service/log \
+	./verdaccio/service/run \
+	./config/.p10k.zsh
