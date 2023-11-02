@@ -66,15 +66,6 @@ RUN chmod +x ./install_conda.sh \
     && ./install_conda.sh \
     && rm ./install_conda.sh
 #
-# Install nvm (Node.js)
-#
-SHELL ["/bin/bash", "-c"]
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
-ENV PATH "${PATH}:/root/bin"
-ENV NVM_DIR /root/.nvm
-ENV NODE_OPTIONS "--max-old-space-size=8192"
-RUN echo ". ${NVM_DIR}/nvm.sh" >> "${HOME}/.zshrc"
-#
 # Install .NET and PowerShell
 #
 WORKDIR /root
