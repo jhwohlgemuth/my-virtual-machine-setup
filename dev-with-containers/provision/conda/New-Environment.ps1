@@ -66,7 +66,8 @@ End {
         $InstallToContainer = ![String]::IsNullOrEmpty($Container)
         $SubCommand = if ($Update) { 'env update' } else { 'env create' }
         $Command = if ($InstallToContainer) {
-            "docker exec -it ${Container} /bin/zsh -c `"/root/miniconda3/bin/mamba ${SubCommand} --file /root/${Output}`""
+            $Mamba = '/opt/conda/bin/mamba' # '/root/miniconda3/bin/mamba'
+            "docker exec -it ${Container} /bin/zsh -c `"${Mamba} ${SubCommand} --file /root/${Output}`""
         } else {
             "mamba ${SubCommand} --prefix $Env:_CONDA_ROOT\envs\${Name} --file ${Output}"
         }
