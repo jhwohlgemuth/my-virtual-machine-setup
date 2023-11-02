@@ -11,4 +11,4 @@ Files
 
 Inputs
 ------
-- `image-name`: The name of the image to build and push (ex: base)
+- `image-name`: The name of the image to build and push (ex: dev)

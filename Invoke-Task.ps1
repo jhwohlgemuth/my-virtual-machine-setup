@@ -22,7 +22,7 @@ Invoke a task
 [CmdletBinding(SupportsShouldProcess = $True)]
 Param(
     [ValidateSet(
-        'base',
+        'dev',
         'dotnet',
         'jvm',
         'lambda',

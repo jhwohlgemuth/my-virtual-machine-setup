@@ -6,7 +6,7 @@ inputs:
   image-name:
     description: 'Image name'
     required: true
-    default: 'base'
+    default: 'dev'
 
 runs:
   using: 'docker'

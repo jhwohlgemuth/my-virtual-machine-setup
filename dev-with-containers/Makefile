@@ -38,8 +38,8 @@ all:
         $(MAKE) --no-print-directory $$image ; \
     done
 
-.PHONY: base
-base:
+.PHONY: dev
+dev:
 	@$(MAKE) TASK=$@ --no-print-directory build-image
 
 .PHONY: dotnet
@@ -75,7 +75,7 @@ web:
 CONTAINER_REGISTRY = ghcr.io
 REPO = jhwohlgemuth
 IMAGES = \
-	base \
+	dev \
 	notebook \
 	python \
 	rust \
