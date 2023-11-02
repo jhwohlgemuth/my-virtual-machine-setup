@@ -23,7 +23,7 @@ SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
 WORKDIR /root/dev/notebooks
 COPY ./verdaccio/service/* /etc/services.d/verdaccio/
 RUN . ${NVM_DIR}/nvm.sh \
-    && nvm install node \
+    && nvm install --lts \
     && mkdir ijavascript \
     && cd ijavascript \
     && npm init -y \
