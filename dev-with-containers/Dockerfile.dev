@@ -76,6 +76,15 @@ RUN chmod +x ./install_dotnet.sh \
     && ./install_dotnet.sh \
     && rm ./install_dotnet.sh
 #
+# Install Apptainer
+#
+WORKDIR /root
+SHELL ["/bin/bash", "-c"]
+COPY ./provision/scripts/install_apptainer.sh .
+RUN chmod +x ./install_apptainer.sh \
+    && ./install_apptainer.sh \
+    && rm ./install_apptainer.sh
+#
 # Install and configure oh-my-posh
 #
 WORKDIR /root

@@ -96,13 +96,13 @@ IGNORE_RULES = \
 SCRIPTS = \
 	./code-server/install_extensions \
 	./provision/scripts/cleanup.sh \
+	./provision/scripts/install_apptainer.sh \
 	./provision/scripts/install_code_server.sh \
 	./provision/scripts/install_conda.sh \
 	./provision/scripts/install_dependencies.sh \
 	./provision/scripts/install_dotnet.sh \
 	./provision/scripts/install_homebrew.sh \
-	./provision/scripts/install_ohmyzsh.sh \
-	./provision/scripts/install_singularity.sh
+	./provision/scripts/install_ohmyzsh.sh
 FILES = \
 	./code-server/service/finish \
 	./code-server/service/run \
