@@ -19,7 +19,7 @@ on:
       - "dev-with-containers/Dockerfile.elixir"
 
 jobs:
-  lambda:
+  elixir:
     runs-on: ubuntu-latest
     permissions:
       contents: read
