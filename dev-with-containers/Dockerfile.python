@@ -8,9 +8,7 @@ EXPOSE 13337
 #
 # Install R language and kernel
 #
-RUN apt-get update && apt-get install --no-install-recommends -y \
-        coq \
-        r-base \
+RUN apt-get update && apt-get install --no-install-recommends -y r-base \
     && mamba install --channel conda-forge --yes radian \
     && mamba clean -yaf \
     && echo 'alias r=radian' >> "${HOME}/.zshrc" \
@@ -51,14 +49,6 @@ RUN /home/linuxbrew/.linuxbrew/bin/brew install lua luarocks \
 #
 SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
 RUN jill install --confirm && julia -e 'using Pkg;Pkg.add("IJulia")'
-#
-# Install Coq kernel
-#
-SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
-RUN mamba create --name coq --channel conda-forge --yes coq-jupyter=1.6.0 python=3.10 \
-    && mamba clean -yaf
-WORKDIR /usr/local/share/jupyter/kernels/coq
-COPY ./jupyter/logo_coq.png logo-64x64.png
 #
 # Cleanup
 #
