@@ -1,8 +1,8 @@
-name: Build and push LAMBDA
+name: Build and push ELIXIR
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: lambda
+  IMAGE_NAME: elixir
   ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 on:
@@ -16,7 +16,7 @@ on:
     branches:
       - master
     paths:
-      - "dev-with-containers/Dockerfile.lambda"
+      - "dev-with-containers/Dockerfile.elixir"
 
 jobs:
   lambda:

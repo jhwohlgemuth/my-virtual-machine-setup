@@ -6,55 +6,6 @@ LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
 EXPOSE 1337
 EXPOSE 13337
 #
-# Install kerl, Erlang
-#
-SHELL ["/bin/sh", "-c"]
-WORKDIR /usr/local/bin
-ENV ERL_VERSION "23.3.4.11"
-# ENV ERL_VERSION "24.2.1"
-RUN apt-get update && apt-get install --no-install-recommends -y \
-        fop \
-        libxml2-utils \
-        xsltproc \
-    && curl -O https://raw.githubusercontent.com/kerl/kerl/master/kerl \
-    && chmod a+x kerl \
-    && kerl build ${ERL_VERSION} \
-    && kerl install ${ERL_VERSION} "${HOME}/kerl/${ERL_VERSION}" \
-    && . "${HOME}/kerl/${ERL_VERSION}/activate" \
-    && echo "source ${HOME}/kerl/${ERL_VERSION}/activate" >> "${HOME}/.zshrc"
-#
-# Install kiex and Elixir
-#
-SHELL ["/bin/bash", "-c"]
-WORKDIR /root
-ENV ELIXIR_VERSION "1.12.3"
-# ENV ELIXIR_VERSION "1.13.3"
-RUN curl -sSL https://raw.githubusercontent.com/taylor/kiex/master/install | bash -s \
-    && echo "source ${HOME}/.kiex/scripts/kiex" >> "${HOME}/.zshrc" \
-    && source "${HOME}/kerl/${ERL_VERSION}"/activate \
-    && source "${HOME}/.kiex/scripts/kiex" \
-    && kiex install ${ELIXIR_VERSION} \
-    && kiex use ${ELIXIR_VERSION} \
-    && kiex default ${ELIXIR_VERSION}
-COPY ./config/.iex.exs /root/
-#
-# Install Elixir kernel
-# Note: Includes temporary fix that can be removed after https://github.com/pprzetacznik/IElixir/pull/60 is merged
-#
-SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
-WORKDIR /opt
-RUN git clone https://github.com/pprzetacznik/IElixir.git
-WORKDIR /opt/IElixir
-ENV PATH "${PATH}:/root/kerl/${ERL_VERSION}/bin"
-ENV PATH "${PATH}:/root/.kiex/elixirs/elixir-${ELIXIR_VERSION}/bin"
-RUN . "/root/kerl/${ERL_VERSION}"/activate \
-    && mix local.hex --force \
-    && mix local.rebar --force \
-    && mix deps.get \
-    && mix deps.compile \
-    && sed -i 's/python/python3/g' install_script.sh \
-    && ./install_script.sh
-#
 # Install OCaml kernel
 # Note: Needs to be executed first(?)
 #
