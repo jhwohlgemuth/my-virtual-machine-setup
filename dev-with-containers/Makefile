@@ -46,6 +46,10 @@ dev:
 dotnet:
 	@$(MAKE) TASK=$@ --no-print-directory build-image
 
+.PHONY: elixir
+elixir:
+	@$(MAKE) TASK=$@ --no-print-directory build-image
+
 .PHONY: notebook
 notebook:
 	@$(MAKE) TASK=$@ --no-print-directory build-image
