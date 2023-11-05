@@ -12,14 +12,16 @@
         "redhat.vscode-xml",
         "unoplatform.vscode"
     ],
+    "elixir": [
+        "elixir-lsp.elixir-ls",
+        "jakebecker.elixir-ls"
+    ],
     "jvm": [
         "lightbend.vscode-sbt-scala",
         "scala-lang.scala"
     ],
     "lambda": [
-        "elixir-lsp.elixir-ls",
         "haskell.haskell",
-        "jakebecker.elixir-ls",
         "justusadam.language-haskell",
         "ocamllabs.ocaml-platform"
     ],
