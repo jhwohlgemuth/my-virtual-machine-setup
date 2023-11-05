@@ -6,7 +6,7 @@ LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
 EXPOSE 1337
 EXPOSE 13337
 #
-# Install kerl, Erlang
+# Install kerl and Erlang
 #
 SHELL ["/bin/sh", "-c"]
 WORKDIR /usr/local/bin
