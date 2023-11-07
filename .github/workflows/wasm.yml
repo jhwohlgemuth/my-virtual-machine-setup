@@ -2,7 +2,7 @@ name: Build and push WASM
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: rust
+  IMAGE_NAME: wasm
   ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 on:
