@@ -70,6 +70,10 @@ python:
 rust:
 	@$(MAKE) TASK=$@ --no-print-directory build-image
 
+.PHONY: wasm
+wasm:
+	@$(MAKE) TASK=$@ --no-print-directory build-image
+
 .PHONY: web
 web:
 	@$(MAKE) TASK=$@ --no-print-directory build-image
@@ -80,11 +84,12 @@ CONTAINER_REGISTRY = ghcr.io
 REPO = jhwohlgemuth
 IMAGES = \
 	dev \
+	dotnet \
 	notebook \
 	python \
-	rust \
 	jvm \
-	dotnet \
+	rust \
+	wasm \
 	web \
 	lambda
 IGNORE_RULES = \
