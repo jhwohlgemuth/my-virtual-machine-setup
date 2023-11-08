@@ -39,7 +39,7 @@ RUN bash -c "$(curl -fsSL https://cosmonic.sh/install.sh)"
 #
 FROM ghcr.io/jhwohlgemuth/rust:latest as dev
 #
-# Install Rust language, libraries, and Jupyter kernel
+# Install Rust wasm tooling
 #
 SHELL ["/bin/bash", "-c"]
 RUN rustup target add wasm32-unknown-unknown --toolchain nightly \
