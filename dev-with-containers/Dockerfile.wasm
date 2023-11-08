@@ -48,6 +48,7 @@ RUN rustup target add wasm32-unknown-unknown --toolchain nightly \
         wasm-pack
 COPY --from=build /root/.cosmo /root/.cosmo
 COPY --from=build /usr/local/bin/scale /usr/local/bin/scale
+COPY --from=build /usr/local/bin/spin /usr/local/bin/spin
 COPY --from=build /usr/local/bin/wws /usr/local/bin/wws
 COPY --from=build /root/.wasmedge /root/.wasmedge
 COPY --from=build /root/.wasmtime /root/.wasmtime
