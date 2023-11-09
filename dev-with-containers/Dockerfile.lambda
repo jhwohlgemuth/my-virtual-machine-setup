@@ -48,7 +48,8 @@ RUN curl -sSL https://get.haskellstack.org/ | sh \
 #
 # Install Node.js and Ruby (using asdf)
 #
-RUN asdf plugin add nodejs \
+RUN . "$(brew --prefix asdf)/libexec/asdf.sh" \
+    && asdf plugin add nodejs \
     && asdf install nodejs latest \
     && asdf global nodejs latest \
     && asdf plugin add ruby \
