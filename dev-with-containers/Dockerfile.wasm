@@ -42,7 +42,8 @@ FROM ghcr.io/jhwohlgemuth/rust:latest as dev
 # Install Rust wasm tooling
 #
 SHELL ["/bin/bash", "-c"]
-RUN rustup target add wasm32-unknown-unknown --toolchain nightly \
+RUN rustup target add wasm32-wasi \
+    && rustup target add wasm32-unknown-unknown --toolchain nightly \
     && cargo install \
         wasm-bindgen-cli \
         wasm-pack
