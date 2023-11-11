@@ -6,45 +6,25 @@ LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
 EXPOSE 1337
 EXPOSE 13337
 #
-# Install Coq language and kernel
-#
-SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
-RUN apt-get update && apt-get install --no-install-recommends -y coq\
-    &&mamba create --name coq --channel conda-forge --yes coq-jupyter=1.6.0 python=3.10 \
-    && mamba clean -yaf
-WORKDIR /usr/local/share/jupyter/kernels/coq
-COPY ./jupyter/logo_coq.png logo-64x64.png
-#
 # Install OCaml kernel
 # Note: Needs to be executed first(?)
 #
-SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
 WORKDIR /root
-RUN apt-get update && apt-get install --no-install-recommends -y \
-        ocaml \
-        opam \
-    && opam init --disable-sandboxing --yes \
-    && eval $(opam env) \
-    && echo 'eval $(opam env)' >> "${HOME}/.zshrc" \
-    && opam install jupyter merlin dune --yes \
-    && eval $(opam env) \
-    && ocaml-jupyter-opam-genspec \
-    && jupyter kernelspec install --name "OCaml" "$(opam var share)/jupyter"
+SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
+RUN chmod +x ./install_opam.sh \
+    && ./install_opam.sh \
+    && rm ./install_opam.sh
 WORKDIR /usr/local/share/jupyter/kernels/ocaml
 RUN sed -i 's/OCaml default/OCaml/' kernel.json
 COPY ./jupyter/logo_ocaml.png logo-64x64.png
 #
-# BROKEN Install IHaskell kernel
-# 
-SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
-WORKDIR /opt
-RUN git clone https://github.com/gibiansky/IHaskell
-WORKDIR /opt/IHaskell
-ENV PATH "${PATH}:/root/.local/bin"
-RUN curl -sSL https://get.haskellstack.org/ | sh \
-    && pip3 install --no-cache-dir -r requirements.txt \
-    && stack install --fast \
-    && ihaskell install --stack
+# Install Coq language and kernel
+#
+RUN chmod +x ./install_coq.sh \
+    && ./install_coq.sh \
+    && rm ./install_coq.sh
+WORKDIR /usr/local/share/jupyter/kernels/coq
+COPY ./jupyter/logo_coq.png logo-64x64.png
 #
 # Install Node.js and Ruby (using asdf)
 #
@@ -54,10 +34,6 @@ RUN . "$(/home/linuxbrew/.linuxbrew/bin/brew --prefix asdf)/libexec/asdf.sh" \
     && asdf install nodejs latest && asdf global nodejs latest
 # RUN . "$(/home/linuxbrew/.linuxbrew/bin/brew --prefix asdf)/libexec/asdf.sh" \
 #     && asdf install ruby latest && asdf global ruby latest
-#
-# Install Aeneas, Creusot, and coq-of-rust 
-#
-RUN echo "WIP"
 #
 # Cleanup
 #

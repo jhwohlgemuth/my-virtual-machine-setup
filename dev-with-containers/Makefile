@@ -108,10 +108,12 @@ SCRIPTS = \
 	./provision/scripts/install_apptainer.sh \
 	./provision/scripts/install_code_server.sh \
 	./provision/scripts/install_conda.sh \
+	./provision/scripts/install_coq.sh \
 	./provision/scripts/install_dependencies.sh \
 	./provision/scripts/install_dotnet.sh \
 	./provision/scripts/install_homebrew.sh \
-	./provision/scripts/install_ohmyzsh.sh
+	./provision/scripts/install_ohmyzsh.sh \
+	./provision/scripts/install_opam.sh
 FILES = \
 	./code-server/service/finish \
 	./code-server/service/run \
