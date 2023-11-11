@@ -5,12 +5,13 @@ LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
 
 EXPOSE 1337
 EXPOSE 13337
+SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
 #
 # Install OCaml kernel
 # Note: Needs to be executed first(?)
 #
 WORKDIR /root
-SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
+COPY ./provision/scripts/install_opam.sh .
 RUN chmod +x ./install_opam.sh \
     && ./install_opam.sh \
     && rm ./install_opam.sh
@@ -20,6 +21,8 @@ COPY ./jupyter/logo_ocaml.png logo-64x64.png
 #
 # Install Coq language and kernel
 #
+WORKDIR /root
+COPY ./provision/scripts/isntall_coq.sh .
 RUN chmod +x ./install_coq.sh \
     && ./install_coq.sh \
     && rm ./install_coq.sh
