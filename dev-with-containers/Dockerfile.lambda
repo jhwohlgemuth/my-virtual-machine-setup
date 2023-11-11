@@ -22,7 +22,7 @@ COPY ./jupyter/logo_ocaml.png logo-64x64.png
 # Install Coq language and kernel
 #
 WORKDIR /root
-COPY ./provision/scripts/isntall_coq.sh .
+COPY ./provision/scripts/install_coq.sh .
 RUN chmod +x ./install_coq.sh \
     && ./install_coq.sh \
     && rm ./install_coq.sh
