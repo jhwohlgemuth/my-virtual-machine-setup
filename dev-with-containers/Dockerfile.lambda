@@ -5,55 +5,55 @@ LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
 
 EXPOSE 1337
 EXPOSE 13337
+#
+# Install Ruby
+#
+WORKDIR /root
+COPY ./provision/scripts/install_ruby.sh .
+RUN chmod +x ./install_ruby.sh && ./install_ruby.sh && rm ./install_ruby.sh
+#
+# Install Node.js (using asdf)
+#
+WORKDIR /root
+SHELL ["/bin/bash", "-lc"]
+RUN . "$(/home/linuxbrew/.linuxbrew/bin/brew --prefix asdf)/libexec/asdf.sh" \
+    && asdf plugin add nodejs && asdf install nodejs latest && asdf global nodejs latest
+#
+# Install OCaml
+#
+WORKDIR /root
 SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
-#
-# Install OCaml kernel
-# Note: Needs to be executed first(?)
-#
-WORKDIR /root
-COPY ./provision/scripts/install_opam.sh .
-RUN chmod +x ./install_opam.sh \
-    && ./install_opam.sh \
-    && rm ./install_opam.sh
+# ocaml-jupyter does not support OCaml 5.0
+# See https://github.com/akabe/ocaml-jupyter/pull/199
+ENV OCAML_VERSION 4.14.1
+COPY ./provision/scripts/install_ocaml.sh .
+RUN chmod +x ./install_ocaml.sh && ./install_ocaml.sh && rm ./install_ocaml.sh
 COPY ./jupyter/logo_ocaml.png /usr/local/share/jupyter/kernels/ocaml/logo-64x64.png
-#
-# Install theorem provers
-#
-WORKDIR /root
-ENV COQ_VERSION 8.18.0
-COPY ./provision/scripts/install_provers.sh .
-RUN chmod +x ./install_provers.sh \
-    && ./install_provers.sh \
-    && rm ./install_provers.sh
+RUN mkdir -p /root/.config/utop
+WORKDIR /root/.config/utop
+COPY ./config/utoprc .
 #
 # Install Coq language and kernel
 #
 WORKDIR /root
 ENV COQ_VERSION 8.18.0
 COPY ./provision/scripts/install_coq.sh .
-RUN chmod +x ./install_coq.sh \
-    && ./install_coq.sh \
-    && rm ./install_coq.sh
+RUN chmod +x ./install_coq.sh && ./install_coq.sh && rm ./install_coq.sh
 WORKDIR /usr/local/share/jupyter/kernels/coq
 COPY ./jupyter/logo_coq.png logo-64x64.png
 #
-# Install Node.js and Ruby (using asdf)
+# Install theorem provers
 #
-SHELL ["/bin/bash", "-lc"]
-RUN . "$(/home/linuxbrew/.linuxbrew/bin/brew --prefix asdf)/libexec/asdf.sh" \
-    && asdf plugin add nodejs && asdf plugin add ruby \
-    && asdf install nodejs latest && asdf global nodejs latest
-# RUN . "$(/home/linuxbrew/.linuxbrew/bin/brew --prefix asdf)/libexec/asdf.sh" \
-#     && asdf install ruby latest && asdf global ruby latest
+WORKDIR /root
+COPY ./provision/scripts/install_provers.sh .
+RUN chmod +x ./install_provers.sh && ./install_provers.sh && rm ./install_provers.sh
 #
 # Cleanup
 #
 WORKDIR /root
 SHELL ["/bin/bash", "-c"]
 COPY ./provision/scripts/cleanup.sh .
-RUN chmod +x ./cleanup.sh \
-    && ./cleanup.sh \
-    && rm ./cleanup.sh
+RUN chmod +x ./cleanup.sh && ./cleanup.sh && rm ./cleanup.sh
 
 WORKDIR /root/dev
 ENTRYPOINT [ "/init" ]

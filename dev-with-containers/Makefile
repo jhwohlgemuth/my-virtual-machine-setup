@@ -113,8 +113,9 @@ SCRIPTS = \
 	./provision/scripts/install_dotnet.sh \
 	./provision/scripts/install_homebrew.sh \
 	./provision/scripts/install_ohmyzsh.sh \
-	./provision/scripts/install_opam.sh \
-	./provision/scripts/install_provers.sh
+	./provision/scripts/install_ocaml.sh \
+	./provision/scripts/install_provers.sh \
+	./provision/scripts/install_ruby.sh
 FILES = \
 	./code-server/service/finish \
 	./code-server/service/run \
@@ -123,4 +124,5 @@ FILES = \
 	./verdaccio/service/finish \
 	./verdaccio/service/log \
 	./verdaccio/service/run \
-	./config/.p10k.zsh
+	./config/.p10k.zsh \
+	./config/utoprc

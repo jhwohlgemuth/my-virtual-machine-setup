@@ -6,8 +6,7 @@ opam repo add coq-released https://coq.inria.fr/opam/released
 opam repo add coq-core-dev https://coq.inria.fr/opam/core-dev
 opam repo add coq-extra-dev https://coq.inria.fr/opam/extra-dev
 opam pin add coq ${COQ_VERSION}
-opam install coq-lsp coq-hammer --yes
-# opam install vscoq-language-server --yes
+opam install coq-hammer vscoq-language-server --yes
 #
 # Install Jupyter kernel
 #

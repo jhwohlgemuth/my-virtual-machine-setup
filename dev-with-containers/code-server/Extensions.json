@@ -1,4 +1,8 @@
 {
+    "coq": [
+        "maximedenes.vscoq",
+        "ocamllabs.ocaml-platform"
+    ],
     "dotnet": [
         "icsharpcode.ilspy-vscode",
         "ionide.ionide-fake",
@@ -19,11 +23,6 @@
     "jvm": [
         "lightbend.vscode-sbt-scala",
         "scala-lang.scala"
-    ],
-    "lambda": [
-        "ejgallego.coq-lsp",
-        "maximedenes.vscoq",
-        "ocamllabs.ocaml-platform"
     ],
     "notebook": [
         "aaron-bond.better-comments",
