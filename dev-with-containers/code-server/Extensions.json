@@ -21,8 +21,8 @@
         "scala-lang.scala"
     ],
     "lambda": [
-        "haskell.haskell",
-        "justusadam.language-haskell",
+        "ejgallego.coq-lsp",
+        "maximedenes.vscoq",
         "ocamllabs.ocaml-platform"
     ],
     "notebook": [
