@@ -1,5 +1,12 @@
 #! /bin/sh
 #
+# CVC5
+#
+cd /usr/bin
+wget https://github.com/cvc5/cvc5/releases/download/cvc5-1.0.8/cvc5-Linux -O cvc5
+chmod u+x cvc5
+cd /root
+#
 # Install eprover
 #
 mkdir -p /eprover && cd /eprover
