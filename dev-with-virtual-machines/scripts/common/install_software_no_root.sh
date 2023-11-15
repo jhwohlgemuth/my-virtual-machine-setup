@@ -22,7 +22,7 @@ install_firacode() {
         file_url="https://github.com/tonsky/FiraCode/blob/master/distr/ttf/FiraCode-${type}.ttf?raw=true"
         if [ ! -e "${file_path}" ]; then
             log "Downloading font - ${type}"
-            wget -O "${file_path}" "${file_url}"
+            curl -o "${file_path}" "${file_url}"
         else
             log "✔ Found existing file: ${type}"
         fi;

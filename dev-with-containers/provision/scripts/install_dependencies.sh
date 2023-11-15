@@ -87,7 +87,6 @@ apt-get update && apt-get install --no-install-recommends -y \
     tzdata \
     unzip \
     uuid-dev \
-    wget \
     zip \
     zlib1g-dev \
     zsh

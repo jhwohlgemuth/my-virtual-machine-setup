@@ -67,8 +67,8 @@ install_ohmyzsh_plugins() {
 }
 install_powerline_font() {
     log "Installing powerline font"
-    wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
-    wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
+    curl -O https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
+    curl -O https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
     mkdir ~/.fonts/
     mkdir -p ~/.config/fontconfig/conf.d/
     mv PowerlineSymbols.otf ~/.fonts/
