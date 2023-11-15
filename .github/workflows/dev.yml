@@ -15,6 +15,10 @@ on:
       - 'dev-with-containers/config/.theme.omp.json'
       - 'dev-with-containers/provision/neovim/**'
       - 'dev-with-containers/provision/scripts/**'
+    paths-ignore:
+      - "dev-with-containers/provision/scripts/install_coq.sh"
+      - "dev-with-containers/provision/scripts/install_ocaml.sh"
+      - "dev-with-containers/provision/scripts/install_provers.sh"
 
 jobs:
   dev:

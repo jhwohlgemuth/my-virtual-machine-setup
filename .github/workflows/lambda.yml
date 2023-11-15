@@ -17,9 +17,9 @@ on:
       - master
     paths:
       - "dev-with-containers/Dockerfile.lambda"
-      - 'dev-with-containers/provision/scripts/install_coq.sh'
-      - 'dev-with-containers/provision/scripts/install_ocaml.sh'
-      - 'dev-with-containers/provision/scripts/install_provers.sh'
+      - "dev-with-containers/provision/scripts/install_coq.sh"
+      - "dev-with-containers/provision/scripts/install_ocaml.sh"
+      - "dev-with-containers/provision/scripts/install_provers.sh"
 
 jobs:
   lambda:
