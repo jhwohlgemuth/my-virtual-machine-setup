@@ -1,7 +1,7 @@
 #! /bin/sh
 
 apt-get update
-apt-get install --no-install-recommends -y opam ruby-full
+apt-get install --no-install-recommends -y autoconf opam ruby-full
 opam init --compiler="${OCAML_VERSION:-4.14.1}" --disable-sandboxing --yes
 eval "$(opam env)"
 # shellcheck disable=SC2016

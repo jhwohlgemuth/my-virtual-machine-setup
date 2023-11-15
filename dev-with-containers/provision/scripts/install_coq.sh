@@ -23,7 +23,3 @@ if type /opt/conda/bin/mamba >/dev/null 2>&1; then
 else
     echo "==> [WARN] mamba is NOT installed"
 fi
-#
-# Install Aeneas, Creusot, and coq-of-rust 
-#
-echo "WIP"
