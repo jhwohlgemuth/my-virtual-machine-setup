@@ -31,4 +31,4 @@ if [ -e charon ]; then
 else
     echo "==> [ERROR] Invalid charon link"
 fi
-cd /root
+cd /root || exit
