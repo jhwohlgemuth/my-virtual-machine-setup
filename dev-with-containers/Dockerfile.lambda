@@ -48,6 +48,12 @@ WORKDIR /root
 COPY ./provision/scripts/install_provers.sh .
 RUN chmod +x ./install_provers.sh && ./install_provers.sh && rm ./install_provers.sh
 #
+# Copy install scripts
+#
+WORKDIR /usr/local/bin
+COPY ./provision/scripts/install_aeneas.sh .
+RUN chmod +x ./install_aeneas.sh
+#
 # Cleanup
 #
 WORKDIR /root
