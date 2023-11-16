@@ -12,7 +12,7 @@ fi
 # CVC5
 #
 cd /usr/bin || exit
-curl -o cvc5 https://github.com/cvc5/cvc5/releases/download/cvc5-1.0.8/cvc5-Linux
+curl -o cvc5 -LJ https://github.com/cvc5/cvc5/releases/download/cvc5-1.0.8/cvc5-Linux
 chmod u+x cvc5
 cd /root || exit
 #
@@ -27,7 +27,7 @@ cd /root && rm -frd /eprover
 # Install Vampire
 #
 mkdir -p /vampire && cd /vampire || exit
-curl -O https://github.com/vprover/vampire/releases/download/snakeForV4.7%2B/vampire-snake-static4starexec.zip
+curl -LOJ https://github.com/vprover/vampire/releases/download/snakeForV4.7%2B/vampire-snake-static4starexec.zip
 unzip vampire-snake-static4starexec.zip
 mv bin/* /usr/bin/
 cd /root && rm -frd /vampire
