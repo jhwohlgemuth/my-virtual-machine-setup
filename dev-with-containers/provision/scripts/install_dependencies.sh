@@ -11,7 +11,6 @@ apt-get update && apt-get install --no-install-recommends -y \
     ca-certificates \
     clang \
     cmake \
-    cmatrix \
     curl \
     dirmngr \
     dbus-user-session \
@@ -24,10 +23,7 @@ apt-get update && apt-get install --no-install-recommends -y \
     git \
     gnupg \
     gnupg2 \
-    hexyl \
-    httpie \
     jq \
-    less \
     libatomic1 \
     libblas-dev \
     libc6-dev \
@@ -64,14 +60,10 @@ apt-get update && apt-get install --no-install-recommends -y \
     libzmq5-dev \
     lld \
     lldb \
-    nano \
     neovim \
-    net-tools \
-    netcat \
     netbase \
     openssh-server \
     openssl \
-    pandoc \
     pkg-config \
     poppler-utils \
     python3-dev \
@@ -81,7 +73,6 @@ apt-get update && apt-get install --no-install-recommends -y \
     rlwrap \
     screen \
     slirp4netns \
-    snapd \
     sudo \
     tree \
     tzdata \
