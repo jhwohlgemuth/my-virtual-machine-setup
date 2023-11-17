@@ -51,8 +51,8 @@ RUN chmod +x ./install_provers.sh && ./install_provers.sh && rm ./install_prover
 # Copy install scripts
 #
 WORKDIR /usr/local/bin
-COPY ./provision/scripts/install_aeneas.sh .
-RUN chmod +x ./install_aeneas.sh
+COPY ./provision/scripts/install_aeneas.sh install_aeneas
+RUN chmod +x ./install_aeneas
 #
 # Cleanup
 #
