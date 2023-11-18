@@ -2,7 +2,6 @@
     "Common": [
         "7zip",
         "bat",
-        "beaker",
         "bottom",
         "ccleaner",
         "dos2unix",
@@ -48,6 +47,8 @@
     "Extra": {
         "Common": [
             "anki",
+            "beaker",
+            "chafa",
             "dia",
             "firefox",
             "mockoon",
@@ -147,6 +148,7 @@
             "beaker": "PaulFrazee.BeakerBrowser",
             "bottom": "Clement.bottom",
             "ccleaner": "Piriform.CCleaner",
+            "chafa": "hpjansson.Chafa",
             "espanso": "Espanso.Espanso",
             "gh": "GitHub.cli",
             "git": "Git.Git",
@@ -172,6 +174,7 @@
             "espanso"
         ],
         "Chocolatey": [
+            "chafa",
             "espanso",
             "gsudo",
             "malwarebytes",
