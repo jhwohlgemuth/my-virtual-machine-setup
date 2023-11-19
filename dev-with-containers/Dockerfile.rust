@@ -17,6 +17,12 @@ RUN rustup toolchain install nightly \
         evcxr_jupyter \
     && evcxr_jupyter --install
 #
+# Copy install scripts
+#
+WORKDIR /usr/local/bin
+COPY ./provision/scripts/install_wasm_runtimes.sh install_wasm_runtimes
+RUN chmod +x ./install_wasm_runtimes
+#
 # Cleanup
 #
 WORKDIR /root

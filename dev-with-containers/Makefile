@@ -70,10 +70,6 @@ python:
 rust:
 	@$(MAKE) TASK=$@ --no-print-directory build-image
 
-.PHONY: wasm
-wasm:
-	@$(MAKE) TASK=$@ --no-print-directory build-image
-
 .PHONY: web
 web:
 	@$(MAKE) TASK=$@ --no-print-directory build-image
@@ -89,7 +85,6 @@ IMAGES = \
 	python \
 	jvm \
 	rust \
-	wasm \
 	web \
 	lambda
 IGNORE_RULES = \
@@ -116,7 +111,8 @@ SCRIPTS = \
 	./provision/scripts/install_ohmyzsh.sh \
 	./provision/scripts/install_ocaml.sh \
 	./provision/scripts/install_provers.sh \
-	./provision/scripts/install_ruby.sh
+	./provision/scripts/install_ruby.sh \
+	./provision/scripts/install_wasm_runtimes.sh
 FILES = \
 	./code-server/service/finish \
 	./code-server/service/run \

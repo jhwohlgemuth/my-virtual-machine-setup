@@ -17,6 +17,7 @@ on:
       - master
     paths:
       - "dev-with-containers/Dockerfile.rust"
+      - "dev-with-containers/provision/scripts/install_wasm_runtimes.sh"
 
 jobs:
   rust:

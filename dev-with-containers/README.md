@@ -55,7 +55,7 @@ The following images are available:
 - `elixir`: Elixir/Erlang/OTP development environment
 - `jvm`: Java Virtual Machine development environment
 - `python`: Image with Python tools and Jupyter kernels
-- `lambda`: Functional programming languages and Jupyter kernels
+- `lambda`: Proof assistants, provers, and other tools for software correctness
 - `rust`: Rust and WebAssembly environment
 - `web`: Web development environment
 
