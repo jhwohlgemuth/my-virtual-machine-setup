@@ -16,6 +16,7 @@ if type opam >/dev/null 2>&1; then
     eval "$(opam env)"
 else
     echo "==> [WARN] opam is NOT installed"
+    exit 1
 fi
 #
 # Install Charon and Aeneas
@@ -32,3 +33,13 @@ else
     echo "==> [ERROR] Invalid charon link"
 fi
 cd /root || exit
+#
+# Install coq-of-rust
+if type cargo >/dev/null 2>&1; then
+    cd /
+    git clone https://github.com/formal-land/coq-of-rust
+    cd /coq-of-rust && cargo install --path lib/
+    cd / && rm -frd /coq-of-rust
+else
+    echo "==> [WARN] cargo is NOT installed"
+fi
