@@ -7,52 +7,42 @@ LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
 EXPOSE 1337
 # Port designated in ./jupyter/jupyter_notebook_config.py
 EXPOSE 13337
-
+#
+# Install and configure Jupyter (as a service)
+#
 SHELL ["/bin/bash", "-c"]
 WORKDIR /root
 ENV JUPYTER_ROOT /root/.jupyter
+ENV JUPYTER_LAB_ROOT /root/miniconda3/share/jupyter/lab
 ENV CERTS_DIR /root/certs
 RUN mkdir -p /root/dev/notebooks \
     && mkdir -p "${JUPYTER_ROOT}/custom" \
-    && mkdir -p $CERTS_DIR
-COPY ./jupyter/jupyter_notebook_config.py $JUPYTER_ROOT
+    && mkdir -p "${JUPYTER_LAB_ROOT}/settings" \
+    && mkdir -p "${CERTS_DIR}"
+COPY ./jupyter/jupyter_notebook_config.py "${JUPYTER_ROOT}"
+COPY ./jupyter/ca.cnf "${CERTS_DIR}"
 COPY ./jupyter/custom.css "${JUPYTER_ROOT}/custom"
-COPY ./jupyter/ca.cnf $CERTS_DIR
+COPY ./jupyter/overrides.json "${JUPYTER_LAB_ROOT}/settings"
+COPY ./jupyter/service/* /etc/services.d/jupyter/
 WORKDIR $CERTS_DIR
 RUN openssl req -new -x509 -days 365 -out my.pem -config ca.cnf
 WORKDIR /root
 SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
 RUN mamba install --name base --channel conda-forge \
-        autopep8 \
         ipykernel \
         ipyparallel \
-        manim \
+        jupyterlab \
         nb_conda_kernels \
+        notebook \
     && mamba clean -yaf
 RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir \
-        ipychart \
         ipyflow \
-        jpterm \
-        jupyter \
-        jupyterlab \
         jupyter_contrib_nbextensions \
-        jupyter-tabnine \
         mitosheet \
-        # Turtle
-        mobilechelonian \
-        nbterm \
-        yapf \
-    && pip install --upgrade --no-cache-dir Pygments \
-    #
-    # Install and configure Jupyter extensions
-    #
-    && jupyter contrib nbextension install --user \
-    && jupyter nbextension install --py --user jupyter_tabnine \
-    && jupyter nbextension enable --py --user jupyter_tabnine \
-    && jupyter serverextension enable --py --user jupyter_tabnine
+    && jupyter contrib nbextension install --user
 #
-# Install code-server (VS Code)
+# Install and configure code-server (as a service)
 #
 WORKDIR /root
 ENV PATH "${PATH}:/app/code-server/bin"
@@ -60,7 +50,6 @@ ENV CODE_SERVER_CONFIG_DIR /app/code-server/config
 COPY ./code-server/settings.json /app/code-server/config/data/Machine/settings.json
 COPY ./code-server/config.yaml /app/code-server/config/config.yaml
 COPY ./code-server/service/* /etc/services.d/code-server/
-COPY ./jupyter/service/* /etc/services.d/jupyter/
 COPY ./provision/scripts/install_code_server.sh .
 RUN chmod +x /etc/services.d/jupyter/run /etc/services.d/jupyter/finish \
     && chmod +x /etc/services.d/code-server/run /etc/services.d/code-server/finish \

@@ -1,0 +1,21 @@
+{
+    "@jupyterlab/apputils-extension:themes": {
+        "theme": "JupyterLab Dark",
+        "overrides": {
+            "code-font-family": "\"JetBrainsMono Nerd Font\", \"JetBrainsMono NF\"",
+            "content-font-family": "\"JetBrainsMono Nerd Font\", \"JetBrainsMono NF\""
+        }
+    },
+    "@jupyterlab/terminal-extension:plugin": {
+        "fontFamily": "\"JetBrainsMono Nerd Font\", \"JetBrainsMono NF\"",
+        "fontSize": 12,
+        "lineHeight": 1,
+        "theme": "dark",
+        "screenReaderMode": false,
+        "scrollback": 1000,
+        "shutdownOnClose": false,
+        "closeOnExit": true,
+        "pasteWithCtrlV": true,
+        "macOptionIsMeta": false
+    }
+}
