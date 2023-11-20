@@ -80,7 +80,6 @@ CONTAINER_REGISTRY = ghcr.io
 REPO = jhwohlgemuth
 IMAGES = \
 	dev \
-	dotnet \
 	notebook \
 	python \
 	jvm \

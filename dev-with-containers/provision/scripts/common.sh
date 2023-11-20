@@ -11,3 +11,9 @@ function requires {
         fi
     done
 }
+function install_dotnet_kernel {
+    requires dotnet zsh
+    dotnet tool install --global Microsoft.dotnet-interactive
+    dotnet interactive jupyter install
+    echo 'export PATH="${PATH}:/root/.dotnet/tools"' >> "${HOME}/.zshrc"
+}

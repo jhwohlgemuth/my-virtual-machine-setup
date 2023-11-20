@@ -51,7 +51,6 @@ Image Design
 The following images are available:
 - `dev`: Core image with all necessary system dependencies (intended for **dev**elopment, not production)
 - `notebook`: Images with [Jupyter notebook](https://github.com/jupyter/notebook) server and [code-server](https://github.com/coder/code-server) services managed by [s6-overlay](https://github.com/just-containers/s6-overlay)
-- `dotnet`: .NET development environment
 - `elixir`: Elixir/Erlang/OTP development environment
 - `jvm`: Java Virtual Machine development environment
 - `python`: Image with Python tools and Jupyter kernels
@@ -63,7 +62,6 @@ The images are build according the the following dependency graph:
 ```mermaid
 graph LR
     dev --> notebook
-    notebook --> dotnet
     notebook --> elixir
     notebook --> jvm
     notebook --> python
