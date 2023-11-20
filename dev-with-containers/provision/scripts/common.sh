@@ -1,7 +1,7 @@
 #! /bin/bash
 set -e
 
-requires() {
+function requires {
     for ARG in "${ARGS[@]}"; do
         if type "${ARG}" >/dev/null 2>&1; then
             pass
