@@ -3,9 +3,7 @@ FROM ghcr.io/jhwohlgemuth/dev:latest
 LABEL author="Jason Wohlgemuth"
 LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
 
-# Port designated in ./code-server/config.yaml
 EXPOSE 1337
-# Port designated in ./jupyter/jupyter_notebook_config.py
 EXPOSE 13337
 #
 # Install and configure Jupyter (as a service)
@@ -13,7 +11,7 @@ EXPOSE 13337
 SHELL ["/bin/bash", "-c"]
 WORKDIR /root
 ENV JUPYTER_ROOT /root/.jupyter
-ENV JUPYTER_LAB_ROOT /root/miniconda3/share/jupyter/lab
+ENV JUPYTER_LAB_ROOT /opt/conda/share/jupyter/lab
 ENV CERTS_DIR /root/certs
 RUN mkdir -p /root/dev/notebooks \
     && mkdir -p "${JUPYTER_ROOT}/custom" \
@@ -24,22 +22,14 @@ COPY ./jupyter/ca.cnf "${CERTS_DIR}"
 COPY ./jupyter/custom.css "${JUPYTER_ROOT}/custom"
 COPY ./jupyter/overrides.json "${JUPYTER_LAB_ROOT}/settings"
 COPY ./jupyter/service/* /etc/services.d/jupyter/
+COPY ./jupyter/environment.yml .
 WORKDIR $CERTS_DIR
 RUN openssl req -new -x509 -days 365 -out my.pem -config ca.cnf
 WORKDIR /root
 SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
-RUN mamba install --name base --channel conda-forge \
-        ipykernel \
-        ipyparallel \
-        jupyterlab \
-        nb_conda_kernels \
-        notebook \
-    && mamba clean -yaf
-RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir \
-        ipyflow \
-        jupyter_contrib_nbextensions \
-        mitosheet \
+RUN mamba env update --file ./environment.yml \
+    && rm ./environment.yml \
+    && mamba clean -yaf \
     && jupyter contrib nbextension install --user
 #
 # Install and configure code-server (as a service)
@@ -53,9 +43,7 @@ COPY ./code-server/service/* /etc/services.d/code-server/
 COPY ./provision/scripts/install_code_server.sh .
 RUN chmod +x /etc/services.d/jupyter/run /etc/services.d/jupyter/finish \
     && chmod +x /etc/services.d/code-server/run /etc/services.d/code-server/finish \
-    && chmod +x ./install_code_server.sh \
-    && ./install_code_server.sh \
-    && rm ./install_code_server.sh
+    && chmod +x ./install_code_server.sh && ./install_code_server.sh && rm ./install_code_server.sh
 #
 # Copy script to install code-server extensions
 #

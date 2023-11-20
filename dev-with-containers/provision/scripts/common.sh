@@ -1,11 +1,13 @@
-#! /bin/sh
+#! /bin/bash
 set -e
 
 requires() {
-    if type $1 >/dev/null 2>&1; then
-        pass
-    else
-        echo "==> [ERROR] $1 not found"
-        exit 1
-    fi
+    for ARG in "${ARGS[@]}"; do
+        if type "${ARG}" >/dev/null 2>&1; then
+            pass
+        else
+            echo "==> [ERROR] ${ARG} not found"
+            exit 1
+        fi
+    done
 }

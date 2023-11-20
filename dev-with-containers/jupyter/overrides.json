@@ -6,6 +6,11 @@
             "content-font-family": "\"JetBrainsMono Nerd Font\", \"JetBrainsMono NF\""
         }
     },
+    "@jupyterlab/notebook-extension:tracker": {
+        "codeCellConfig": {
+            "fontFamily": "\"JetBrainsMono Nerd Font\", \"JetBrainsMono NF\""
+        }
+    },
     "@jupyterlab/terminal-extension:plugin": {
         "fontFamily": "\"JetBrainsMono Nerd Font\", \"JetBrainsMono NF\"",
         "fontSize": 12,
