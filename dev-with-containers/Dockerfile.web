@@ -35,18 +35,14 @@ RUN mkdir -p /verdaccio/storage /verdaccio/plugins /verdaccio/conf
 COPY ./verdaccio/.npmrc /root/
 COPY ./verdaccio/config.yml /verdaccio/conf/
 #
-# Install Elm language and Jupyter kernel
+# Install Elm language
 #
 SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
 WORKDIR /root/dev/
 RUN curl -L -o elm.gz https://github.com/elm/compiler/releases/download/0.19.1/binary-for-linux-64-bit.gz \
     && gunzip elm.gz \
     && chmod +x elm \
-    && mv elm /usr/local/bin/ \
-    && pip install --no-cache-dir elm_kernel \
-    && python -m elm_kernel.install
-WORKDIR /usr/local/share/jupyter/kernels/elm
-COPY ./jupyter/logo_elm.png logo-64x64.png
+    && mv elm /usr/local/bin/
 #
 # Install Wasp (https://wasp-lang.dev/)
 #

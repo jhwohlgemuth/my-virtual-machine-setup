@@ -4,12 +4,12 @@ channels:
   - defaults
 dependencies:
   - ipykernel=6.26.0
+  - jupyterlab
   - nb_conda_kernels
+  - notebook
   - pip=23.3
   - pip:
     - ipyflow~=0.0.190
     - ipyparallel~=8.6.1
     - jupyter_contrib_nbextensions~=0.7.0
-    - jupyterlab~=4.0.9
     - mitosheet~=0.1.530
-    - notebook~=7.0.6
