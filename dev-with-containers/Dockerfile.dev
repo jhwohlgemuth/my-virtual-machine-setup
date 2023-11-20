@@ -12,15 +12,19 @@ ENV TZ America/New_York
 ENV TERM xterm-256color
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 #
+# Copy common script
+#
+WORKDIR /usr/local/bin
+COPY ./provision/scripts/common.sh common.sh
+RUN chmod +x ./common.sh
+#
 # Install system dependencies
 #
 WORKDIR /root
 SHELL ["/bin/bash", "-c"]
 ARG DEBIAN_FRONTEND=noninteractive
 COPY ./provision/scripts/install_dependencies.sh .
-RUN chmod +x ./install_dependencies.sh \
-    && ./install_dependencies.sh \
-    && rm ./install_dependencies.sh
+RUN chmod +x ./install_dependencies.sh && ./install_dependencies.sh && rm ./install_dependencies.sh
 #
 # Install and configure oh-my-zsh
 #
@@ -28,9 +32,7 @@ WORKDIR /root
 SHELL ["/bin/bash", "-c"]
 COPY ./config/.p10k.zsh /root/.p10k.zsh
 COPY ./provision/scripts/install_ohmyzsh.sh .
-RUN chmod +x ./install_ohmyzsh.sh \
-    && ./install_ohmyzsh.sh \
-    && rm ./install_ohmyzsh.sh
+RUN chmod +x ./install_ohmyzsh.sh && ./install_ohmyzsh.sh && rm ./install_ohmyzsh.sh
 #
 # Configure NeoVim
 #
@@ -51,9 +53,7 @@ RUN find $NEOVIM_ROOT -name "*.vim" | xargs dos2unix
 WORKDIR /root
 SHELL ["/bin/bash", "-c"]
 COPY ./provision/scripts/install_homebrew.sh .
-RUN chmod +x ./install_homebrew.sh \
-    && ./install_homebrew.sh \
-    && rm ./install_homebrew.sh
+RUN chmod +x ./install_homebrew.sh && ./install_homebrew.sh && rm ./install_homebrew.sh
 #
 # Install miniconda (Conda) and Mamba
 #
@@ -62,9 +62,14 @@ SHELL ["/bin/bash", "-c"]
 COPY ./provision/scripts/install_conda.sh .
 ENV CONDA_DIR /opt/conda
 ENV PATH "${PATH}:${CONDA_DIR}/bin"
-RUN chmod +x ./install_conda.sh \
-    && ./install_conda.sh \
-    && rm ./install_conda.sh
+RUN chmod +x ./install_conda.sh && ./install_conda.sh && rm ./install_conda.sh
+#
+# Install Nix
+#
+WORKDIR /root
+SHELL ["/bin/bash", "-c"]
+COPY ./provision/scripts/install_nix.sh .
+RUN chmod +x ./install_nix.sh && ./install_nix.sh && rm ./install_nix.sh
 #
 # Install .NET and PowerShell
 #
@@ -72,18 +77,14 @@ WORKDIR /root
 SHELL ["/bin/bash", "-c"]
 ARG DEBIAN_FRONTEND=noninteractive
 COPY ./provision/scripts/install_dotnet.sh .
-RUN chmod +x ./install_dotnet.sh \
-    && ./install_dotnet.sh \
-    && rm ./install_dotnet.sh
+RUN chmod +x ./install_dotnet.sh && ./install_dotnet.sh && rm ./install_dotnet.sh
 #
 # Install Apptainer
 #
 WORKDIR /root
 SHELL ["/bin/bash", "-c"]
 COPY ./provision/scripts/install_apptainer.sh .
-RUN chmod +x ./install_apptainer.sh \
-    && ./install_apptainer.sh \
-    && rm ./install_apptainer.sh
+RUN chmod +x ./install_apptainer.sh && ./install_apptainer.sh && rm ./install_apptainer.sh
 #
 # Install and configure oh-my-posh
 #

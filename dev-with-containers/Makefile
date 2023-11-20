@@ -100,6 +100,7 @@ IGNORE_RULES = \
 SCRIPTS = \
 	./code-server/install_extensions \
 	./provision/scripts/cleanup.sh \
+	./provision/scripts/common.sh \
 	./provision/scripts/install_aeneas.sh \
 	./provision/scripts/install_apptainer.sh \
 	./provision/scripts/install_code_server.sh \
@@ -108,6 +109,7 @@ SCRIPTS = \
 	./provision/scripts/install_dependencies.sh \
 	./provision/scripts/install_dotnet.sh \
 	./provision/scripts/install_homebrew.sh \
+	./provision/scripts/install_nix.sh \
 	./provision/scripts/install_ohmyzsh.sh \
 	./provision/scripts/install_ocaml.sh \
 	./provision/scripts/install_provers.sh \

@@ -24,6 +24,7 @@ apt-get update && apt-get install --no-install-recommends -y \
     gnupg \
     gnupg2 \
     jq \
+    less \
     libatomic1 \
     libblas-dev \
     libc6-dev \
