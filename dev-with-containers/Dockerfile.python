@@ -15,19 +15,6 @@ RUN apt-get update && apt-get install --no-install-recommends -y r-base \
     && R -e "install.packages(c('formatR', 'jsonlite'), repos='http://cran.rstudio.com')" \
     && R -e "install.packages('IRkernel')" && R -e "IRkernel::installspec()"
 #
-# Install Briefcase, perfomant Python tools, and Python alternatives
-#
-SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
-RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir \
-        briefcase \
-        hy \
-        jill \
-        # pyjion \
-    # Install Codon
-    && /bin/bash -c "$(curl -fsSL https://exaloop.io/install.sh)" \
-    && echo 'export PATH="${HOME}/.codon/bin:${PATH}"' >> "${HOME}/.zshrc"
-#
 # Install Nim language and kernel
 #
 ENV PATH "${PATH}:/root/.nimble/bin"
@@ -45,19 +32,19 @@ RUN /home/linuxbrew/.linuxbrew/bin/brew install lua luarocks \
     && mamba install --channel conda-forge --yes xeus-lua \
     && mamba clean -yaf
 #
-# Install Julia kernel
+# Install Julia language and kernel
 #
 SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
-RUN jill install --confirm && julia -e 'using Pkg;Pkg.add("IJulia")'
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir jill \
+    && jill install --confirm && julia -e 'using Pkg;Pkg.add("IJulia")'
 #
 # Cleanup
 #
 WORKDIR /root
 SHELL ["/bin/bash", "-c"]
 COPY ./provision/scripts/cleanup.sh .
-RUN chmod +x ./cleanup.sh \
-    && ./cleanup.sh \
-    && rm ./cleanup.sh
+RUN chmod +x ./cleanup.sh && ./cleanup.sh && rm ./cleanup.sh
 
 WORKDIR /root/dev
 ENTRYPOINT [ "/init" ]

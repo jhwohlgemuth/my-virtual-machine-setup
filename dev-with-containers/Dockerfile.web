@@ -27,7 +27,7 @@ RUN . ${NVM_DIR}/nvm.sh \
     && mkdir ijavascript \
     && cd ijavascript \
     && npm init -y \
-    && npm install --omit=dev ijavascript \
+    && npm install --omit=dev ijavascript@^5.2.1 \
     && node_modules/ijavascript/bin/ijsinstall.js --spec-path=full \
     && npm install --omit=dev --location=global verdaccio@next rescript esy \
     && chmod +x /etc/services.d/verdaccio/run /etc/services.d/verdaccio/finish
