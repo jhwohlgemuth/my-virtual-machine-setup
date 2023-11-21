@@ -26,6 +26,7 @@
         "lazydocker",
         "lazygit",
         "less",
+        "lychee",
         "make",
         "micro",
         "miniconda3",
@@ -156,6 +157,7 @@
             "gource": "acaudwell.Gource",
             "grep": "GnuWin32.Grep",
             "julia": "Julialang.Julia",
+            "lychee": "lycheeverse.lychee",
             "make": "GnuWin32.Make",
             "miniconda3": "Anaconda.Miniconda3",
             "neovim": "Neovim.Neovim",
@@ -177,6 +179,7 @@
             "chafa",
             "espanso",
             "gsudo",
+            "lychee",
             "malwarebytes",
             "tokei"
         ],
