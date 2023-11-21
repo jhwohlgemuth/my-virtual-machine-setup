@@ -8,6 +8,7 @@ EXPOSE 13337
 #
 # Install R language and kernel
 #
+# hadolint ignore=DL3009
 RUN apt-get update && apt-get install --no-install-recommends -y r-base \
     && mamba install --channel conda-forge --yes radian \
     && mamba clean -yaf \
