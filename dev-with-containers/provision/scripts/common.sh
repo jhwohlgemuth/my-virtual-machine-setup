@@ -1,16 +1,19 @@
 #! /bin/bash
 
+function is_command {
+    if type "${1}" >/dev/null 2>&1; then
+        echo "==> [INFO] ${1} found"
+        pass
+    else
+        echo "==> [ERROR] ${1} not found"
+        return 1
+    fi
+}
 function requires {
     for ARG in "${ARGS[@]}"; do
-        if type "${ARG}" >/dev/null 2>&1; then
-            pass
-        else
-            echo "==> [ERROR] ${ARG} not found"
-            exit 1
-        fi
+        is_command "${ARG}"
     done
 }
-
 function install_dotnet_kernel {
     requires dotnet jupyter zsh
     dotnet tool install --global Microsoft.dotnet-interactive
@@ -18,7 +21,6 @@ function install_dotnet_kernel {
     # shellcheck disable=SC2016
     echo 'export PATH="${PATH}:/root/.dotnet/tools"' >> "${HOME}/.zshrc"
 }
-
 function install_codon {
     requires curl python zsh
     /bin/bash -c "$(curl -fsSL https://exaloop.io/install.sh)"
