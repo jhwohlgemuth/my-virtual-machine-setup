@@ -1,5 +1,4 @@
 #! /bin/bash
-set -e
 
 function requires {
     for ARG in "${ARGS[@]}"; do
@@ -12,8 +11,9 @@ function requires {
     done
 }
 function install_dotnet_kernel {
-    requires dotnet zsh
+    requires dotnet jupyter zsh
     dotnet tool install --global Microsoft.dotnet-interactive
     dotnet interactive jupyter install
+    # shellcheck disable=SC2016
     echo 'export PATH="${PATH}:/root/.dotnet/tools"' >> "${HOME}/.zshrc"
 }

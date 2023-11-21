@@ -23,14 +23,8 @@ call plug#begin()
     Plug 'MattesGroeger/vim-bookmarks' " bookmark (mm) / annotate (mi)
     Plug 't9md/vim-choosewin'
     Plug 'alvan/vim-closetag'
-    Plug 'hrsh7th/nvim-cmp'
-    Plug 'hrsh7th/cmp-nvim-lsp'
-    Plug 'hrsh7th/cmp-buffer'
-    Plug 'hrsh7th/cmp-path'
-    Plug 'hrsh7th/cmp-cmdline'
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'Exafunction/codeium.vim'
-    " Plug 'metakirby5/codi.vim'
     Plug 'norcalli/nvim-colorizer.lua'
     Plug 'chrisbra/csv.vim'
     Plug 'tpope/vim-commentary' " line (gcc) / motion (gc)
@@ -71,26 +65,8 @@ call plug#end()
 
 lua require('crates').setup()
 
-lua <<EOF
-  local cmp = require'cmp'
-  cmp.setup({
-    sources = cmp.config.sources({
-      { name = 'nvim_lsp' },
-      { name = 'vsnip' },
-      { name = 'codeium' },
-    })
-  })
-EOF
-
 " Airline Settings {{{
 let g:airline_powerline_fonts = 1
-" }}}
-" Codi Settings {{{
-" Windows not supported yet: https://github.com/metakirby5/codi.vim/issues/14
-" let g:codi#virtual_text_prefix = "❯ "
-" let g:codi#aliases = {
-"                    \ 'javascript.jsx': 'javascript',
-"                    \ }
 " }}}
 " ChooseWin Settings {{{
 let g:choosewin_overlay_enable = 1
