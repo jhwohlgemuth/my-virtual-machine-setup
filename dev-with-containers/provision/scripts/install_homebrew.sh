@@ -18,7 +18,6 @@ brew install \
     thefuck \
     up \
     yq
-eval "$(pkgx integrate)"
 /home/linuxbrew/.linuxbrew/bin/brew cleanup --prune=all
 # shellcheck disable=SC2016
 {
@@ -28,3 +27,4 @@ eval "$(pkgx integrate)"
     echo 'eval "$(thefuck --alias oops)"'
     echo 'alias sgrep=ast-grep'
 } >> "${HOME}/.zshrc"
+eval "$(pkgx integrate)"
