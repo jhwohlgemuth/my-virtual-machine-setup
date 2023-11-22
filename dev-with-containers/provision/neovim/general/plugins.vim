@@ -28,7 +28,6 @@ call plug#begin()
     Plug 'norcalli/nvim-colorizer.lua'
     Plug 'chrisbra/csv.vim'
     Plug 'tpope/vim-commentary' " line (gcc) / motion (gc)
-    Plug 'elixir-lang/vim-elixir'
     Plug 'voldikss/vim-floaterm'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'yuki-ycino/fzf-preview.vim'
@@ -42,9 +41,6 @@ call plug#begin()
     Plug 'joshdick/onedark.vim'
     Plug 'sheerun/vim-polyglot'
     Plug 'luochen1990/rainbow'
-    Plug 'rust-lang/rust.vim'
-    Plug 'simrat39/rust-tools.nvim'
-    Plug 'saecki/crates.nvim', { 'tag': 'v0.3.0' }
     Plug 'mhinz/vim-signify'
     Plug 'psliwka/vim-smoothie'
     Plug 'justinmk/vim-sneak'
@@ -60,10 +56,12 @@ call plug#begin()
     Plug 'neovim/nvim-lspconfig'
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.2' }
+    " Plug 'elixir-lang/vim-elixir'
+    " Plug 'rust-lang/rust.vim'
+    " Plug 'simrat39/rust-tools.nvim'
+    " Plug 'saecki/crates.nvim', { 'tag': 'v0.3.0' }
     " }}}
 call plug#end()
-
-lua require('crates').setup()
 
 " Airline Settings {{{
 let g:airline_powerline_fonts = 1
