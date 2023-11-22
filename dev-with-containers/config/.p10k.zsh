@@ -412,7 +412,7 @@
   # typeset -g POWERLEVEL9K_ASDF_RUBY_VISUAL_IDENTIFIER_EXPANSION='⭐'
   # typeset -g POWERLEVEL9K_ASDF_RUBY_SHOW_ON_UPGLOB='*.foo|*.bar'
   # Python version from asdf.
-  typeset -g POWERLEVEL9K_ASDF_PYTHON_FOREGROUND=3
+  typeset -g POWERLEVEL9K_ASDF_PYTHON_FOREGROUND=226
   typeset -g POWERLEVEL9K_ASDF_PYTHON_BACKGROUND=4
   # typeset -g POWERLEVEL9K_ASDF_PYTHON_VISUAL_IDENTIFIER_EXPANSION='⭐'
   # typeset -g POWERLEVEL9K_ASDF_PYTHON_SHOW_ON_UPGLOB='*.foo|*.bar'
@@ -653,7 +653,7 @@
   typeset -g POWERLEVEL9K_CONTEXT_PREFIX=' '
   ###[ virtualenv: python virtual environment (https://docs.python.org/3/library/venv.html) ]###
   # Python virtual environment color.
-  typeset -g POWERLEVEL9K_VIRTUALENV_FOREGROUND=3
+  typeset -g POWERLEVEL9K_VIRTUALENV_FOREGROUND=226
   typeset -g POWERLEVEL9K_VIRTUALENV_BACKGROUND=18
   # Don't show Python version next to the virtual environment name.
   typeset -g POWERLEVEL9K_VIRTUALENV_SHOW_PYTHON_VERSION=true
@@ -666,14 +666,14 @@
   # typeset -g POWERLEVEL9K_VIRTUALENV_VISUAL_IDENTIFIER_EXPANSION='⭐'
   #####################[ anaconda: conda environment (https://conda.io/) ]######################
   # Anaconda environment color.
-  typeset -g POWERLEVEL9K_ANACONDA_FOREGROUND=3
+  typeset -g POWERLEVEL9K_ANACONDA_FOREGROUND=226
   typeset -g POWERLEVEL9K_ANACONDA_BACKGROUND=18
   typeset -g POWERLEVEL9K_ANACONDA_CONTENT_EXPANSION='${${${${CONDA_PROMPT_MODIFIER#\(}% }%\)}:-${CONDA_PREFIX:t}}'
   # Custom icon.
   # typeset -g POWERLEVEL9K_ANACONDA_VISUAL_IDENTIFIER_EXPANSION='⭐'
   ################[ pyenv: python environment (https://github.com/pyenv/pyenv) ]################
   # Pyenv color.
-  typeset -g POWERLEVEL9K_PYENV_FOREGROUND=3
+  typeset -g POWERLEVEL9K_PYENV_FOREGROUND=226
   typeset -g POWERLEVEL9K_PYENV_BACKGROUND=18
   # Hide python version if it doesn't come from one of these sources.
   typeset -g POWERLEVEL9K_PYENV_SOURCES=(shell local global)
