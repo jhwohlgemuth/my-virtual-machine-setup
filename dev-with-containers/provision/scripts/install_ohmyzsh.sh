@@ -18,6 +18,7 @@ sh -c "$(curl https://raw.githubusercontent.com/deluan/zsh-in-docker/master/zsh-
 # Customize .zshrc
 #
 sed -i "s/export TERM=xterm/export TERM=xterm-256color/g" "${HOME}/.zshrc"
+# shellcheck disable=SC2016
 {
     echo 'bindkey "\$terminfo[kcuu1]" history-substring-search-up'
     echo 'bindkey "\$terminfo[kcud1]" history-substring-search-down'

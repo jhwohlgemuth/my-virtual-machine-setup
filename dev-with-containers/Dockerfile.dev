@@ -12,13 +12,6 @@ ENV TZ America/New_York
 ENV TERM xterm-256color
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 #
-# Copy common scripts
-#
-WORKDIR /usr/local/bin
-COPY ./provision/scripts/common.sh common.sh
-COPY ./provision/scripts/import_common.sh import_common
-RUN chmod +x ./import_common
-#
 # Install system dependencies
 #
 WORKDIR /root
@@ -109,6 +102,13 @@ SHELL ["/bin/bash", "-c"]
 ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-noarch.tar.xz /tmp
 ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-arch.tar.xz /tmp
 RUN tar -C / -Jxpf /tmp/s6-overlay-symlinks-noarch.tar.xz && tar -C / -Jxpf /tmp/s6-overlay-symlinks-arch.tar.xz
+#
+# Copy common scripts
+#
+WORKDIR /usr/local/bin
+ENV COMMON_FUNCTIONS /usr/local/bin/common.sh
+COPY ./provision/scripts/common.sh common.sh
+RUN echo "alias import_common=\"source ${COMMON_FUNCTIONS}\"" >> "${HOME}/.zshrc"
 #
 # Cleanup
 #

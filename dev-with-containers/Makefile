@@ -100,7 +100,6 @@ SCRIPTS = \
 	./code-server/install_extensions.sh \
 	./provision/scripts/cleanup.sh \
 	./provision/scripts/common.sh \
-	./provision/scripts/import_common.sh \
 	./provision/scripts/install_aeneas.sh \
 	./provision/scripts/install_apptainer.sh \
 	./provision/scripts/install_code_server.sh \
