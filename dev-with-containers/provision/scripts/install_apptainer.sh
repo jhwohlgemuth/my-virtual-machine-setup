@@ -1,6 +1,16 @@
-#! /bin/sh
+#! /bin/bash
+set -e
 
-curl -LOJ https://github.com/apptainer/apptainer/releases/download/v1.2.4/apptainer_1.2.4_amd64.deb
-apt-get update
-apt-get install -y ./apptainer_1.2.4_amd64.deb
-rm ./apptainer_1.2.4_amd64.deb
+main() {
+    requires curl fuse-overlayfs
+    #
+    # Install Apptainer
+    #
+    local VERSION=${1:-"1.2.4"}
+    local FILENAME="apptainer_${VERSION}_amd64.deb"
+    curl -LOJ "https://github.com/apptainer/apptainer/releases/download/v${VERSION}/${FILENAME}"
+    apt-get update
+    apt-get install -y "./${FILENAME}"
+    rm "./${FILENAME}"
+}
+main "$@"

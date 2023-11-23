@@ -12,6 +12,14 @@ ENV TZ America/New_York
 ENV TERM xterm-256color
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 #
+# Copy functions
+#
+RUN mkdir -p /usr/local/bin/fn
+WORKDIR /usr/local/bin/fn
+COPY ./provision/functions/* .
+RUN chmod +x *
+ENV PATH "${PATH}:/usr/local/bin/fn"
+#
 # Install system dependencies
 #
 WORKDIR /root
@@ -20,6 +28,14 @@ ARG DEBIAN_FRONTEND=noninteractive
 COPY ./provision/scripts/install_dependencies.sh .
 RUN chmod +x ./install_dependencies.sh && ./install_dependencies.sh && rm ./install_dependencies.sh
 #
+# Install .NET and PowerShell
+#
+WORKDIR /root
+SHELL ["/bin/bash", "-c"]
+ARG DEBIAN_FRONTEND=noninteractive
+COPY ./provision/scripts/install_dotnet.sh .
+RUN chmod +x ./install_dotnet.sh && ./install_dotnet.sh && rm ./install_dotnet.sh
+#
 # Install and configure oh-my-zsh
 #
 WORKDIR /root
@@ -27,6 +43,38 @@ SHELL ["/bin/bash", "-c"]
 COPY ./config/.p10k.zsh /root/.p10k.zsh
 COPY ./provision/scripts/install_ohmyzsh.sh .
 RUN chmod +x ./install_ohmyzsh.sh && ./install_ohmyzsh.sh && rm ./install_ohmyzsh.sh
+#
+# Install Homebrew
+#
+WORKDIR /root
+SHELL ["/bin/bash", "-c"]
+COPY ./provision/scripts/install_homebrew.sh .
+RUN chmod +x ./install_homebrew.sh && ./install_homebrew.sh && rm ./install_homebrew.sh
+#
+# Install and configure oh-my-posh
+#
+WORKDIR /root
+SHELL ["/usr/bin/pwsh", "-Command"]
+COPY ./config/.theme.omp.json .
+COPY ./config/profile.ps1 .
+COPY ./provision/scripts/Install-OhMyPosh.ps1 .
+RUN ./Install-OhMyPosh.ps1 && rm ./Install-OhMyPosh.ps1
+#
+# Install Apptainer
+#
+WORKDIR /root
+SHELL ["/bin/bash", "-c"]
+COPY ./provision/scripts/install_apptainer.sh .
+RUN chmod +x ./install_apptainer.sh && ./install_apptainer.sh && rm ./install_apptainer.sh
+#
+# Install miniconda (Conda) and Mamba
+#
+WORKDIR /root
+SHELL ["/bin/bash", "-c"]
+COPY ./provision/scripts/install_conda.sh .
+ENV CONDA_DIR /opt/conda
+ENV PATH "${PATH}:${CONDA_DIR}/bin"
+RUN chmod +x ./install_conda.sh && ./install_conda.sh && rm ./install_conda.sh
 #
 # Configure NeoVim
 #
@@ -42,52 +90,12 @@ COPY ./provision/neovim/plug-config/which-key.vim "${NEOVIM_ROOT}plug-config/"
 COPY ./provision/neovim/themes/onedark.vim "${NEOVIM_ROOT}themes/"
 RUN find $NEOVIM_ROOT -name "*.vim" | xargs dos2unix
 #
-# Install Homebrew
-#
-WORKDIR /root
-SHELL ["/bin/bash", "-c"]
-COPY ./provision/scripts/install_homebrew.sh .
-RUN chmod +x ./install_homebrew.sh && ./install_homebrew.sh && rm ./install_homebrew.sh
-#
-# Install miniconda (Conda) and Mamba
-#
-WORKDIR /root
-SHELL ["/bin/bash", "-c"]
-COPY ./provision/scripts/install_conda.sh .
-ENV CONDA_DIR /opt/conda
-ENV PATH "${PATH}:${CONDA_DIR}/bin"
-RUN chmod +x ./install_conda.sh && ./install_conda.sh && rm ./install_conda.sh
-#
 # Install Nix
 #
 WORKDIR /root
 SHELL ["/bin/bash", "-c"]
 COPY ./provision/scripts/install_nix.sh .
 RUN chmod +x ./install_nix.sh && ./install_nix.sh && rm ./install_nix.sh
-#
-# Install .NET and PowerShell
-#
-WORKDIR /root
-SHELL ["/bin/bash", "-c"]
-ARG DEBIAN_FRONTEND=noninteractive
-COPY ./provision/scripts/install_dotnet.sh .
-RUN chmod +x ./install_dotnet.sh && ./install_dotnet.sh && rm ./install_dotnet.sh
-#
-# Install Apptainer
-#
-WORKDIR /root
-SHELL ["/bin/bash", "-c"]
-COPY ./provision/scripts/install_apptainer.sh .
-RUN chmod +x ./install_apptainer.sh && ./install_apptainer.sh && rm ./install_apptainer.sh
-#
-# Install and configure oh-my-posh
-#
-WORKDIR /root
-SHELL ["/usr/bin/pwsh", "-Command"]
-COPY ./config/.theme.omp.json .
-COPY ./config/profile.ps1 .
-COPY ./provision/scripts/Install-OhMyPosh.ps1 .
-RUN ./Install-OhMyPosh.ps1 && rm ./Install-OhMyPosh.ps1
 #
 # Install s6-overlay
 SHELL ["/bin/bash", "-c"]
@@ -103,19 +111,11 @@ ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLA
 ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-arch.tar.xz /tmp
 RUN tar -C / -Jxpf /tmp/s6-overlay-symlinks-noarch.tar.xz && tar -C / -Jxpf /tmp/s6-overlay-symlinks-arch.tar.xz
 #
-# Copy common scripts
-#
-WORKDIR /usr/local/bin
-ENV COMMON_FUNCTIONS /usr/local/bin/common.sh
-COPY ./provision/scripts/common.sh common.sh
-RUN echo "alias import_common=\"source ${COMMON_FUNCTIONS}\"" >> "${HOME}/.zshrc"
-#
 # Cleanup
 #
 WORKDIR /root
 SHELL ["/bin/bash", "-c"]
-COPY ./provision/scripts/cleanup.sh .
-RUN chmod +x ./cleanup.sh && ./cleanup.sh && rm ./cleanup.sh
+RUN cleanup
 
 WORKDIR /root/dev
 ENTRYPOINT [ "/init" ]

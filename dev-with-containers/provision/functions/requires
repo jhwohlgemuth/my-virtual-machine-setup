@@ -1,0 +1,20 @@
+#! /bin/bash
+
+main() {
+    local NC='\033[0m'
+    local RED='\033[0;31m'
+    if [ -n "$1" ] ; then
+        ARGS=("$@")
+        for ARG in "${ARGS[@]}"; do
+            if is_command "${ARG}" ; then
+                continue
+            elif is_installed "${ARG}" ; then
+                continue
+            else
+                printf '%s==> [ERROR]%s %s not recognized as a command, package, or file' "${RED}" "${NC}" "${ARG}"
+                kill -SIGINT $$
+            fi
+        done
+    fi
+}
+main "$@"

@@ -12,6 +12,9 @@ check:
 	@for script in $(SCRIPTS) ; do \
         shellcheck $$script; \
     done
+	@for fn in $(FUNCTIONS) ; do \
+        shellcheck $$fn; \
+    done
 
 .PHONY: format
 format:
@@ -98,8 +101,6 @@ IGNORE_RULES = \
 	--ignore SC2086
 SCRIPTS = \
 	./code-server/install_extensions.sh \
-	./provision/scripts/cleanup.sh \
-	./provision/scripts/common.sh \
 	./provision/scripts/install_aeneas.sh \
 	./provision/scripts/install_apptainer.sh \
 	./provision/scripts/install_code_server.sh \
@@ -107,6 +108,7 @@ SCRIPTS = \
 	./provision/scripts/install_coq.sh \
 	./provision/scripts/install_dependencies.sh \
 	./provision/scripts/install_dotnet.sh \
+	./provision/scripts/install_dotnet_jupyter_kernel.sh \
 	./provision/scripts/install_homebrew.sh \
 	./provision/scripts/install_nix.sh \
 	./provision/scripts/install_ohmyzsh.sh \
@@ -114,6 +116,11 @@ SCRIPTS = \
 	./provision/scripts/install_provers.sh \
 	./provision/scripts/install_ruby.sh \
 	./provision/scripts/install_wasm_runtimes.sh
+FUNCTIONS = \
+	./provision/functions/cleanup \
+	./provision/functions/is_command \
+	./provision/functions/is_installed \
+	./provision/functions/requires
 FILES = \
 	./code-server/service/finish \
 	./code-server/service/run \
