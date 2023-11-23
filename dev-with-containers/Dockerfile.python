@@ -44,8 +44,7 @@ RUN pip install --no-cache-dir --upgrade pip \
 #
 WORKDIR /root
 SHELL ["/bin/bash", "-c"]
-COPY ./provision/scripts/cleanup.sh .
-RUN chmod +x ./cleanup.sh && ./cleanup.sh && rm ./cleanup.sh
+RUN cleanup
 
 WORKDIR /root/dev
 ENTRYPOINT [ "/init" ]
