@@ -110,6 +110,7 @@ SCRIPTS = \
 	./provision/scripts/install_dotnet.sh \
 	./provision/scripts/install_dotnet_jupyter_kernel.sh \
 	./provision/scripts/install_homebrew.sh \
+	./provision/scripts/install_nim.sh \
 	./provision/scripts/install_nix.sh \
 	./provision/scripts/install_ohmyzsh.sh \
 	./provision/scripts/install_ocaml.sh \

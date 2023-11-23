@@ -1,8 +1,8 @@
 #! /bin/bash
 set -e
 
+requires curl
 main() {
-    requires curl
     #
     # Install Homebrew
     #

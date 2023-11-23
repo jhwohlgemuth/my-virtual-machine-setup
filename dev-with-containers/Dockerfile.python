@@ -16,14 +16,14 @@ RUN apt-get update && apt-get install --no-install-recommends -y r-base \
     && R -e "install.packages(c('formatR', 'jsonlite'), repos='http://cran.rstudio.com')" \
     && R -e "install.packages('IRkernel')" && R -e "IRkernel::installspec()"
 #
-# Install Nim language and kernel
+# Install Julia language and kernel
 #
-ENV PATH "${PATH}:/root/.nimble/bin"
-RUN curl https://nim-lang.org/choosenim/init.sh -sSf > init.sh \
-    && sh init.sh -y \
-    && rm init.sh \
-    && /root/.nimble/bin/choosenim stable \
-    && nimble install jupyternim -y
+SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
+RUN curl -fsSL https://install.julialang.org | sh -s -- --yes \
+    && source "${HOME}/.bashrc" \
+    && juliaup add 1.6.7 \
+    && juliaup default 1.6.7 \
+    && julia -e 'using Pkg;Pkg.add("IJulia")'
 #
 # Install Lua language and kernel
 #
@@ -33,12 +33,13 @@ RUN /home/linuxbrew/.linuxbrew/bin/brew install lua luarocks \
     && mamba install --channel conda-forge --yes xeus-lua \
     && mamba clean -yaf
 #
-# Install Julia language and kernel
+# Install Nim language and kernel
 #
-SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
-RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir jill \
-    && jill install --confirm && julia -e 'using Pkg;Pkg.add("IJulia")'
+WORKDIR /root
+SHELL ["/bin/bash", "-c"]
+COPY ./provision/scripts/install_nim.sh .
+RUN apt-get update && apt-get install --no-install-recommends -y libzmq5 \
+    && chmod +x ./install_nim.sh && ./install_nim.sh && rm ./install_nim.sh
 #
 # Cleanup
 #

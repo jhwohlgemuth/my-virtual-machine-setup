@@ -11,7 +11,8 @@ main() {
             elif is_installed "${ARG}" ; then
                 continue
             else
-                printf '%s==> [ERROR]%s %s not recognized as a command, package, or file' "${RED}" "${NC}" "${ARG}"
+                # shellcheck disable=SC2059
+                printf "${RED}==> [ERROR]${NC} ${ARG} not recognized as a command, package, or file\n"
                 kill -SIGINT $$
             fi
         done

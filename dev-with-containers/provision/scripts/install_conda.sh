@@ -1,8 +1,8 @@
 #! /bin/bash
 set -e
 
+requires curl zsh
 main() {
-    requires curl zsh
     #
     # Install miniconda (conda)
     #
