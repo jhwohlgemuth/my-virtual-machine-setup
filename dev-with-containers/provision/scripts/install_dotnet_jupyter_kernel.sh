@@ -1,10 +1,10 @@
 #! /bin/bash
 
+requires \
+    dotnet \
+    jupyter \
+    zsh
 main() {
-    requires \
-        dotnet \
-        jupyter \
-        zsh
     dotnet tool install --global Microsoft.dotnet-interactive
     dotnet interactive jupyter install
     # shellcheck disable=SC2016

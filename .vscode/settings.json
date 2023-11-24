@@ -20,6 +20,6 @@
         "commandCenter.border": "#e7e7e799"
     },
     "peacock.color": "#557c9b",
-    "editor.fontFamily" : "\"JetBrainsMono NF\"",
+    "editor.fontFamily" : "\"Victor Mono\", \"JetBrainsMono Nerd Font\", \"JetBrainsMono NF\"",
     "terminal.integrated.fontFamily" : "\"JetBrainsMono NF\""
 }

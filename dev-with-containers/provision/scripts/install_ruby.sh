@@ -1,4 +1,9 @@
-#! /bin/sh
+#! /bin/bash
+set -e
 
-apt-get update
-apt-get install --no-install-recommends -y ruby-full
+main() {
+    apt-get update
+    apt-get install --no-install-recommends -y ruby-full
+    cleanup
+}
+main "$@"

@@ -27,6 +27,16 @@ SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
 # See https://github.com/akabe/ocaml-jupyter/pull/199
 ENV OCAML_VERSION 4.14.1
 COPY ./provision/scripts/install_ocaml.sh .
+RUN apt-get update && apt-get install --no-install-recommends -y \
+        apt-utils \
+        autoconf \
+        jupyter \
+        libgmp-dev \
+        libzmq5 \
+        libzmq3-dev \
+        opam \
+        pkg-config \
+        ruby-full
 RUN chmod +x ./install_ocaml.sh && ./install_ocaml.sh && rm ./install_ocaml.sh
 COPY ./jupyter/logo_ocaml.png /usr/local/share/jupyter/kernels/ocaml/logo-64x64.png
 RUN mkdir -p /root/.config/utop
@@ -37,6 +47,7 @@ COPY ./config/utoprc .
 #
 WORKDIR /root
 ENV COQ_VERSION 8.18.0
+ENV PATH "${PATH}:/opt/conda/bin/"
 COPY ./provision/scripts/install_coq.sh .
 RUN chmod +x ./install_coq.sh && ./install_coq.sh && rm ./install_coq.sh
 WORKDIR /usr/local/share/jupyter/kernels/coq
