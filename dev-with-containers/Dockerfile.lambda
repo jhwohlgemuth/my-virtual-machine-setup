@@ -39,9 +39,11 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
         ruby-full
 RUN chmod +x ./install_ocaml.sh && ./install_ocaml.sh && rm ./install_ocaml.sh
 COPY ./jupyter/logo_ocaml.png /usr/local/share/jupyter/kernels/ocaml/logo-64x64.png
+WORKDIR /root
+COPY ./config/.utoprc .
 RUN mkdir -p /root/.config/utop
 WORKDIR /root/.config/utop
-COPY ./config/utoprc .
+COPY ./config/init.ml .
 #
 # Install Coq language and kernel
 #
