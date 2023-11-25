@@ -119,6 +119,7 @@ SCRIPTS = \
 	./provision/scripts/install_ohmyzsh.sh \
 	./provision/scripts/install_provers.sh \
 	./provision/scripts/install_ruby.sh \
+	./provision/scripts/install_verus.sh \
 	./provision/scripts/install_wasm_runtimes.sh
 FUNCTIONS = \
 	./provision/functions/cleanup \
@@ -134,4 +135,5 @@ FILES = \
 	./verdaccio/service/log \
 	./verdaccio/service/run \
 	./config/.p10k.zsh \
-	./config/utoprc
+	./config/.utoprc \
+	./config/init.ml
