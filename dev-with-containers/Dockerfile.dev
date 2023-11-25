@@ -6,34 +6,33 @@ FROM $IMAGE
 LABEL author="Jason Wohlgemuth"
 LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
 #
-# Configure environment variables
+# %arguments
 #
 ARG DEBIAN_FRONTEND=noninteractive
+#
+# %environment
+#
 ENV TZ America/New_York
 ENV TERM xterm-256color
-RUN ln -snf "/usr/share/zoneinfo/${TZ}" /etc/localtime && echo "${TZ}" > /etc/timezone
 ENV CONDA_DIR /opt/conda
-ENV NEOVIM_ROOT /root/.config/nvim/
+ENV NEOVIM_ROOT "${HOME}/.config/nvim/"
 ENV PATH "${PATH}:/usr/local/bin/fn"
 ENV PATH "${PATH}:${CONDA_DIR}/bin"
 #
-# Create folders
+# %setup
 #
 SHELL ["/bin/bash", "-c"]
+RUN ln -snf "/usr/share/zoneinfo/${TZ}" /etc/localtime && echo "${TZ}" > /etc/timezone
 RUN mkdir -p /tmp/scripts /usr/local/bin/fn
 #
-# Copy scripts and functions
+# %files
 #
 SHELL ["/bin/bash", "-c"]
 COPY ./provision/scripts/dev/* /tmp/scripts
 COPY ./provision/functions/* /usr/local/bin/fn
-RUN chmod +x /tmp/scripts/* && chmod +x /usr/local/bin/fn/*
-#
-# Copy confuguration files
-#
-COPY ./config/.p10k.zsh /root/.p10k.zsh
-COPY ./config/profile.ps1 /root/profile.ps1
-COPY ./config/.theme.omp.json /root/.theme.omp.json
+COPY ./config/.p10k.zsh "${HOME}/.p10k.zsh"
+COPY ./config/profile.ps1 "${HOME}/profile.ps1"
+COPY ./config/.theme.omp.json "${HOME}/.theme.omp.json"
 COPY ./provision/neovim/init.vim "${NEOVIM_ROOT}"
 COPY ./provision/neovim/coc-settings.json "${NEOVIM_ROOT}"
 COPY ./provision/neovim/general/settings.vim "${NEOVIM_ROOT}general/"
@@ -43,26 +42,19 @@ COPY ./provision/neovim/plug-config/fzf.vim "${NEOVIM_ROOT}plug-config/"
 COPY ./provision/neovim/plug-config/which-key.vim "${NEOVIM_ROOT}plug-config/"
 COPY ./provision/neovim/themes/onedark.vim "${NEOVIM_ROOT}themes/"
 #
-# Install dependencies
+# %post
 #
 SHELL ["/bin/bash", "-c"]
-RUN /tmp/scripts/install_dependencies.sh \
+RUN chmod +x /tmp/scripts/* && chmod +x /usr/local/bin/fn/* \
+    && /tmp/scripts/install_dependencies.sh \
     && /tmp/scripts/install_dotnet.sh \
     && /tmp/scripts/install_ohmyzsh.sh \
     && /tmp/scripts/install_homebrew.sh \
     && /tmp/scripts/install_apptainer.sh \
     && /tmp/scripts/install_conda.sh \
-    && /tmp/scripts/install_nix.sh
-#
-# Install oh-my-posh
-#
-SHELL ["/usr/bin/pwsh", "-Command"]
-RUN /tmp/scripts/Install-OhMyPosh.ps1
-#
-# Format NeoVim files
-#
-SHELL ["/bin/bash", "-c"]
-RUN find $NEOVIM_ROOT -name "*.vim" | xargs dos2unix
+    && /tmp/scripts/install_nix.sh \
+    && /usr/bin/pwsh -Command /tmp/scripts/Install-OhMyPosh.ps1 \
+    && find "${NEOVIM_ROOT}" -name "*.vim" | xargs dos2unix
 #
 # Install s6-overlay and symlinks
 #
