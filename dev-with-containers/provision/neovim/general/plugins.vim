@@ -56,6 +56,7 @@ call plug#begin()
     Plug 'neovim/nvim-lspconfig'
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.2' }
+    " Plug 'whonore/Coqtail'
     " Plug 'elixir-lang/vim-elixir'
     " Plug 'rust-lang/rust.vim'
     " Plug 'simrat39/rust-tools.nvim'
