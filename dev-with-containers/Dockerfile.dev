@@ -2,7 +2,9 @@ ARG BASE=bitnami/minideb
 ARG TAG=bullseye
 ARG IMAGE=$BASE:$TAG
 FROM $IMAGE
-
+#
+# %labels
+#
 LABEL author="Jason Wohlgemuth"
 LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
 #
@@ -73,7 +75,9 @@ RUN tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz \
 #
 SHELL ["/bin/bash", "-c"]
 RUN cleanup
-
+#
+# %startscript
+#
 WORKDIR /root/dev
 ENTRYPOINT [ "/init" ]
 CMD ["/bin/zsh"]
