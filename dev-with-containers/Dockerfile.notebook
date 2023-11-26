@@ -1,56 +1,68 @@
 FROM ghcr.io/jhwohlgemuth/dev:latest
-
+#
+# %labels
+#
 LABEL author="Jason Wohlgemuth"
 LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
-
+#
+# %arguments
+#
+ARG HOME=/root
+#
+# %environment
+#
 EXPOSE 1337
 EXPOSE 13337
+ENV CERTS_DIR="${HOME}/certs"
+ENV JUPYTER_ROOT="${HOME}/.jupyter"
+ENV JUPYTER_LAB_ROOT=/opt/conda/share/jupyter/lab
+ENV CODE_SERVER_CONFIG_DIR=/app/code-server/config
+ENV PATH="${PATH}:/app/code-server/bin"
 #
-# Install and configure Jupyter (as a service)
+# %setup
 #
 SHELL ["/bin/bash", "-c"]
-WORKDIR /root
-ENV JUPYTER_ROOT /root/.jupyter
-ENV JUPYTER_LAB_ROOT /opt/conda/share/jupyter/lab
-ENV CERTS_DIR /root/certs
-RUN mkdir -p /root/dev/notebooks \
-    && mkdir -p "${JUPYTER_ROOT}/custom" \
-    && mkdir -p "${JUPYTER_LAB_ROOT}/settings" \
-    && mkdir -p "${CERTS_DIR}"
-COPY ./jupyter/jupyter_notebook_config.py "${JUPYTER_ROOT}"
+RUN mkdir -p \
+    /tmp/scripts \
+    "${HOME}/dev/notebooks" \
+    "${CERTS_DIR}" \
+    "${JUPYTER_ROOT}/custom" \
+    "${JUPYTER_LAB_ROOT}/settings" \
+    /app/code-server/config/data/Machine
+#
+# %files
+#
 COPY ./jupyter/ca.cnf "${CERTS_DIR}"
 COPY ./jupyter/custom.css "${JUPYTER_ROOT}/custom"
+COPY ./jupyter/jupyter_notebook_config.py "${JUPYTER_ROOT}"
 COPY ./jupyter/overrides.json "${JUPYTER_LAB_ROOT}/settings"
 COPY ./jupyter/service/* /etc/services.d/jupyter/
-COPY ./jupyter/environment.yml .
-WORKDIR $CERTS_DIR
-RUN openssl req -new -x509 -days 365 -out my.pem -config ca.cnf
-WORKDIR /root
-SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
-RUN mamba env update --file ./environment.yml \
-    && rm ./environment.yml \
-    && mamba clean -yaf \
-    && jupyter contrib nbextension install --user
-#
-# Install and configure code-server (as a service)
-#
-WORKDIR /root
-ENV PATH "${PATH}:/app/code-server/bin"
-ENV CODE_SERVER_CONFIG_DIR /app/code-server/config
-COPY ./code-server/settings.json /app/code-server/config/data/Machine/settings.json
-COPY ./code-server/config.yaml /app/code-server/config/config.yaml
+COPY ./jupyter/environment.yml /tmp/
+COPY ./code-server/config.yaml /app/code-server/config/
+COPY ./code-server/settings.json /app/code-server/config/data/Machine/
 COPY ./code-server/service/* /etc/services.d/code-server/
-COPY ./provision/scripts/install_code_server.sh .
-RUN chmod +x /etc/services.d/jupyter/run /etc/services.d/jupyter/finish \
-    && chmod +x /etc/services.d/code-server/run /etc/services.d/code-server/finish \
-    && chmod +x ./install_code_server.sh && ./install_code_server.sh && rm ./install_code_server.sh
+COPY ./code-server/install_extensions.sh /usr/local/bin/install_extensions
+COPY ./provision/scripts/install_code_server.sh /tmp/scripts/
 #
-# Copy script to install code-server extensions
+# %post
 #
-WORKDIR /usr/local/bin
-COPY ./code-server/install_extensions.sh install_extensions
-RUN chmod +x ./install_extensions
-
+SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
+RUN openssl req -new -x509 -days 365 -out "${CERTS_DIR}/my.pem" -config "${CERTS_DIR}/ca.cnf" \
+    && mv "$(pwd)/my.key" "${CERTS_DIR}" \
+    && mamba env update --file /tmp/environment.yml \
+    && mamba clean -yaf \
+    && jupyter contrib nbextension install --user \
+    && chmod +x \
+        /etc/services.d/jupyter/run \
+        /etc/services.d/jupyter/finish \
+        /etc/services.d/code-server/run \
+        /etc/services.d/code-server/finish \
+        /tmp/scripts/install_code_server.sh \
+        /usr/local/bin/install_extensions \
+    && /tmp/scripts/install_code_server.sh
+#
+# %startscript
+#
 WORKDIR /root/dev
 ENTRYPOINT [ "/init" ]
 CMD ["/bin/zsh"]

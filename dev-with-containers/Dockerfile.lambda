@@ -5,17 +5,17 @@ FROM ghcr.io/jhwohlgemuth/rust:latest
 LABEL author="Jason Wohlgemuth"
 LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
 #
-# %environment
-#
-EXPOSE 1337
-EXPOSE 13337
-#
 # %arguments
 #
 ARG HOME=/root
 ARG OCAML_VERSION=4.14.1
 ARG COQ_VERSION=8.18.0
 ARG JUPYTER_KERNELS=/usr/local/share/jupyter/kernels
+#
+# %environment
+#
+EXPOSE 1337
+EXPOSE 13337
 #
 # %setup
 #
@@ -64,7 +64,9 @@ RUN chmod +x /tmp/scripts/* /usr/local/bin/install_aeneas /usr/local/bin/install
 WORKDIR /root
 SHELL ["/bin/bash", "-c"]
 RUN cleanup
-
+#
+# %startscript
+#
 WORKDIR /root/dev
 ENTRYPOINT [ "/init" ]
 CMD ["/bin/zsh"]
