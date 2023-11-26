@@ -4,15 +4,15 @@
         "bat",
         "bottom",
         "ccleaner",
+        "cpufetch",
         "dos2unix",
         "duf",
         "dust",
-        "dvc",
         "espanso",
+        "fastfetch",
         "fd",
         "fzf",
         "delta",
-        "gh",
         "git",
         "git-lfs",
         "glow",
@@ -22,21 +22,15 @@
         "grep",
         "grex",
         "jq",
-        "julia",
-        "lazydocker",
-        "lazygit",
         "less",
         "lychee",
         "make",
-        "micro",
         "miniconda3",
         "neovim",
         "ngrok",
         "obsidian",
-        "osquery",
         "pandoc",
         "pwsh",
-        "qalculate",
         "ripgrep",
         "shellcheck",
         "tldr",
@@ -47,167 +41,166 @@
     ],
     "Extra": {
         "Common": [
+            "altair",
             "anki",
-            "beaker",
+            "brave",
+            "broot",
+            "btop",
             "chafa",
             "dia",
+            "dvc",
             "firefox",
+            "gh",
+            "hadolint",
+            "hexyl",
+            "httpie",
+            "insomnia",
             "mockoon",
+            "osquery",
+            "pastel",
             "podman",
             "tor-browser",
             "zotero"
         ],
-        "Brew": [
-            "aspell",
-            "broot",
-            "docker",
-            "dotnet-sdk",
+        "Homebrew": [
             "fig",
-            "hadolint",
-            "hexyl",
-            "btop",
-            "httpie",
-            "ncdu",
-            "thefuck",
             "warp"
         ],
-        "Chocolatey": [
-            "altair-graphql",
-            "bluescreenview",
-            "bitwarden",
-            "brave",
+        "Linux": [
+            "aspell",
+            "docker",
+            "dotnet-sdk",
+            "ncdu",
+            "thefuck"
+        ],
+        "Windows": [
             "carnac",
-            "cpu-z",
-            "devtoys",
-            "dropbox",
-            "e-sword",
             "gifcam",
             "gsudo",
-            "httpie",
-            "insomnia-rest-api-client",
             "lockhunter",
-            "malwarebytes",
-            "manimce",
-            "nordvpn",
-            "rsvg-convert",
             "screentogif",
             "speccy",
-            "sysinternals",
-            "windirstat",
-            "winfetch"
-        ],
-        "Scoop": [
-            "altair",
-            "bitwarden-cli",
-            "brave",
-            "btop",
-            "carnac",
-            "cpu-z",
-            "fciv",
-            "gifcam",
-            "gsudo",
-            "hadolint",
-            "hexyl",
-            "insomnia",
-            "JetBrainsMono-NF",
-            "lockhunter",
-            "pastel",
-            "screentogif",
-            "speccy",
-            "sysinternals",
-            "tesseract-languages",
-            "windirstat",
-            "winfetch"
-        ],
-        "winget": [
-            "Logitech.Options"
+            "windirstat"
         ]
     },
     "Alias": {
-        "Brew": {
-            "7zip": "sevenzip",
-            "beaker": "beaker-browser",
-            "delta": "git-delta",
-            "miniconda3": "miniconda",
-            "pwsh": "powershell",
-            "qalculate": "qalculate-gtk",
-            "vscode": "visual-studio-code"
-        },
-        "Choco": {
+        "Chocolatey": {
+            "altair": "altair-graphql",
             "Cascadia-Code": "cascadiafonts",
+            "cpufetch": "cpu-z",
+            "fastfetch": "winfetch",
             "FiraCode-NF": "firacodenf",
             "go": "golang",
+            "insomnia": "insomnia-rest-api-client",
             "latex": "miktex",
             "openssl": "openssl.light",
             "rga": "ripgrep-all",
             "speedtest-cli": "speedtest",
             "teracopy-np": "teracopy"
         },
+        "Homebrew": {
+            "7zip": "sevenzip",
+            "altair": "altair-graphql-client",
+            "brave": "brave-browser",
+            "delta": "git-delta",
+            "miniconda3": "miniconda",
+            "pwsh": "powershell",
+            "vscode": "visual-studio-code"
+        },
+        "Nix": {
+            "dotnet-sdk": "dotnet-sdk_8",
+            "dust": "du-dust",
+            "grep": "gnugrep",
+            "make": "gnumake",
+            "miniconda3": "micromamba",
+            "pwsh": "powershell",
+            "tor-browser": "tor-browser-bundle-bin"
+        },
         "Scoop": {},
         "Winget": {
             "7zip": "7zip.7zip",
-            "beaker": "PaulFrazee.BeakerBrowser",
             "bottom": "Clement.bottom",
+            "carnac": "code52.Carnac",
             "ccleaner": "Piriform.CCleaner",
             "chafa": "hpjansson.Chafa",
+            "cpufetch": "Dr-Noob.cpufetch",
             "espanso": "Espanso.Espanso",
+            "fastfetch": "nepnep.neofetch-win",
             "gh": "GitHub.cli",
             "git": "Git.Git",
             "git-lfs": "GitHub.GitLFS",
             "gource": "acaudwell.Gource",
             "grep": "GnuWin32.Grep",
+            "gsudo": "gerardog.gsudo",
+            "hexyl": "sharkdp.hexyl",
+            "httpie": "HTTPie.HTTPie",
             "julia": "Julialang.Julia",
+            "lockhunter": "CrystalRich.LockHunter",
             "lychee": "lycheeverse.lychee",
             "make": "GnuWin32.Make",
             "miniconda3": "Anaconda.Miniconda3",
             "neovim": "Neovim.Neovim",
             "obsidian": "Obsidian.Obsidian",
             "pandoc": "JohnMacFarlane.Pandoc",
+            "pastel": "sharkdp.pastel",
             "podman": "RedHat.Podman",
             "pwsh": "Microsoft.PowerShell",
-            "qalculate": "Qalculate.Qalculate",
+            "screentogif": "NickeManarin.ScreenToGif",
+            "speccy": "Piriform.Speccy",
             "teracopy": "CodeSector.TeraCopy",
+            "tor-browser": "TorProject.TorBrowser",
             "vscode": "Microsoft.VisualStudioCode",
+            "windirstat": "WinDirStat.WinDirStat",
             "zotero": "DigitalScholar.Zotero"
         }
     },
     "Broken": {
-        "Brew": [
-            "espanso"
-        ],
         "Chocolatey": [
+            "broot",
+            "btop",
             "chafa",
             "espanso",
             "gsudo",
+            "hadolint",
             "lychee",
-            "malwarebytes",
+            "pastel",
             "tokei"
+        ],
+        "Homebrew": [
+            "espanso"
+        ],
+        "Nix": [
+            "7zip",
+            "carnac",
+            "ccleaner",
+            "fig",
+            "mockoon",
+            "osquery",
+            "speccy"
         ],
         "Scoop": [
             "espanso",
             "fciv",
             "gsudo",
-            "JetBrainsMono-NF",
+            "httpie",
             "openssl",
             "zoxide"
         ],
         "Winget": [
+            "delta",
             "dos2unix",
             "duf",
             "dust",
             "dvc",
             "fd",
             "fzf",
-            "delta",
+            "gifcam",
             "glow",
             "gotop",
             "gping",
             "grex",
             "jq",
-            "lazydocker",
-            "lazygit",
             "less",
-            "micro",
             "ngrok",
             "osquery",
             "ripgrep",
@@ -217,26 +210,58 @@
             "zoxide"
         ]
     },
-    "Brew": {
-        "Cask": [
-            "anki",
-            "beaker-browser",
-            "ccleaner",
-            "dia",
-            "docker",
-            "dotnet-sdk",
-            "espanso",
-            "fig",
-            "firefox",
-            "julia",
-            "miniconda",
-            "mockoon",
-            "ngrok",
-            "obsidian",
-            "tor-browser",
-            "visual-studio-code",
-            "warp",
-            "zotero"
-        ]
+    "Metadata": {
+        "Chocolatey": {
+            "Command": "choco install",
+            "Supports": [
+                "Windows"
+            ]
+        },
+        "Homebrew": {
+            "Command": "brew install",
+            "Supports": [
+                "Linux",
+                "OSX"
+            ],
+            "Cask": [
+                "altair-graphql-client",
+                "anki",
+                "brave-browser",
+                "ccleaner",
+                "dia",
+                "docker",
+                "dotnet-sdk",
+                "espanso",
+                "fig",
+                "firefox",
+                "miniconda",
+                "mockoon",
+                "ngrok",
+                "obsidian",
+                "tor-browser",
+                "visual-studio-code",
+                "warp",
+                "zotero"
+            ]
+        },
+        "Nix": {
+            "Command": "nix-env -iA",
+            "Supports": [
+                "Linux",
+                "OSX"
+            ],
+        },
+        "Scoop": {
+            "Command": "scoop install",
+            "Supports": [
+                "Windows"
+            ]
+        },
+        "Winget": {
+            "Command": "winget install",
+            "Supports": [
+                "Windows"
+            ]
+        }
     }
 }
