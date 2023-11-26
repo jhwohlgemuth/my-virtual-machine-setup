@@ -220,8 +220,8 @@
         "Homebrew": {
             "Command": "brew install",
             "Supports": [
-                "Linux",
-                "OSX"
+                "Darwin",
+                "Linux"
             ],
             "Cask": [
                 "altair-graphql-client",
@@ -247,9 +247,9 @@
         "Nix": {
             "Command": "nix-env -iA",
             "Supports": [
-                "Linux",
-                "OSX"
-            ],
+                "Darwin",
+                "Linux"
+            ]
         },
         "Scoop": {
             "Command": "scoop install",
