@@ -118,7 +118,6 @@ SCRIPTS = \
 	./provision/scripts/install_nim.sh \
 	./provision/scripts/install_ocaml.sh \
 	./provision/scripts/install_provers.sh \
-	./provision/scripts/install_ruby.sh \
 	./provision/scripts/install_verus.sh \
 	./provision/scripts/install_wasm_runtimes.sh
 FUNCTIONS = \

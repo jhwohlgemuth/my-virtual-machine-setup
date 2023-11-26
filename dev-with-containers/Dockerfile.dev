@@ -8,16 +8,17 @@ LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
 #
 # %arguments
 #
+ARG HOME=/root
 ARG DEBIAN_FRONTEND=noninteractive
 #
 # %environment
 #
-ENV TZ America/New_York
-ENV TERM xterm-256color
-ENV CONDA_DIR /opt/conda
-ENV NEOVIM_ROOT "${HOME}/.config/nvim/"
-ENV PATH "${PATH}:/usr/local/bin/fn"
-ENV PATH "${PATH}:${CONDA_DIR}/bin"
+ENV TZ=America/New_York
+ENV TERM=xterm-256color
+ENV CONDA_DIR=/opt/conda
+ENV NEOVIM_ROOT="${HOME}/.config/nvim/"
+ENV PATH="${PATH}:/usr/local/bin/fn"
+ENV PATH="${PATH}:${CONDA_DIR}/bin"
 #
 # %setup
 #
@@ -27,7 +28,6 @@ RUN mkdir -p /tmp/scripts /usr/local/bin/fn
 #
 # %files
 #
-SHELL ["/bin/bash", "-c"]
 COPY ./provision/scripts/dev/* /tmp/scripts
 COPY ./provision/functions/* /usr/local/bin/fn
 COPY ./config/.p10k.zsh "${HOME}/.p10k.zsh"

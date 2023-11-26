@@ -6,28 +6,40 @@ LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
 EXPOSE 1337
 EXPOSE 13337
 #
-# Install Ruby
+# %arguments
 #
-WORKDIR /root
-COPY ./provision/scripts/install_ruby.sh .
-RUN chmod +x ./install_ruby.sh && ./install_ruby.sh && rm ./install_ruby.sh
+ARG HOME=/root
+ARG OCAML_VERSION=4.14.1
+ARG COQ_VERSION=8.18.0
+ARG JUPYTER_KERNELS=/usr/local/share/jupyter/kernel
 #
-# Install Node.js (using asdf)
+# %setup
 #
-WORKDIR /root
-SHELL ["/bin/bash", "-lc"]
-RUN . "$(/home/linuxbrew/.linuxbrew/bin/brew --prefix asdf)/libexec/asdf.sh" \
-    && asdf plugin add nodejs && asdf install nodejs latest && asdf global nodejs latest
+SHELL ["/bin/bash", "-c"]
+RUN mkdir -p \
+    /tmp/scripts \
+    "${HOME}/.config/utop/" \
+    "${JUPYTER_KERNELS}/coq" \
+    "${JUPYTER_KERNELS}/ocaml"
 #
-# Install OCaml
+# %files
 #
-WORKDIR /root
-SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
-# ocaml-jupyter does not support OCaml 5.0
-# See https://github.com/akabe/ocaml-jupyter/pull/199
-ENV OCAML_VERSION 4.14.1
-COPY ./provision/scripts/install_ocaml.sh .
-RUN apt-get update && apt-get install --no-install-recommends -y \
+COPY ./config/.utoprc "${HOME}/.utoprc"
+COPY ./config/init.ml "${HOME}/.config/utop/init.ml"
+COPY ./jupyter/logo_coq.png "${JUPYTER_KERNELS}/coq/logo-64x64.png"
+COPY ./jupyter/logo_ocaml.png "${JUPYTER_KERNELS}/ocaml/logo-64x64.png"
+COPY ./provision/scripts/install_coq.sh /tmp/scripts/install_coq.sh
+COPY ./provision/scripts/install_ocaml.sh /tmp/scripts/install_ocaml.sh
+COPY ./provision/scripts/install_provers.sh /tmp/scripts/install_provers.sh
+COPY ./provision/scripts/install_aeneas.sh /usr/local/bin/install_aeneas
+COPY ./provision/scripts/install_verus.sh /usr/local/bin/install_verus
+#
+# %post
+#
+SHELL ["/bin/bash", "-c"]
+RUN source "$(/home/linuxbrew/.linuxbrew/bin/brew --prefix asdf)/libexec/asdf.sh" \
+    && asdf plugin add nodejs && asdf install nodejs latest && asdf global nodejs latest \
+    && apt-get update && apt-get install --no-install-recommends -y \
         apt-utils \
         autoconf \
         jupyter \
@@ -37,35 +49,11 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
         opam \
         pkg-config \
         ruby-full
-RUN chmod +x ./install_ocaml.sh && ./install_ocaml.sh && rm ./install_ocaml.sh
-COPY ./jupyter/logo_ocaml.png /usr/local/share/jupyter/kernels/ocaml/logo-64x64.png
-WORKDIR /root
-COPY ./config/.utoprc .
-RUN mkdir -p /root/.config/utop
-WORKDIR /root/.config/utop
-COPY ./config/init.ml .
-#
-# Install Coq language and kernel
-#
-WORKDIR /root
-ENV COQ_VERSION 8.18.0
-ENV PATH "${PATH}:/opt/conda/bin/"
-COPY ./provision/scripts/install_coq.sh .
-RUN chmod +x ./install_coq.sh && ./install_coq.sh && rm ./install_coq.sh
-WORKDIR /usr/local/share/jupyter/kernels/coq
-COPY ./jupyter/logo_coq.png logo-64x64.png
-#
-# Install theorem provers
-#
-WORKDIR /root
-COPY ./provision/scripts/install_provers.sh .
-RUN chmod +x ./install_provers.sh && ./install_provers.sh && rm ./install_provers.sh
-#
-# Copy install scripts
-#
-WORKDIR /usr/local/bin
-COPY ./provision/scripts/install_aeneas.sh install_aeneas
-RUN chmod +x ./install_aeneas
+SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
+RUN chmod +x /tmp/scripts/* /usr/local/bin/install_aeneas /usr/local/bin/install_verus \
+    && /tmp/scripts/install_ocaml.sh \
+    && /tmp/scripts/install_coq.sh \
+    && /tmp/scripts/install_provers.sh
 #
 # Cleanup
 #

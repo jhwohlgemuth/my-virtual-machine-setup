@@ -11,6 +11,8 @@ requires \
     pkg-config \
     ruby
 main() {
+    # ocaml-jupyter does not support OCaml 5.0
+    # See https://github.com/akabe/ocaml-jupyter/pull/199
     opam init --compiler="${OCAML_VERSION:-4.14.1}" --disable-sandboxing --yes
     eval "$(opam env)"
     # shellcheck disable=SC2016
