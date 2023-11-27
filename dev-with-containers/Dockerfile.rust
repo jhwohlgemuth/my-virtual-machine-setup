@@ -1,34 +1,34 @@
 FROM ghcr.io/jhwohlgemuth/notebook:latest
-
+#
+# %labels
+#
 LABEL author="Jason Wohlgemuth"
-LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
-
+LABEL org.opencontainers.image.source=https://github.com/jhwohlgemuth/env
+#
+# %environment
+#
 EXPOSE 1337
 EXPOSE 13337
+ENV PATH="${PATH}:/root/.cargo/bin"
 #
-# Install Rust language and Jupyter kernel
+# %files
+#
+COPY ./provision/scripts/install_wasm_runtimes.sh /usr/local/bin/install_wasm_runtimes
+#
+# %post
 #
 SHELL ["/bin/bash", "-c"]
-RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
-ENV PATH "${PATH}:/root/.cargo/bin"
-RUN rustup toolchain install nightly \
+RUN curl https://sh.rustup.rs -sSf | bash -s -- -y \
+    && rustup toolchain install nightly \
     && cargo install \
         evcxr_repl \
         evcxr_jupyter \
-    && evcxr_jupyter --install
+    && evcxr_jupyter --install \
+    && chmod +x /usr/local/bin/install_wasm_runtimes \
+    && cleanup
 #
-# Copy install scripts
+# %startscript
 #
-WORKDIR /usr/local/bin
-COPY ./provision/scripts/install_wasm_runtimes.sh install_wasm_runtimes
-RUN chmod +x ./install_wasm_runtimes
-#
-# Cleanup
-#
-WORKDIR /root
-SHELL ["/bin/bash", "-c"]
-RUN cleanup
-
 WORKDIR /root/dev
 ENTRYPOINT [ "/init" ]
 CMD ["/bin/zsh"]
