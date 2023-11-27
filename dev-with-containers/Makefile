@@ -102,7 +102,6 @@ IGNORE_RULES = \
 SCRIPTS = \
 	./code-server/install_extensions.sh \
 	./provision/scripts/dev/install_apptainer.sh \
-	./provision/scripts/dev/install_conda.sh \
 	./provision/scripts/dev/install_dependencies.sh \
 	./provision/scripts/dev/install_dotnet.sh \
 	./provision/scripts/dev/install_homebrew.sh \
@@ -111,6 +110,7 @@ SCRIPTS = \
 	./provision/scripts/install_aeneas.sh \
 	./provision/scripts/install_all_the_things.sh \
 	./provision/scripts/install_code_server.sh \
+	./provision/scripts/install_conda.sh \
 	./provision/scripts/install_coq.sh \
 	./provision/scripts/install_dotnet_jupyter_kernel.sh \
 	./provision/scripts/install_elixir.sh \

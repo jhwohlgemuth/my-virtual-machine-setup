@@ -6,7 +6,7 @@ FROM $IMAGE
 # %labels
 #
 LABEL author="Jason Wohlgemuth"
-LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
+LABEL org.opencontainers.image.source=https://github.com/jhwohlgemuth/env
 #
 # %arguments
 #
@@ -17,10 +17,8 @@ ARG DEBIAN_FRONTEND=noninteractive
 #
 ENV TZ=America/New_York
 ENV TERM=xterm-256color
-ENV CONDA_DIR=/opt/conda
 ENV NEOVIM_ROOT="${HOME}/.config/nvim/"
 ENV PATH="${PATH}:/usr/local/bin/fn"
-ENV PATH="${PATH}:${CONDA_DIR}/bin"
 #
 # %setup
 #
@@ -53,7 +51,6 @@ RUN chmod +x /tmp/scripts/* && chmod +x /usr/local/bin/fn/* \
     && /tmp/scripts/install_ohmyzsh.sh \
     && /tmp/scripts/install_homebrew.sh \
     && /tmp/scripts/install_apptainer.sh \
-    && /tmp/scripts/install_conda.sh \
     && /tmp/scripts/install_nix.sh \
     && /usr/bin/pwsh -Command /tmp/scripts/Install-OhMyPosh.ps1 \
     && find "${NEOVIM_ROOT}" -name "*.vim" | xargs dos2unix

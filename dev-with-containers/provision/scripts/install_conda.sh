@@ -16,11 +16,10 @@ main() {
     #
     # Install mamba
     #
-    TEMP_SCRIPT_PATH=/tmp/miniforge.sh
-    MINIFORGE_NAME=Miniforge3
-    MINIFORGE_VERSION=23.3.1-1
-    curl -o "${TEMP_SCRIPT_PATH}" -LJ "https://github.com/conda-forge/miniforge/releases/download/${MINIFORGE_VERSION}/${MINIFORGE_NAME}-${MINIFORGE_VERSION}-Linux-$(uname -m).sh"
-    /bin/bash "${TEMP_SCRIPT_PATH}" -b -p "${CONDA_DIR}"
-    rm "${TEMP_SCRIPT_PATH}"
+    local VERSION="${MAMBA_VERSION:-"23.3.1-1"}"
+    local NAME=Miniforge3
+    local SCRIPT_PATH=/tmp/miniforge.sh
+    curl -o "${SCRIPT_PATH}" -LJ "https://github.com/conda-forge/miniforge/releases/download/${VERSION}/${NAME}-${VERSION}-Linux-$(uname -m).sh"
+    /bin/bash "${SCRIPT_PATH}" -bu -p "${CONDA_DIR}"
 }
 main "$@"
