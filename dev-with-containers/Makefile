@@ -57,10 +57,6 @@ elixir:
 notebook:
 	@$(MAKE) TASK=$@ --no-print-directory build-image
 
-.PHONY: jvm
-jvm:
-	@$(MAKE) TASK=$@ --no-print-directory build-image
-
 .PHONY: lambda
 lambda:
 	@$(MAKE) TASK=$@ --no-print-directory build-image
@@ -85,7 +81,6 @@ IMAGES = \
 	dev \
 	notebook \
 	python \
-	jvm \
 	rust \
 	web \
 	lambda
