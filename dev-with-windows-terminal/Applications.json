@@ -21,6 +21,7 @@
         "gping",
         "grep",
         "grex",
+        "htmlq",
         "jq",
         "less",
         "lychee",
@@ -162,6 +163,7 @@
             "espanso",
             "gsudo",
             "hadolint",
+            "htmlq",
             "lychee",
             "pastel",
             "tokei"
