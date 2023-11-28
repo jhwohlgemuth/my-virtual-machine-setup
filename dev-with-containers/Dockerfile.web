@@ -1,61 +1,61 @@
 FROM ghcr.io/jhwohlgemuth/notebook:latest
-
+#
+# %labels
+#
 LABEL author="Jason Wohlgemuth"
-LABEL org.opencontainers.image.source https://github.com/jhwohlgemuth/env
-
+LABEL org.opencontainers.image.source=https://github.com/jhwohlgemuth/env
+#
+# %arguments
+#
+ARG HOME=/root
+#
+# %environment
+#
 EXPOSE 1337
 EXPOSE 4873
 EXPOSE 8080
 EXPOSE 13337
+ENV LC_ALL=C.utf8
+ENV NODE_OPTIONS="--max-old-space-size=8192"
+ENV PATH="${PATH}:${HOME}/bin"
+ENV PATH="${PATH}:${HOME}/.nix-profile/bin"
+ENV PATH="${PATH}:${HOME}/.npm-packages/bin"
 #
-# Install nvm (Node.js)
+# %setup
+#
+RUN mkdir -p \
+    /tmp/scripts/ \
+    /etc/nixos/ \
+    /verdaccio/conf/ \
+    /etc/services.d/verdaccio/ \
+    /verdaccio/conf \
+    /verdaccio/plugins \
+    /verdaccio/storage
+#
+# %files
+#
+COPY ./provision/scripts/web/manifest.nix /tmp/scripts/
+COPY ./verdaccio/.npmrc "${HOME}/.npmrc"
+COPY ./verdaccio/config.yml /verdaccio/conf/
+COPY ./verdaccio/service/* /etc/services.d/verdaccio/
+#
+# %post
 #
 SHELL ["/bin/bash", "-c"]
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
-ENV PATH "${PATH}:/root/bin"
-ENV NVM_DIR /root/.nvm
-ENV NODE_OPTIONS "--max-old-space-size=8192"
-RUN echo ". ${NVM_DIR}/nvm.sh" >> "${HOME}/.zshrc"
-#
-# Install Node.js, Rescript, iJavaScript Jupyter kernel, and Verdaccio proxy service
-#
-SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
-WORKDIR /root/dev/notebooks
-COPY ./verdaccio/service/* /etc/services.d/verdaccio/
-RUN . ${NVM_DIR}/nvm.sh \
-    && nvm install --lts \
-    && mkdir ijavascript \
-    && cd ijavascript \
-    && npm init -y \
-    && npm install --omit=dev ijavascript@^5.2.1 \
-    && node_modules/ijavascript/bin/ijsinstall.js --spec-path=full \
-    && npm install --omit=dev --location=global verdaccio@next rescript@^10.1.4 esy@^0.7.2 \
+RUN nix-env -iA \
+        nixpkgs.bun \
+        nixpkgs.htmlq \
+        nixpkgs.nodejs_20 \
+        nixpkgs.elmPackages.elm \
+    && npm install --registry=https://registry.npmjs.org/ --omit=dev --location=global \
+        verdaccio@next \
+        rescript@^10.1.4 \
+        esy@^0.7.2 \
+    && curl -sSL https://get.wasp-lang.dev/installer.sh | sh \
     && chmod +x /etc/services.d/verdaccio/run /etc/services.d/verdaccio/finish
-RUN mkdir -p /verdaccio/storage /verdaccio/plugins /verdaccio/conf
-COPY ./verdaccio/.npmrc /root/
-COPY ./verdaccio/config.yml /verdaccio/conf/
 #
-# Install Elm language
+# %startscript
 #
-SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
-WORKDIR /root/dev/
-RUN curl -L -o elm.gz https://github.com/elm/compiler/releases/download/0.19.1/binary-for-linux-64-bit.gz \
-    && gunzip elm.gz \
-    && chmod +x elm \
-    && mv elm /usr/local/bin/
-#
-# Install Wasp (https://wasp-lang.dev/)
-#
-RUN curl -sSL https://get.wasp-lang.dev/installer.sh | sh
-#
-# Install Bun and htmlq
-#
-RUN /home/linuxbrew/.linuxbrew/bin/brew tap oven-sh/bun \
-    && /home/linuxbrew/.linuxbrew/bin/brew install \
-        bun \
-        htmlq \
-    && /home/linuxbrew/.linuxbrew/bin/brew cleanup --prune=all
-
 WORKDIR /root/dev
 ENTRYPOINT [ "/init" ]
 CMD ["/bin/zsh"]

@@ -27,6 +27,7 @@
     "notebook": [
         "aaron-bond.better-comments",
         "akamud.vscode-theme-onedark",
+        "bbenoist.nix",
         "britesnow.vscode-toggle-quotes",
         "christian-kohler.path-intellisense",
         "codeium.codeium",

@@ -24,6 +24,9 @@ format:
 	@for file in $(FILES) ; do \
         dos2unix $$file; \
     done
+	@for fn in $(FUNCTIONS) ; do \
+        dos2unix $$fn; \
+    done
 
 .PHONY: build-image
 build-image:format
