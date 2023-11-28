@@ -25,7 +25,6 @@ ENV PATH="${PATH}:/usr/local/bin/fn"
 #
 SHELL ["/bin/bash", "-c"]
 RUN ln -snf "/usr/share/zoneinfo/${TZ}" /etc/localtime && echo "${TZ}" > /etc/timezone \
-    && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen \
     && mkdir -p \
         tmp/scripts \
         /usr/local/bin/fn
@@ -57,6 +56,7 @@ RUN chmod +x /tmp/scripts/* && chmod +x /usr/local/bin/fn/* \
     && /tmp/scripts/install_apptainer.sh \
     && /tmp/scripts/install_nix.sh \
     && /usr/bin/pwsh -Command /tmp/scripts/Install-OhMyPosh.ps1 \
+    && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen \
     && find "${NEOVIM_ROOT}" -name "*.vim" | xargs dos2unix
 #
 # Install s6-overlay and symlinks

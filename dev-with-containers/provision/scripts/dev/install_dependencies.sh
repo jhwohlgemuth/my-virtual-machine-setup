@@ -15,6 +15,7 @@ apt-get install --no-install-recommends -y \
     git \
     jq \
     less \
+    locales \
     neovim \
     python3-dev \
     python3-venv \
