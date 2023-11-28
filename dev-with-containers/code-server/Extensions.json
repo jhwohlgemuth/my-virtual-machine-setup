@@ -20,7 +20,7 @@
         "elixir-lsp.elixir-ls",
         "jakebecker.elixir-ls"
     ],
-    "jvm": [
+    "scala": [
         "lightbend.vscode-sbt-scala",
         "scala-lang.scala"
     ],
