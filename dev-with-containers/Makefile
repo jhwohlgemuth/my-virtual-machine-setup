@@ -45,24 +45,12 @@ all:
 dev:
 	@$(MAKE) TASK=$@ --no-print-directory build-image
 
-.PHONY: dotnet
-dotnet:
-	@$(MAKE) TASK=$@ --no-print-directory build-image
-
-.PHONY: elixir
-elixir:
-	@$(MAKE) TASK=$@ --no-print-directory build-image
-
 .PHONY: notebook
 notebook:
 	@$(MAKE) TASK=$@ --no-print-directory build-image
 
 .PHONY: lambda
 lambda:
-	@$(MAKE) TASK=$@ --no-print-directory build-image
-
-.PHONY: python
-python:
 	@$(MAKE) TASK=$@ --no-print-directory build-image
 
 .PHONY: rust
@@ -80,7 +68,6 @@ REPO = jhwohlgemuth
 IMAGES = \
 	dev \
 	notebook \
-	python \
 	rust \
 	web \
 	lambda

@@ -1,7 +1,9 @@
 #! /bin/bash
 set -e
 
-requires curl libzmq5
+requires \
+    curl \
+    libzmq5
 main() {
     curl https://nim-lang.org/choosenim/init.sh -sSf > init.sh
     sh init.sh -y
