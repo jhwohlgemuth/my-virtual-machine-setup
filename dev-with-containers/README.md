@@ -15,7 +15,7 @@ Use VS Code in the browser in **Three Easy Steps™**
         --hostname $(hostname) \
         --env CODE_SERVER_PASSWORD=secret \
         --env CODE_SERVER_PORT=1338 \
-        -p 1337:1337 \
+        -p 1338:1338 \
         -p 4873:4873 \
         -p 13337:13337 \
         ghcr.io/jhwohlgemuth/web
@@ -25,10 +25,10 @@ Use VS Code in the browser in **Three Easy Steps™**
 Container Customization
 -----------------------
 > **Note**</br>
-> Use [`install_extensions`](./code-server/install_extensions) to install VS Code extensions.
+> Use [`install_extensions`](./code-server/install_extensions.sh) to install VS Code extensions.
 
 > **Note**</br>
-> [`install_extensions`](./code-server/install_extensions) accepts any number of image names (see [Image Design section](#image-design))</br>
+> [`install_extensions`](./code-server/install_extensions.sh) accepts any number of image names (see [Image Design section](#image-design))</br>
 > *Example* `install_extensions notebook dotnet web`
 
 The following environment variables are available to customize containers:
@@ -63,5 +63,5 @@ graph LR
     dev --> notebook
     notebook --> web
     notebook --> rust
-    notebook --> lambda
+    rust --> lambda
 ```
