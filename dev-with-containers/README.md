@@ -10,10 +10,12 @@ Use VS Code in the browser in **Three Easy Steps™**
 2. Run the command
     ```shell
     docker run -it \
+        --privileged \
         --name notebook \
+        --hostname $(hostname) \
         --env CODE_SERVER_PASSWORD=secret \
         --env CODE_SERVER_PORT=1338 \
-        -p 1338:1338 \
+        -p 1337:1337 \
         -p 4873:4873 \
         -p 13337:13337 \
         ghcr.io/jhwohlgemuth/web

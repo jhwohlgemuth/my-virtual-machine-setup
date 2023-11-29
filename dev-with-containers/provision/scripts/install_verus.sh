@@ -11,10 +11,11 @@ main() {
     #
     cd / || exit
     git clone https://github.com/verus-lang/verus
-    direnv enable verus
+    chmod +x /verus/tools/activate
+    /verus/tools/activate
     cd /verus/source
     ./tools/get-z3.sh
-    vargo build --release
+    /verus/tools/vargo/target/release/vargo build --release
     ln -s /verus/source/target-verus/release/verus /usr/local/bin/verus
     #
     # Test Verus installation
