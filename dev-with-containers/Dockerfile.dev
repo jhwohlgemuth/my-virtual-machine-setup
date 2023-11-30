@@ -56,7 +56,7 @@ RUN chmod +x /tmp/scripts/* && chmod +x /usr/local/bin/fn/* \
     && /tmp/scripts/install_apptainer.sh \
     && /tmp/scripts/install_nix.sh \
     && /usr/bin/pwsh -Command /tmp/scripts/Install-OhMyPosh.ps1 \
-    && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen \
+    && echo "C.utf8 UTF-8" > /etc/locale.gen && locale-gen \
     && find "${NEOVIM_ROOT}" -name "*.vim" | xargs dos2unix
 #
 # Install s6-overlay and symlinks
