@@ -7,20 +7,19 @@ Quick Start
 Use VS Code in the browser in **Three Easy Steps™**
 
 1. Install [Docker](https://docs.docker.com/get-docker/) or [Podman](https://podman.io/)
-2. Run the command
+2. Run the command <sup>[1](#1)</sup>
     ```shell
     docker run -it \
         --privileged \
         --name notebook \
         --hostname $(hostname) \
-        --env CODE_SERVER_PASSWORD=secret \
-        --env CODE_SERVER_PORT=1338 \
-        -p 1338:1338 \
-        -p 4873:4873 \
-        -p 13337:13337 \
-        ghcr.io/jhwohlgemuth/web
+        ghcr.io/jhwohlgemuth/notebook
     ```
-3. Open a browser and navigate to [https://localhost:1337](https://localhost:1337)
+3. Open a browser and navigate to [https://localhost:1337](https://localhost:1337) <sup>[2](#2)</sup>
+
+Environment for Software Correctness
+------------------------------------
+> 🚧 UNDER CONSTRUCTION
 
 Container Customization
 -----------------------
@@ -46,6 +45,15 @@ The following environment variables are available to customize containers:
   - Default: `password`
 
 
+> [!Example]
+> Change the code-server port and password
+  ```shell
+  docker run -it \
+    --env CODE_SERVER_PORT=8080 \
+    --env CODE_SERVER_PASSWORD=secret \
+    ghcr.io/jhwohlgemuth/rust
+  ```
+
 Image Design
 ------------
 > Images are built using GitHub Actions and deployed to the Github Container Registry, `ghcr.io`, under the username, `jhwohlgemuth`
@@ -65,3 +73,16 @@ graph LR
     notebook --> rust
     rust --> lambda
 ```
+
+-------------
+
+**Footnotes**
+-------------
+
+[1]
+---
+> `--privileged` is required to use [Apptainer](https://github.com/apptainer/apptainer) within the container
+
+[2]
+---
+> The default code-server port can be changed with the `CODE_SERVER_PORT` environment variable. See the [Container Customization section](#container-customization) for more details.
