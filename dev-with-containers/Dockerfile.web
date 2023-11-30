@@ -54,7 +54,7 @@ RUN nix-env -iA \
     && curl -sSL https://get.wasp-lang.dev/installer.sh | sh \
     && chmod +x /etc/services.d/verdaccio/run /etc/services.d/verdaccio/finish
 #
-# %startscript
+# %runscript
 #
 WORKDIR /root/dev
 ENTRYPOINT [ "/init" ]

@@ -67,7 +67,7 @@ RUN openssl req -new -x509 -days 365 -out "${CERTS_DIR}/my.pem" -config "${CERTS
     && /tmp/scripts/install_code_server.sh \
     && cleanup
 #
-# %startscript
+# %runscript
 #
 WORKDIR /root/dev
 ENTRYPOINT [ "/init" ]

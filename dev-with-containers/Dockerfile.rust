@@ -27,7 +27,7 @@ RUN curl https://sh.rustup.rs -sSf | bash -s -- -y \
     && chmod +x /usr/local/bin/install_wasm_runtimes \
     && cleanup
 #
-# %startscript
+# %runscript
 #
 WORKDIR /root/dev
 ENTRYPOINT [ "/init" ]

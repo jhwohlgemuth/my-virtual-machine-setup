@@ -77,7 +77,7 @@ RUN tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz \
 SHELL ["/bin/bash", "-c"]
 RUN cleanup
 #
-# %startscript
+# %runscript
 #
 WORKDIR /root/dev
 ENTRYPOINT [ "/init" ]
