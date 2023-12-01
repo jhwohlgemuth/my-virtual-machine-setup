@@ -17,6 +17,7 @@ apt-get install --no-install-recommends -y \
     less \
     locales \
     neovim \
+    openssh-server \
     python3-dev \
     python3-venv \
     python3-pip \
