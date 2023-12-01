@@ -1,9 +1,8 @@
 { pkgs ? import <nixpkgs> {} }:
-
 {
-   inherit (pkgs)
-    bun
-    # elmPackages_elm
-    htmlq
-    nodejs_20;
+    inherit (pkgs)
+        bun
+        # elmPackages_elm
+        htmlq
+        nodejs_20;
 }

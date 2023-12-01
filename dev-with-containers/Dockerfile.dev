@@ -61,9 +61,10 @@ RUN chmod +x /tmp/scripts/* && chmod +x /usr/local/bin/fn/* \
     && /usr/bin/pwsh -Command /tmp/scripts/Install-OhMyPosh.ps1 \
     && locale-gen \
     && find "${NEOVIM_ROOT}" -name "*.vim" | xargs dos2unix \
+    && echo 'alias sgrep=ast-grep' >> "${HOME}/.zshrc" \
+    && echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> "${HOME}/.zshrc" \
     && echo 'eval "$(direnv hook zsh)"' >> "${HOME}/.zshrc" \
-    && echo 'eval "$(thefuck --alias oops)"' >> "${HOME}/.zshrc" \
-    && echo 'alias sgrep=ast-grep' >> "${HOME}/.zshrc"
+    && echo 'eval "$(thefuck --alias oops)"' >> "${HOME}/.zshrc"
 #
 # Install s6-overlay and symlinks
 #
