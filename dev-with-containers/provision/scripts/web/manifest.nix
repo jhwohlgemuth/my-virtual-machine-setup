@@ -1,11 +1,9 @@
-let
-    pkgs = import <nixpkgs> {};
-in
-    {    
-        packages = [
-            pkgs.bun
-            pkgs.htmlq
-            pkgs.nodejs_20
-            pkgs.elmPackages.elm
-        ];
-    }
+{ pkgs ? import <nixpkgs> {} }:
+
+{
+   inherit (pkgs)
+    bun
+    # elmPackages_elm
+    htmlq
+    nodejs_20;
+}

@@ -38,6 +38,7 @@ call plug#begin()
     Plug 'davidhalter/jedi-vim'
     Plug 'maxmellon/vim-jsx-pretty'
     Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+    Plug 'LnL7/vim-nix'
     Plug 'joshdick/onedark.vim'
     Plug 'sheerun/vim-polyglot'
     Plug 'luochen1990/rainbow'

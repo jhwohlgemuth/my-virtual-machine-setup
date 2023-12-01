@@ -19,6 +19,7 @@ ENV LC_ALL=C.utf8
 ENV TZ=America/New_York
 ENV TERM=xterm-256color
 ENV NEOVIM_ROOT="${HOME}/.config/nvim/"
+ENV PATH="${PATH}:${HOME}/.nix-profile/bin"
 ENV PATH="${PATH}:/usr/local/bin/fn"
 #
 # %setup
@@ -56,9 +57,13 @@ RUN chmod +x /tmp/scripts/* && chmod +x /usr/local/bin/fn/* \
     && /tmp/scripts/install_homebrew.sh \
     && /tmp/scripts/install_apptainer.sh \
     && /tmp/scripts/install_nix.sh \
+    && nix-env --install --file /tmp/scripts/manifest.nix \
     && /usr/bin/pwsh -Command /tmp/scripts/Install-OhMyPosh.ps1 \
     && locale-gen \
-    && find "${NEOVIM_ROOT}" -name "*.vim" | xargs dos2unix
+    && find "${NEOVIM_ROOT}" -name "*.vim" | xargs dos2unix \
+    && echo 'eval "$(direnv hook zsh)"' >> "${HOME}/.zshrc" \
+    && echo 'eval "$(thefuck --alias oops)"' >> "${HOME}/.zshrc" \
+    && echo 'alias sgrep=ast-grep' >> "${HOME}/.zshrc"
 #
 # Install s6-overlay and symlinks
 #
