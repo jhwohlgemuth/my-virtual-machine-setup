@@ -18,7 +18,6 @@ EXPOSE 13337
 ENV LC_ALL=C.utf8
 ENV NODE_OPTIONS="--max-old-space-size=8192"
 ENV PATH="${PATH}:${HOME}/bin"
-ENV PATH="${PATH}:${HOME}/.nix-profile/bin"
 ENV PATH="${PATH}:${HOME}/.npm-packages/bin"
 #
 # %setup

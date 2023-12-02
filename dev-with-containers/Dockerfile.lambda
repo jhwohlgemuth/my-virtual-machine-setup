@@ -32,29 +32,26 @@ COPY ./config/.utoprc "${HOME}/.utoprc"
 COPY ./config/init.ml "${HOME}/.config/utop/init.ml"
 COPY ./jupyter/logo_coq.png "${JUPYTER_KERNELS}/coq/logo-64x64.png"
 COPY ./jupyter/logo_ocaml.png "${JUPYTER_KERNELS}/ocaml/logo-64x64.png"
-COPY ./provision/scripts/install_coq.sh /tmp/scripts/install_coq.sh
-COPY ./provision/scripts/install_ocaml.sh /tmp/scripts/install_ocaml.sh
-COPY ./provision/scripts/install_provers.sh /tmp/scripts/install_provers.sh
+COPY ./provision/scripts/lambda/* /tmp/scripts/
 COPY ./provision/scripts/install_aeneas.sh /usr/local/bin/install_aeneas
 COPY ./provision/scripts/install_verus.sh /usr/local/bin/install_verus
 #
 # %post
 #
 SHELL ["/bin/bash", "-c"]
-RUN source "$(/home/linuxbrew/.linuxbrew/bin/brew --prefix asdf)/libexec/asdf.sh" \
-    && asdf plugin add nodejs && asdf install nodejs latest && asdf global nodejs latest \
+RUN nix-env --install --file /tmp/scripts/manifest.nix \
     && apt-get update && apt-get install --no-install-recommends -y \
         apt-utils \
-        autoconf \
         jupyter \
         libgmp-dev \
         libzmq5 \
         libzmq3-dev \
-        opam \
-        pkg-config \
-        ruby-full
+        pkg-config
 SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
-RUN chmod +x /tmp/scripts/* /usr/local/bin/install_aeneas /usr/local/bin/install_verus \
+RUN chmod +x \
+        /tmp/scripts/* \
+        /usr/local/bin/install_aeneas \
+        /usr/local/bin/install_verus \
     && /tmp/scripts/install_ocaml.sh \
     && /tmp/scripts/install_coq.sh \
     && /tmp/scripts/install_provers.sh
