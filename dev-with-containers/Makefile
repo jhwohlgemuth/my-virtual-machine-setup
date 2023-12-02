@@ -95,13 +95,15 @@ SCRIPTS = \
 	./provision/scripts/lambda/install_coq.sh \
 	./provision/scripts/lambda/install_ocaml.sh \
 	./provision/scripts/lambda/install_provers.sh \
+	./provision/scripts/notebook/install_dotnet_jupyter_kernel.sh \
+	./provision/scripts/notebook/install_elixir_jupyter_kernel.sh \
+	./provision/scripts/notebook/install_scala_jupyter_kernel.sh \
 	./provision/scripts/install_aeneas.sh \
 	./provision/scripts/install_all_the_things.sh \
 	./provision/scripts/install_code_server.sh \
 	./provision/scripts/install_conda.sh \
-	./provision/scripts/install_dotnet_jupyter_kernel.sh \
+	./provision/scripts/install_creusot.sh \
 	./provision/scripts/install_elixir.sh \
-	./provision/scripts/install_elixir_jupyter_kernel.sh \
 	./provision/scripts/install_nim.sh \
 	./provision/scripts/install_verus.sh \
 	./provision/scripts/install_wasm_runtimes.sh

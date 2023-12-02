@@ -2,7 +2,6 @@
 set -e
 
 requires \
-    autoconf \
     jupyter \
     libgmp-dev \
     libzmq5 \

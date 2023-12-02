@@ -2,7 +2,6 @@
 set -e
 
 requires \
-    apt-utils \
     mamba \
     opam
 main() {

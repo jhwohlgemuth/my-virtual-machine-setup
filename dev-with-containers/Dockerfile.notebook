@@ -45,6 +45,7 @@ COPY ./code-server/config.yaml /app/code-server/config/
 COPY ./code-server/settings.json /app/code-server/config/data/Machine/
 COPY ./code-server/service/* /etc/services.d/code-server/
 COPY ./code-server/install_extensions.sh /usr/local/bin/install_extensions
+COPY ./provision/scripts/notebook/* /tmp/scripts/
 COPY ./provision/scripts/install_conda.sh /tmp/scripts/
 COPY ./provision/scripts/install_code_server.sh /tmp/scripts/
 #
@@ -65,6 +66,9 @@ RUN openssl req -new -x509 -days 365 -out "${CERTS_DIR}/my.pem" -config "${CERTS
         /etc/services.d/code-server/finish \
         /usr/local/bin/install_extensions \
     && /tmp/scripts/install_code_server.sh \
+    && mv /tmp/scripts/install_dotnet_jupyter_kernel.sh /usr/local/bin/install_dotnet_jupyter_kernel \
+    && mv /tmp/scripts/install_elixir_jupyter_kernel.sh /usr/local/bin/install_elixir_jupyter_kernel \
+    && mv /tmp/scripts/install_scala_jupyter_kernel.sh /usr/local/bin/install_scala_jupyter_kernel \
     && cleanup
 #
 # %runscript

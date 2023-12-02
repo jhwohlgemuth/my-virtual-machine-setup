@@ -28,10 +28,11 @@ RUN mkdir -p \
 #
 # %files
 #
-COPY ./config/.utoprc "${HOME}/.utoprc"
-COPY ./config/init.ml "${HOME}/.config/utop/init.ml"
-COPY ./jupyter/logo_coq.png "${JUPYTER_KERNELS}/coq/logo-64x64.png"
-COPY ./jupyter/logo_ocaml.png "${JUPYTER_KERNELS}/ocaml/logo-64x64.png"
+COPY ./config/.iex.exs "${HOME}/"
+COPY ./config/.utoprc "${HOME}/"
+COPY ./config/init.ml "${HOME}/.config/utop/"
+COPY ./jupyter/logo_coq.png /tmp/
+COPY ./jupyter/logo_ocaml.png /tmp/
 COPY ./provision/scripts/lambda/* /tmp/scripts/
 COPY ./provision/scripts/install_aeneas.sh /usr/local/bin/install_aeneas
 COPY ./provision/scripts/install_creusot.sh /usr/local/bin/install_creusot
@@ -44,7 +45,6 @@ RUN nix-env --install --file /tmp/scripts/manifest.nix \
     && apt-get update && apt-get install --no-install-recommends -y \
         apt-utils \
         autoconf \
-        jupyter \
         libgmp-dev \
         libzmq5 \
         libzmq3-dev \
@@ -59,11 +59,12 @@ RUN chmod +x \
     && /tmp/scripts/install_ocaml.sh \
     && /tmp/scripts/install_coq.sh \
     && /tmp/scripts/install_provers.sh \
-    && elan default leanprover/lean4:stable
+    && elan default leanprover/lean4:stable \
+    && mv /tmp/logo_coq.png "${JUPYTER_KERNELS}/coq/logo-64x64.png" \
+    && mv /tmp/logo_ocaml "${JUPYTER_KERNELS}/ocaml/logo-64x64.png"
 #
 # Cleanup
 #
-WORKDIR /root
 SHELL ["/bin/bash", "-c"]
 RUN cleanup
 #

@@ -1,7 +1,9 @@
 #! /bin/bash
 set -e
 
-requires curl zsh
+requires \
+    curl \
+    zsh
 main() {
     #
     # Install miniconda (conda)
@@ -11,8 +13,8 @@ main() {
     bash Miniconda3-latest-Linux-x86_64.sh -b
     rm -f Miniconda3-latest-Linux-x86_64.sh
     /root/miniconda3/bin/conda update --name base conda
-    zsh -c "/root/miniconda3/bin/conda init zsh"
-    zsh -c "/root/miniconda3/bin/conda init powershell"
+    zsh -c "${HOME}/miniconda3/bin/conda init zsh"
+    zsh -c "${HOME}/miniconda3/bin/conda init powershell"
     #
     # Install mamba
     #

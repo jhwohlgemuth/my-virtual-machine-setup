@@ -15,6 +15,7 @@ main() {
         pkgxdev/made/pkgx \
         pixi
     /home/linuxbrew/.linuxbrew/bin/brew cleanup --prune=all
+    # shellcheck disable=SC2016
     echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> "${HOME}/.zshrc"
     eval "$(pkgx integrate)"
 }
