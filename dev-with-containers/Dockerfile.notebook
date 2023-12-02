@@ -46,8 +46,6 @@ COPY ./code-server/settings.json /app/code-server/config/data/Machine/
 COPY ./code-server/service/* /etc/services.d/code-server/
 COPY ./code-server/install_extensions.sh /usr/local/bin/install_extensions
 COPY ./provision/scripts/notebook/* /tmp/scripts/
-COPY ./provision/scripts/install_conda.sh /tmp/scripts/
-COPY ./provision/scripts/install_code_server.sh /tmp/scripts/
 #
 # %post
 #

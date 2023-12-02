@@ -34,9 +34,6 @@ COPY ./config/init.ml "${HOME}/.config/utop/"
 COPY ./jupyter/logo_coq.png /tmp/
 COPY ./jupyter/logo_ocaml.png /tmp/
 COPY ./provision/scripts/lambda/* /tmp/scripts/
-COPY ./provision/scripts/install_aeneas.sh /usr/local/bin/install_aeneas
-COPY ./provision/scripts/install_creusot.sh /usr/local/bin/install_creusot
-COPY ./provision/scripts/install_verus.sh /usr/local/bin/install_verus
 #
 # %post
 #
@@ -60,6 +57,9 @@ RUN chmod +x \
     && /tmp/scripts/install_coq.sh \
     && /tmp/scripts/install_provers.sh \
     && elan default leanprover/lean4:stable \
+    && mv /tmp/scripts/install_aeneas.sh /usr/local/bin/install_aeneas \
+    && mv /tmp/scripts/install_creusot.sh /usr/local/bin/install_creusot \
+    && mv /tmp/scripts/install_verus.sh /usr/local/bin/install_verus \
     && mv /tmp/logo_coq.png "${JUPYTER_KERNELS}/coq/logo-64x64.png" \
     && mv /tmp/logo_ocaml "${JUPYTER_KERNELS}/ocaml/logo-64x64.png" \
     && cleanup
