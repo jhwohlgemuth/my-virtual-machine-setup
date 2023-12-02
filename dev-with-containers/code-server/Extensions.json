@@ -1,8 +1,4 @@
 {
-    "coq": [
-        "maximedenes.vscoq",
-        "ocamllabs.ocaml-platform"
-    ],
     "dotnet": [
         "icsharpcode.ilspy-vscode",
         "ionide.ionide-fake",
@@ -19,6 +15,12 @@
     "elixir": [
         "elixir-lsp.elixir-ls",
         "jakebecker.elixir-ls"
+    ],
+    "lambda": [
+        "leanprover.lean4",
+        "maximedenes.vscoq",
+        "ocamllabs.ocaml-platform",
+        "xldenis.whycode"
     ],
     "notebook": [
         "aaron-bond.better-comments",

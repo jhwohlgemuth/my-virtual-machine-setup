@@ -23,6 +23,9 @@ call plug#begin()
     Plug 'MattesGroeger/vim-bookmarks' " bookmark (mm) / annotate (mi)
     Plug 't9md/vim-choosewin'
     Plug 'alvan/vim-closetag'
+    Plug 'hrsh7th/nvim-cmp'        " For LSP completion
+    Plug 'hrsh7th/cmp-nvim-lsp'
+    Plug 'hrsh7th/cmp-buffer'
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'Exafunction/codeium.vim'
     Plug 'norcalli/nvim-colorizer.lua'
@@ -58,6 +61,7 @@ call plug#begin()
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.2' }
     " Plug 'whonore/Coqtail'
+    " Plug 'Julian/lean.nvim'
     " Plug 'elixir-lang/vim-elixir'
     " Plug 'rust-lang/rust.vim'
     " Plug 'simrat39/rust-tools.nvim'

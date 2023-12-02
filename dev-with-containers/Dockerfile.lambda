@@ -34,6 +34,7 @@ COPY ./jupyter/logo_coq.png "${JUPYTER_KERNELS}/coq/logo-64x64.png"
 COPY ./jupyter/logo_ocaml.png "${JUPYTER_KERNELS}/ocaml/logo-64x64.png"
 COPY ./provision/scripts/lambda/* /tmp/scripts/
 COPY ./provision/scripts/install_aeneas.sh /usr/local/bin/install_aeneas
+COPY ./provision/scripts/install_creusot.sh /usr/local/bin/install_creusot
 COPY ./provision/scripts/install_verus.sh /usr/local/bin/install_verus
 #
 # %post
@@ -42,6 +43,7 @@ SHELL ["/bin/bash", "-c"]
 RUN nix-env --install --file /tmp/scripts/manifest.nix \
     && apt-get update && apt-get install --no-install-recommends -y \
         apt-utils \
+        autoconf \
         jupyter \
         libgmp-dev \
         libzmq5 \
@@ -51,10 +53,13 @@ SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
 RUN chmod +x \
         /tmp/scripts/* \
         /usr/local/bin/install_aeneas \
+        /usr/local/bin/install_creusot \
         /usr/local/bin/install_verus \
+    && nix-env --install --file /tmp/scripts/manifest.nix \
     && /tmp/scripts/install_ocaml.sh \
     && /tmp/scripts/install_coq.sh \
-    && /tmp/scripts/install_provers.sh
+    && /tmp/scripts/install_provers.sh \
+    && elan default leanprover/lean4:stable
 #
 # Cleanup
 #

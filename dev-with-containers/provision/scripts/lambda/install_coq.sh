@@ -6,6 +6,7 @@ requires \
     mamba \
     opam
 main() {
+    export OPAMYES=1
     #
     # Install Coq language and packages
     #
@@ -13,7 +14,7 @@ main() {
     opam repo add coq-core-dev https://coq.inria.fr/opam/core-dev
     opam repo add coq-extra-dev https://coq.inria.fr/opam/extra-dev
     opam pin add coq "${COQ_VERSION:-8.18.0}" --yes
-    opam install --yes \
+    opam install \
         coq-hammer \
         vscoq-language-server
     #

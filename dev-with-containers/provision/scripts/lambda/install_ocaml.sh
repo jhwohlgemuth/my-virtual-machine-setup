@@ -11,13 +11,14 @@ requires \
     pkg-config \
     ruby
 main() {
+    export OPAMYES=1
     # ocaml-jupyter does not support OCaml 5.0
     # See https://github.com/akabe/ocaml-jupyter/pull/199
     opam init --compiler="${OCAML_VERSION:-4.14.1}" --disable-sandboxing --yes
     eval "$(opam env)"
     # shellcheck disable=SC2016
     echo 'eval "$(opam env)"' >> "${HOME}/.zshrc"
-    opam install --yes \
+    opam install \
         dune \
         ocaml-lsp-server \
         odoc \
@@ -29,7 +30,7 @@ main() {
     #
     # Install Jupyter kernel
     #
-    opam install --yes jupyter
+    opam install jupyter
     eval "$(opam env)"
     ocaml-jupyter-opam-genspec
     jupyter kernelspec install --name "OCaml" "$(opam var share)/jupyter"

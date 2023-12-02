@@ -1,7 +1,9 @@
 { pkgs ? import <nixpkgs> {} }:
 with pkgs; [
-    autoconf
+    elan
+    # jupyter
     nodejs_20
     opam
     ruby
+    wget
 ]

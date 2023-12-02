@@ -3,10 +3,11 @@ set -e
 
 requires git opam
 main() {
+    export OPAMYES=1
     #
     # Alt-Ergo (free)
     #
-    opam install --yes alt-ergo-free
+    opam install alt-ergo-free
     eval "$(opam env)"
     #
     # CVC5
@@ -41,7 +42,7 @@ main() {
     #
     # Install Why3 and add provers
     #
-    opam install --yes why3
+    opam install why3
     eval "$(opam env)"
     why3 config detect
 }
