@@ -16,10 +16,13 @@ on:
     branches:
       - master
     paths:
-      - "dev-with-containers/Dockerfile.lambda"
-      - "dev-with-containers/provision/scripts/install_coq.sh"
-      - "dev-with-containers/provision/scripts/install_ocaml.sh"
-      - "dev-with-containers/provision/scripts/install_provers.sh"
+      - 'dev-with-containers/Dockerfile.lambda'
+      - 'dev-with-containers/config/.iex.exs'
+      - 'dev-with-containers/provision/scripts/lambda/**'
+      - 'dev-with-containers/provision/scripts/install_aeneas.sh'
+      - 'dev-with-containers/provision/scripts/install_creusot.sh'
+      - 'dev-with-containers/provision/scripts/install_verus.sh'
+
 
 jobs:
   lambda:

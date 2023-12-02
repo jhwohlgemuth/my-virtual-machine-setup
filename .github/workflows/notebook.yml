@@ -18,6 +18,7 @@ on:
     paths:
       - 'dev-with-containers/code-server/**'
       - 'dev-with-containers/jupyter/**'
+      - 'dev-with-containers/provision/scripts/notebook/**'
 
 jobs:
   notebook:

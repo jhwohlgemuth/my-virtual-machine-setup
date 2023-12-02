@@ -15,12 +15,7 @@ on:
       - 'dev-with-containers/config/.theme.omp.json'
       - 'dev-with-containers/provision/neovim/**'
       - 'dev-with-containers/provision/functions/**'
-      - 'dev-with-containers/provision/scripts/**'
-      - "!dev-with-containers/provision/scripts/install_aeneas.sh"
-      - "!dev-with-containers/provision/scripts/install_coq.sh"
-      - "!dev-with-containers/provision/scripts/install_ocaml.sh"
-      - "!dev-with-containers/provision/scripts/install_provers.sh"
-      - "!dev-with-containers/provision/scripts/install_ruby.sh"
+      - 'dev-with-containers/provision/scripts/dev/**'
 
 jobs:
   dev:

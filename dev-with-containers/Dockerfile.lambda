@@ -61,12 +61,8 @@ RUN chmod +x \
     && /tmp/scripts/install_provers.sh \
     && elan default leanprover/lean4:stable \
     && mv /tmp/logo_coq.png "${JUPYTER_KERNELS}/coq/logo-64x64.png" \
-    && mv /tmp/logo_ocaml "${JUPYTER_KERNELS}/ocaml/logo-64x64.png"
-#
-# Cleanup
-#
-SHELL ["/bin/bash", "-c"]
-RUN cleanup
+    && mv /tmp/logo_ocaml "${JUPYTER_KERNELS}/ocaml/logo-64x64.png" \
+    && cleanup
 #
 # %runscript
 #
