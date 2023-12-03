@@ -28,7 +28,7 @@ Param(
 $DevDirectory = Join-Path $Env:USERPROFILE 'dev'
 $EnvDirectory = Join-Path $DevDirectory 'env'
 $Root = if ($Standalone) { $PSScriptRoot } else { $EnvDirectory }
-$TerminalRoot = Join-Path $Root 'dev-with-windows-terminal'
+$TerminalRoot = Join-Path $Root 'dev-with-command-line'
 $LocalSettingsPath = "$Env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
 $CmdletParameters = @{
     Verbose = $PSCmdlet.MyInvocation.BoundParameters['Verbose'].IsPresent -eq $True
@@ -55,7 +55,7 @@ if ($Standalone) {
 #
 # Install PowerShell modules
 #
-if (./dev-with-windows-terminal/scripts/Test-Admin.ps1) {
+if (./dev-with-command-line/scripts/Test-Admin.ps1) {
     Set-Location -Path $TerminalRoot
     & .\scripts\Invoke-Install.ps1 -Skip 'applications' @CmdletParameters
     Set-Location -Path $Root

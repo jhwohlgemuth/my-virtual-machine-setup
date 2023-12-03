@@ -22,10 +22,10 @@ Quick Start
 git clone https://github.com/jhwohlgemuth/env
 ```
 
-3. Navigate to the `dev-with-windows-terminal` directory:
+3. Navigate to the `dev-with-command-line` directory:
 
 ```bash
-cd /path/to/env/dev-with-windows-terminal
+cd /path/to/env/dev-with-command-line
 ```
 
 4. Run installation PowerShell script <sup>[[1]](#1)</sup>:
