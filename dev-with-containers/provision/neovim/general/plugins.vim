@@ -23,7 +23,7 @@ call plug#begin()
     Plug 'MattesGroeger/vim-bookmarks' " bookmark (mm) / annotate (mi)
     Plug 't9md/vim-choosewin'
     Plug 'alvan/vim-closetag'
-    Plug 'hrsh7th/nvim-cmp'        " For LSP completion
+    Plug 'hrsh7th/nvim-cmp' " For LSP completion
     Plug 'hrsh7th/cmp-nvim-lsp'
     Plug 'hrsh7th/cmp-buffer'
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -50,7 +50,7 @@ call plug#begin()
     Plug 'justinmk/vim-sneak'
     Plug 'honza/vim-snippets'
     Plug 'mhinz/vim-startify'
-    Plug 'tpope/vim-surround'" change (cd)/ delete (ds) / add (ys)/ visual (S)
+    Plug 'tpope/vim-surround' " change (cd)/ delete (ds) / add (ys)/ visual (S)
     Plug 'vim-syntastic/syntastic'
     Plug 'godlygeek/tabular'
     Plug 'mbbill/undotree'
