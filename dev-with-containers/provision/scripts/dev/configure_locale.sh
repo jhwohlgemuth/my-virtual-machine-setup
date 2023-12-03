@@ -7,9 +7,11 @@ main() {
     #
     # Configure locale
     #
+    local DEFAULT=en_US.UTF-8
     echo "C.utf8 UTF-8" > /etc/locale.gen
-    echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+    echo "${DEFAULT} UTF-8" >> /etc/locale.gen
+    echo "LANG=${DEFAULT}" > /etc/locale.conf
     locale-gen
-    update-locale LANG="${LANG:-'en_US.UTF-8'}"
+    update-locale LANG="${LANG:-DEFAULT}"
 }
 main "$@"
