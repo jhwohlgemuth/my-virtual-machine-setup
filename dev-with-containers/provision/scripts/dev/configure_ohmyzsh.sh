@@ -16,6 +16,7 @@ main() {
     sed -i "s/export TERM=xterm/export TERM=xterm-256color/g" "${HOME}/.zshrc"
     # shellcheck disable=SC2016
     {
+        echo 'export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive'
         echo 'bindkey "\$terminfo[kcuu1]" history-substring-search-up'
         echo 'bindkey "\$terminfo[kcud1]" history-substring-search-down'
         echo 'ZLE_RPROMPT_INDENT=0'
