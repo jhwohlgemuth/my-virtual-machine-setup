@@ -74,6 +74,7 @@
             "ncdu",
             "thefuck"
         ],
+        "Spack": [],
         "Windows": [
             "carnac",
             "gifcam",
@@ -118,6 +119,7 @@
             "tor-browser": "tor-browser-bundle-bin"
         },
         "Scoop": {},
+        "Spack": {},
         "Winget": {
             "7zip": "7zip.7zip",
             "bottom": "Clement.bottom",
@@ -188,6 +190,7 @@
             "openssl",
             "zoxide"
         ],
+        "Spack": [],
         "Winget": [
             "delta",
             "dos2unix",
@@ -225,26 +228,28 @@
                 "Darwin",
                 "Linux"
             ],
-            "Cask": [
-                "altair-graphql-client",
-                "anki",
-                "brave-browser",
-                "ccleaner",
-                "dia",
-                "docker",
-                "dotnet-sdk",
-                "espanso",
-                "fig",
-                "firefox",
-                "miniconda",
-                "mockoon",
-                "ngrok",
-                "obsidian",
-                "tor-browser",
-                "visual-studio-code",
-                "warp",
-                "zotero"
-            ]
+            "Options": {
+                "Cask": [
+                    "altair-graphql-client",
+                    "anki",
+                    "brave-browser",
+                    "ccleaner",
+                    "dia",
+                    "docker",
+                    "dotnet-sdk",
+                    "espanso",
+                    "fig",
+                    "firefox",
+                    "miniconda",
+                    "mockoon",
+                    "ngrok",
+                    "obsidian",
+                    "tor-browser",
+                    "visual-studio-code",
+                    "warp",
+                    "zotero"
+                ]
+            }
         },
         "Nix": {
             "Command": "nix-env -iA",
@@ -258,6 +263,9 @@
             "Supports": [
                 "Windows"
             ]
+        },
+        "Spack": {
+            "Command": "spack install"
         },
         "Winget": {
             "Command": "winget install",
