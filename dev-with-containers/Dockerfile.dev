@@ -25,7 +25,8 @@ ENV PATH="${PATH}:/usr/local/bin/fn"
 #
 SHELL ["/bin/bash", "-c"]
 RUN ln -snf "/usr/share/zoneinfo/${TZ}" /etc/localtime && echo "${TZ}" > /etc/timezone \
-    && echo "C.utf8 UTF-8" > /etc/locale.conf \
+    && echo "C.utf8 UTF-8" > /etc/locale.gen \
+    && echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
     && mkdir -p \
         tmp/scripts \
         /usr/local/bin/fn
@@ -58,11 +59,8 @@ RUN chmod +x /tmp/scripts/* && chmod +x /usr/local/bin/fn/* \
     && /tmp/scripts/install_nix.sh \
     && nix-env --install --file /tmp/scripts/manifest.nix \
     && /usr/bin/pwsh -Command /tmp/scripts/Install-OhMyPosh.ps1 \
-    && locale-gen \
     && find "${NEOVIM_ROOT}" -name "*.vim" | xargs dos2unix \
-    && echo 'alias sgrep=ast-grep' >> "${HOME}/.zshrc" \
-    && echo 'eval "$(direnv hook zsh)"' >> "${HOME}/.zshrc" \
-    && echo 'eval "$(thefuck --alias oops)"' >> "${HOME}/.zshrc"
+    && /tmp/scripts/configure_ohmyzsh.sh
 #
 # Install s6-overlay and symlinks
 #
