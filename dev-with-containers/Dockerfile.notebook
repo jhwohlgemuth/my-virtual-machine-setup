@@ -64,6 +64,8 @@ RUN openssl req -new -x509 -days 365 -out "${CERTS_DIR}/my.pem" -config "${CERTS
         /etc/services.d/code-server/finish \
         /usr/local/bin/install_extensions \
     && /tmp/scripts/install_code_server.sh \
+    && mv /tmp/scripts/install_nim.sh /usr/local/bin/install_nim \
+    && mv /tmp/scripts/install_elixir.sh /usr/local/bin/install_elixir \
     && mv /tmp/scripts/install_dotnet_jupyter_kernel.sh /usr/local/bin/install_dotnet_jupyter_kernel \
     && mv /tmp/scripts/install_elixir_jupyter_kernel.sh /usr/local/bin/install_elixir_jupyter_kernel \
     && mv /tmp/scripts/install_scala_jupyter_kernel.sh /usr/local/bin/install_scala_jupyter_kernel \

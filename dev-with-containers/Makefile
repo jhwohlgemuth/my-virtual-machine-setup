@@ -103,11 +103,11 @@ SCRIPTS = \
 	./provision/scripts/notebook/install_code_server.sh \
 	./provision/scripts/notebook/install_conda.sh \
 	./provision/scripts/notebook/install_dotnet_jupyter_kernel.sh \
+	./provision/scripts/notebook/install_elixir.sh \
 	./provision/scripts/notebook/install_elixir_jupyter_kernel.sh \
+	./provision/scripts/notebook/install_nim.sh \
 	./provision/scripts/notebook/install_scala_jupyter_kernel.sh \
 	./provision/scripts/install_all_the_things.sh \
-	./provision/scripts/install_elixir.sh \
-	./provision/scripts/install_nim.sh \
 	./provision/scripts/install_wasm_runtimes.sh
 FUNCTIONS = \
 	./provision/functions/cleanup \
