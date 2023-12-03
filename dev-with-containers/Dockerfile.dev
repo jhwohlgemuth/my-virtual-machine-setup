@@ -15,7 +15,9 @@ ARG DEBIAN_FRONTEND=noninteractive
 #
 # %environment
 #
-ENV LANG=C.UTF-8
+ENV LANG='en_US.UTF-8'
+ENV LANGUAGE='en_US:en'
+ENV LC_ALL='en_US.UTF-8'
 ENV TZ=America/New_York
 ENV TERM=xterm-256color
 ENV NEOVIM_ROOT="${HOME}/.config/nvim/"
@@ -26,8 +28,6 @@ ENV PATH="${PATH}:/usr/local/bin/fn"
 #
 SHELL ["/bin/bash", "-c"]
 RUN ln -snf "/usr/share/zoneinfo/${TZ}" /etc/localtime && echo "${TZ}" > /etc/timezone \
-    && echo "C.utf8 UTF-8" > /etc/locale.gen \
-    && echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
     && mkdir -p \
         tmp/scripts \
         /usr/local/bin/fn
@@ -53,6 +53,7 @@ COPY ./provision/neovim/themes/onedark.vim "${NEOVIM_ROOT}themes/"
 SHELL ["/bin/bash", "-c"]
 RUN chmod +x /tmp/scripts/* && chmod +x /usr/local/bin/fn/* \
     && /tmp/scripts/install_dependencies.sh \
+    && /tmp/scripts/configure_locale.sh \
     && /tmp/scripts/install_dotnet.sh \
     && /tmp/scripts/install_ohmyzsh.sh \
     && /tmp/scripts/install_homebrew.sh \
@@ -60,8 +61,8 @@ RUN chmod +x /tmp/scripts/* && chmod +x /usr/local/bin/fn/* \
     && /tmp/scripts/install_nix.sh \
     && nix-env --install --file /tmp/scripts/manifest.nix \
     && /usr/bin/pwsh -Command /tmp/scripts/Install-OhMyPosh.ps1 \
-    && find "${NEOVIM_ROOT}" -name "*.vim" | xargs dos2unix \
-    && /tmp/scripts/configure_ohmyzsh.sh
+    && /tmp/scripts/configure_ohmyzsh.sh \
+    && find "${NEOVIM_ROOT}" -name "*.vim" | xargs dos2unix
 #
 # Install s6-overlay and symlinks
 #

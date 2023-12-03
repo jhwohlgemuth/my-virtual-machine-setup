@@ -5,14 +5,11 @@ requires \
     ast-grep \
     direnv \
     fuck \
-    locales \
     python3
 main() {
     #
     # Customize .zshrc
     #
-    locale-gen
-    update-locale LANG=${LANG}
     # sed -i "/export LC_ALL=/d" "${HOME}/.zshrc"
     # sed -i "/export LANG=/d" "${HOME}/.zshrc"
     # sed -i "/export LANGUAGE=/d" "${HOME}/.zshrc"

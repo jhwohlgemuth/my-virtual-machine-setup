@@ -86,6 +86,8 @@ IGNORE_RULES = \
 	--ignore SC2086
 SCRIPTS = \
 	./code-server/install_extensions.sh \
+	./provision/scripts/dev/configure_locale.sh \
+	./provision/scripts/dev/configure_ohmyzsh.sh \
 	./provision/scripts/dev/install_apptainer.sh \
 	./provision/scripts/dev/install_dependencies.sh \
 	./provision/scripts/dev/install_dotnet.sh \
