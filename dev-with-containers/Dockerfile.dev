@@ -12,12 +12,12 @@ LABEL org.opencontainers.image.source=https://github.com/jhwohlgemuth/env
 #
 ARG HOME=/root
 ARG DEBIAN_FRONTEND=noninteractive
+ARG LANG=en_US.UTF-8
+ARG LANGUAGE=en_US:en
+ARG LC_ALL=en_US.UTF-8
 #
 # %environment
 #
-ENV LANG=en_US.UTF-8
-ENV LANGUAGE=en_US:en
-ENV LC_ALL=en_US.UTF-8
 ENV TZ=America/New_York
 ENV TERM=xterm-256color
 ENV NEOVIM_ROOT="${HOME}/.config/nvim/"
@@ -59,8 +59,7 @@ RUN chmod +x /tmp/scripts/* && chmod +x /usr/local/bin/fn/* \
     && /tmp/scripts/install_ohmyzsh.sh \
     && /tmp/scripts/install_homebrew.sh \
     && /tmp/scripts/install_apptainer.sh \
-    && /tmp/scripts/install_nix.sh \
-    && nix-env --install --file /tmp/scripts/manifest.nix \
+    && /tmp/scripts/install_nix.sh && nix-env --install --file /tmp/scripts/manifest.nix \
     && /usr/bin/pwsh -Command /tmp/scripts/Install-OhMyPosh.ps1 \
     && /tmp/scripts/configure_ohmyzsh.sh \
     && find "${NEOVIM_ROOT}" -name "*.vim" | xargs dos2unix
@@ -76,12 +75,8 @@ ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLA
 RUN tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz \
     && tar -C / -Jxpf /tmp/s6-overlay-x86_64.tar.xz \
     && tar -C / -Jxpf /tmp/s6-overlay-symlinks-noarch.tar.xz \
-    && tar -C / -Jxpf /tmp/s6-overlay-symlinks-arch.tar.xz
-#
-# Cleanup
-#
-SHELL ["/bin/bash", "-c"]
-RUN cleanup
+    && tar -C / -Jxpf /tmp/s6-overlay-symlinks-arch.tar.xz \
+    && cleanup
 #
 # %runscript
 #
