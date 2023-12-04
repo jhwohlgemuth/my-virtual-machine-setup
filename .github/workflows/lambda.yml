@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
   workflow_run:
     workflows:
-      - Build and push NOTEBOOK
+      - Build and push RUST
     types:
       - completed
   push:
@@ -19,9 +19,6 @@ on:
       - 'dev-with-containers/Dockerfile.lambda'
       - 'dev-with-containers/config/.iex.exs'
       - 'dev-with-containers/provision/scripts/lambda/**'
-      - 'dev-with-containers/provision/scripts/install_aeneas.sh'
-      - 'dev-with-containers/provision/scripts/install_creusot.sh'
-      - 'dev-with-containers/provision/scripts/install_verus.sh'
 
 
 jobs:

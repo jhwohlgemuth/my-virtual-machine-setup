@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
   workflow_run:
     workflows:
-      - Build and push DOTNET
+      - Build and push NOTEBOOK
     types:
       - completed
   push:
