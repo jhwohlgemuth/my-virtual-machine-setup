@@ -32,16 +32,18 @@ main() {
         cd /aeneas-toolchain/aeneas && make
         chmod +x ./bin/aeneas
         mv ./bin/aeneas /usr/local/bin
+        #
+        # Install coq-of-rust
+        #
+        cd / || exit
+        git clone https://github.com/formal-land/coq-of-rust
+        cd /coq-of-rust && cargo install --path lib/
+        cd "${HOME}" && rm -frd /coq-of-rust
     else
         echo "==> [ERROR] Invalid charon link"
+        cd / || exit
+        rm -frd /aeneas-toolchain
     fi
     cd "${HOME}" || exit
-    #
-    # Install coq-of-rust
-    #
-    cd / || exit
-    git clone https://github.com/formal-land/coq-of-rust
-    cd /coq-of-rust && cargo install --path lib/
-    cd "${HOME}" && rm -frd /coq-of-rust
 }
 main "$@"

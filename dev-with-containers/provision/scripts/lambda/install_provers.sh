@@ -1,20 +1,22 @@
 #! /bin/bash
 set -e
 
-requires git opam
+requires \
+    git \
+    opam
 main() {
     export OPAMYES=1
     #
-    # Alt-Ergo (free)
+    # Install Alt-Ergo (free)
     #
     opam install alt-ergo-free
     eval "$(opam env)"
     #
-    # CVC5
+    # Install CVC5
     #
     cd /usr/bin || exit
     curl -o cvc5 -LJ https://github.com/cvc5/cvc5/releases/download/cvc5-1.0.8/cvc5-Linux
-    chmod u+x cvc5
+    chmod +x cvc5
     cd /root || exit
     #
     # Install eprover
@@ -28,8 +30,8 @@ main() {
     # Install Vampire
     #
     mkdir -p /vampire && cd /vampire || exit
-    curl -LOJ https://github.com/vprover/vampire/releases/download/snakeForV4.7%2B/vampire-snake-static4starexec.zip
-    unzip vampire-snake-static4starexec.zip
+    curl -o source.zip -LJ https://github.com/vprover/vampire/releases/download/snakeForV4.7%2B/vampire-snake-static4starexec.zip
+    unzip source.zip
     mv bin/* /usr/bin/
     cd /root && rm -frd /vampire
     #

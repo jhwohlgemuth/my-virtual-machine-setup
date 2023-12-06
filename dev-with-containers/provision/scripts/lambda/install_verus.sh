@@ -2,7 +2,6 @@
 set -e
 
 requires \
-    direnv \
     git \
     wget
 main() {
