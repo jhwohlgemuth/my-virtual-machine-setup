@@ -10,16 +10,13 @@ main() {
     #
     # Customize .zshrc
     #
-    # sed -i "/export LC_ALL=/d" "${HOME}/.zshrc"
-    # sed -i "/export LANG=/d" "${HOME}/.zshrc"
-    # sed -i "/export LANGUAGE=/d" "${HOME}/.zshrc"
     sed -i "s/export TERM=xterm/export TERM=xterm-256color/g" "${HOME}/.zshrc"
     # shellcheck disable=SC2016
     {
-        echo 'export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive'
+        echo 'ZLE_RPROMPT_INDENT=0'
         echo 'bindkey "\$terminfo[kcuu1]" history-substring-search-up'
         echo 'bindkey "\$terminfo[kcud1]" history-substring-search-down'
-        echo 'ZLE_RPROMPT_INDENT=0'
+        echo 'export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive'
         echo 'eval "$(direnv hook zsh)"' >> "${HOME}/.zshrc"
         echo 'eval "$(thefuck --alias oops)"' >> "${HOME}/.zshrc"
         echo "source ${HOME}/.p10k.zsh"

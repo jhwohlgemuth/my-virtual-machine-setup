@@ -1,7 +1,12 @@
 #! /bin/bash
 
 main() {
-    local FILE="${2:-$NULL}"
-    sed '/^[[:space:]]*$/d' "${FILE}"
+    local FILE="${1:-$NULL}"
+    local EXPRESSION='/^[[:space:]]*$/d'
+    if [ -z "${FILE}" ]; then
+        sed -i "${EXPRESSION}"
+    else
+        sed -i "${EXPRESSION}" "${FILE}"
+    fi
 }
 main "$@"

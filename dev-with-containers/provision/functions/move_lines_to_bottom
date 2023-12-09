@@ -3,6 +3,13 @@
 main() {
     local RANGE=$1
     local FILE="${2:-$NULL}"
-    sed "${RANGE}{1h;1\!H;d};\$G" "${FILE}"
+    local EXPRESSION="${RANGE}{1h;1!H;d}"
+    EXPRESSION+=';$G'
+    if [ -z "${FILE}" ]; then
+        sed -i "${EXPRESSION}"
+    else
+        sed -i "${EXPRESSION}" "${FILE}"
+    fi
+
 }
 main "$@"
