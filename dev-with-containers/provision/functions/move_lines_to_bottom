@@ -1,0 +1,8 @@
+#! /bin/bash
+
+main() {
+    local RANGE=$1
+    local FILE="${2:-$NULL}"
+    sed "${RANGE}{1h;1\!H;d};\$G" "${FILE}"
+}
+main "$@"

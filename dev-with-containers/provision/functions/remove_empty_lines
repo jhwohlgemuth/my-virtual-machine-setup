@@ -1,0 +1,7 @@
+#! /bin/bash
+
+main() {
+    local FILE="${2:-$NULL}"
+    sed '/^[[:space:]]*$/d' "${FILE}"
+}
+main "$@"

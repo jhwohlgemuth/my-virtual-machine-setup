@@ -113,6 +113,8 @@ FUNCTIONS = \
 	./provision/functions/cleanup \
 	./provision/functions/is_command \
 	./provision/functions/is_installed \
+	./provision/functions/move_lines_to_bottom \
+	./provision/functions/remove_empty_lines \
 	./provision/functions/requires
 FILES = \
 	./code-server/service/finish \
