@@ -27,8 +27,9 @@ main() {
     mkdir -p /aeneas-toolchain && cd /aeneas-toolchain || exit
     git clone https://github.com/AeneasVerif/charon
     git clone https://github.com/AeneasVerif/aeneas
-    cd /aeneas-toolchain/aeneas/compiler && ln -s /aeneas-toolchain/charon/charon-ml charon
-    if [ -e charon ] ; then
+    cd /aeneas-toolchain/charon && make build-charon-rust build-charon-ml
+    mv /aeneas-toolchain/charon/bin/* /usr/local/bin/
+    if is_command charon ; then
         cd /aeneas-toolchain/aeneas && make
         chmod +x ./bin/aeneas
         mv ./bin/aeneas /usr/local/bin
