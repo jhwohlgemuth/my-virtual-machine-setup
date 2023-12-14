@@ -10,7 +10,7 @@ dependencies:
   - conda-pack
   - dask
   - gin-config
-  - ibis-framework
+  # - ibis-framework
   - ipykernel
   - mamba
   - modin-all
