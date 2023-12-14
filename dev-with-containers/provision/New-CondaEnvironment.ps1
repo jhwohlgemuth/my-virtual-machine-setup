@@ -20,7 +20,7 @@ Param(
     [String] $Output = 'environment.yml',
     [String[]] $Exclude = @(),
     [String] $Container,
-    [String] $ManifestParent = '.',
+    [String] $ManifestParent = './conda',
     [Switch] $Update,
     [Switch] $NoInstall,
     [Switch] $Persist,

@@ -31,6 +31,7 @@ SHELL ["/bin/bash", "-c"]
 RUN ln -snf "/usr/share/zoneinfo/${TZ}" /etc/localtime \
     && echo "${TZ}" > /etc/timezone \
     && mkdir -p \
+        "${HOME}/.ssh" \
         tmp/scripts \
         /usr/local/bin/fn
 #
