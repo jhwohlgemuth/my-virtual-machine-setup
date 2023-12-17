@@ -85,7 +85,7 @@ IGNORE_RULES = \
 	--ignore SC2038 \
 	--ignore SC2086
 SCRIPTS = \
-	./code-server/install_extensions.sh \
+	./config/code-server/install_extensions.sh \
 	./provision/scripts/dev/configure_locale.sh \
 	./provision/scripts/dev/configure_ohmyzsh.sh \
 	./provision/scripts/dev/install_apptainer.sh \
@@ -117,13 +117,13 @@ FUNCTIONS = \
 	./provision/functions/remove_empty_lines \
 	./provision/functions/requires
 FILES = \
-	./code-server/service/finish \
-	./code-server/service/run \
-	./jupyter/service/finish \
-	./jupyter/service/run \
-	./verdaccio/service/finish \
-	./verdaccio/service/log \
-	./verdaccio/service/run \
+	./config/code-server/service/finish \
+	./config/code-server/service/run \
+	./config/jupyter/service/finish \
+	./config/jupyter/service/run \
+	./config/verdaccio/service/finish \
+	./config/verdaccio/service/log \
+	./config/verdaccio/service/run \
 	./config/.p10k.zsh \
 	./config/.utoprc \
 	./config/init.ml

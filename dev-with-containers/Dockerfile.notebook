@@ -35,16 +35,16 @@ RUN mkdir -p \
 #
 # %files
 #
-COPY ./jupyter/ca.cnf "${CERTS_DIR}"
-COPY ./jupyter/custom.css "${JUPYTER_ROOT}/custom"
-COPY ./jupyter/jupyter_notebook_config.py "${JUPYTER_ROOT}"
-COPY ./jupyter/overrides.json "${JUPYTER_LAB_ROOT}/settings"
-COPY ./jupyter/service/* /etc/services.d/jupyter/
-COPY ./jupyter/environment.yml /tmp/
-COPY ./code-server/config.yaml /app/code-server/config/
-COPY ./code-server/settings.json /app/code-server/config/data/Machine/
-COPY ./code-server/service/* /etc/services.d/code-server/
-COPY ./code-server/install_extensions.sh /usr/local/bin/install_extensions
+COPY ./config/jupyter/ca.cnf "${CERTS_DIR}"
+COPY ./config/jupyter/custom.css "${JUPYTER_ROOT}/custom"
+COPY ./config/jupyter/jupyter_notebook_config.py "${JUPYTER_ROOT}"
+COPY ./config/jupyter/overrides.json "${JUPYTER_LAB_ROOT}/settings"
+COPY ./config/jupyter/service/* /etc/services.d/jupyter/
+COPY ./config/jupyter/environment.yml /tmp/
+COPY ./config/code-server/config.yaml /app/code-server/config/
+COPY ./config/code-server/settings.json /app/code-server/config/data/Machine/
+COPY ./config/code-server/service/* /etc/services.d/code-server/
+COPY ./config/code-server/install_extensions.sh /usr/local/bin/install_extensions
 COPY ./provision/scripts/notebook/* /tmp/scripts/
 #
 # %post

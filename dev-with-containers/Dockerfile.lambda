@@ -31,8 +31,8 @@ RUN mkdir -p \
 COPY ./config/.iex.exs "${HOME}/"
 COPY ./config/.utoprc "${HOME}/"
 COPY ./config/init.ml "${HOME}/.config/utop/"
-COPY ./jupyter/logo_coq.png /tmp/
-COPY ./jupyter/logo_ocaml.png /tmp/
+COPY ./config/jupyter/logo_coq.png /tmp/
+COPY ./config/jupyter/logo_ocaml.png /tmp/
 COPY ./provision/scripts/lambda/* /tmp/scripts/
 #
 # %post

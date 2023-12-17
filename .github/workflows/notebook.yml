@@ -16,8 +16,8 @@ on:
     branches:
       - master
     paths:
-      - 'dev-with-containers/code-server/**'
-      - 'dev-with-containers/jupyter/**'
+      - 'dev-with-containers/config/code-server/**'
+      - 'dev-with-containers/config/jupyter/**'
       - 'dev-with-containers/provision/scripts/notebook/**'
 
 jobs:

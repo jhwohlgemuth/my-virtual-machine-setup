@@ -16,6 +16,7 @@ main() {
                     echo "==> [Error] -e must be declared before -b" >&2
                     exit 1
                 else
+                    # shellcheck disable=SC2016
                     EXPRESSION+='{1h;1!H;d};$G'
                 fi
                 ;;
@@ -24,6 +25,7 @@ main() {
                     echo "==> [Error] -e must be declared before -t" >&2
                     exit 1
                 else
+                    # shellcheck disable=SC2016
                     EXPRESSION+='!{H;$!d;};${x;s/.//;}'
                 fi
                 ;;

@@ -15,7 +15,6 @@ EXPOSE 1337
 EXPOSE 4873
 EXPOSE 8080
 EXPOSE 13337
-ENV LC_ALL=C.utf8
 ENV NODE_OPTIONS="--max-old-space-size=8192"
 ENV PATH="${PATH}:${HOME}/bin"
 ENV PATH="${PATH}:${HOME}/.npm-packages/bin"
@@ -33,10 +32,10 @@ RUN mkdir -p \
 #
 # %files
 #
+COPY ./config/verdaccio/.npmrc "${HOME}/.npmrc"
+COPY ./config/verdaccio/config.yml /verdaccio/conf/
+COPY ./config/verdaccio/service/* /etc/services.d/verdaccio/
 COPY ./provision/scripts/web/manifest.nix /tmp/scripts/
-COPY ./verdaccio/.npmrc "${HOME}/.npmrc"
-COPY ./verdaccio/config.yml /verdaccio/conf/
-COPY ./verdaccio/service/* /etc/services.d/verdaccio/
 #
 # %post
 #

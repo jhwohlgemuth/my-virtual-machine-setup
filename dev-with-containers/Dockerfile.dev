@@ -6,7 +6,7 @@ FROM $IMAGE
 # %labels
 #
 LABEL author="Jason Wohlgemuth"
-LABEL org.opencontainers.image.source=https://github.com/jhwohlgemuth/env/dev-with-containers
+LABEL org.opencontainers.image.source=https://github.com/jhwohlgemuth/env
 #
 # %arguments
 #
