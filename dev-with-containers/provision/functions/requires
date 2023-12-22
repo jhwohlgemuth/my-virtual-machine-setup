@@ -6,7 +6,9 @@ main() {
     if [ -n "$1" ] ; then
         ARGS=("$@")
         for ARG in "${ARGS[@]}"; do
-            if is_command "${ARG}" ; then
+            if [ -f "${ARG}" ] ; then
+                continue
+            elif is_command "${ARG}" ; then
                 continue
             elif is_installed "${ARG}" ; then
                 continue
