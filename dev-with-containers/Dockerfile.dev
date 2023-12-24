@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 ARG BASE=bitnami/minideb
 ARG TAG=bullseye
 ARG IMAGE=$BASE:$TAG
@@ -31,31 +32,28 @@ SHELL ["/bin/bash", "-c"]
 RUN ln -snf "/usr/share/zoneinfo/${TZ}" /etc/localtime \
     && echo "${TZ}" > /etc/timezone \
     && mkdir -p \
+        "${HOME}/.config" \
         "${HOME}/.ssh" \
         /tmp/scripts \
         /usr/local/bin/fn
 #
 # %files
 #
-COPY ./provision/scripts/dev/* /tmp/scripts
-COPY ./provision/functions/* /usr/local/bin/fn
+COPY --chmod=0755 ./provision/scripts/dev/* /tmp/scripts
+COPY --chmod=0755 ./provision/functions/* /usr/local/bin/fn
 COPY ./config/.p10k.zsh "${HOME}/.p10k.zsh"
 COPY ./config/profile.ps1 "${HOME}/profile.ps1"
 COPY ./config/.theme.omp.json "${HOME}/.theme.omp.json"
-COPY ./provision/neovim/init.vim "${NEOVIM_ROOT}"
-COPY ./provision/neovim/coc-settings.json "${NEOVIM_ROOT}"
-COPY ./provision/neovim/general/settings.vim "${NEOVIM_ROOT}general/"
-COPY ./provision/neovim/general/plugins.vim "${NEOVIM_ROOT}general/"
-COPY ./provision/neovim/plug-config/coc.vim "${NEOVIM_ROOT}plug-config/"
-COPY ./provision/neovim/plug-config/fzf.vim "${NEOVIM_ROOT}plug-config/"
-COPY ./provision/neovim/plug-config/which-key.vim "${NEOVIM_ROOT}plug-config/"
-COPY ./provision/neovim/themes/onedark.vim "${NEOVIM_ROOT}themes/"
+ADD https://github.com/jhwohlgemuth/my-neovim-setup.git "${HOME}/.config/nvim/"
+ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz /tmp
+ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-x86_64.tar.xz /tmp
+ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-noarch.tar.xz /tmp
+ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-arch.tar.xz /tmp
 #
 # %post
 #
 SHELL ["/bin/bash", "-c"]
-RUN chmod +x /tmp/scripts/* && chmod +x /usr/local/bin/fn/* \
-    && /tmp/scripts/install_dependencies.sh \
+RUN /tmp/scripts/install_dependencies.sh \
     && /tmp/scripts/configure_locale.sh \
     && /tmp/scripts/install_dotnet.sh \
     && /tmp/scripts/install_ohmyzsh.sh \
@@ -64,16 +62,8 @@ RUN chmod +x /tmp/scripts/* && chmod +x /usr/local/bin/fn/* \
     && /tmp/scripts/install_nix.sh && nix-env --install --file /tmp/scripts/manifest.nix \
     && /usr/bin/pwsh -Command /tmp/scripts/Install-OhMyPosh.ps1 \
     && /tmp/scripts/configure_ohmyzsh.sh \
-    && find "${NEOVIM_ROOT}" -name "*.vim" | xargs dos2unix
-#
-# Install s6-overlay and symlinks
-#
-SHELL ["/bin/bash", "-c"]
-ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz /tmp
-ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-x86_64.tar.xz /tmp
-ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-noarch.tar.xz /tmp
-ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-arch.tar.xz /tmp
-RUN tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz \
+    && find "${NEOVIM_ROOT}" -name "*.vim" | xargs dos2unix \
+    && tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz \
     && tar -C / -Jxpf /tmp/s6-overlay-x86_64.tar.xz \
     && tar -C / -Jxpf /tmp/s6-overlay-symlinks-noarch.tar.xz \
     && tar -C / -Jxpf /tmp/s6-overlay-symlinks-arch.tar.xz \
