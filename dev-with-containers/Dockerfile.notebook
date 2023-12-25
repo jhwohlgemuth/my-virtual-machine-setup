@@ -39,30 +39,24 @@ COPY ./config/jupyter/ca.cnf "${CERTS_DIR}"
 COPY ./config/jupyter/custom.css "${JUPYTER_ROOT}/custom"
 COPY ./config/jupyter/jupyter_notebook_config.py "${JUPYTER_ROOT}"
 COPY ./config/jupyter/overrides.json "${JUPYTER_LAB_ROOT}/settings"
-COPY ./config/jupyter/service/* /etc/services.d/jupyter/
 COPY ./config/jupyter/environment.yml /tmp/
 COPY ./config/code-server/config.yaml /app/code-server/config/
 COPY ./config/code-server/settings.json /app/code-server/config/data/Machine/
-COPY ./config/code-server/service/* /etc/services.d/code-server/
-COPY ./config/code-server/install_extensions.sh /usr/local/bin/install_extensions
-COPY ./provision/scripts/notebook/* /tmp/scripts/
+COPY --chmod=0755 ./config/jupyter/service/* /etc/services.d/jupyter/
+COPY --chmod=0755 ./config/code-server/service/* /etc/services.d/code-server/
+COPY --chmod=0755 ./config/code-server/install_extensions.sh /usr/local/bin/install_extensions
+COPY --chmod=0755 ./provision/scripts/notebook/* /tmp/scripts/
 #
 # %post
 #
 SHELL ["/bin/bash", "-c"]
-RUN chmod +x /tmp/scripts/* && /tmp/scripts/install_conda.sh
+RUN /tmp/scripts/install_conda.sh
 SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
 RUN openssl req -new -x509 -days 365 -out "${CERTS_DIR}/my.pem" -config "${CERTS_DIR}/ca.cnf" \
     && mv "$(pwd)/my.key" "${CERTS_DIR}" \
     && mamba env update --file /tmp/environment.yml \
     && mamba clean -yaf \
     && jupyter contrib nbextension install --user \
-    && chmod +x \
-        /etc/services.d/jupyter/run \
-        /etc/services.d/jupyter/finish \
-        /etc/services.d/code-server/run \
-        /etc/services.d/code-server/finish \
-        /usr/local/bin/install_extensions \
     && /tmp/scripts/install_code_server.sh \
     && mv /tmp/scripts/install_nim.sh /usr/local/bin/install_nim \
     && mv /tmp/scripts/install_elixir.sh /usr/local/bin/install_elixir \
