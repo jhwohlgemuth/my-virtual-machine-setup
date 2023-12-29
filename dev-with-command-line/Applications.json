@@ -19,6 +19,7 @@
         "gping",
         "grep",
         "grex",
+        "gum",
         "hadolint",
         "hexyl",
         "htmlq",
@@ -119,7 +120,9 @@
             "tor-browser": "tor-browser-bundle-bin",
             "yq": "yq-go"
         },
-        "Scoop": {},
+        "Scoop": {
+            "gum": "charm-gum"
+        },
         "Spack": {
             "dotnet-sdk": "dotnet-core-sdk",
             "dvc": "py-dvc",
@@ -140,6 +143,7 @@
             "gource": "acaudwell.Gource",
             "grep": "GnuWin32.Grep",
             "gsudo": "gerardog.gsudo",
+            "gum": "charmbracelet.gum",
             "hexyl": "sharkdp.hexyl",
             "httpie": "HTTPie.HTTPie",
             "julia": "Julialang.Julia",
@@ -170,6 +174,7 @@
             "chafa",
             "espanso",
             "gsudo",
+            "gum",
             "hadolint",
             "htmlq",
             "lychee",
@@ -213,6 +218,7 @@
             "glow",
             "gping",
             "grex",
+            "gum",
             "hadolint",
             "hexyl",
             "htmlq",
