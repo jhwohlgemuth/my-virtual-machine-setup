@@ -45,14 +45,6 @@
         "ryanluker.vscode-coverage-gutters",
         "wmaurer.change-case"
     ],
-    "python": [
-        "julialang.language-julia",
-        "nimsaem.nimvscode",
-        "maximedenes.vscoq",
-        "ms-python.python",
-        "reditorsupport.r",
-        "sumneko.lua"
-    ],
     "rust": [
         "rust-lang.rust-analyzer",
         "serayuzgur.crates",
