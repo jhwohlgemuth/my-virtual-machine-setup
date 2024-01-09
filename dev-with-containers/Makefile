@@ -85,7 +85,6 @@ IGNORE_RULES = \
 	--ignore SC2038 \
 	--ignore SC2086
 SCRIPTS = \
-	./config/code-server/install_extensions.sh \
 	./provision/scripts/dev/configure_locale.sh \
 	./provision/scripts/dev/configure_ohmyzsh.sh \
 	./provision/scripts/dev/install_apptainer.sh \
@@ -101,6 +100,7 @@ SCRIPTS = \
 	./provision/scripts/lambda/install_provers.sh \
 	./provision/scripts/lambda/install_verus.sh \
 	./provision/scripts/notebook/install_code_server.sh \
+	./provision/scripts/notebook/install_extensions.sh \
 	./provision/scripts/notebook/install_conda.sh \
 	./provision/scripts/notebook/install_dotnet_jupyter_kernel.sh \
 	./provision/scripts/notebook/install_elixir.sh \
