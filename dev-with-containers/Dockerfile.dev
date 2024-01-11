@@ -60,6 +60,7 @@ RUN /tmp/scripts/install_dependencies.sh \
     && /tmp/scripts/install_homebrew.sh \
     && /tmp/scripts/install_apptainer.sh \
     && /tmp/scripts/install_nix.sh && nix-env --install --file /tmp/scripts/manifest.nix \
+    && mv /tmp/scripts/install_docker.sh /usr/local/bin/install_docker \
     && /usr/bin/pwsh -Command /tmp/scripts/Install-OhMyPosh.ps1 \
     && /tmp/scripts/configure_ohmyzsh.sh \
     && find "${NEOVIM_ROOT}" -name "*.vim" | xargs dos2unix \

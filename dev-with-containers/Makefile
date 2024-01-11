@@ -89,6 +89,7 @@ SCRIPTS = \
 	./provision/scripts/dev/configure_ohmyzsh.sh \
 	./provision/scripts/dev/install_apptainer.sh \
 	./provision/scripts/dev/install_dependencies.sh \
+	./provision/scripts/dev/install_docker.sh \
 	./provision/scripts/dev/install_dotnet.sh \
 	./provision/scripts/dev/install_homebrew.sh \
 	./provision/scripts/dev/install_nix.sh \
