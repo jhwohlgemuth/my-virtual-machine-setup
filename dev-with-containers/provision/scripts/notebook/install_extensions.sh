@@ -10,7 +10,7 @@ main() {
     # Download Extensions listing
     #
     EXTENSIONS_JSON="${CODE_SERVER_CONFIG_DIR}"/Extensions.json
-    curl -o "${EXTENSIONS_JSON}" https://raw.githubusercontent.com/jhwohlgemuth/my-shell-setup/main/config/Applications.json
+    curl -o "${EXTENSIONS_JSON}" https://raw.githubusercontent.com/jhwohlgemuth/my-shell-setup/main/config/Extensions.json
     #
     # Install Code Server extensions
     #
