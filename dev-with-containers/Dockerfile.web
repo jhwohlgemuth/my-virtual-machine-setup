@@ -42,7 +42,7 @@ COPY ./provision/scripts/web/manifest.nix /tmp/scripts/
 SHELL ["/bin/bash", "-c"]
 RUN nix-env --install --file /tmp/scripts/manifest.nix \
     && npm install --registry=https://registry.npmjs.org/ --omit=dev --location=global \
-        verdaccio@next \
+        verdaccio \
         rescript@^10.1.4 \
         esy@^0.7.2 \
     && curl -sSL https://get.wasp-lang.dev/installer.sh | sh \
