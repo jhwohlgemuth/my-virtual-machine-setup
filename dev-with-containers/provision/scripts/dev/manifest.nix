@@ -7,7 +7,6 @@ with pkgs; [
     direnv
     du-dust
     grex
-    pipx
     ripgrep
     thefuck
     up

@@ -125,6 +125,5 @@ FILES = \
 	./config/verdaccio/service/finish \
 	./config/verdaccio/service/log \
 	./config/verdaccio/service/run \
-	./config/.p10k.zsh \
 	./config/.utoprc \
 	./config/init.ml

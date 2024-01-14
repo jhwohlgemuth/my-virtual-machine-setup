@@ -23,6 +23,7 @@ ARG S6_OVERLAY_VERSION=3.1.5.0
 ENV TZ=America/New_York
 ENV TERM=xterm-256color
 ENV NEOVIM_ROOT="${HOME}/.config/nvim/"
+ENV PROFILE="${HOME}/.config/powershell/Microsoft.PowerShell_profile.ps1"
 ENV PATH="${PATH}:${HOME}/.nix-profile/bin"
 ENV PATH="${PATH}:/usr/local/bin/fn"
 #
@@ -32,10 +33,11 @@ SHELL ["/bin/bash", "-c"]
 RUN ln -snf "/usr/share/zoneinfo/${TZ}" /etc/localtime \
     && echo "${TZ}" > /etc/timezone \
     && mkdir -p \
-        "${HOME}/.config" \
+        "${HOME}/.config/powershell" \
         "${HOME}/.ssh" \
         /tmp/scripts \
         /usr/local/bin/fn
+
 #
 # %files
 #
@@ -44,7 +46,7 @@ COPY --chmod=0755 ./provision/functions/* /usr/local/bin/fn
 ADD https://github.com/jhwohlgemuth/my-neovim-setup.git "${HOME}/.config/nvim/"
 ADD https://raw.githubusercontent.com/jhwohlgemuth/my-shell-setup/main/config/.p10k.zsh "${HOME}/.p10k.zsh"
 ADD https://raw.githubusercontent.com/jhwohlgemuth/my-shell-setup/main/config/.theme.omp.json "${HOME}/.theme.omp.json"
-ADD https://raw.githubusercontent.com/jhwohlgemuth/my-shell-setup/main/config/Microsoft.Powershell_profile.ps1 "${HOME}/profile.ps1"
+ADD https://raw.githubusercontent.com/jhwohlgemuth/my-shell-setup/main/config/Microsoft.Powershell_profile.ps1 "${PROFILE}"
 ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz /tmp
 ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-x86_64.tar.xz /tmp
 ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-noarch.tar.xz /tmp
@@ -61,7 +63,7 @@ RUN /tmp/scripts/install_dependencies.sh \
     && /tmp/scripts/install_apptainer.sh \
     && /tmp/scripts/install_nix.sh && nix-env --install --file /tmp/scripts/manifest.nix \
     && mv /tmp/scripts/install_docker.sh /usr/local/bin/install_docker \
-    && /usr/bin/pwsh -Command /tmp/scripts/Install-OhMyPosh.ps1 \
+    && /usr/bin/pwsh -Command /tmp/scripts/Install-Modules.ps1 \
     && /tmp/scripts/configure_ohmyzsh.sh \
     && find "${NEOVIM_ROOT}" -name "*.vim" | xargs dos2unix \
     && tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz \
