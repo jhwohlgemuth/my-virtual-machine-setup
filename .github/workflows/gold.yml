@@ -22,7 +22,7 @@ on:
 
 
 jobs:
-  lambda:
+  gold:
     runs-on: ubuntu-latest
     permissions:
       contents: read
