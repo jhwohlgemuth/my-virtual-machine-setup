@@ -23,11 +23,8 @@ Invoke a task
 Param(
     [ValidateSet(
         'dev',
-        'dotnet',
-        'jvm',
-        'lambda',
+        'gold',
         'notebook',
-        'python',
         'rust',
         'web'
     )]

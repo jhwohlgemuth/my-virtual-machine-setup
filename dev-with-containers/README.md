@@ -57,7 +57,7 @@ The following images are available:
 - `ghcr.io/jhwohlgemuth/notebook`: Images with [Jupyter notebook](https://github.com/jupyter/notebook) server and [code-server](https://github.com/coder/code-server) services managed by [s6-overlay](https://github.com/just-containers/s6-overlay)
 - `ghcr.io/jhwohlgemuth/web`: Web development environment and [Verdaccio](https://verdaccio.org/) proxy npm registry <sup>[4](#4)</sup>
 - `ghcr.io/jhwohlgemuth/rust`: Environment ready for writing Rust code and working with WebAssembly
-- `ghcr.io/jhwohlgemuth/lambda`: Proof assistants, provers, and other tools for software correctness
+- `ghcr.io/jhwohlgemuth/gold`: Proof assistants, provers, and other tools for software correctness
 
 The images are build according the the following dependency graph:
 ```mermaid
@@ -65,7 +65,7 @@ graph LR
     dev --> notebook
     notebook --> web
     notebook --> rust
-    rust --> lambda
+    rust --> gold
 ```
 
 -------------

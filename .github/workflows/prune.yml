@@ -54,10 +54,10 @@ jobs:
                 keep-last: ${{ env.KEEP_UNTAGGED_COUNT }}
                 prune-untagged: true
 
-            - name: Prune Lambda
+            - name: Prune Gold
               uses: vlaurin/action-ghcr-prune@v0.5.0
               with:
-                container: lambda
+                container: gold
                 token: ${{ env.ACCESS_TOKEN }}
                 user: ${{ env.USER }}
                 keep-last: ${{ env.KEEP_UNTAGGED_COUNT }}

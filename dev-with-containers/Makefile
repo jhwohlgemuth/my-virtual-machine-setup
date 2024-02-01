@@ -52,8 +52,8 @@ dev:
 notebook:
 	@$(MAKE) TASK=$@ --no-print-directory build-image
 
-.PHONY: lambda
-lambda:
+.PHONY: gold
+gold:
 	@$(MAKE) TASK=$@ --no-print-directory build-image
 
 .PHONY: rust
@@ -73,7 +73,7 @@ IMAGES = \
 	notebook \
 	rust \
 	web \
-	lambda
+	gold
 IGNORE_RULES = \
 	--ignore DL3003 \
 	--ignore DL3006 \
@@ -94,12 +94,12 @@ SCRIPTS = \
 	./provision/scripts/dev/install_homebrew.sh \
 	./provision/scripts/dev/install_nix.sh \
 	./provision/scripts/dev/install_ohmyzsh.sh \
-	./provision/scripts/lambda/install_aeneas.sh \
-	./provision/scripts/lambda/install_coq.sh \
-	./provision/scripts/lambda/install_creusot.sh \
-	./provision/scripts/lambda/install_ocaml.sh \
-	./provision/scripts/lambda/install_provers.sh \
-	./provision/scripts/lambda/install_verus.sh \
+	./provision/scripts/gold/install_aeneas.sh \
+	./provision/scripts/gold/install_coq.sh \
+	./provision/scripts/gold/install_creusot.sh \
+	./provision/scripts/gold/install_ocaml.sh \
+	./provision/scripts/gold/install_provers.sh \
+	./provision/scripts/gold/install_verus.sh \
 	./provision/scripts/notebook/install_code_server.sh \
 	./provision/scripts/notebook/install_extensions.sh \
 	./provision/scripts/notebook/install_conda.sh \

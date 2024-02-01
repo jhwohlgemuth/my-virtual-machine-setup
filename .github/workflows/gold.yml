@@ -1,8 +1,8 @@
-name: Build and push LAMBDA
+name: Build and push GOLD
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: lambda
+  IMAGE_NAME: gold
   ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 on:
@@ -16,9 +16,9 @@ on:
     branches:
       - master
     paths:
-      - 'dev-with-containers/Dockerfile.lambda'
+      - 'dev-with-containers/Dockerfile'
       - 'dev-with-containers/config/.iex.exs'
-      - 'dev-with-containers/provision/scripts/lambda/**'
+      - 'dev-with-containers/provision/scripts/gold/**'
 
 
 jobs:
