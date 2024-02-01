@@ -53,8 +53,8 @@ notebook:
 	@$(MAKE) TASK=$@ --no-print-directory build-image
 
 .PHONY: gold
-gold:
-	@$(MAKE) TASK=$@ --no-print-directory build-image
+gold: format
+	@docker build --no-cache -t ${CONTAINER_REGISTRY}/${REPO}/${TASK} -f ./Dockerfile .
 
 .PHONY: rust
 rust:
