@@ -46,7 +46,7 @@ all:
 
 .PHONY: gold
 gold: format
-	@docker build --no-cache -t ${CONTAINER_REGISTRY}/${REPO}/${TASK} -f ./Dockerfile .
+	@docker build --no-cache -t ${CONTAINER_REGISTRY}/${REPO}/gold -f ./Dockerfile .
 
 .PHONY: dev
 dev:
