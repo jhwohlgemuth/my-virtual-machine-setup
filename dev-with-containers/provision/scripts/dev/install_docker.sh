@@ -25,6 +25,7 @@ main() {
     #
     # Install Docker
     #
+    ulimit -n 65536
     apt-get install -y \
         docker-ce \
         docker-ce-cli \
