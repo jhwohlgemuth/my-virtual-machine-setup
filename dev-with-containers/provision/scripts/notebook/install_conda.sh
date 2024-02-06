@@ -18,6 +18,7 @@ main() {
     #
     # Install mamba
     #
+    local CONDA_DIR=${CONDA_DIR:-/opt/conda}
     local VERSION="${MAMBA_VERSION:-"23.3.1-1"}"
     local NAME=Miniforge3
     local SCRIPT_PATH=/tmp/miniforge.sh
