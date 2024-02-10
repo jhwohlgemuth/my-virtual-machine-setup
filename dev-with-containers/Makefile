@@ -6,6 +6,7 @@ lint: check
 	@for image in $(IMAGES) ; do \
         hadolint ./Dockerfile.$$image $(IGNORE_RULES) ; \
     done
+	hadolint ./Dockerfile $(IGNORE_RULES)
 
 .PHONY: check
 check:
@@ -37,12 +38,7 @@ publish:
 	@for image in $(IMAGES) ; do \
         docker push ${CONTAINER_REGISTRY}/${REPO}/$$image ; \
     done
-
-.PHONY: all
-all:
-	@for image in $(IMAGES) ; do \
-        $(MAKE) --no-print-directory $$image ; \
-    done
+	docker push ${CONTAINER_REGISTRY}/${REPO}/gold
 
 .PHONY: gold
 gold: format
@@ -72,8 +68,7 @@ IMAGES = \
 	dev \
 	notebook \
 	rust \
-	web \
-	gold
+	web
 IGNORE_RULES = \
 	--ignore DL3003 \
 	--ignore DL3006 \
