@@ -16,6 +16,7 @@ on:
     branches:
       - master
     paths:
+      - 'dev-with-containers/Dockerfile.notebook'
       - 'dev-with-containers/config/code-server/**'
       - 'dev-with-containers/config/jupyter/**'
       - 'dev-with-containers/provision/scripts/notebook/**'
