@@ -9,9 +9,9 @@ dependencies:
   - conda-merge
   - conda-pack
   - dask
-  - gin-config
   # - ibis-framework
   - ipykernel
+  - ipywidgets
   - mamba
   - modin-all
   - numba
