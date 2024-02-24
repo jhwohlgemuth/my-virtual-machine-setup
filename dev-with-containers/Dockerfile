@@ -47,8 +47,7 @@ RUN nix-env --install --file /tmp/scripts/manifest.nix \
         libzmq3-dev \
         pkg-config
 SHELL ["/root/miniconda3/bin/conda", "run", "-n", "base", "/bin/bash", "-c"]
-RUN nix-env --install --file /tmp/scripts/manifest.nix \
-    && chmod +x /tmp/scripts/* \
+RUN chmod +x /tmp/scripts/* \
     && /tmp/scripts/install_ocaml.sh \
     && /tmp/scripts/install_coq.sh \
     && /tmp/scripts/install_provers.sh \
