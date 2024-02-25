@@ -1,8 +1,11 @@
-env &nbsp;
+My Virtual Machine Setup &nbsp;
 [![CodeFactor](https://www.codefactor.io/repository/github/jhwohlgemuth/env/badge)](https://www.codefactor.io/repository/github/jhwohlgemuth/env)
 ===
 
 > Create development **env**ironments with Vagrant, & Packer
+
+> [!NOTE]
+> This project is not actively maintained and may or may not actively function as described. You will find my current shell setup [here](https://github.com/jhwohlgemuth/my-shell-setup) and my current dev environment (using containers) [here](https://github.com/jhwohlgemuth/gold) 🤓
 
 What?
 -----
