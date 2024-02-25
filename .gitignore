@@ -1,8 +1,8 @@
 # Packer directories
-/dev-with-virtual-machines/box
-/dev-with-virtual-machines/iso
-/dev-with-virtual-machines/packer_cache
-/dev-with-virtual-machines/output-virtualbox-iso
+/box
+/iso
+/packer_cache
+/output-virtualbox-iso
 /test
 
 # Vagrant template
